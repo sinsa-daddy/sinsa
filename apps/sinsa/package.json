@@ -1,0 +1,43 @@
+{
+  "name": "@sinsa/web",
+  "version": "0.1.0",
+  "scripts": {
+    "reset": "npx rimraf ./**/node_modules",
+    "dev": "modern dev",
+    "build": "modern fetch && modern build",
+    "start": "modern start",
+    "serve": "modern serve",
+    "new": "modern new",
+    "lint": "modern lint",
+    "upgrade": "modern upgrade",
+    "data": "modern fetch"
+  },
+  "dependencies": {
+    "@ant-design/pro-layout": "^7.17.16",
+    "@modern-js/runtime": "2.40.0",
+    "@sinsa/schema": "workspace:^",
+    "antd": "^5.11.3",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "swr": "^2.2.4"
+  },
+  "devDependencies": {
+    "@modern-js-app/eslint-config": "2.40.0",
+    "@modern-js/app-tools": "2.40.0",
+    "@modern-js/core": "2.40.0",
+    "@modern-js/eslint-config": "2.40.0",
+    "@modern-js/tsconfig": "2.40.0",
+    "@sinsa/datasource-generator": "workspace:^",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "~29.2.4",
+    "@types/node": "~16.11.7",
+    "@types/react": "~18.0.26",
+    "@types/react-dom": "~18.0.10",
+    "fs-extra": "^11.1.1",
+    "husky": "~8.0.1",
+    "lint-staged": "~13.1.0",
+    "prettier": "~2.8.1",
+    "rimraf": "~3.0.2",
+    "typescript": "~5.0.4"
+  }
+}

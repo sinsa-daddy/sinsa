@@ -1,0 +1,54 @@
+name: Build and Deploy
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ['main']
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # repository_dispatch:
+  #   types: [deploy]
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use pnpm@8
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Use Node.js v18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Build
+        # env:
+        #   LARK_APP_SECERT: ${{ secrets.LARK_APP_SECERT }}
+        run: pnpm run build
+      # - name: Enter into `sinsa-web` and Copy `*.html` to `dist`
+      #   run: cd ./apps/sinsa-web && cp -r ./dist/html/main/** ./dist/
+      # - name: Upload artifact
+      #   uses: actions/upload-pages-artifact@v2
+      #   with:
+      #     path: ./apps/sinsa-web/dist
+
+  # Deploy:
+  #   needs: [build]
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v2

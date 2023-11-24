@@ -1,0 +1,41 @@
+{
+  "name": "@sinsa/datasource-generator",
+  "private": true,
+  "version": "0.1.0",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/lib/index.js",
+  "module": "./dist/es/index.js",
+  "scripts": {
+    "build": "modern build",
+    "build:watch": "modern build -w",
+    "new": "modern new",
+    "upgrade": "modern upgrade",
+    "test": "modern test"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.22.0",
+    "@sinsa/schema": "workspace:^",
+    "fs-extra": "^11.1.1",
+    "upath": "^2.0.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@modern-js/eslint-config": "2.40.0",
+    "@modern-js/module-tools": "2.40.0",
+    "@modern-js/plugin-testing": "2.40.0",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "~29.2.4",
+    "@types/node": "~16.11.7",
+    "@types/react": "~18.0.26",
+    "husky": "~8.0.1",
+    "lint-staged": "~13.1.0",
+    "prettier": "~2.8.1",
+    "rimraf": "~3.0.2",
+    "typescript": "~5.0.4"
+  },
+  "sideEffects": [],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
