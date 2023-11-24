@@ -2,21 +2,38 @@ import { ProLayout } from '@ant-design/pro-layout';
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
 import { useCallback } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-layout/es/typing';
-import { MY_ROUTE } from './constants';
+import { MY_ROUTE, RoutePath } from './constants';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 
-export const MyLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
+interface MyLayoutProps {
+  defaultCopilotsTableId?: string;
+}
+
+export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
+  children,
+  defaultCopilotsTableId,
+}) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const renderMenuItem = useCallback(
     (item: MenuDataItem, dom: React.ReactNode) => {
+      if (item.path === RoutePath.Copilots() && !defaultCopilotsTableId) {
+        return <div />;
+      }
       return (
         <div
           onClick={e => {
             e.stopPropagation();
             if (typeof item.path === 'string') {
-              navigate(item.path);
+              switch (item.path) {
+                case RoutePath.Copilots():
+                  navigate(RoutePath.Copilots(defaultCopilotsTableId));
+                  break;
+                default:
+                  navigate(item.path);
+                  break;
+              }
             }
           }}
         >
@@ -24,7 +41,7 @@ export const MyLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         </div>
       );
     },
-    [],
+    [defaultCopilotsTableId],
   );
 
   const handleClickLogo = useCallback(() => {
