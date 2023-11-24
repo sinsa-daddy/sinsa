@@ -1,6 +1,9 @@
-import { Outlet } from '@modern-js/runtime/router';
+import { Outlet, useLoaderData } from '@modern-js/runtime/router';
 import { ConfigProvider, type ThemeConfig } from 'antd';
-import { MyLayout } from './__components/MyLayout';
+import { useModel } from '@modern-js/runtime/model';
+import { MyLayout } from '../components/MyLayout';
+import type { LayoutLoaderData } from './layout.data';
+import { TermsModel } from '@/models/terms';
 
 const theme: ThemeConfig = {
   token: {
@@ -9,6 +12,14 @@ const theme: ThemeConfig = {
 };
 
 export default function Layout() {
+  const { terms: termsFromRemote } = useLoaderData() as LayoutLoaderData;
+
+  const [terms, actions] = useModel(TermsModel);
+
+  if (terms.terms.length === 0) {
+    actions.setTerms(termsFromRemote);
+  }
+
   return (
     <ConfigProvider prefixCls="sinsa" theme={theme}>
       <MyLayout>

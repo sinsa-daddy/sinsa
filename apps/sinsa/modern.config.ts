@@ -7,6 +7,7 @@ export default defineConfig<'rspack'>({
     router: {
       supportHtml5History: false,
     },
+    state: true,
   },
   plugins: [
     appTools({

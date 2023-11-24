@@ -50,6 +50,9 @@ importers:
       antd:
         specifier: ^5.11.3
         version: 5.11.3(react-dom@18.2.0)(react@18.2.0)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       react:
         specifier: ~18.2.0
         version: 18.2.0
@@ -84,6 +87,9 @@ importers:
       '@types/jest':
         specifier: ~29.2.4
         version: 29.2.6
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/node':
         specifier: ~16.11.7
         version: 16.11.68
@@ -4794,6 +4800,10 @@ packages:
     dependencies:
       '@types/react': 18.0.38
     dev: false
+
+  /@types/lodash@4.14.202:
+    resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
+    dev: true
 
   /@types/minimist@1.2.5:
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}

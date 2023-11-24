@@ -1,6 +1,13 @@
 import type { TableSummaryType } from '@sinsa/schema';
 
-export async function loader(): Promise<TableSummaryType[]> {
+export interface LayoutLoaderData {
+  terms: TableSummaryType[];
+}
+
+export async function loader(): Promise<LayoutLoaderData> {
   const response = await fetch('/api/terms.json');
-  return await response.json();
+  const terms = await response.json();
+  return {
+    terms,
+  };
 }

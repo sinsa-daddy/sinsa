@@ -17,6 +17,7 @@
     "@modern-js/runtime": "2.40.0",
     "@sinsa/schema": "workspace:^",
     "antd": "^5.11.3",
+    "lodash": "^4.17.21",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "swr": "^2.2.4"
@@ -30,6 +31,7 @@
     "@sinsa/datasource-generator": "workspace:^",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "~29.2.4",
+    "@types/lodash": "^4.14.202",
     "@types/node": "~16.11.7",
     "@types/react": "~18.0.26",
     "@types/react-dom": "~18.0.10",

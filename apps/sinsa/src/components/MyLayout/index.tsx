@@ -1,21 +1,13 @@
 import { ProLayout } from '@ant-design/pro-layout';
-import {
-  useLocation,
-  useNavigate,
-  useRouteLoaderData,
-} from '@modern-js/runtime/router';
+import { useLocation, useNavigate } from '@modern-js/runtime/router';
 import { useCallback } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-layout/es/typing';
-import { MY_ROUTE } from './routes';
+import { MY_ROUTE } from './constants';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 
 export const MyLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const myData = useRouteLoaderData('layout');
-
-  console.log('myData', myData);
 
   const renderMenuItem = useCallback(
     (item: MenuDataItem, dom: React.ReactNode) => {
