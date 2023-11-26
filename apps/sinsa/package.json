@@ -13,6 +13,7 @@
     "data": "modern fetch"
   },
   "dependencies": {
+    "@ant-design/pro-form": "^2.23.1",
     "@ant-design/pro-layout": "^7.17.16",
     "@modern-js/runtime": "2.40.0",
     "@sinsa/schema": "workspace:^",

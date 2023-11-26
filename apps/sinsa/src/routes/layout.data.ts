@@ -1,7 +1,7 @@
-import type { TableSummaryType } from '@sinsa/schema';
+import type { TermType } from '@sinsa/schema';
 
 export interface LayoutLoaderData {
-  terms: TableSummaryType[];
+  terms: TermType[];
 }
 
 export async function loader(): Promise<LayoutLoaderData> {

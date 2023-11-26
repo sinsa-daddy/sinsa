@@ -4,7 +4,7 @@ import { ReactComponent as IconLog } from './assets/icon-log.svg';
 
 export const RoutePath = {
   Home: '/',
-  Copilots: (table_id = ':table_id') => `/copilots/${table_id}`,
+  Copilots: (term: string | number = ':term') => `/copilots/${term}`,
 } as const;
 
 export const MY_ROUTE: Route = {

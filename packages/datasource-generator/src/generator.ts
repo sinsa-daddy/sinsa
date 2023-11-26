@@ -8,18 +8,18 @@ import {
   CopilotType,
   RemoteCopilotSchema,
   toCopilot,
-  TableSummaryBaseSchema,
   TableSummarySchema,
   type TableSummaryType,
+  TermType,
+  TermSchema,
 } from '@sinsa/schema';
+import { groupBy } from 'lodash';
 import type {
   AurorianAppPartial,
   CopilotAppPartial,
   GenerateDataSourceOptions,
   OutputDirPartial,
 } from './types';
-import { parseTableSummaryTitle } from './utils/parse-table-summary-title';
-import { PriorityQueue } from './lib/priority-queue';
 
 export class DataSourceGenerator {
   private _client: lark.Client | undefined;
@@ -32,21 +32,19 @@ export class DataSourceGenerator {
   }
 
   /**
-   * 生成最近 k 期荒典数据
+   * 生成荒典数据
    */
   async generateCopilot({
     copilotAppToken,
     outputDir,
-    k = 5,
-  }: CopilotAppPartial & OutputDirPartial & { k?: number }): Promise<void> {
+  }: CopilotAppPartial & OutputDirPartial): Promise<void> {
     if (!this._client) {
       return;
     }
 
-    const priorityQueue = new PriorityQueue<TableSummaryType>(
-      (a, b) => b.term - a.term,
-    );
+    const tableSummaries: TableSummaryType[] = [];
 
+    let BOSSTableId: string | null = null;
     for await (const responseItem of await this._client.bitable.appTable.listWithIterator(
       {
         path: {
@@ -60,15 +58,11 @@ export class DataSourceGenerator {
       if (Array.isArray(responseItem?.items) && responseItem?.items.length) {
         for (const item of responseItem.items) {
           try {
-            const tableSummaryBase = TableSummaryBaseSchema.parse(item);
-            const term = parseTableSummaryTitle(tableSummaryBase.name);
-            if (Number.isInteger(term)) {
-              priorityQueue.enqueue(
-                TableSummarySchema.parse({
-                  ...tableSummaryBase,
-                  term,
-                }),
-              );
+            const tableSummary = TableSummarySchema.parse(item);
+            if (tableSummary.name.startsWith('荒典')) {
+              tableSummaries.push(tableSummary);
+            } else if (tableSummary.name.startsWith('BOSS')) {
+              BOSSTableId = tableSummary.table_id;
             }
           } catch (error) {
             // ignore
@@ -77,24 +71,14 @@ export class DataSourceGenerator {
       }
     }
 
-    const allPromises: Promise<void>[] = [];
+    const allTerms: Set<string> = new Set();
 
-    const topKTableSummaries = priorityQueue.getTopK(k);
-
-    console.log(`Write ${topKTableSummaries.length} copilot(s)`);
-    await ensureDir(outputDir);
-    const writeTermsPromise = writeJSON(
-      join(outputDir, './terms.json'),
-      topKTableSummaries,
-    );
-    allPromises.push(writeTermsPromise);
-
-    const writeCopilotsPromises = topKTableSummaries.map(async tableSummary => {
+    const writeCopilotsPromises = tableSummaries.map(async tableSummary => {
       if (!this._client) {
         return;
       }
 
-      const copilotsInThisTable: Record<string, CopilotType> = {};
+      const copilotsInThisTable: CopilotType[] = [];
 
       for await (const responseItem of await this._client.bitable.appTableRecord.listWithIterator(
         {
@@ -113,7 +97,7 @@ export class DataSourceGenerator {
             try {
               const remoteCopilot = RemoteCopilotSchema.parse(item.fields);
               const copilot = toCopilot(remoteCopilot);
-              copilotsInThisTable[copilot.bv] = copilot;
+              copilotsInThisTable.push(copilot);
             } catch {
               console.log(`Failed to parse ${item}`);
             }
@@ -121,21 +105,70 @@ export class DataSourceGenerator {
         }
       }
 
-      const writeDirPath = join(outputDir, './copilots');
-      await ensureDir(writeDirPath);
-      await writeJSON(
-        join(writeDirPath, `./${tableSummary.table_id}.json`),
-        copilotsInThisTable,
+      const copilotGroupedByTerm = groupBy(copilotsInThisTable, c => c.term);
+
+      for (const [term, copilotArray] of Object.entries(copilotGroupedByTerm)) {
+        const copilotsInThisTerm: Record<CopilotType['bv'], CopilotType> = {};
+        for (const c of copilotArray) {
+          copilotsInThisTerm[c.bv] = c;
+        }
+        allTerms.add(term);
+        const writeDirPath = join(outputDir, './copilots');
+        await ensureDir(writeDirPath);
+        await writeJSON(
+          join(writeDirPath, `./${term}.json`),
+          copilotsInThisTerm,
+          {
+            replacer(_, value) {
+              return typeof value === 'bigint' ? value.toString() : value;
+            },
+          },
+        );
+      }
+    });
+    await Promise.all(writeCopilotsPromises);
+
+    if (BOSSTableId) {
+      const termsInBossTable: TermType[] = [];
+
+      for await (const responseItem of await this._client.bitable.appTableRecord.listWithIterator(
         {
-          replacer(_, value) {
-            return typeof value === 'bigint' ? value.toString() : value;
+          path: {
+            app_token: copilotAppToken,
+            table_id: BOSSTableId,
+          },
+          params: {
+            page_size: 100,
+            sort: `["term DESC"]`,
           },
         },
-      );
-    });
-    allPromises.push(...writeCopilotsPromises);
+      )) {
+        if (Array.isArray(responseItem?.items) && responseItem?.items.length) {
+          for (const item of responseItem.items) {
+            try {
+              const term = TermSchema.parse(item.fields);
+              if (allTerms.has(term.term.toString())) {
+                termsInBossTable.push(term);
+              }
+            } catch (error) {
+              console.log(`Failed to parse ${item}`, error);
+            }
+          }
+        }
+      }
 
-    await Promise.all(allPromises);
+      console.log(`Write ${termsInBossTable.length} term(s)`);
+      const termData = Array.from(termsInBossTable).sort(
+        (a, b) => b.term - a.term,
+      );
+      await ensureDir(outputDir);
+      const writeTermsPromise = writeJSON(
+        join(outputDir, './terms.json'),
+        termData,
+      );
+
+      await Promise.all([writeTermsPromise]);
+    }
   }
 
   /**
