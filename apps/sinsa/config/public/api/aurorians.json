@@ -1,1 +1,55 @@
-{"Antony":{"aurorian_name":"Antony","aurorian_cn_name":"安顿","attribute":"Forest","secondary_attribute":"Forest","class":"Converter","rarity":"6","server":["cn","global"]},"Wendy":{"aurorian_name":"Wendy","aurorian_cn_name":"温蒂","attribute":"Forest","class":"Converter","rarity":"4","server":["cn","global"]},"Sikare":{"aurorian_name":"Sikare","aurorian_cn_name":"希卡蕾","attribute":"Forest","secondary_attribute":"Fire","class":"Converter","rarity":"5","server":["cn","global"]},"Louise":{"aurorian_name":"Louise","aurorian_cn_name":"露易丝","attribute":"Forest","secondary_attribute":"Forest","class":"Supporter","rarity":"5","server":["cn","global"]},"Areia":{"aurorian_name":"Areia","aurorian_cn_name":"艾蕾雅","attribute":"Forest","secondary_attribute":"Water","class":"Detonator","rarity":"5","server":["cn","global"]},"Dantang":{"aurorian_name":"Dantang","aurorian_cn_name":"丹棠","attribute":"Fire","secondary_attribute":"Fire","class":"Converter","rarity":"6","server":["cn","global"]}}
+{
+  "Antony": {
+    "aurorian_name": "Antony",
+    "aurorian_cn_name": "安顿",
+    "attribute": "Forest",
+    "secondary_attribute": "Forest",
+    "class": "Converter",
+    "rarity": "6",
+    "server": ["cn", "global"]
+  },
+  "Wendy": {
+    "aurorian_name": "Wendy",
+    "aurorian_cn_name": "温蒂",
+    "attribute": "Forest",
+    "class": "Converter",
+    "rarity": "4",
+    "server": ["cn", "global"]
+  },
+  "Sikare": {
+    "aurorian_name": "Sikare",
+    "aurorian_cn_name": "希卡蕾",
+    "attribute": "Forest",
+    "secondary_attribute": "Fire",
+    "class": "Converter",
+    "rarity": "5",
+    "server": ["cn", "global"]
+  },
+  "Louise": {
+    "aurorian_name": "Louise",
+    "aurorian_cn_name": "露易丝",
+    "attribute": "Forest",
+    "secondary_attribute": "Forest",
+    "class": "Supporter",
+    "rarity": "5",
+    "server": ["cn", "global"]
+  },
+  "Areia": {
+    "aurorian_name": "Areia",
+    "aurorian_cn_name": "艾蕾雅",
+    "attribute": "Forest",
+    "secondary_attribute": "Water",
+    "class": "Detonator",
+    "rarity": "5",
+    "server": ["cn", "global"]
+  },
+  "Dantang": {
+    "aurorian_name": "Dantang",
+    "aurorian_cn_name": "丹棠",
+    "attribute": "Fire",
+    "secondary_attribute": "Fire",
+    "class": "Converter",
+    "rarity": "6",
+    "server": ["cn", "global"]
+  }
+}

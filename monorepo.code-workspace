@@ -35,10 +35,7 @@
       "**/node_modules": true
     },
     //
-    "editor.rulers": [
-      80,
-      120
-    ],
+    "editor.rulers": [80, 120],
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
@@ -96,6 +93,9 @@
       "editor.formatOnSave": true
     },
     "emmet.triggerExpansionOnTab": true,
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "[svg]": {
+      "editor.defaultFormatter": "jock.svg"
+    }
   }
 }
