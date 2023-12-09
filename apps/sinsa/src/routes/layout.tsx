@@ -1,9 +1,11 @@
 import { Outlet, useLoaderData } from '@modern-js/runtime/router';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
+import { isEmpty } from 'lodash';
 import { MyLayout } from '../components/MyLayout';
 import type { LayoutLoaderData } from './layout.data';
 import { TermsModel } from '@/models/terms';
+import { AuroriansModel } from '@/models/aurorians';
 
 const theme: ThemeConfig = {
   token: {
@@ -12,12 +14,17 @@ const theme: ThemeConfig = {
 };
 
 export default function Layout() {
-  const { terms: termsFromRemote } = useLoaderData() as LayoutLoaderData;
+  const { terms: termsFromRemote, auroriansMap: auroriansMapFromRemote } =
+    useLoaderData() as LayoutLoaderData;
 
-  const [terms, actions] = useModel(TermsModel);
-
+  const [terms, termsActions] = useModel(TermsModel);
   if (terms.terms.length === 0) {
-    actions.setTerms(termsFromRemote);
+    termsActions.setTerms(termsFromRemote);
+  }
+
+  const [aurorians, auroriansActions] = useModel(AuroriansModel);
+  if (isEmpty(aurorians.auroriansMap)) {
+    auroriansActions.setAuroriansMap(auroriansMapFromRemote);
   }
 
   return (

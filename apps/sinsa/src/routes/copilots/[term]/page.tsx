@@ -3,7 +3,8 @@ import useSWR from 'swr';
 import { PageContainer } from '@ant-design/pro-layout';
 import { fetcher } from '@/utils/swr';
 import { TermNotFound } from '@/containers/TermNotFound';
-import { CopilotFilter } from '@/containers/CopilotFilter';
+import { CopilotHeader } from '@/containers/CopilotHeader';
+import { CopilotSolution } from '@/containers/CopilotSolution';
 
 const CopilotPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
@@ -18,9 +19,12 @@ const CopilotPage: React.FC = () => {
   }
 
   return (
-    <PageContainer title="荒典作业" loading={isLoading}>
-      <CopilotFilter />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <PageContainer
+      content={<CopilotHeader />}
+      title="荒典作业"
+      loading={isLoading}
+    >
+      <CopilotSolution copilotsDataSource={data} />
     </PageContainer>
   );
 };
