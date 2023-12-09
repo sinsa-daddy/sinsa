@@ -8,6 +8,8 @@ export const AurorianSummarySchema = z.object({
   breakthrough: z.number().min(0).max(6).describe('光灵突破数（黄色星星数量）'),
 });
 
+export type AurorianSummaryType = z.infer<typeof AurorianSummarySchema>;
+
 /**
  * 我的 Box Zod Schema
  */
@@ -17,3 +19,5 @@ export const MyBoxSchema = z.object({
   version: z.literal(1).describe('该 Schema 版本'),
   aurorian_summaries: z.record(AurorianSummarySchema).describe('拥有的光灵'),
 });
+
+export type MyBoxType = z.infer<typeof MyBoxSchema>;
