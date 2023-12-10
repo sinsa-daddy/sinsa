@@ -1,4 +1,4 @@
-import { ProFormRadio, QueryFilter } from '@ant-design/pro-form';
+import { ProFormRadio, ProFormSwitch, QueryFilter } from '@ant-design/pro-form';
 import { CopilotType } from '@sinsa/schema';
 import { List, Typography } from 'antd';
 import { useState } from 'react';
@@ -16,6 +16,7 @@ interface CopilotSolutionProps {
 interface QueryParams {
   k: number;
   box: 'whole' | 'my-box';
+  disalbeAlternative?: boolean;
 }
 
 export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
@@ -36,12 +37,14 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               availableBox: WHOLE_BOX.aurorian_summaries,
             },
             params.k,
+            { disalbeAlternative: params.disalbeAlternative },
           );
 
           setSolutionResult(result);
         }}
         searchText="寻找队伍方案"
         initialValues={{ k: 3, box: 'whole' }}
+        layout="vertical"
       >
         <ProFormRadio.Group
           name="k"
@@ -66,6 +69,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           radioType="button"
           rules={[{ required: true }]}
         />
+        <ProFormSwitch name={'disalbeAlternative'} label="不考虑可替自由位" />
       </QueryFilter>
       {solutionResult?.scenarios.length ? (
         <Typography.Paragraph>

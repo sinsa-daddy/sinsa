@@ -13,10 +13,15 @@ import type {
 export function canUseCopilot(
   myBox: MyBoxType['aurorian_summaries'],
   copilot: CopilotType,
+  {
+    disalbeAlternative,
+  }: {
+    disalbeAlternative?: boolean;
+  },
 ): boolean {
   for (const aurorianInCopilot of copilot.aurorian_summaries) {
     // 0. 如果作业中的光灵本身是可替换的，则跳过此光灵判断
-    if (aurorianInCopilot.is_replaceable) {
+    if (!disalbeAlternative && aurorianInCopilot.is_replaceable) {
       continue;
     }
 

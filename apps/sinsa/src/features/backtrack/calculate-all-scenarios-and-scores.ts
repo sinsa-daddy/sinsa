@@ -4,6 +4,13 @@ import { boxWithoutAuroriansInCopilot } from './helpers/box-without-aurorians-in
 import { canUseCopilot } from './helpers/can-use-copilot';
 import type { SolutionContext, SolutionResult } from './types';
 
+interface CalcOptions {
+  /**
+   * 是否禁止可替换位置
+   */
+  disalbeAlternative?: boolean;
+}
+
 /**
  * 计算所有的队伍方案和具体分数
  * @param context 解决方案上下文
@@ -12,6 +19,7 @@ import type { SolutionContext, SolutionResult } from './types';
 export function calculateAllScenariosAndScores(
   context: SolutionContext,
   k = 3,
+  { disalbeAlternative }: CalcOptions = {},
 ): SolutionResult {
   const result: SolutionResult = {
     scenarios: [],
@@ -39,10 +47,11 @@ export function calculateAllScenariosAndScores(
     }
     // 尝试使用当前作业
     const currentCopilot = context.copilots[currentCopilotIndex];
-    if (canUseCopilot(availableBox, currentCopilot)) {
+    if (canUseCopilot(availableBox, currentCopilot, { disalbeAlternative })) {
       const remainingBox = boxWithoutAuroriansInCopilot(
         availableBox,
         currentCopilot,
+        { disalbeAlternative },
       );
 
       generateAllScenarios(
