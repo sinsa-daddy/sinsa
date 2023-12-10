@@ -75,7 +75,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
       ) : null}
       <List
         dataSource={solutionResult?.scenarios}
-        pagination={{ pageSize: 5 }}
+        pagination={{ align: 'center' }}
         rowKey={sc => sc.copilots.map(c => c.bv).join('')}
         renderItem={item => {
           return (

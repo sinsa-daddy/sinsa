@@ -42,7 +42,7 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
       columns={copilotsColumns}
       params={deps}
       request={request}
-      pagination={{ pageSize: 5, size: 'default' }}
+      pagination={{ pageSize: 5, size: 'default', position: ['bottomCenter'] }}
     />
   );
 };
