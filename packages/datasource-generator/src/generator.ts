@@ -88,7 +88,7 @@ export class DataSourceGenerator {
           },
           params: {
             page_size: 100,
-            sort: `["score DESC"]`,
+            sort: `["upload_time DESC"]`,
           },
         },
       )) {
