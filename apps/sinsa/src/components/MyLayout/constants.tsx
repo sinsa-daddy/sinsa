@@ -7,6 +7,7 @@ export const RoutePath = {
   Home: '/',
   Copilots: (term: string | number = ':term') => `/copilots/${term}`,
   Number33: '/number33',
+  MyBox: '/my-box',
 } as const;
 
 export const MY_ROUTE: Route = {
@@ -21,6 +22,11 @@ export const MY_ROUTE: Route = {
       name: '荒典作业',
       icon: <IconLog />,
     },
+    // {
+    //   path: RoutePath.MyBox,
+    //   name: '我的 Box',
+    //   icon: <IconLog />,
+    // },
     // {
     //   path: RoutePath.Number33,
     //   name: '33号步骤图生成',
