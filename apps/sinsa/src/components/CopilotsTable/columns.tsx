@@ -50,4 +50,10 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
       );
     },
   },
+  {
+    title: '上传时间',
+    dataIndex: 'upload_time',
+    valueType: 'dateTime',
+    width: 160,
+  },
 ];
