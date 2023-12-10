@@ -15,7 +15,8 @@
   "dependencies": {
     "@ant-design/pro-form": "^2.23.1",
     "@ant-design/pro-layout": "^7.17.16",
-    "@modern-js/runtime": "2.40.0",
+    "@ant-design/pro-table": "^3.13.11",
+    "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",
     "antd": "^5.11.3",
     "immer": "^10.0.3",
@@ -25,11 +26,11 @@
     "swr": "^2.2.4"
   },
   "devDependencies": {
-    "@modern-js-app/eslint-config": "2.40.0",
-    "@modern-js/app-tools": "2.40.0",
-    "@modern-js/core": "2.40.0",
-    "@modern-js/eslint-config": "2.40.0",
-    "@modern-js/tsconfig": "2.40.0",
+    "@modern-js-app/eslint-config": "2.42.1",
+    "@modern-js/app-tools": "2.42.1",
+    "@modern-js/core": "2.42.1",
+    "@modern-js/eslint-config": "2.42.1",
+    "@modern-js/tsconfig": "2.42.1",
     "@sinsa/datasource-generator": "workspace:^",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "~29.2.4",

@@ -1,0 +1,87 @@
+.AurorianCard {
+  width: 80px;
+  height: 130px;
+  background-color: #5c5c5c;
+  box-shadow: -6px 0 10px -5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 2px;
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: -40px -10px;
+  background-repeat: no-repeat;
+
+  > * {
+    &:not(:last-child) {
+      margin-bottom: 2px;
+    }
+  }
+}
+
+.Skin {
+  position: absolute;
+  border: none;
+}
+
+.BlackContainer {
+  background-color: rgba(black, 0.3);
+  width: 100%;
+}
+
+.MetaContainer {
+  .BlackContainer;
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-flow: row nowrap;
+  > * {
+    &:not(:last-child) {
+      margin-right: 2px;
+    }
+  }
+  justify-content: center;
+}
+
+.MetaClass {
+  width: 16px;
+  height: 16px;
+}
+
+.MetaAttributeContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.MetaFirstAttribute {
+  width: 16px;
+  height: 16px;
+}
+
+.MetaSecondAttribute {
+  width: 14px;
+  height: 14px;
+}
+
+.NameContainer {
+  .BlackContainer;
+  backdrop-filter: blur(8px);
+  text-align: center;
+  color: white;
+  white-space: nowrap; /* 禁止文本换行 */
+  overflow: hidden; /* 隐藏溢出的部分 */
+  text-overflow: ellipsis; /* 显示省略号 */
+  font-size: 12px;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.BreakThrough {
+  .BlackContainer;
+  text-align: center;
+  & > * {
+    margin-inline-end: 1px !important;
+  }
+}

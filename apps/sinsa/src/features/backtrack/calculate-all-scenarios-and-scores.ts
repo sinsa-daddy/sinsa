@@ -1,4 +1,5 @@
 import type { CopilotType } from '@sinsa/schema';
+import { produce } from 'immer';
 import { boxWithoutAuroriansInCopilot } from './helpers/box-without-aurorians-in-copilot';
 import { canUseCopilot } from './helpers/can-use-copilot';
 import type { SolutionContext, SolutionResult } from './types';
@@ -24,13 +25,16 @@ export function calculateAllScenariosAndScores(
   ) {
     // 一般情况，已经处理完所有的作业或者已经满足队伍数量
     if (count === 0 || currentCopilotIndex === context.copilots.length) {
-      result.scenarios.push({
-        copilots: [...currentScenario],
-        totalScore: currentScenario.reduce(
-          (score, next) => score + next.score,
-          BigInt(0),
-        ),
-      });
+      // 至少也要给出两队
+      if (currentScenario.length >= 2) {
+        result.scenarios.push({
+          copilots: [...currentScenario],
+          totalScore: currentScenario.reduce(
+            (score, next) => score + BigInt(next.score),
+            BigInt(0),
+          ),
+        });
+      }
       return;
     }
     // 尝试使用当前作业
@@ -54,11 +58,15 @@ export function calculateAllScenariosAndScores(
       currentCopilotIndex + 1,
       availableBox,
       currentScenario,
-      count - 1,
+      count,
     );
   }
 
   generateAllScenarios(0, context.availableBox, [], k);
+
+  result.scenarios = produce(result.scenarios, draft => {
+    draft.sort((a, b) => Number(b.totalScore - a.totalScore));
+  });
 
   return result;
 }
