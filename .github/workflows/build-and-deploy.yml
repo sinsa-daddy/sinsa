@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build
+    name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,12 +35,18 @@ jobs:
         # env:
         #   LARK_APP_SECERT: ${{ secrets.LARK_APP_SECERT }}
         run: pnpm run build
-      # - name: Enter into `sinsa-web` and Copy `*.html` to `dist`
-      #   run: cd ./apps/sinsa-web && cp -r ./dist/html/main/** ./dist/
+      - name: Enter into `sinsa-web` and Copy `*.html` to `dist`
+        run: cd ./apps/sinsa && cp -r ./dist/html/main/** ./dist/
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v2
       #   with:
       #     path: ./apps/sinsa-web/dist
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./apps/sinsa/dist
+          repository-name: sinsa-daddy/sinsa-daddy.github.io
+          token: ${{ secrets.DEPLOY_INDEX_ACCESS_TOKEN }}
 
   # Deploy:
   #   needs: [build]
@@ -52,3 +58,4 @@ jobs:
   #     - name: Deploy to GitHub Pages
   #       id: deployment
   #       uses: actions/deploy-pages@v2
+
