@@ -1,6 +1,6 @@
 import { ProFormRadio, QueryFilter } from '@ant-design/pro-form';
 import { CopilotType } from '@sinsa/schema';
-import { Card, List, Typography } from 'antd';
+import { List, Typography } from 'antd';
 import { useState } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';
@@ -67,24 +67,30 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           rules={[{ required: true }]}
         />
       </QueryFilter>
-      <Card>
-        <List
-          dataSource={solutionResult?.scenarios}
-          pagination={{ pageSize: 5 }}
-          rowKey={sc => sc.copilots.map(c => c.bv).join('')}
-          renderItem={(item, index) => {
-            return (
+      {solutionResult?.scenarios.length ? (
+        <Typography.Paragraph>
+          已为您找到 {solutionResult?.scenarios.length}{' '}
+          个队伍方案，总分数由高至低排列
+        </Typography.Paragraph>
+      ) : null}
+      <List
+        dataSource={solutionResult?.scenarios}
+        pagination={{ pageSize: 5 }}
+        rowKey={sc => sc.copilots.map(c => c.bv).join('')}
+        renderItem={item => {
+          return (
+            <div
+              key={item.copilots.map(c => c.bv).join('')}
+              style={{ marginBottom: '1rem' }}
+            >
               <SolutionScenarioCard
-                key={item.copilots.map(c => c.bv).join('')}
                 solution={item}
-                title={`#${index + 1} 方案: ${numeral(item.totalScore).format(
-                  '0,0',
-                )} 分`}
+                title={`方案: ${numeral(item.totalScore).format('0,0')} 分`}
               />
-            );
-          }}
-        />
-      </Card>
+            </div>
+          );
+        }}
+      />
     </>
   );
 };
