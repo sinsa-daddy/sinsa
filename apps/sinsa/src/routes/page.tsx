@@ -26,20 +26,36 @@ const Index = React.memo(() => (
     <Image width={100} src={QunURL} alt="qun" />
     <Typography.Title level={4}>我们提供以下能力</Typography.Title>
     <div>
-      <Checkbox checked>根据收录作业提供最佳队伍搭配方案</Checkbox>
+      <Checkbox checked={true}>根据收录作业提供最佳队伍搭配方案</Checkbox>
     </div>
     <div>
-      <Checkbox>当期荒典词条信息</Checkbox>
+      <Checkbox checked={false}>当期荒典词条信息</Checkbox>
     </div>
     <div>
-      <Checkbox>
+      <Checkbox checked={false}>
         提供自己的 Box，根据自己的 Box 计算最佳队伍搭配方案。Box
         会在用户本地存储
       </Checkbox>
     </div>
     <div>
-      <Checkbox>提供 Chrome 插件，改善作业收录体验</Checkbox>
+      <Checkbox checked={false}>提供 Chrome 插件，改善作业收录体验</Checkbox>
     </div>
+    <Typography.Title level={4}>镜像站点</Typography.Title>
+    <Typography.Paragraph>
+      本站点部署在 Github Pages 上，国内访问可能较慢。我们之后会提供国内镜像站点
+    </Typography.Paragraph>
+    <Typography.Paragraph>
+      首发站点{' '}
+      <Typography.Link href="https://sinsa-daddy.github.io/" target="_blank">
+        https://sinsa-daddy.github.io/
+      </Typography.Link>
+    </Typography.Paragraph>
+    <Typography.Paragraph>
+      国外镜像站点 Netlify{' '}
+      <Typography.Link href="https://sinsa-daddy.netlify.app/" target="_blank">
+        https://sinsa-daddy.netlify.app/
+      </Typography.Link>
+    </Typography.Paragraph>
   </PageContainer>
 ));
 
