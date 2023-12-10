@@ -32,8 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Build
-        # env:
-        #   LARK_APP_SECERT: ${{ secrets.LARK_APP_SECERT }}
+        env:
+          LARK_APP_SECERT: ${{ secrets.LARK_APP_SECERT }}
         run: pnpm run build
       - name: Enter into `sinsa-web` and Copy `*.html` to `dist`
         run: cd ./apps/sinsa && cp -r ./dist/html/main/** ./dist/
