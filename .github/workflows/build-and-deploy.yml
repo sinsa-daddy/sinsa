@@ -33,7 +33,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: Build
         env:
-          LARK_APP_SECERT: ${{ secrets.LARK_APP_SECERT }}
+          LARK_SINSA_PUPPY_APP_SECRET: ${{ secrets.LARK_SINSA_PUPPY_APP_SECRET }}
         run: pnpm run build
       - name: Enter into `sinsa-web` and Copy `*.html` to `dist`
         run: cd ./apps/sinsa && cp -r ./dist/html/main/** ./dist/
