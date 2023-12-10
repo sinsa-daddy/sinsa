@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Checkbox, Image, Typography } from 'antd';
+import { Checkbox, Image, Tag, Typography } from 'antd';
 import React from 'react';
 import QunURL from '@/assets/docs/qun.jpg';
 
@@ -51,10 +51,17 @@ const Index = React.memo(() => (
       </Typography.Link>
     </Typography.Paragraph>
     <Typography.Paragraph>
-      国外镜像站点 Netlify{' '}
+      国外镜像站点{' '}
+      <Typography.Link href="https://sinsa-daddy.pages.dev/" target="_blank">
+        https://sinsa-daddy.pages.dev/
+      </Typography.Link>{' '}
+      <Tag color="blue">推荐</Tag>
+    </Typography.Paragraph>
+    <Typography.Paragraph>
+      国外镜像站点{' '}
       <Typography.Link href="https://sinsa-daddy.netlify.app/" target="_blank">
         https://sinsa-daddy.netlify.app/
-      </Typography.Link>
+      </Typography.Link>{' '}
     </Typography.Paragraph>
   </PageContainer>
 ));
