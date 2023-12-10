@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import { type AurorianType } from '@sinsa/schema';
-import { ConfigProvider, Rate } from 'antd';
+import { Badge, ConfigProvider, Rate } from 'antd';
 import styles from './styles.module.less';
 import { ClassURLMapper, ElementURLMapper, RarityMapper } from './constants';
 import { AuroriansModel } from '@/models/aurorians';
@@ -13,7 +13,7 @@ interface AurorianCardProps {
 }
 
 export const AurorianCard = React.memo<AurorianCardProps>(
-  ({ name, breakthrough }) => {
+  ({ name, breakthrough, isReplaceable }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
       () => auroriansMap[name] as AurorianType | undefined,
@@ -44,55 +44,64 @@ export const AurorianCard = React.memo<AurorianCardProps>(
     }, [aurorian?.aurorian_name]);
 
     return (
-      <div className={styles.AurorianCard} ref={cardRef}>
-        {aurorian?.class && aurorian?.attribute ? (
-          <div className={styles.MetaContainer}>
-            <img
-              className={styles.MetaClass}
-              alt={aurorian.class}
-              src={ClassURLMapper[aurorian.class]}
-            />
-            <div className={styles.MetaAttributeContainer}>
+      <Badge.Ribbon
+        style={{
+          fontSize: '12px',
+          display: isReplaceable ? 'block' : 'none',
+          zIndex: 10000,
+        }}
+        text={isReplaceable ? '可替' : undefined}
+      >
+        <div className={styles.AurorianCard} ref={cardRef}>
+          {aurorian?.class && aurorian?.attribute ? (
+            <div className={styles.MetaContainer}>
               <img
-                className={styles.MetaFirstAttribute}
-                alt={aurorian.attribute}
-                src={ElementURLMapper[aurorian.attribute]}
+                className={styles.MetaClass}
+                alt={aurorian.class}
+                src={ClassURLMapper[aurorian.class]}
               />
-              {aurorian.secondary_attribute ? (
+              <div className={styles.MetaAttributeContainer}>
                 <img
-                  className={styles.MetaSecondAttribute}
-                  alt={aurorian.secondary_attribute}
-                  src={ElementURLMapper[aurorian.secondary_attribute]}
+                  className={styles.MetaFirstAttribute}
+                  alt={aurorian.attribute}
+                  src={ElementURLMapper[aurorian.attribute]}
                 />
-              ) : null}
+                {aurorian.secondary_attribute ? (
+                  <img
+                    className={styles.MetaSecondAttribute}
+                    alt={aurorian.secondary_attribute}
+                    src={ElementURLMapper[aurorian.secondary_attribute]}
+                  />
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+          <div className={styles.NameContainer}>
+            <div title={aurorian?.aurorian_name}>
+              {aurorian?.aurorian_cn_name}
             </div>
           </div>
-        ) : null}
-        <div className={styles.NameContainer}>
-          <div title={aurorian?.aurorian_name}>
-            {aurorian?.aurorian_cn_name}
-          </div>
-        </div>
-        {aurorian?.rarity ? (
-          <ConfigProvider
-            theme={{
-              components: {
-                Rate: {
-                  starBg: 'white',
-                  starSize: 10,
+          {aurorian?.rarity ? (
+            <ConfigProvider
+              theme={{
+                components: {
+                  Rate: {
+                    starBg: 'white',
+                    starSize: 10,
+                  },
                 },
-              },
-            }}
-          >
-            <Rate
-              className={styles.BreakThrough}
-              disabled
-              value={breakthrough}
-              count={RarityMapper[aurorian.rarity]}
-            />
-          </ConfigProvider>
-        ) : null}
-      </div>
+              }}
+            >
+              <Rate
+                className={styles.BreakThrough}
+                disabled
+                value={breakthrough}
+                count={RarityMapper[aurorian.rarity]}
+              />
+            </ConfigProvider>
+          ) : null}
+        </div>
+      </Badge.Ribbon>
     );
   },
 );

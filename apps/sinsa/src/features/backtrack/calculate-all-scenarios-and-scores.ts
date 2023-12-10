@@ -26,7 +26,7 @@ export function calculateAllScenariosAndScores(
     // 一般情况，已经处理完所有的作业或者已经满足队伍数量
     if (count === 0 || currentCopilotIndex === context.copilots.length) {
       // 至少也要给出两队
-      if (currentScenario.length >= 2) {
+      if (currentScenario.length >= k) {
         result.scenarios.push({
           copilots: [...currentScenario],
           totalScore: currentScenario.reduce(

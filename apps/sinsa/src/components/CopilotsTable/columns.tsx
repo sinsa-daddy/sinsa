@@ -9,7 +9,7 @@ export interface TableParams {
   term?: `${number}`;
 }
 
-export const columns: ProColumns<CopilotType>[] = [
+export const copilotsColumns: ProColumns<CopilotType>[] = [
   {
     title: '光灵配置',
     dataIndex: 'aurorian_summaries',
