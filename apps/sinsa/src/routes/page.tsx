@@ -1,84 +1,46 @@
 import { PageContainer } from '@ant-design/pro-layout';
+import { Checkbox, Image, Typography } from 'antd';
+import React from 'react';
+import QunURL from '@/assets/docs/qun.jpg';
 
-const Index = () => (
-  <PageContainer>
-    <main>
-      <div className="title">
-        Welcome to
-        <img
-          className="logo"
-          src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/modern-js-logo.svg"
-          alt="Modern.js Logo"
-        />
-        <p className="name">Modern.js</p>
-      </div>
-      <p className="description">
-        Get started by editing <code className="code">src/routes/page.tsx</code>
-      </p>
-      <div className="grid">
-        <a
-          href="https://modernjs.dev/guides/get-started/introduction.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="card"
-        >
-          <h2>
-            Guide
-            <img
-              className="arrow-right"
-              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/arrow-right.svg"
-            />
-          </h2>
-          <p>Follow the guides to use all features of Modern.js.</p>
-        </a>
-        <a
-          href="https://modernjs.dev/tutorials/foundations/introduction.html"
-          target="_blank"
-          className="card"
-          rel="noreferrer"
-        >
-          <h2>
-            Tutorials
-            <img
-              className="arrow-right"
-              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/arrow-right.svg"
-            />
-          </h2>
-          <p>Learn to use Modern.js to create your first application.</p>
-        </a>
-        <a
-          href="https://modernjs.dev/configure/app/usage.html"
-          target="_blank"
-          className="card"
-          rel="noreferrer"
-        >
-          <h2>
-            Config
-            <img
-              className="arrow-right"
-              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/arrow-right.svg"
-            />
-          </h2>
-          <p>Find all configuration options provided by Modern.js.</p>
-        </a>
-        <a
-          href="https://github.com/web-infra-dev/modern.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="card"
-        >
-          <h2>
-            Github
-            <img
-              className="arrow-right"
-              src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/arrow-right.svg"
-            />
-          </h2>
-          <p>View the source code of Github, feel free to contribute.</p>
-        </a>
-      </div>
-    </main>
+const Index = React.memo(() => (
+  <PageContainer
+    title="红油扳手作业站"
+    content={
+      '红油扳手作业站是一站式作业收录平台，目前由我们民间团队手动收录哔哩哔哩上的作业。'
+    }
+  >
+    <Typography.Paragraph>
+      Github地址{' '}
+      <Typography.Link
+        href="https://github.com/sinsa-daddy/sinsa"
+        target="_blank"
+      >
+        https://github.com/sinsa-daddy/sinsa
+      </Typography.Link>
+    </Typography.Paragraph>
+    <Typography.Paragraph>
+      目前网站仍然有很多问题，我们十分缺少收录作业数据工。如果您也想参与作业收录工作，可以加入我们
+      QQ 群，我们会提供收录权限（我们通过飞书文档维护数据库）。
+    </Typography.Paragraph>
+    <Image width={100} src={QunURL} alt="qun" />
+    <Typography.Title level={4}>我们提供以下能力</Typography.Title>
+    <div>
+      <Checkbox checked>根据收录作业提供最佳队伍搭配方案</Checkbox>
+    </div>
+    <div>
+      <Checkbox>当期荒典词条信息</Checkbox>
+    </div>
+    <div>
+      <Checkbox>
+        提供自己的 Box，根据自己的 Box 计算最佳队伍搭配方案。Box
+        会在用户本地存储
+      </Checkbox>
+    </div>
+    <div>
+      <Checkbox>提供 Chrome 插件，改善作业收录体验</Checkbox>
+    </div>
   </PageContainer>
-);
+));
 
 export default Index;
