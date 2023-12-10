@@ -69,7 +69,11 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           radioType="button"
           rules={[{ required: true }]}
         />
-        <ProFormSwitch name={'disalbeAlternative'} label="不考虑可替自由位" />
+        <ProFormSwitch
+          name={'disalbeAlternative'}
+          label="不考虑可替自由位"
+          tooltip="开启后，计算的队伍方案中绝对不会出现重复光灵，满足图鉴大佬的强迫症"
+        />
       </QueryFilter>
       {solutionResult?.scenarios.length ? (
         <Typography.Paragraph>
