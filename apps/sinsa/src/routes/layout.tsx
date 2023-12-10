@@ -9,7 +9,7 @@ import { AuroriansModel } from '@/models/aurorians';
 
 const theme: ThemeConfig = {
   token: {
-    colorPrimary: '#5c5c5c',
+    colorPrimary: 'rgb(220, 89, 80)',
   },
 };
 

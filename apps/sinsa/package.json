@@ -13,8 +13,10 @@
     "data": "modern fetch"
   },
   "dependencies": {
+    "@ant-design/pro-card": "^2.5.27",
     "@ant-design/pro-form": "^2.23.1",
     "@ant-design/pro-layout": "^7.17.16",
+    "@ant-design/pro-list": "^2.5.42",
     "@ant-design/pro-table": "^3.13.11",
     "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",
