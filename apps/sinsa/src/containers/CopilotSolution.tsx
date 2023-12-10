@@ -41,7 +41,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           setSolutionResult(result);
         }}
         searchText="寻找队伍方案"
-        initialValues={{ k: 2, box: 'whole' }}
+        initialValues={{ k: 3, box: 'whole' }}
       >
         <ProFormRadio.Group
           name="k"
