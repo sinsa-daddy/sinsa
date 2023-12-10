@@ -1,6 +1,7 @@
 import { ProTable } from '@ant-design/pro-table';
 import { CopilotType } from '@sinsa/schema';
 import { useCallback } from 'react';
+import { produce } from 'immer';
 import { copilotRowKey } from '../CopilotsTable';
 import { copilotsColumns } from '../CopilotsTable/columns';
 import type { SolutionScenario } from '@/features/backtrack/types';
@@ -16,7 +17,9 @@ export const SolutionScenarioCard: React.FC<SolutionScenarioCardProps> = ({
 }) => {
   const request = useCallback(async () => {
     return {
-      data: solution.copilots,
+      data: produce(solution.copilots, draft => {
+        draft.sort((a, b) => Number(b.score - a.score));
+      }),
       success: true,
     };
   }, []);
