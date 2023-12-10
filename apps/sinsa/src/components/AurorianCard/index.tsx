@@ -80,26 +80,27 @@ export const AurorianCard = React.memo<AurorianCardProps>(
             <div title={aurorian?.aurorian_name}>
               {aurorian?.aurorian_cn_name}
             </div>
-          </div>
-          {aurorian?.rarity ? (
-            <ConfigProvider
-              theme={{
-                components: {
-                  Rate: {
-                    starBg: 'white',
-                    starSize: 10,
+
+            {aurorian?.rarity ? (
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Rate: {
+                      starBg: 'white',
+                      starSize: 10,
+                    },
                   },
-                },
-              }}
-            >
-              <Rate
-                className={styles.BreakThrough}
-                disabled
-                value={breakthrough}
-                count={RarityMapper[aurorian.rarity]}
-              />
-            </ConfigProvider>
-          ) : null}
+                }}
+              >
+                <Rate
+                  className={styles.BreakThrough}
+                  disabled
+                  value={breakthrough}
+                  count={RarityMapper[aurorian.rarity]}
+                />
+              </ConfigProvider>
+            ) : null}
+          </div>
         </div>
       </Badge.Ribbon>
     );
