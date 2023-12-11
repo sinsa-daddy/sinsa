@@ -33,4 +33,12 @@ export default defineConfig<'rspack'>({
       },
     },
   },
+  output: {
+    externals: {
+      antd: 'antd',
+      dayjs: 'dayjs',
+      react: 'React',
+      'react-dom': 'ReactDOM',
+    },
+  },
 });

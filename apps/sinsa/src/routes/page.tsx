@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-layout';
 import { Checkbox, Image, Tag, Typography } from 'antd';
 import React from 'react';
-import QunURL from '@/assets/docs/qun.jpg';
+import QunURL from '@/assets/docs/qun.webp';
 
 const Index = React.memo(() => (
   <PageContainer

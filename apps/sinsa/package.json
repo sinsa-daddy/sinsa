@@ -21,6 +21,7 @@
     "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",
     "antd": "^5.11.3",
+    "dayjs": "^1.11.10",
     "immer": "^10.0.3",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",
