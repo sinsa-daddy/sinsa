@@ -1,4 +1,4 @@
-import { CheckCard } from '@ant-design/pro-card';
+import { CheckCard } from '@ant-design/pro-components';
 import { useState } from 'react';
 import { AurorianBoxCard } from '../AurorianBoxCard';
 

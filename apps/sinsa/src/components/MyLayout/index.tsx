@@ -1,7 +1,7 @@
-import { ProLayout } from '@ant-design/pro-layout';
+import { ProLayout } from '@ant-design/pro-components';
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
 import { useCallback } from 'react';
-import type { MenuDataItem } from '@ant-design/pro-layout/es/typing';
+import type { MenuDataItem } from '@ant-design/pro-components';
 import { MY_ROUTE, RoutePath } from './constants';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 

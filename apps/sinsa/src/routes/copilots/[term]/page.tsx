@@ -1,6 +1,6 @@
 import { useParams } from '@modern-js/runtime/router';
 import useSWR from 'swr';
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
 import { fetcher } from '@/utils/swr';

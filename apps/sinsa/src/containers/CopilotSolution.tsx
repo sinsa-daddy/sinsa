@@ -1,4 +1,8 @@
-import { ProFormRadio, ProFormSwitch, QueryFilter } from '@ant-design/pro-form';
+import {
+  ProFormRadio,
+  ProFormSwitch,
+  QueryFilter,
+} from '@ant-design/pro-components';
 import { CopilotType } from '@sinsa/schema';
 import { List, Typography } from 'antd';
 import { useState } from 'react';

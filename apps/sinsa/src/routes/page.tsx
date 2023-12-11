@@ -1,4 +1,4 @@
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-components';
 import { Checkbox, Image, Tag, Typography } from 'antd';
 import React from 'react';
 import QunURL from '@/assets/docs/qun.webp';

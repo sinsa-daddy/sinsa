@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef } from 'react';
-import type { ActionType } from '@ant-design/pro-table';
-import { ProTable } from '@ant-design/pro-table';
+import type { ActionType } from '@ant-design/pro-components';
+import { ProTable } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
 import { type TableParams, copilotsColumns } from './columns';
 

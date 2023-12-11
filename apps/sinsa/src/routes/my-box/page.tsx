@@ -1,4 +1,4 @@
-import { PageContainer } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-components';
 import { MyBoxList } from '@/components/MyBoxList';
 
 const MyBoxPage: React.FC = () => {

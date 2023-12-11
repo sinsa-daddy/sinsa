@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProList } from '@ant-design/pro-list';
+import { ProList } from '@ant-design/pro-components';
 import { MyBoxType } from '@sinsa/schema';
 import { Typography } from 'antd';
 

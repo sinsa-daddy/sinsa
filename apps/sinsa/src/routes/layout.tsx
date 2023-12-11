@@ -1,7 +1,7 @@
 import { Outlet, useLoaderData } from '@modern-js/runtime/router';
 import { ConfigProvider, type ThemeConfig } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { MyLayout } from '../components/MyLayout';
 import type { LayoutLoaderData } from './layout.data';
 import { TermsModel } from '@/models/terms';

@@ -1,5 +1,5 @@
 import { Card } from 'antd';
-import { QueryFilter, ProFormSelect } from '@ant-design/pro-form';
+import { QueryFilter, ProFormSelect } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
 import { TermsModel } from '@/models/terms';
 

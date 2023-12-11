@@ -2,12 +2,12 @@ import {
   type ProFormInstance,
   StepsForm,
   ProFormText,
-} from '@ant-design/pro-form';
+  CheckCard,
+} from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
 import { useMemo, useRef } from 'react';
-import { groupBy } from 'lodash';
+import { groupBy } from 'lodash-es';
 import { Form } from 'antd';
-import { CheckCard } from '@ant-design/pro-card';
 import { AurorianAttributeType } from '@sinsa/schema';
 import { CheckControlAurorianBoxCard } from '../CheckControlAurorianBoxCard';
 import { AuroriansModel } from '@/models/aurorians';

@@ -1,4 +1,3 @@
-import type { Route } from '@ant-design/pro-layout/es/typing';
 import { ReactComponent as IconHome } from './assets/icon-home.svg';
 import { ReactComponent as IconLog } from './assets/icon-log.svg';
 // import { ReactComponent as Icon33 } from './assets/icon-33.svg';
@@ -10,7 +9,7 @@ export const RoutePath = {
   MyBox: '/my-box',
 } as const;
 
-export const MY_ROUTE: Route = {
+export const MY_ROUTE = {
   routes: [
     {
       path: RoutePath.Home,

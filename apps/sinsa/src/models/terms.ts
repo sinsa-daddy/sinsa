@@ -1,6 +1,6 @@
 import { model } from '@modern-js/runtime/model';
 import type { TermType } from '@sinsa/schema';
-import { first } from 'lodash';
+import { first } from 'lodash-es';
 
 export interface TermsState {
   terms: TermType[];

@@ -22,15 +22,6 @@ export default defineConfig<'rspack'>({
   performance: {
     chunkSplit: {
       strategy: 'split-by-experience',
-      override: {
-        cacheGroups: {
-          antdesign: {
-            test: /[\\/]node_modules[\\/](@ant-design[\\/]pro)/,
-            name: 'lib-antd-pro',
-            chunks: 'all',
-          },
-        },
-      },
     },
   },
   output: {
@@ -39,6 +30,7 @@ export default defineConfig<'rspack'>({
       dayjs: 'dayjs',
       react: 'React',
       'react-dom': 'ReactDOM',
+      '@ant-design/pro-components': 'ProComponents',
     },
   },
 });

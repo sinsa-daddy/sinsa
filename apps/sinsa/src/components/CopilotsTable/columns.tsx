@@ -1,4 +1,4 @@
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
 import { Typography } from 'antd';
 import { AuroriansTeam } from '../AuroriansTeam';

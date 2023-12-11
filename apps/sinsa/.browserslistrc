@@ -1,5 +1,3 @@
-chrome >= 64
-edge >= 79
-firefox >= 67
-safari >= 12
-opera >= 51
+chrome >= 100
+edge >= 100
+safari >= 14

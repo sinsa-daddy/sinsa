@@ -1,4 +1,4 @@
-import { ProTable } from '@ant-design/pro-table';
+import { ProTable } from '@ant-design/pro-components';
 import { CopilotType } from '@sinsa/schema';
 import { useCallback, useMemo } from 'react';
 import { produce } from 'immer';

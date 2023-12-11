@@ -4,7 +4,7 @@ import type {
   AurorianType,
   MyBoxType,
 } from '@sinsa/schema';
-import { mapValues } from 'lodash';
+import { mapValues } from 'lodash-es';
 
 export interface AuroriansState {
   auroriansMap: Record<AurorianType['aurorian_name'], AurorianType>;
