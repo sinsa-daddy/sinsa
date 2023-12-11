@@ -88,7 +88,6 @@ export const AurorianBoxCard = React.memo<AurorianBoxCardProps>(
                 value={breakthrough}
                 count={RarityMapper[aurorian.rarity]}
                 onChange={t => {
-                  console.log('t', t);
                   onBreakthroughChange?.(t);
                 }}
               />

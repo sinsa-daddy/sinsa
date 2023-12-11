@@ -29,11 +29,6 @@ export const AurorianCard = React.memo<AurorianCardProps>(
             if (typeof esm?.default === 'string') {
               if (cardRef.current) {
                 cardRef.current.style.backgroundImage = `url(${esm.default})`;
-                console.log(
-                  cardRef.current,
-                  cardRef.current.style,
-                  `url(${esm.default})`,
-                );
               }
             }
           })
