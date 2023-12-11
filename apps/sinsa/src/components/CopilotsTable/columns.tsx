@@ -1,6 +1,6 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
-import { Typography } from 'antd';
+import { Tooltip, Typography } from 'antd';
 import { AuroriansTeam } from '../AuroriansTeam';
 
 export interface TableParams {
@@ -32,7 +32,11 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     valueType: 'select',
     hideInSearch: true,
     ellipsis: true,
+    align: 'center',
     width: 150,
+    render(dom, entity) {
+      return <Tooltip title={entity.description}>{dom}</Tooltip>;
+    },
   },
   {
     title: '标题',
