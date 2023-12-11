@@ -32,10 +32,16 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     valueType: 'select',
     hideInSearch: true,
     ellipsis: true,
-    align: 'center',
-    width: 150,
-    render(dom, entity) {
-      return <Tooltip title={entity.description}>{dom}</Tooltip>;
+    width: 160,
+    renderText(dom, entity) {
+      return (
+        <>
+          {dom}
+          <Tooltip title={entity.description}>
+            {entity.description ? '🗒' : null}
+          </Tooltip>
+        </>
+      );
     },
   },
   {
