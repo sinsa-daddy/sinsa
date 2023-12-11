@@ -13,3 +13,10 @@ export interface SolutionScenario {
 export interface SolutionResult {
   scenarios: SolutionScenario[];
 }
+
+export interface CalcOptions {
+  /**
+   * 是否禁止可替换位置
+   */
+  disalbeAlternative?: boolean;
+}

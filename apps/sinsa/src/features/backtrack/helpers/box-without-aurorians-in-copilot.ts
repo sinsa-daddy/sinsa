@@ -1,17 +1,11 @@
 import type { CopilotType, MyBoxType } from '@sinsa/schema';
 import { produce } from 'immer';
+import { CalcOptions } from '../types';
 
 export function boxWithoutAuroriansInCopilot(
   myBox: MyBoxType['aurorian_summaries'],
   copilot: CopilotType,
-  {
-    disalbeAlternative,
-  }: {
-    /**
-     * 是否禁止可替换位置
-     */
-    disalbeAlternative?: boolean;
-  },
+  { disalbeAlternative }: CalcOptions,
 ) {
   return produce(myBox, draft => {
     for (const aurorianInCopilot of copilot.aurorian_summaries) {

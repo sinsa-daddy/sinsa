@@ -3,6 +3,7 @@ import type {
   MyBoxType,
   AurorianSummaryType,
 } from '@sinsa/schema';
+import { CalcOptions } from '../types';
 
 /**
  * 我的 Box 能否抄这个作业
@@ -13,11 +14,7 @@ import type {
 export function canUseCopilot(
   myBox: MyBoxType['aurorian_summaries'],
   copilot: CopilotType,
-  {
-    disalbeAlternative,
-  }: {
-    disalbeAlternative?: boolean;
-  },
+  { disalbeAlternative }: CalcOptions,
 ): boolean {
   for (const aurorianInCopilot of copilot.aurorian_summaries) {
     // 0. 如果作业中的光灵本身是可替换的，则跳过此光灵判断
