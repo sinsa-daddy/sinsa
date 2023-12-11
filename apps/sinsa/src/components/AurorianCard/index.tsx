@@ -2,18 +2,20 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import { type AurorianType } from '@sinsa/schema';
 import { Badge, ConfigProvider, Rate } from 'antd';
+import { clsx } from 'clsx';
 import styles from './styles.module.less';
 import { ClassURLMapper, ElementURLMapper, RarityMapper } from './constants';
 import { AuroriansModel } from '@/models/aurorians';
 
 interface AurorianCardProps {
   name: string;
-  breakthrough: number;
+  breakthrough?: number;
   isReplaceable?: boolean;
+  sameSize?: boolean;
 }
 
 export const AurorianCard = React.memo<AurorianCardProps>(
-  ({ name, breakthrough, isReplaceable }) => {
+  ({ name, breakthrough, isReplaceable, sameSize }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
       () => auroriansMap[name] as AurorianType | undefined,
@@ -47,9 +49,17 @@ export const AurorianCard = React.memo<AurorianCardProps>(
         }}
         text={isReplaceable ? '可替' : undefined}
       >
-        <div className={styles.AurorianCard} ref={cardRef}>
+        <div
+          className={clsx(styles.AurorianCard, sameSize && styles.SameSize)}
+          ref={cardRef}
+        >
           {aurorian?.class && aurorian?.attribute ? (
-            <div className={styles.MetaContainer}>
+            <div
+              className={clsx(
+                styles.MetaContainer,
+                sameSize && styles.SameSizeMeta,
+              )}
+            >
               <img
                 className={styles.MetaClass}
                 alt={aurorian.class}
@@ -76,7 +86,7 @@ export const AurorianCard = React.memo<AurorianCardProps>(
               {aurorian?.aurorian_cn_name}
             </div>
 
-            {aurorian?.rarity ? (
+            {typeof breakthrough === 'number' && aurorian?.rarity ? (
               <ConfigProvider
                 theme={{
                   components: {

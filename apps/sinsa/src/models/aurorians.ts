@@ -31,6 +31,15 @@ export const AuroriansModel = model<AuroriansState>('aurorians').define({
         ),
       };
     },
+    auroriansOptions: state => {
+      return Object.values(state.auroriansMap).map(a => {
+        return {
+          label: `${a.aurorian_cn_name} ${a.aurorian_name}`,
+          value: a.aurorian_name,
+          extra: a,
+        };
+      });
+    },
   },
   actions: {},
 });

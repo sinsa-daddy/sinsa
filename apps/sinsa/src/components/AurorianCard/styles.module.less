@@ -20,6 +20,13 @@
   }
 }
 
+.SameSize.SameSize {
+  width: 80px;
+  height: 80px;
+  background-position: 0;
+  background-size: contain;
+}
+
 .Skin {
   position: absolute;
   border: none;
@@ -41,6 +48,16 @@
     }
   }
   justify-content: center;
+}
+
+.SameSizeMeta {
+  flex-flow: column nowrap;
+  align-self: flex-start;
+  margin-left: 4px;
+
+  & .MetaAttributeContainer {
+    flex-flow: column nowrap;
+  }
 }
 
 .MetaClass {
