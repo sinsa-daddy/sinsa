@@ -111,17 +111,21 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
             label="不考虑可替自由位"
             tooltip="开启后，计算的队伍方案中绝对不会出现重复光灵，满足图鉴大佬的强迫症"
           />
-        </ProForm.Group>
-        <ProForm.Group>
-          <ProFormSwitch name="enableExclude" label="额外排除光灵" />
-          <ProFormDependency name={['enableExclude']}>
-            {({ enableExclude }) => {
-              if (enableExclude) {
-                return <ExcludeAurorianFormList name={'exclude'} />;
-              }
-              return null;
-            }}
-          </ProFormDependency>
+          <ProForm.Group>
+            <ProFormSwitch
+              name="enableExclude"
+              label="额外排除光灵"
+              tooltip="排除光灵会忽略可替自由位"
+            />
+            <ProFormDependency name={['enableExclude']}>
+              {({ enableExclude }) => {
+                if (enableExclude) {
+                  return <ExcludeAurorianFormList name={'exclude'} />;
+                }
+                return null;
+              }}
+            </ProFormDependency>
+          </ProForm.Group>
         </ProForm.Group>
       </ProForm>
       <Divider />
