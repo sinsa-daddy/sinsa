@@ -1,6 +1,6 @@
 import { ProTable } from '@ant-design/pro-table';
 import { CopilotType } from '@sinsa/schema';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { produce } from 'immer';
 import { copilotRowKey } from '../CopilotsTable';
 import { copilotsColumns } from '../CopilotsTable/columns';
@@ -24,15 +24,20 @@ export const SolutionScenarioCard: React.FC<SolutionScenarioCardProps> = ({
     };
   }, []);
 
+  const toolbar = useMemo(() => ({ title, settings: [] }), [title]);
+
+  const scroll = useMemo(() => ({ x: 'max-content' }), []);
+
   return (
     <ProTable<CopilotType>
-      toolbar={{ title, settings: [] }}
+      toolbar={toolbar}
       rowKey={copilotRowKey}
       columns={copilotsColumns}
       request={request}
       search={false}
       pagination={false}
       size="small"
+      scroll={scroll}
     />
   );
 };

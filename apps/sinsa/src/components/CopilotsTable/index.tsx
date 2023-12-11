@@ -13,6 +13,16 @@ export function copilotRowKey(c: CopilotType) {
   return c.bv;
 }
 
+const TABLE_CONST_PROPS = {
+  pagination: {
+    pageSize: 5,
+    size: 'default',
+    position: ['bottomCenter'] as any,
+  },
+  scroll: { x: 'max-content', scrollToFirstRowOnChange: true },
+  toolbar: { title: '收录作业' },
+} as const;
+
 export const CopilotsTable: React.FC<CopilotsTableProps> = ({
   dataSource,
   term,
@@ -36,13 +46,12 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
 
   return (
     <ProTable<CopilotType, TableParams>
-      toolbar={{ title: '收录作业' }}
       rowKey={copilotRowKey}
       actionRef={actionRef}
       columns={copilotsColumns}
       params={deps}
       request={request}
-      pagination={{ pageSize: 5, size: 'default', position: ['bottomCenter'] }}
+      {...TABLE_CONST_PROPS}
     />
   );
 };
