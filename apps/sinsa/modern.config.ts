@@ -30,7 +30,7 @@ export default defineConfig<'rspack'>({
       dayjs: 'dayjs',
       react: 'React',
       'react-dom': 'ReactDOM',
-      '@ant-design/pro-components': 'ProComponents',
+      // '@ant-design/pro-components': 'ProComponents',
     },
   },
 });
