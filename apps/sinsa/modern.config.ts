@@ -2,7 +2,7 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { fetchDataSourcePlugin } from './plugins/fetch-data-source-plugin';
 
 // https://modernjs.dev/en/configure/app/usage
-export default defineConfig<'rspack'>({
+export default defineConfig<'webpack'>({
   runtime: {
     router: {
       supportHtml5History: false,
@@ -11,7 +11,7 @@ export default defineConfig<'rspack'>({
   },
   plugins: [
     appTools({
-      bundler: 'experimental-rspack',
+      // bundler: 'experimental-rspack',
     }),
     fetchDataSourcePlugin(),
   ],
@@ -21,7 +21,16 @@ export default defineConfig<'rspack'>({
   },
   performance: {
     chunkSplit: {
-      strategy: 'split-by-experience',
+      strategy: 'split-by-module',
+      // override: {
+      //   cacheGroups: {
+      //     antdesign: {
+      //       test: /[\\/]node_modules[\\/](@ant-design[\\/]pro)/,
+      //       name: 'lib-antd-pro',
+      //       chunks: 'all',
+      //     },
+      //   },
+      // },
     },
   },
   output: {
