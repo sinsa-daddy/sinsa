@@ -105,6 +105,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
             allowClear={false}
             radioType="button"
             rules={[{ required: true }]}
+            extra="自定义 Box 匹配暂不支持，无法选中，敬请期待w"
           />
           <ProFormSwitch
             name={'disalbeAlternative'}
