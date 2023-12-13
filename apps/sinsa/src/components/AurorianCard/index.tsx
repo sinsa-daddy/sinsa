@@ -92,7 +92,7 @@ export const AurorianCard = React.memo<AurorianCardProps>(
                   components: {
                     Rate: {
                       starBg: 'white',
-                      starSize: 10,
+                      starSize: 8,
                     },
                   },
                 }}

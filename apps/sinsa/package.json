@@ -16,6 +16,7 @@
     "@ant-design/pro-components": "^2.6.43",
     "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",
+    "ahooks": "^3.7.8",
     "antd": "^5.11.3",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
@@ -23,8 +24,7 @@
     "lodash-es": "^4.17.21",
     "numeral": "^2.0.6",
     "react": "~18.2.0",
-    "react-dom": "~18.2.0",
-    "swr": "^2.2.4"
+    "react-dom": "~18.2.0"
   },
   "devDependencies": {
     "@modern-js-app/eslint-config": "2.42.1",

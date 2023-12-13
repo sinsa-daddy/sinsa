@@ -34,8 +34,6 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
   );
 
   const request = useCallback(async (params: TableParams) => {
-    console.log('params', params);
-
     return {
       data:
         params.dataSource?.filter(item => {
@@ -65,7 +63,6 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
       columns={copilotsColumns}
       params={deps}
       request={request}
-      search={{ filterType: 'light' }}
       {...TABLE_CONST_PROPS}
     />
   );

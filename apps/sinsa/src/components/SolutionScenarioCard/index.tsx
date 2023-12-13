@@ -8,7 +8,7 @@ import type { SolutionScenario } from '@/features/backtrack/types';
 
 interface SolutionScenarioCardProps {
   solution: SolutionScenario;
-  title: string;
+  title?: string;
 }
 
 export const SolutionScenarioCard: React.FC<SolutionScenarioCardProps> = ({
@@ -30,14 +30,15 @@ export const SolutionScenarioCard: React.FC<SolutionScenarioCardProps> = ({
 
   return (
     <ProTable<CopilotType>
+      showHeader={true}
       toolbar={toolbar}
       rowKey={copilotRowKey}
       columns={copilotsColumns}
       request={request}
       search={false}
       pagination={false}
-      size="small"
       scroll={scroll}
+      ghost
     />
   );
 };

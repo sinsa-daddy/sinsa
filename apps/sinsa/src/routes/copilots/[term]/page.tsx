@@ -1,19 +1,24 @@
 import { useParams } from '@modern-js/runtime/router';
-import useSWR from 'swr';
+import { useRequest } from 'ahooks';
 import { PageContainer } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
-import { fetcher } from '@/utils/swr';
 import { TermNotFound } from '@/containers/TermNotFound';
-import { CopilotHeader } from '@/containers/CopilotHeader';
+import { TermChanger } from '@/containers/TermChanger';
 import { CopilotsTable } from '@/components/CopilotsTable';
+import { RoutePath } from '@/components/MyLayout/constants';
 
 const CopilotsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
 
-  const { data, error, isLoading } = useSWR<
-    Record<CopilotType['bv'], CopilotType>
-  >(params.term ? `/api/copilots/${params.term}.json` : null, fetcher);
+  const { data, error, loading } = useRequest(
+    () =>
+      fetch(`/api/copilots/${params.term}.json`).then(
+        response =>
+          response.json() as Promise<Record<CopilotType['bv'], CopilotType>>,
+      ),
+    { refreshDeps: [params.term] },
+  );
 
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
 
@@ -23,9 +28,9 @@ const CopilotsPage: React.FC = () => {
 
   return (
     <PageContainer
-      content={<CopilotHeader />}
+      content={<TermChanger pathFn={RoutePath.Copilots} />}
       title="作业全览"
-      loading={isLoading}
+      loading={loading}
     >
       <CopilotsTable term={params.term} dataSource={copilots} />
     </PageContainer>

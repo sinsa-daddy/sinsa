@@ -57,10 +57,13 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
       logo={<IconLogo />}
       location={location}
       fixedHeader
+      fixSiderbar
       route={MY_ROUTE}
       menuItemRender={renderMenuItem}
       onMenuHeaderClick={handleClickLogo}
       siderWidth={200}
+      layout="mix"
+      token={{ pageContainer: { paddingInlinePageContainerContent: 24 } }}
     >
       {children}
     </ProLayout>

@@ -20,11 +20,26 @@
   }
 }
 
-.SameSize.SameSize {
+.SameSize {
   width: 80px;
   height: 80px;
   background-position: 0;
   background-size: contain;
+}
+
+@media (max-width: 767px) {
+  .AurorianCard {
+    width: 60px;
+    height: calc(60px * 1.618);
+    background-position: -30px -10px;
+  }
+
+  .SameSize {
+    width: 80px;
+    height: 80px;
+    background-position: 0;
+    background-size: contain;
+  }
 }
 
 .Skin {

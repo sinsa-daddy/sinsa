@@ -28,6 +28,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
       }}
       name={name}
       alwaysShowItemLabel
+      min={1}
     >
       {() => {
         return (

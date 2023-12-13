@@ -19,7 +19,7 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     render(_, entity) {
       return <AuroriansTeam aurorianSummaries={entity.aurorian_summaries} />;
     },
-    width: 80 * 5 + 48,
+    width: 80 * 5 + 24,
   },
   {
     title: '结算分数',
