@@ -7,6 +7,7 @@ export interface TableParams {
   title?: CopilotType['title'];
   author?: CopilotType['author'];
   term?: `${number}`;
+  dataSource?: CopilotType[];
 }
 
 export const copilotsColumns: ProColumns<CopilotType>[] = [

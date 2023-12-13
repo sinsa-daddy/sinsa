@@ -5,7 +5,7 @@ import {
   ProFormSwitch,
 } from '@ant-design/pro-components';
 import { CopilotType } from '@sinsa/schema';
-import { Divider, List, Typography, message } from 'antd';
+import { Divider, List, message } from 'antd';
 import { useState } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';
@@ -40,7 +40,6 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
 
   return (
     <>
-      <Typography.Title level={3}>寻找队伍方案</Typography.Title>
       <ProForm<QueryParams>
         onFinish={async params => {
           let filterBox = WHOLE_BOX.aurorian_summaries;
@@ -70,9 +69,9 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           );
 
           if (result.scenarios?.length) {
-            message.success(
-              `已为您找到 ${result?.scenarios?.length} 个队伍方案，总分数由高至低排列`,
-            );
+            message.success({
+              content: `已为您找到 ${result?.scenarios?.length} 个队伍方案，总分数由高至低排列`,
+            });
           }
 
           setSolutionResult(result);

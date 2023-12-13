@@ -6,19 +6,19 @@ import { MY_ROUTE, RoutePath } from './constants';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 
 interface MyLayoutProps {
-  defaultCopilotsTerm?: number;
+  defaultTerm?: number;
 }
 
 export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
   children,
-  defaultCopilotsTerm,
+  defaultTerm,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const renderMenuItem = useCallback(
     (item: MenuDataItem, dom: React.ReactNode) => {
-      if (item.path === RoutePath.Copilots() && !defaultCopilotsTerm) {
+      if (item.path === RoutePath.Copilots() && !defaultTerm) {
         return <div />;
       }
       return (
@@ -28,7 +28,10 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
             if (typeof item.path === 'string') {
               switch (item.path) {
                 case RoutePath.Copilots():
-                  navigate(RoutePath.Copilots(defaultCopilotsTerm));
+                  navigate(RoutePath.Copilots(defaultTerm));
+                  break;
+                case RoutePath.Solutions():
+                  navigate(RoutePath.Solutions(defaultTerm));
                   break;
                 default:
                   navigate(item.path);
@@ -41,7 +44,7 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
         </div>
       );
     },
-    [defaultCopilotsTerm],
+    [defaultTerm],
   );
 
   const handleClickLogo = useCallback(() => {

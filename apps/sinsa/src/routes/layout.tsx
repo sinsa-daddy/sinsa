@@ -29,7 +29,7 @@ export default function Layout() {
 
   return (
     <ConfigProvider prefixCls="sinsa" theme={theme}>
-      <MyLayout defaultCopilotsTerm={terms.firstTerm?.term}>
+      <MyLayout defaultTerm={terms.firstTerm?.term}>
         <Outlet />
       </MyLayout>
     </ConfigProvider>

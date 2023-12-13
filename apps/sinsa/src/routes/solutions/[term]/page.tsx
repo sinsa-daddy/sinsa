@@ -6,9 +6,9 @@ import { useMemo } from 'react';
 import { fetcher } from '@/utils/swr';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { CopilotHeader } from '@/containers/CopilotHeader';
-import { CopilotsTable } from '@/components/CopilotsTable';
+import { CopilotSolution } from '@/containers/CopilotSolution';
 
-const CopilotsPage: React.FC = () => {
+const SolutionsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
 
   const { data, error, isLoading } = useSWR<
@@ -24,12 +24,12 @@ const CopilotsPage: React.FC = () => {
   return (
     <PageContainer
       content={<CopilotHeader />}
-      title="作业全览"
+      title="队伍匹配"
       loading={isLoading}
     >
-      <CopilotsTable term={params.term} dataSource={copilots} />
+      <CopilotSolution dataSource={copilots} />
     </PageContainer>
   );
 };
 
-export default CopilotsPage;
+export default SolutionsPage;

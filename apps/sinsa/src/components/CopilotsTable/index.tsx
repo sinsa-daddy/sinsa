@@ -29,17 +29,21 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
 }) => {
   const actionRef = useRef<ActionType>();
 
-  const deps = useMemo((): TableParams => ({ term }), [term]);
+  const deps = useMemo(
+    (): TableParams => ({ term, dataSource }),
+    [term, dataSource],
+  );
 
   const request = useCallback(async (params: TableParams) => {
     return {
-      data: dataSource.filter(item => {
-        let ok = true;
-        if (params.title) {
-          ok = item.title.includes(params.title);
-        }
-        return ok;
-      }),
+      data:
+        params.dataSource?.filter(item => {
+          let ok = true;
+          if (params.title) {
+            ok = item.title.includes(params.title);
+          }
+          return ok;
+        }) ?? [],
       success: true,
     };
   }, []);
