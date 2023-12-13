@@ -20,7 +20,6 @@ const TABLE_CONST_PROPS = {
     position: ['bottomCenter'] as any,
   },
   scroll: { x: 'max-content', scrollToFirstRowOnChange: true },
-  toolbar: { title: '收录作业' },
 } as const;
 
 export const CopilotsTable: React.FC<CopilotsTableProps> = ({
@@ -35,12 +34,23 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
   );
 
   const request = useCallback(async (params: TableParams) => {
+    console.log('params', params);
+
     return {
       data:
         params.dataSource?.filter(item => {
           let ok = true;
           if (params.title) {
             ok = item.title.includes(params.title);
+          }
+          // min
+          if (typeof params.score?.[0] === 'number') {
+            ok = params.score[0] <= item.score;
+          }
+
+          // max
+          if (typeof params.score?.[1] === 'number') {
+            ok = item.score <= params.score[1];
           }
           return ok;
         }) ?? [],
@@ -55,6 +65,7 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
       columns={copilotsColumns}
       params={deps}
       request={request}
+      search={{ filterType: 'light' }}
       {...TABLE_CONST_PROPS}
     />
   );

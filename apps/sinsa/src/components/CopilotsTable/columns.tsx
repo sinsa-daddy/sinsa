@@ -8,6 +8,7 @@ export interface TableParams {
   author?: CopilotType['author'];
   term?: `${number}`;
   dataSource?: CopilotType[];
+  score?: [number, undefined] | [number, number] | [undefined, number];
 }
 
 export const copilotsColumns: ProColumns<CopilotType>[] = [
@@ -24,8 +25,8 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     title: '结算分数',
     dataIndex: 'score',
     valueType: 'digit',
-    width: 130,
     hideInSearch: true,
+    width: 130,
   },
   {
     title: '作者',
@@ -66,5 +67,6 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     dataIndex: 'upload_time',
     valueType: 'dateTime',
     width: 160,
+    hideInSearch: true,
   },
 ];
