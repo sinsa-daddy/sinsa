@@ -11,7 +11,7 @@ import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';
 import { produce } from 'immer';
 import { useRequest } from 'ahooks';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { calculateAllScenariosAndScores } from '@/features/backtrack/calculate-all-scenarios-and-scores';
 import { AuroriansModel } from '@/models/aurorians';
 import { SolutionScenarioCard } from '@/components/SolutionScenarioCard';
@@ -42,6 +42,8 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   const [{ WHOLE_BOX }] = useModel(AuroriansModel);
 
   const formRef = useRef<ProFormInstance>();
+  const [current, setCurrent] = useState(1);
+  const inViewRef = useRef<HTMLDivElement>(null);
 
   const { data, loading, runAsync } = useRequest(
     async (params: QueryParams) => {
@@ -100,6 +102,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           formRef={formRef}
           onFinish={async params => {
             await runAsync(params);
+            setCurrent(1);
           }}
           // sub="寻找队伍方案"
           initialValues={initialValues}
@@ -139,6 +142,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               allowClear={false}
               radioType="button"
             />
+
             <ProFormRadio.Group
               name="box"
               label="Box 匹配"
@@ -174,10 +178,23 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           </ProForm.Group>
         </ProForm>
       </Card>
+      <div ref={inViewRef} />
       <List
         loading={loading}
         dataSource={data?.solutionResult?.scenarios}
-        pagination={{ align: 'center', defaultPageSize: 5 }}
+        pagination={{
+          align: 'center',
+          defaultPageSize: 5,
+          current,
+          onChange(page) {
+            setCurrent(page);
+            window.scrollTo({
+              top: inViewRef.current!.offsetTop,
+              behavior: 'smooth',
+            });
+          },
+          showSizeChanger: false,
+        }}
         rowKey={sc => sc.copilots.map(c => c.bv).join('')}
         renderItem={item => {
           return (
