@@ -55,15 +55,15 @@ export default defineConfig<'webpack'>({
             'https://registry.npmmirror.com/react-dom/18.2.0/files/umd/react-dom.production.min.js',
           ],
           runtimeCaching: [
-            {
-              method: 'GET',
-              urlPattern: /\/api\/copilots\/\d+\.json/,
-              handler: 'NetworkFirst',
-              options: {
-                cacheName: 'Copilots',
-                networkTimeoutSeconds: 8,
-              },
-            },
+            // {
+            //   method: 'GET',
+            //   urlPattern: /\/api\/copilots\/\d+\.json/,
+            //   handler: 'NetworkFirst',
+            //   options: {
+            //     cacheName: 'Copilots',
+            //     networkTimeoutSeconds: 8,
+            //   },
+            // },
             {
               method: 'GET',
               urlPattern: /\/api\/(aurorians|terms)\.json/,
