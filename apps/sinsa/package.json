@@ -10,7 +10,9 @@
     "new": "modern new",
     "lint": "modern lint",
     "upgrade": "modern upgrade",
-    "data": "modern fetch"
+    "data": "modern fetch",
+    "format-output": "modern format-output",
+    "sw": "workbox-cli generateSW workbox-config.js"
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.6.43",
@@ -46,6 +48,8 @@
     "prettier": "~2.8.1",
     "rimraf": "~3.0.2",
     "typescript": "~5.0.4",
+    "workbox-build": "^7.0.0",
+    "workbox-cli": "^7.0.0",
     "workbox-webpack-plugin": "^7.0.0"
   }
 }

@@ -37,8 +37,8 @@ jobs:
         env:
           LARK_SINSA_PUPPY_APP_SECRET: ${{ secrets.LARK_SINSA_PUPPY_APP_SECRET }}
         run: pnpm run build
-      - name: Enter into `sinsa-web` and Move
-        run: cd ./apps/sinsa && mv ./dist/public/** ./dist/
+      - name: Generate SW
+        run: cd ./apps/sinsa && pnpm run format-output && mv ./dist/public/** ./dist/ && pnpm run sw
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v2
       #   with:
