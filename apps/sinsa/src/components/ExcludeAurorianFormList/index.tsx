@@ -38,7 +38,6 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
               name={'aurorianName'}
               options={auroriansOptions}
               allowClear
-              showSearch
               width={'sm'}
               rules={[{ required: true }]}
             />
