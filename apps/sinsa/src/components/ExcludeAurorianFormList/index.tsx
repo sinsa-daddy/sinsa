@@ -85,7 +85,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
                         count: RarityMapper[targetAurorian.rarity],
                         allowHalf: false,
                       }}
-                      tooltip="此突破数以上的光灵会被排除，但不会排除零破的此光灵"
+                      tooltip="大于等于此突破数的光灵会被排除，但不会排除零破的此光灵"
                     />
                   );
                 }
