@@ -39,7 +39,7 @@ export default defineConfig<'webpack'>({
       appendPlugins(
         new GenerateSW({
           swDest: './sw.js',
-          exclude: [/\.json$/],
+          exclude: [/\.json$/, /\.js\.map$/, /\.LICENSE\.txt$/],
           skipWaiting: true,
           clientsClaim: true,
           additionalManifestEntries: [
