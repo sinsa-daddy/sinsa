@@ -33,8 +33,14 @@ export default defineConfig<'webpack'>({
       'react-dom': 'ReactDOM',
       // '@ant-design/pro-components': 'ProComponents',
     },
+    distPath: {
+      html: '',
+    },
   },
   tools: {
+    htmlPlugin: {
+      filename: 'index.html',
+    },
     webpack(_, { appendPlugins }) {
       appendPlugins(
         new GenerateSW({
