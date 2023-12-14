@@ -28,6 +28,13 @@ export const ElementURLMapper = {
   [AurorianAttributeType.Thunder]: E4,
 };
 
+export const ElementTextMapper = {
+  [AurorianAttributeType.Water]: '水',
+  [AurorianAttributeType.Fire]: '火',
+  [AurorianAttributeType.Forest]: '森',
+  [AurorianAttributeType.Thunder]: '雷',
+};
+
 export const ClassURLMapper = {
   [AurorianClassType.Converter]: C1,
   [AurorianClassType.Sniper]: C2,

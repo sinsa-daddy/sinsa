@@ -1,10 +1,12 @@
 import { model } from '@modern-js/runtime/model';
 import type {
+  AurorianAttributeType,
   AurorianSummaryType,
   AurorianType,
   MyBoxType,
 } from '@sinsa/schema';
-import { mapValues } from 'lodash-es';
+import { groupBy, mapValues } from 'lodash-es';
+import { ElementTextMapper } from '@/components/AurorianCard/constants';
 
 export interface AuroriansState {
   auroriansMap: Record<AurorianType['aurorian_name'], AurorianType>;
@@ -32,13 +34,20 @@ export const AuroriansModel = model<AuroriansState>('aurorians').define({
       };
     },
     auroriansOptions: state => {
-      return Object.values(state.auroriansMap).map(a => {
-        return {
-          label: `${a.aurorian_cn_name} ${a.aurorian_name}`,
-          value: a.aurorian_name,
-          extra: a,
-        };
-      });
+      return Object.entries(groupBy(state.auroriansMap, 'attribute')).map(
+        ([attribute, aurorians]) => {
+          return {
+            label: ElementTextMapper[attribute as AurorianAttributeType],
+            options: aurorians.map(a => {
+              return {
+                label: `${a.aurorian_cn_name} ${a.aurorian_name}`,
+                value: a.aurorian_name,
+                extra: a,
+              };
+            }),
+          };
+        },
+      );
     },
   },
   actions: {},
