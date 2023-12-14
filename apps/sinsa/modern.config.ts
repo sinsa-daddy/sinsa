@@ -3,7 +3,7 @@ import { formatOutputPlugin } from './plugins/foramt-output';
 import { fetchDataSourcePlugin } from './plugins/fetch-data-source-plugin';
 
 // https://modernjs.dev/en/configure/app/usage
-export default defineConfig<'webpack'>({
+export default defineConfig<'rspack'>({
   runtime: {
     router: {
       supportHtml5History: false,
@@ -12,7 +12,7 @@ export default defineConfig<'webpack'>({
   },
   plugins: [
     appTools({
-      // bundler: 'experimental-rspack',
+      bundler: 'experimental-rspack',
     }),
     fetchDataSourcePlugin(),
     formatOutputPlugin(),

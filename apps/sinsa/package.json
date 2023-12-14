@@ -12,7 +12,7 @@
     "upgrade": "modern upgrade",
     "data": "modern fetch",
     "format-output": "modern format-output",
-    "sw": "workbox-cli generateSW workbox-config.js"
+    "sw": "workbox generateSW workbox-config.js"
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.6.43",
