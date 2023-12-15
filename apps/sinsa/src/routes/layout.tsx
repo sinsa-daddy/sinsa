@@ -7,7 +7,7 @@ import type { LayoutLoaderData } from './layout.data';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
 import { useEffect } from 'react';
-import LogoURL from '@/assets/wrench.svg';
+import LogoURL from '@/assets/wrench-512.svg';
 
 const theme: ThemeConfig = {
   token: {
@@ -23,7 +23,7 @@ const manifest = {
   icons: [
     {
       type: 'image/svg+xml',
-      sizes: 'any',
+      sizes: '48x48 72x72 96x96 128x128 144x144 256x256 512x512',
       src: LogoURL,
       purpose: 'any',
     },
