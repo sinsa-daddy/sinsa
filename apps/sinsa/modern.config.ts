@@ -37,9 +37,6 @@ export default defineConfig<'rspack'>({
     distPath: {
       html: '',
     },
-    dataUriLimit: {
-      svg: 0,
-    },
   },
   tools: {
     htmlPlugin: {
