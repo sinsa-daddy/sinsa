@@ -44,7 +44,7 @@ export const WalineComment: React.FC<WalineOptions> = props => {
 
   useEffect(() => {
     walineInstanceRef.current?.update(props);
-  }, [props]);
+  }, []);
   return (
     <>
       <Typography.Title level={5}>这期荒典感觉怎样？</Typography.Title>
