@@ -6,6 +6,8 @@ import { MyLayout } from '../components/MyLayout';
 import type { LayoutLoaderData } from './layout.data';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
+import { useEffect } from 'react';
+import LogoURL from '@/assets/wrench.svg';
 
 const theme: ThemeConfig = {
   token: {
@@ -13,7 +15,29 @@ const theme: ThemeConfig = {
   },
 };
 
+const manifest = {
+  name: '红油扳手作业站',
+  start_url: '/',
+  display: 'standalone',
+  description: '您的荒典抄作业小帮手',
+  icons: [
+    {
+      type: 'image/svg+xml',
+      sizes: 'any',
+      src: LogoURL,
+    },
+  ],
+};
+
+const stringManifest = JSON.stringify(manifest);
+
 export default function Layout() {
+  useEffect(() => {
+    const blob = new Blob([stringManifest], { type: 'application/json' });
+    const manifestURL = URL.createObjectURL(blob);
+    document.querySelector('#manifest-placeholder')?.setAttribute('href', manifestURL);
+  }, []);
+
   const { terms: termsFromRemote, auroriansMap: auroriansMapFromRemote } =
     useLoaderData() as LayoutLoaderData;
 
