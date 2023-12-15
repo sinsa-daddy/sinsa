@@ -53,7 +53,7 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     render(dom, entity) {
       return (
         <Typography.Link
-          href={`https://b23.tv/${entity.bv}`}
+          href={`https://www.bilibili.com/video/${entity.bv}`}
           target="_blank"
           title={entity.title}
         >
