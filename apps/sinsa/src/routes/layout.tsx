@@ -17,13 +17,13 @@ const theme: ThemeConfig = {
 
 const manifest = {
   name: '红油扳手作业站',
-  start_url: './',
+  start_url: './index.html',
   display: 'standalone',
   description: '您的荒典抄作业小帮手',
   icons: [
     {
       type: 'image/svg+xml',
-      sizes: '48x48 72x72 96x96 128x128 144x144 256x256 512x512',
+      sizes: 'any',
       src: LogoURL,
       purpose: 'any',
     },
