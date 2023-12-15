@@ -85,6 +85,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
                         allowHalf: false,
                       }}
                       tooltip="大于等于此突破数的光灵会被排除，但不会排除零破的此光灵"
+                      rules={[{ required: true }]}
                     />
                   );
                 }

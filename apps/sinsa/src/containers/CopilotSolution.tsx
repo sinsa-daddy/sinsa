@@ -84,6 +84,24 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
         rankSet.set(target, i);
       }
 
+      gtag('event', 'get_solution_result', {
+        k: params.k,
+        box: params.box,
+        disalbeAlternative: params.disalbeAlternative,
+        enableExclude: params.enableExclude,
+        solutions_length: solutionResult.scenarios.length,
+        exclude: params.exclude
+          ?.map(
+            xclude =>
+              `${xclude.aurorianName}_${
+                (xclude.excludeBreakthroughOnly &&
+                  xclude.excludeBreakthrough) ||
+                ''
+              }`,
+          )
+          .join(','),
+      });
+
       return {
         solutionResult,
         rankSet,
