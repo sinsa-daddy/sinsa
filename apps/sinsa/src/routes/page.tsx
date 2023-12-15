@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { Button, Checkbox, Image, Tag, Typography } from 'antd';
 import React from 'react';
-import { Link } from '@modern-js/runtime/router';
+import { Link, useLocation } from '@modern-js/runtime/router';
 import { useModel } from '@modern-js/runtime/model';
 import QunURL from '@/assets/docs/qun.webp';
 import { TermsModel } from '@/models/terms';
@@ -9,6 +9,7 @@ import { RoutePath } from '@/components/MyLayout/constants';
 
 const Index = React.memo(() => {
   const [{ firstTerm }] = useModel(TermsModel);
+  const location = useLocation();
 
   return (
     <PageContainer
@@ -36,8 +37,13 @@ const Index = React.memo(() => {
         <Checkbox checked={true}>根据收录作业提供最佳队伍匹配方案</Checkbox>
         {firstTerm ? (
           <Link
-            id="ga_navigate_to_solutions_page_link"
             to={RoutePath.Solutions(firstTerm.term)}
+            onClick={e => {
+              e.stopPropagation();
+              gtag('event', 'navigate_to_solutions_page', {
+                source_pathname: location.pathname,
+              });
+            }}
           >
             <Button type="primary">立即试试</Button>
           </Link>
