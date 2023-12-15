@@ -35,7 +35,7 @@ export default function Layout() {
   useEffect(() => {
     const blob = new Blob([stringManifest], { type: 'application/json' });
     const manifestURL = URL.createObjectURL(blob);
-    document.querySelector('#manifest-placeholder')?.setAttribute('href', manifestURL);
+    document.querySelector('#manifest-pwa-placeholder')?.setAttribute('href', manifestURL);
   }, []);
 
   const { terms: termsFromRemote, auroriansMap: auroriansMapFromRemote } =
