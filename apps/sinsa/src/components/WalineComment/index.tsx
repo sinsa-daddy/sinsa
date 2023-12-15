@@ -4,6 +4,7 @@ import {
   type WalineInitOptions,
   init,
 } from '@waline/client';
+import { Typography } from 'antd';
 
 export type WalineOptions = Omit<WalineInitOptions, 'el'> & { path: string };
 
@@ -15,7 +16,17 @@ export const WalineComment: React.FC<WalineOptions> = props => {
     walineInstanceRef.current = init({
       ...props,
       el: containerRef.current,
-      locale: {},
+      locale: {
+        admin: '管理员',
+        level0: 'LV1',
+        level1: 'LV2',
+        level2: 'LV3',
+        level3: 'LV4',
+        level4: 'LV5',
+        level5: 'LV6',
+        submit: '评论',
+        placeholder: '我们的评论也是超美学的',
+      },
       emoji: [
         '//registry.npmmirror.com/@waline/emojis/1.2.0/files/bmoji',
         '//registry.npmmirror.com/@waline/emojis/1.2.0/files/alus',
@@ -34,5 +45,10 @@ export const WalineComment: React.FC<WalineOptions> = props => {
   useEffect(() => {
     walineInstanceRef.current?.update(props);
   }, [props]);
-  return <div ref={containerRef} />;
+  return (
+    <>
+      <Typography.Title level={5}>这期荒典感觉怎样？</Typography.Title>
+      <div ref={containerRef} />
+    </>
+  );
 };

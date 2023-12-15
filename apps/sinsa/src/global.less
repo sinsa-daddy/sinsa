@@ -5,6 +5,8 @@
   // --waline-info-font-size: 14px;
   --waline-border: none;
   --waline-border-color: #d9d9d9;
+  --waline-badge-color: #dc5950;
+  --waline-info-bgcolor: white;
 }
 
 // waline
@@ -12,12 +14,16 @@
   & * {
     font-size: 14px !important;
   }
-  margin: 1rem 0 0 0;
+  margin: 0;
   border-radius: 6px;
 
   .wl-header {
     border-bottom: 1px solid var(--waline-border-color);
   }
+}
+
+.wl-editor {
+  min-height: 4rem;
 }
 
 // .wl-comment,
