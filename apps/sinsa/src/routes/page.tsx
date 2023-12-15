@@ -9,6 +9,7 @@ import { RoutePath } from '@/components/MyLayout/constants';
 
 const Index = React.memo(() => {
   const [{ firstTerm }] = useModel(TermsModel);
+
   return (
     <PageContainer
       title="红油扳手作业站"
@@ -35,7 +36,7 @@ const Index = React.memo(() => {
         <Checkbox checked={true}>根据收录作业提供最佳队伍匹配方案</Checkbox>
         {firstTerm ? (
           <Link
-            id="link-jump-to-solutions"
+            id="ga_navigate_to_solutions_page_link"
             to={RoutePath.Solutions(firstTerm.term)}
           >
             <Button type="primary">立即试试</Button>
