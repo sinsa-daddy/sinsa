@@ -28,8 +28,8 @@ export const WalineComment: React.FC<WalineOptions> = props => {
         placeholder: '我们的评论也是超美学的',
       },
       emoji: [
-        '//registry.npmmirror.com/@waline/emojis/1.2.0/files/bmoji',
         '//registry.npmmirror.com/@waline/emojis/1.2.0/files/alus',
+        '//registry.npmmirror.com/@waline/emojis/1.2.0/files/bmoji',
       ],
       search: false,
     });
