@@ -3,10 +3,10 @@ import {
   ProFormDependency,
   ProFormList,
   ProFormRate,
-  ProFormSelect,
   ProFormSwitch,
 } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
+import { Select } from 'antd';
 import { RarityMapper } from '../AurorianCard/constants';
 import { AurorianCard } from '../AurorianCard';
 import { AuroriansModel, filterAuroriansOption } from '@/models/aurorians';
@@ -20,6 +20,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
   ...props
 }) => {
   const [{ auroriansOptions, auroriansMap }] = useModel(AuroriansModel);
+  console.log('auroriansOptions', auroriansOptions);
   return (
     <ProFormList
       {...props}
@@ -33,17 +34,19 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
       {() => {
         return (
           <ProForm.Group>
-            <ProFormSelect
+            <ProForm.Item
               label="排除的光灵"
               name={'aurorianName'}
-              options={auroriansOptions}
-              fieldProps={{ filterOption: filterAuroriansOption }}
-              placeholder={'支持按拼音搜索光灵, 比如 ad 可以搜到 安顿'}
-              allowClear
-              width={'sm'}
               rules={[{ required: true }]}
-              showSearch
-            />
+            >
+              <Select
+                options={auroriansOptions}
+                showSearch
+                allowClear={false}
+                placeholder={'支持按拼音搜索光灵, 比如 ad 可以搜到 安顿'}
+                filterOption={filterAuroriansOption}
+              />
+            </ProForm.Item>
             <ProFormDependency
               key="excludeBreakthroughOnly"
               name={['aurorianName']}

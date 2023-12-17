@@ -26,9 +26,13 @@ export function filterAuroriansOption(
   if (Array.isArray(option?.options)) {
     return false;
   }
+
   if (typeof option?.label === 'string') {
-    return match(option.label, inputValue, { precision: 'start' });
+    return match(option?.label, inputValue, {
+      precision: 'start',
+    });
   }
+
   return false;
 }
 
@@ -62,7 +66,6 @@ export const AuroriansModel = model<AuroriansState>('aurorians').define({
               return {
                 label: a.aurorian_cn_name,
                 value: a.aurorian_name,
-                extra: a,
               };
             }),
           } as AuroriansOption;
