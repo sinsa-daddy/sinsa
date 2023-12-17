@@ -95,7 +95,10 @@ const Index = React.memo(() => {
           有飞书账号且加入我们红油扳手飞书群
         </Typography.Text>
       </Typography.Paragraph>
-      <Link to={RoutePath.Upload}>
+      <Link
+        to={`https://sinsa-daddy.netlify.app/#${RoutePath.Upload}`}
+        target="_self"
+      >
         <Button type="primary">去收录</Button>
       </Link>
     </PageContainer>
