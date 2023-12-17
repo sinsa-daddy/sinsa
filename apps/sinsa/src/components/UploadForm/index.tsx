@@ -81,7 +81,16 @@ export const UploadForm: React.FC = () => {
             });
             formRef.current?.resetFields();
             mutate(undefined);
+          } else {
+            notification.error({
+              message: `没有上传成功 ${JSON.stringify(result, null, 2)}`,
+            });
+            console.log('upload failed', result, parsed);
           }
+        } else {
+          notification.error({
+            message: `解析表单失败 ${JSON.stringify(values, null, 2)}`,
+          });
         }
       }}
     >
