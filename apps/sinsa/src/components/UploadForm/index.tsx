@@ -12,7 +12,7 @@ import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
 import { Button, notification } from 'antd';
 import { useRequest } from 'ahooks';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { CopilotAurorianSummaryType, CopilotSchema } from '@sinsa/schema';
 import { LARK_ORIGIN } from '../LarkLoginCard/constants';
 import type { BilibiliVideoType } from './types';
@@ -54,11 +54,14 @@ export const UploadForm: React.FC = () => {
     { manual: true },
   );
 
+  const [loadingValidateBV, setLoadingValidateBV] = useState(false);
+
   const formRef = useRef<ProFormInstance<FormValues>>();
 
   return (
     <ProForm<FormValues>
       formRef={formRef}
+      loading={loadingValidateBV}
       onFinish={async (values: unknown) => {
         const parsed = CopilotSchema.safeParse(values);
         if (parsed.success) {
@@ -117,6 +120,7 @@ export const UploadForm: React.FC = () => {
                 { pattern: /^BV.+$/, message: 'BV号格式不正确' },
                 {
                   async validator(_, bv) {
+                    setLoadingValidateBV(true);
                     const result = await fetch(
                       `${LARK_ORIGIN}/lark/check?bv=${bv}&term=${term}`,
                       {
@@ -135,6 +139,7 @@ export const UploadForm: React.FC = () => {
                         );
                       }
                     }
+                    setLoadingValidateBV(false);
                   },
                 },
               ]}
