@@ -196,6 +196,7 @@ export class DataSourceGenerator {
         },
         params: {
           page_size: 100,
+          sort: `["rarity DESC", "class ASC"]`,
         },
       },
     )) {
