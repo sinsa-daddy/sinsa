@@ -42,6 +42,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
               allowClear
               width={'sm'}
               rules={[{ required: true }]}
+              showSearch
             />
             <ProFormDependency
               key="excludeBreakthroughOnly"
