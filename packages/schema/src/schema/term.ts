@@ -8,6 +8,7 @@ export const TermSchema = z.object({
   start_time: z.coerce.date(),
   end_time: z.coerce.date(),
   features: z.string(),
+  _record_id: z.string().startsWith('rec'),
 });
 
 export type TermType = z.infer<typeof TermSchema>;

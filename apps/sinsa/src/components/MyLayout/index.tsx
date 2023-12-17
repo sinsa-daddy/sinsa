@@ -1,6 +1,6 @@
 import { ProLayout } from '@ant-design/pro-components';
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-components';
 import { MY_ROUTE, RoutePath } from './constants';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
@@ -49,6 +49,16 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
 
   const handleClickLogo = useCallback(() => {
     navigate('/');
+  }, []);
+
+  useEffect(() => {
+    const currentURL = new URL(window.location.href);
+    if (
+      currentURL.searchParams.has('code') &&
+      currentURL.searchParams.has('state')
+    ) {
+      window.location.href = `${window.location.origin}/#${RoutePath.Upload}${currentURL.search}`;
+    }
   }, []);
 
   return (

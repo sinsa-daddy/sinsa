@@ -8,8 +8,8 @@ const LARK_SINSA_PUPPY_APP_ID = 'cli_a5d98466bd7e500e';
 const LARK_SINSA_PUPPY_APP_SECRET = process.env.LARK_SINSA_PUPPY_APP_SECRET;
 
 const COPILOT_APP_TOKEN = 'UDU9bhMetawhSesFVv9cUUNLnZa';
-const AURORIAN_APP_TOKEN = 'Aucwbe7LIaB1vis5gSCcSLJAnqh';
-const AURORIAN_TABLE_ID = 'tblZGEdXTgTvAlwR';
+const AURORIAN_APP_TOKEN = COPILOT_APP_TOKEN;
+const AURORIAN_TABLE_ID = 'tbl7MMSuSGDToEgl';
 
 export function fetchDataSourcePlugin(): CliPlugin {
   return {

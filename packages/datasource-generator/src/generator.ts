@@ -146,7 +146,10 @@ export class DataSourceGenerator {
         if (Array.isArray(responseItem?.items) && responseItem?.items.length) {
           for (const item of responseItem.items) {
             try {
-              const term = TermSchema.parse(item.fields);
+              const term = TermSchema.parse({
+                ...item.fields,
+                _record_id: item.record_id,
+              });
               if (allTerms.has(term.term.toString())) {
                 termsInBossTable.push(term);
               }
@@ -205,7 +208,10 @@ export class DataSourceGenerator {
           //   console.log(`Failed to parse ${item}`);
           // }
 
-          const aurorian = AurorianSchema.parse(item.fields);
+          const aurorian = AurorianSchema.parse({
+            ...item.fields,
+            _record_id: item.record_id,
+          });
           auroriansMap[aurorian.aurorian_name] = aurorian;
         }
       }

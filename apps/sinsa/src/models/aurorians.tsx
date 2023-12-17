@@ -6,10 +6,30 @@ import type {
   MyBoxType,
 } from '@sinsa/schema';
 import { groupBy, mapValues } from 'lodash-es';
+import { match } from 'pinyin-pro';
+import React from 'react';
 import { ElementTextMapper } from '@/components/AurorianCard/constants';
 
 export interface AuroriansState {
   auroriansMap: Record<AurorianType['aurorian_name'], AurorianType>;
+}
+
+export interface AuroriansOption {
+  label: React.ReactNode;
+  options?: { label: string; value: string; options?: unknown[] }[];
+}
+
+export function filterAuroriansOption(
+  inputValue: string,
+  option?: AuroriansOption,
+) {
+  if (Array.isArray(option?.options)) {
+    return false;
+  }
+  if (typeof option?.label === 'string') {
+    return match(option.label, inputValue, { precision: 'start' });
+  }
+  return false;
 }
 
 export const AuroriansModel = model<AuroriansState>('aurorians').define({
@@ -40,12 +60,12 @@ export const AuroriansModel = model<AuroriansState>('aurorians').define({
             label: ElementTextMapper[attribute as AurorianAttributeType],
             options: aurorians.map(a => {
               return {
-                label: `${a.aurorian_cn_name} ${a.aurorian_name}`,
+                label: a.aurorian_cn_name,
                 value: a.aurorian_name,
                 extra: a,
               };
             }),
-          };
+          } as AuroriansOption;
         },
       );
     },

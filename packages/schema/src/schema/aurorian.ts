@@ -78,6 +78,7 @@ export const AurorianSchema = z.object({
     .enum(['cn', 'global'])
     .array()
     .describe('光灵所在服务器（国服、国际服）'),
+  _record_id: z.string().startsWith('rec'),
 });
 
 /**

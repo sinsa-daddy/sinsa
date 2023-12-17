@@ -36,6 +36,7 @@ export default defineConfig<'rspack'>({
       react: 'React',
       'react-dom': 'ReactDOM',
       '@waline/client': 'Waline',
+      'pinyin-pro': 'pinyinPro',
       // '@ant-design/pro-components': 'ProComponents',
     },
     distPath: {

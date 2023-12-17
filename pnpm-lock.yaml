@@ -74,6 +74,9 @@ importers:
       numeral:
         specifier: ^2.0.6
         version: 2.0.6
+      pinyin-pro:
+        specifier: ^3.18.4
+        version: 3.18.4
       react:
         specifier: ~18.2.0
         version: 18.2.0
@@ -11527,6 +11530,10 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
     dev: true
+
+  /pinyin-pro@3.18.4:
+    resolution: {integrity: sha512-P2PYCyzcK/R3MWSQQSRg9G1JFh3/ooEuA8lkQ2BkQOM665X0wHKW19bJ6+zqwUXLSaXtKC5NI58fCw4HrP7L1Q==}
+    dev: false
 
   /pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}

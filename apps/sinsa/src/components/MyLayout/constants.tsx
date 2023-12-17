@@ -9,6 +9,7 @@ export const RoutePath = {
   Copilots: (term: string | number = ':term') => `/copilots/${term}`,
   Number33: '/number33',
   MyBox: '/my-box',
+  Upload: '/upload',
 } as const;
 
 export const MY_ROUTE = {

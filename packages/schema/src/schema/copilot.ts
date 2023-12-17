@@ -6,7 +6,7 @@ export const RemoteCopilotSchema = z.object({
   title: z.string(),
   description: z.optional(z.string()),
   author: z.string(),
-  insert_db_time: z.coerce.date(),
+  insert_db_time: z.optional(z.coerce.date()),
   upload_time: z.coerce.date(),
   score: z.coerce.bigint(),
   term: z.tuple([
@@ -67,7 +67,7 @@ export const CopilotSchema = z.object({
   title: z.string(),
   description: z.optional(z.string()),
   author: z.string(),
-  insert_db_time: z.coerce.date(),
+  insert_db_time: z.optional(z.coerce.date()),
   upload_time: z.coerce.date(),
   score: z.coerce.bigint(),
   term: z.coerce.number().int(),

@@ -20,6 +20,13 @@ export const TermsModel = model<TermsState>('terms').define({
           extra: t,
         };
       }),
+    termsMap: state => {
+      const result: Record<TermType['term'], TermType> = {};
+      for (const t of state.terms) {
+        result[t.term] = t;
+      }
+      return result;
+    },
   },
   actions: {},
 });

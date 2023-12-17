@@ -9,7 +9,7 @@ import {
 import { useModel } from '@modern-js/runtime/model';
 import { RarityMapper } from '../AurorianCard/constants';
 import { AurorianCard } from '../AurorianCard';
-import { AuroriansModel } from '@/models/aurorians';
+import { AuroriansModel, filterAuroriansOption } from '@/models/aurorians';
 
 interface ExcludeFormListProps {
   name: string;
@@ -37,6 +37,8 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
               label="排除的光灵"
               name={'aurorianName'}
               options={auroriansOptions}
+              fieldProps={{ filterOption: filterAuroriansOption }}
+              placeholder={'支持按拼音搜索光灵, 比如 ad 可以搜到 安顿'}
               allowClear
               width={'sm'}
               rules={[{ required: true }]}
