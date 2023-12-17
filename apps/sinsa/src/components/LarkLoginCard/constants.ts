@@ -4,5 +4,5 @@ export const LARK_SCOPE = `bitable:app`;
 
 export const LARK_ORIGIN =
   process.env.NODE_ENV === 'production'
-    ? 'http://8.134.125.149/api'
+    ? '/api-upload'
     : 'http://localhost:3000';
