@@ -88,6 +88,16 @@ const Index = React.memo(() => {
           https://sinsa-daddy.netlify.app/
         </Typography.Link>{' '}
       </Typography.Paragraph>
+      <Typography.Title level={4}>作业收录</Typography.Title>
+      <Typography.Paragraph>
+        如果您是我们的作业收录同学，可以从这里跳转到对应收录页面，需要您
+        <Typography.Text strong>
+          有飞书账号且加入我们红油扳手飞书群
+        </Typography.Text>
+      </Typography.Paragraph>
+      <Link to={RoutePath.Upload}>
+        <Button type="primary">去收录</Button>
+      </Link>
     </PageContainer>
   );
 });

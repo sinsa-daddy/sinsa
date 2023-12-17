@@ -1,4 +1,5 @@
 import {
+  FooterToolbar,
   ProForm,
   ProFormDateTimePicker,
   ProFormDependency,
@@ -18,6 +19,7 @@ import { LARK_ORIGIN } from '../LarkLoginCard/constants';
 import type { BilibiliVideoType } from './types';
 import { CopilotnSelector } from './CopilotSelector';
 import { toInputRemoteCopilot } from './utils/toInputRemoteCopilot';
+import styles from './styles.module.less';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
 
@@ -62,6 +64,13 @@ export const UploadForm: React.FC = () => {
     <ProForm<FormValues>
       formRef={formRef}
       // loading={loadingValidateBV}
+      submitter={{
+        submitButtonProps: { loading: loadingValidateBV },
+        render: (_, dom) => (
+          <FooterToolbar className={styles.FootBar}>{dom}</FooterToolbar>
+        ),
+        searchConfig: { submitText: '提交作业' },
+      }}
       onFinish={async (values: unknown) => {
         const parsed = CopilotSchema.safeParse(values);
         if (parsed.success) {
@@ -120,26 +129,30 @@ export const UploadForm: React.FC = () => {
                 { pattern: /^BV.+$/, message: 'BV号格式不正确' },
                 {
                   async validator(_, bv) {
-                    setLoadingValidateBV(true);
-                    const result = await fetch(
-                      `${LARK_ORIGIN}/lark/check?bv=${bv}&term=${term}`,
-                      {
-                        mode: 'cors',
-                        credentials: 'include',
-                      },
-                    ).then(res => res.json());
-                    if (result?.noExist || result?.target) {
-                      if (result?.target) {
-                        throw new Error(
-                          `${
+                    if (typeof bv === 'string' && bv.startsWith('BV')) {
+                      setLoadingValidateBV(true);
+                      const result = await fetch(
+                        `${LARK_ORIGIN}/lark/check?bv=${bv}&term=${term}`,
+                        {
+                          mode: 'cors',
+                          credentials: 'include',
+                        },
+                      ).then(res => res.json());
+                      if (result?.noExist || result?.target) {
+                        if (result?.target) {
+                          const errorMessage = `${
                             result?.target?.fields?.creator?.name
                           } 已经在 ${dayjs(
                             result?.target?.fields?.insert_db_time,
-                          ).format('YYYY-MM-DD HH:mm:ss')} 添加了此作业`,
-                        );
+                          ).format('YYYY-MM-DD HH:mm:ss')} 添加了此作业`;
+                          notification.error({
+                            message: `${errorMessage}. 撞车了~ 请更换作业收录`,
+                          });
+                          throw new Error(errorMessage);
+                        }
                       }
+                      setLoadingValidateBV(false);
                     }
-                    setLoadingValidateBV(false);
                   },
                 },
               ]}
@@ -150,7 +163,7 @@ export const UploadForm: React.FC = () => {
           <ProFormDependency name={['bv']}>
             {({ bv }) => (
               <Button
-                disabled={!bv}
+                disabled={!(typeof bv === 'string' && bv.startsWith('BV'))}
                 type="primary"
                 loading={loading}
                 onClick={async e => {
@@ -168,7 +181,7 @@ export const UploadForm: React.FC = () => {
                   }
                 }}
               >
-                读取视频基础信息
+                读取视频信息
               </Button>
             )}
           </ProFormDependency>

@@ -73,7 +73,7 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
       onMenuHeaderClick={handleClickLogo}
       siderWidth={200}
       layout="mix"
-      token={{ pageContainer: { paddingInlinePageContainerContent: 24 } }}
+      token={{ pageContainer: { paddingInlinePageContainerContent: 8 } }}
     >
       {children}
     </ProLayout>
