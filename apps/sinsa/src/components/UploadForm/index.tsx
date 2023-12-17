@@ -61,7 +61,7 @@ export const UploadForm: React.FC = () => {
   return (
     <ProForm<FormValues>
       formRef={formRef}
-      loading={loadingValidateBV}
+      // loading={loadingValidateBV}
       onFinish={async (values: unknown) => {
         const parsed = CopilotSchema.safeParse(values);
         if (parsed.success) {
