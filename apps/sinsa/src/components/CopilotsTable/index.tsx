@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef } from 'react';
 import type { ActionType } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
+import { SortOrder } from 'antd/es/table/interface';
 import { type TableParams, copilotsColumns } from './columns';
 
 interface CopilotsTableProps {
@@ -33,9 +34,9 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
     [term, dataSource],
   );
 
-  const request = useCallback(async (params: TableParams) => {
-    return {
-      data:
+  const request = useCallback(
+    async (params: TableParams, sort: Record<string, SortOrder>) => {
+      const base =
         params.dataSource?.filter(item => {
           let ok = true;
           if (params.title) {
@@ -51,10 +52,18 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
             ok = item.score <= params.score[1];
           }
           return ok;
-        }) ?? [],
-      success: true,
-    };
-  }, []);
+        }) ?? [];
+      return {
+        data: sort.score
+          ? base.sort((a, b) =>
+              sort.score === 'ascend' ? a.score - b.score : b.score - a.score,
+            )
+          : base,
+        success: true,
+      };
+    },
+    [],
+  );
 
   return (
     <ProTable<CopilotType, TableParams>

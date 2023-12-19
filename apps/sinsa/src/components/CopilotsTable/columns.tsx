@@ -27,6 +27,7 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     valueType: 'digit',
     hideInSearch: true,
     width: 130,
+    sorter: true,
   },
   {
     title: '作者',

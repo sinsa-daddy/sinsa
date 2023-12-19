@@ -99,7 +99,7 @@ export class DataSourceGenerator {
               const copilot = toCopilot(remoteCopilot);
               copilotsInThisTable.push(copilot);
             } catch {
-              console.log(`Failed to parse ${item}`);
+              console.log(`Failed to parse ${item}`, item);
             }
           }
         }
