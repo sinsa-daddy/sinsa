@@ -169,9 +169,9 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               label="队伍数量"
               rules={[{ required: true }]}
               options={[
-                { label: '两支队伍', value: 2 },
-                { label: '三支队伍', value: 3 },
-                { label: '四支队伍', value: 4 },
+                { label: '两队', value: 2 },
+                { label: '三队', value: 3 },
+                { label: '四队', value: 4 },
               ]}
               allowClear={false}
               radioType="button"
@@ -182,7 +182,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               label="Box 匹配"
               options={[
                 { label: '全图鉴满突破 Box', value: 'whole' },
-                { label: '我的自定义 Box', value: 'my-box', disabled: true },
+                { label: '自定义 Box', value: 'my-box', disabled: true },
               ]}
               allowClear={false}
               radioType="button"
