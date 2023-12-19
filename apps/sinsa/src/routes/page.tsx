@@ -72,13 +72,13 @@ const Index = React.memo(() => {
           https://sinsa-daddy.github.io/
         </Typography.Link>
       </Typography.Paragraph>
-      <Typography.Paragraph>
+      {/* <Typography.Paragraph>
         国内镜像站点{' '}
         <Typography.Link href="https://sinsa-daddy.gitee.io/" target="_self">
           https://sinsa-daddy.gitee.io/
         </Typography.Link>{' '}
         <Tag color="blue">推荐</Tag>
-      </Typography.Paragraph>
+      </Typography.Paragraph> */}
       <Typography.Paragraph>
         国外镜像站点{' '}
         <Typography.Link href="https://sinsa-daddy.pages.dev/" target="_self">

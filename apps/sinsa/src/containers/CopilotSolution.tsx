@@ -12,6 +12,7 @@ import numeral from 'numeral';
 import { produce } from 'immer';
 import { useLocalStorageState, useRequest } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
+import { useLocation } from '@modern-js/runtime/router';
 import { calculateAllScenariosAndScores } from '@/features/backtrack/calculate-all-scenarios-and-scores';
 import { AuroriansModel } from '@/models/aurorians';
 import { SolutionScenarioCard } from '@/components/SolutionScenarioCard';
@@ -37,6 +38,14 @@ interface QueryParams {
 }
 
 const initialValues = { k: 3, box: 'whole', exclude: [{}] as any[] } as const;
+
+const BASE_TEAM_COUNT = [
+  { label: '两队', value: 2 },
+  { label: '三队', value: 3 },
+  { label: '四队', value: 4 },
+];
+
+const EXTENDED_TEAM_COUNT = [{ label: '一队', value: 1 }, ...BASE_TEAM_COUNT];
 
 export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   dataSource,
@@ -127,7 +136,10 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
     },
   );
 
-  console.log('localSetting', localSetting);
+  const location = useLocation();
+  const COUNT = location.search.includes('k1')
+    ? EXTENDED_TEAM_COUNT
+    : BASE_TEAM_COUNT;
 
   return (
     <>
@@ -178,11 +190,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               name="k"
               label="队伍数量"
               rules={[{ required: true }]}
-              options={[
-                { label: '两队', value: 2 },
-                { label: '三队', value: 3 },
-                { label: '四队', value: 4 },
-              ]}
+              options={COUNT}
               allowClear={false}
               radioType="button"
             />
