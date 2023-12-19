@@ -1,6 +1,9 @@
 <!-- 注册 Service Worker -->
 <script defer>
-  if ('serviceWorker' in window.navigator) {
+  if (
+    'serviceWorker' in window.navigator &&
+    window.location.hostname !== 'localhost'
+  ) {
     window.addEventListener('load', () => {
       window.navigator.serviceWorker.register('/sw.js', { scope: '/' });
     });

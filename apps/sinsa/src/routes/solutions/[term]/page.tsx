@@ -32,7 +32,9 @@ const SolutionsPage: React.FC = () => {
       title="作业匹配"
       loading={loading}
     >
-      <CopilotSolution dataSource={copilots} />
+      {params.term ? (
+        <CopilotSolution dataSource={copilots} term={params.term} />
+      ) : null}
     </PageContainer>
   );
 };

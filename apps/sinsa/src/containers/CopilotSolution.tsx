@@ -10,8 +10,8 @@ import { Card, List, Space, Typography } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';
 import { produce } from 'immer';
-import { useRequest } from 'ahooks';
-import { useRef, useState } from 'react';
+import { useLocalStorageState, useRequest } from 'ahooks';
+import { useMemo, useRef, useState } from 'react';
 import { calculateAllScenariosAndScores } from '@/features/backtrack/calculate-all-scenarios-and-scores';
 import { AuroriansModel } from '@/models/aurorians';
 import { SolutionScenarioCard } from '@/components/SolutionScenarioCard';
@@ -20,6 +20,7 @@ import type { SolutionScenario } from '@/features/backtrack/types';
 
 interface CopilotSolutionProps {
   dataSource: CopilotType[];
+  term: `${number}`;
 }
 
 interface QueryParams {
@@ -32,18 +33,31 @@ interface QueryParams {
     excludeBreakthrough?: number;
     excludeBreakthroughOnly?: boolean;
   }[];
+  enableSaveLocalStorage?: boolean;
 }
 
 const initialValues = { k: 3, box: 'whole', exclude: [{}] as any[] } as const;
 
 export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   dataSource,
+  term,
 }) => {
   const [{ WHOLE_BOX }] = useModel(AuroriansModel);
 
   const formRef = useRef<ProFormInstance>();
   const [current, setCurrent] = useState(1);
   const inViewRef = useRef<HTMLDivElement>(null);
+  const LOCAL_STORAGE_SETTING_KEY = useMemo(
+    () => `SINSA_DADDY_SOLUTIONS_FILTER_KEY_V1_${term}` as const,
+    [term],
+  );
+
+  const [localSetting, setLocalSetting] = useLocalStorageState(
+    LOCAL_STORAGE_SETTING_KEY,
+    {
+      defaultValue: undefined,
+    },
+  );
 
   const { data, loading, runAsync } = useRequest(
     async (params: QueryParams) => {
@@ -113,6 +127,8 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
     },
   );
 
+  console.log('localSetting', localSetting);
+
   return (
     <>
       <Card style={{ marginBottom: '1rem' }}>
@@ -123,7 +139,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
             setCurrent(1);
           }}
           // sub="寻找队伍方案"
-          initialValues={initialValues}
+          initialValues={localSetting ?? initialValues}
           layout="vertical"
           submitter={{
             // render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
@@ -193,6 +209,23 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
                 }}
               </ProFormDependency>
             </ProForm.Group>
+            <ProFormSwitch
+              name={'enableSaveLocalStorage'}
+              label="记住我的设置"
+              tooltip="开启后，当前筛选的设置将会储存在您的浏览器本地，避免繁琐重复筛选"
+              fieldProps={{
+                onChange(enableSaveLocalStorage) {
+                  if (enableSaveLocalStorage) {
+                    const currentFormValues = formRef.current?.getFieldsValue();
+                    if (currentFormValues) {
+                      setLocalSetting(currentFormValues);
+                    }
+                  } else {
+                    setLocalSetting(undefined);
+                  }
+                },
+              }}
+            />
           </ProForm.Group>
         </ProForm>
       </Card>
