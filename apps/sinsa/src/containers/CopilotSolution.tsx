@@ -162,6 +162,16 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
             },
           }}
           loading={loading}
+          onValuesChange={(_, allValues) => {
+            if (allValues.enableSaveLocalStorage) {
+              const currentFormValues = formRef.current?.getFieldsValue();
+              if (currentFormValues) {
+                setLocalSetting(currentFormValues);
+              }
+            } else {
+              setLocalSetting(undefined);
+            }
+          }}
         >
           <ProForm.Group>
             <ProFormRadio.Group
@@ -213,18 +223,6 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               name={'enableSaveLocalStorage'}
               label="记住我的设置"
               tooltip="开启后，当前筛选的设置将会储存在您的浏览器本地，避免繁琐重复筛选"
-              fieldProps={{
-                onChange(enableSaveLocalStorage) {
-                  if (enableSaveLocalStorage) {
-                    const currentFormValues = formRef.current?.getFieldsValue();
-                    if (currentFormValues) {
-                      setLocalSetting(currentFormValues);
-                    }
-                  } else {
-                    setLocalSetting(undefined);
-                  }
-                },
-              }}
             />
           </ProForm.Group>
         </ProForm>
