@@ -150,7 +150,12 @@ export class DataSourceGenerator {
                 ...item.fields,
                 _record_id: item.record_id,
               });
-              if (allTerms.has(term.term.toString())) {
+
+              if (
+                allTerms.has(term.term.toString()) ||
+                Math.abs(term.start_time.valueOf() - Date.now()) <
+                  3 * 24 * 60 * 60 * 1000
+              ) {
                 termsInBossTable.push(term);
               }
             } catch (error) {

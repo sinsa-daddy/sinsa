@@ -20,7 +20,6 @@ describe('Default cases', () => {
     await dg.generateCopilot({
       copilotAppToken: 'UDU9bhMetawhSesFVv9cUUNLnZa',
       outputDir: join(__dirname, './output'),
-      k: 5,
     });
 
     await dg.generateAurorian({

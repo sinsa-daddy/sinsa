@@ -8,7 +8,7 @@ import { TermsModel } from '@/models/terms';
 import { RoutePath } from '@/components/MyLayout/constants';
 
 const Index = React.memo(() => {
-  const [{ firstTerm }] = useModel(TermsModel);
+  const [{ currentTerm }] = useModel(TermsModel);
   const location = useLocation();
 
   return (
@@ -35,9 +35,9 @@ const Index = React.memo(() => {
       <Typography.Title level={4}>我们提供以下能力</Typography.Title>
       <div>
         <Checkbox checked={true}>根据收录作业提供最佳队伍匹配方案</Checkbox>
-        {firstTerm ? (
+        {currentTerm ? (
           <Link
-            to={RoutePath.Solutions(firstTerm.term)}
+            to={RoutePath.Solutions(currentTerm.term)}
             onClick={e => {
               e.stopPropagation();
               gtag('event', 'navigate_to_solutions_page', {

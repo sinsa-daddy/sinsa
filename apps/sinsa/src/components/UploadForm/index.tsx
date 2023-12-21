@@ -42,7 +42,7 @@ interface FormValues {
 }
 
 export const UploadForm: React.FC = () => {
-  const [{ termsOptions, firstTerm, termsMap }] = useModel(TermsModel);
+  const [{ termsOptions, currentTerm, termsMap }] = useModel(TermsModel);
   const [{ auroriansMap }] = useModel(AuroriansModel);
 
   const { data, loading, runAsync, mutate } = useRequest(
@@ -111,7 +111,7 @@ export const UploadForm: React.FC = () => {
           name="term"
           label="荒典期数"
           options={termsOptions}
-          initialValue={firstTerm?.term}
+          initialValue={currentTerm?.term}
           rules={[{ required: true }]}
           width={'sm'}
         />
