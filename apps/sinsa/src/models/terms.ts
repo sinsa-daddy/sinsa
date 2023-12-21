@@ -1,5 +1,6 @@
 import { model } from '@modern-js/runtime/model';
 import type { TermType } from '@sinsa/schema';
+import { first } from 'lodash-es';
 
 export interface TermsState {
   terms: TermType[];
@@ -13,9 +14,11 @@ export const TermsModel = model<TermsState>('terms').define({
   },
   computed: {
     currentTerm: state => {
-      return state.terms.find(
-        term =>
-          term.start_time.valueOf() < NOW && NOW < term.end_time.valueOf(),
+      return (
+        state.terms.find(
+          term =>
+            term.start_time.valueOf() < NOW && NOW < term.end_time.valueOf(),
+        ) ?? first(state.terms)
       );
     },
     termsOptions: state =>
