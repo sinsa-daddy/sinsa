@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useParams } from '@modern-js/runtime/router';
 import { PageContainer } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
@@ -22,17 +23,15 @@ const SolutionsPage: React.FC = () => {
 
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
 
-  if (error) {
-    return <TermNotFound />;
-  }
-
   return (
     <PageContainer
       content={<TermChanger pathFn={RoutePath.Solutions} />}
       title="作业匹配"
       loading={loading}
     >
-      {params.term ? (
+      {error ? (
+        <TermNotFound />
+      ) : params.term ? (
         <CopilotSolution dataSource={copilots} term={params.term} />
       ) : null}
     </PageContainer>

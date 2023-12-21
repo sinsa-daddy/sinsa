@@ -25,21 +25,23 @@ const CopilotsPage: React.FC = () => {
 
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
 
-  if (error) {
-    return <TermNotFound />;
-  }
-
   return (
     <PageContainer
       content={<TermChanger pathFn={RoutePath.Copilots} />}
       title="作业全览"
       loading={loading}
     >
-      <CopilotsTable term={params.term} dataSource={copilots} />
-      <WalineComment
-        serverURL={COMMENT_BACKEND_SERVER_URL}
-        path={location.pathname}
-      />
+      {error ? (
+        <TermNotFound />
+      ) : (
+        <>
+          <CopilotsTable term={params.term} dataSource={copilots} />
+          <WalineComment
+            serverURL={COMMENT_BACKEND_SERVER_URL}
+            path={location.pathname}
+          />
+        </>
+      )}
     </PageContainer>
   );
 };
