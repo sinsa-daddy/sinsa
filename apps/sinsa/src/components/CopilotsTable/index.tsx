@@ -51,6 +51,11 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
           if (typeof params.score?.[1] === 'number') {
             ok = item.score <= params.score[1];
           }
+
+          // bv
+          if (typeof params.bv === 'string' && params.bv.startsWith('BV')) {
+            ok = item.bv === params.bv;
+          }
           return ok;
         }) ?? [];
       return {

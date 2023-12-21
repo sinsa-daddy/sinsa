@@ -2,6 +2,8 @@ import type { ProColumns } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
 import { Tooltip, Typography } from 'antd';
 import { AuroriansTeam } from '../AuroriansTeam';
+import { ReactComponent as IconMessage } from './assets/icon-message.svg';
+import styles from './styles.module.less';
 
 export interface TableParams {
   title?: CopilotType['title'];
@@ -9,6 +11,7 @@ export interface TableParams {
   term?: `${number}`;
   dataSource?: CopilotType[];
   score?: [number, undefined] | [number, number] | [undefined, number];
+  bv?: string;
 }
 
 export const copilotsColumns: ProColumns<CopilotType>[] = [
@@ -38,12 +41,12 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     width: 160,
     renderText(dom, entity) {
       return (
-        <>
-          {dom}
+        <div className={styles.AuthorContainer}>
+          <span>{dom}</span>
           <Tooltip title={entity.description}>
-            {entity.description ? '🗒' : null}
+            {entity.description ? <IconMessage /> : null}
           </Tooltip>
-        </>
+        </div>
       );
     },
   },
@@ -69,5 +72,11 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
     valueType: 'dateTime',
     width: 160,
     hideInSearch: true,
+  },
+  {
+    title: 'BV 号',
+    dataIndex: 'bv',
+    hideInTable: true,
+    fieldProps: { placeholder: 'BVXXXXXXXXXX' },
   },
 ];
