@@ -65,7 +65,8 @@ export const UploadForm: React.FC = () => {
       onFinish={async (values: FormValues) => {
         const parsed = CopilotSchema.safeParse({
           ...values,
-          term_rerun: values?.term?.slice(1) ?? [],
+          term_rerun: values.term.slice(1),
+          term: values.term[0],
         });
         if (parsed.success) {
           const result = await fetch(`${LARK_ORIGIN}/lark/copilot`, {
