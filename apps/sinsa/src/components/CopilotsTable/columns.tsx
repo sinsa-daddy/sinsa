@@ -1,6 +1,6 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
-import { Tooltip, Typography } from 'antd';
+import { Tag, Tooltip, Typography } from 'antd';
 import { AuroriansTeam } from '../AuroriansTeam';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';
 import styles from './styles.module.less';
@@ -61,6 +61,11 @@ export const copilotsColumns: ProColumns<CopilotType>[] = [
           target="_blank"
           title={entity.title}
         >
+          {entity.term_rerun.length ? (
+            <Tooltip title={`复刻第 ${entity.term} 期荒典作业`}>
+              <Tag color="red">复刻</Tag>
+            </Tooltip>
+          ) : null}
           {entity.title}
         </Typography.Link>
       );

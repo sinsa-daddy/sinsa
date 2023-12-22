@@ -1,1 +1,2 @@
 .env
+config/public/api/**/*.json

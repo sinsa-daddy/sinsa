@@ -13,33 +13,16 @@ import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
 import { Button, notification } from 'antd';
 import { useRequest } from 'ahooks';
-import { useRef, useState } from 'react';
-import { CopilotAurorianSummaryType, CopilotSchema } from '@sinsa/schema';
+import { useMemo, useRef, useState } from 'react';
+import { CopilotSchema } from '@sinsa/schema';
 import { LARK_ORIGIN } from '../LarkLoginCard/constants';
-import type { BilibiliVideoType } from './types';
+import type { BilibiliVideoType, FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
 import { toInputRemoteCopilot } from './utils/toInputRemoteCopilot';
 import styles from './styles.module.less';
+import { postProcessingFormInitialValues } from './utils/postProcessingFormInitialValues';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
-
-interface FormValues {
-  term: number;
-  bv: `BV${string}`;
-  duplicate: boolean;
-  title: string;
-  description: string;
-  author: string;
-  upload_time: number;
-  score: number;
-  aurorian_summaries: [
-    CopilotAurorianSummaryType,
-    CopilotAurorianSummaryType,
-    CopilotAurorianSummaryType,
-    CopilotAurorianSummaryType,
-    CopilotAurorianSummaryType,
-  ];
-}
 
 export const UploadForm: React.FC = () => {
   const [{ termsOptions, currentTerm, termsMap }] = useModel(TermsModel);
@@ -60,10 +43,18 @@ export const UploadForm: React.FC = () => {
 
   const formRef = useRef<ProFormInstance<FormValues>>();
 
+  const initialValues: Partial<FormValues> = useMemo(() => {
+    const result: Partial<FormValues> = {};
+    if (currentTerm?.term) {
+      result.term = [currentTerm.term];
+    }
+    return postProcessingFormInitialValues(result);
+  }, [currentTerm?.term]);
+
   return (
     <ProForm<FormValues>
       formRef={formRef}
-      // loading={loadingValidateBV}
+      initialValues={initialValues}
       submitter={{
         submitButtonProps: { loading: loadingValidateBV },
         render: (_, dom) => (
@@ -71,8 +62,11 @@ export const UploadForm: React.FC = () => {
         ),
         searchConfig: { submitText: '提交作业' },
       }}
-      onFinish={async (values: unknown) => {
-        const parsed = CopilotSchema.safeParse(values);
+      onFinish={async (values: FormValues) => {
+        const parsed = CopilotSchema.safeParse({
+          ...values,
+          term_rerun: values?.term?.slice(1) ?? [],
+        });
         if (parsed.success) {
           const result = await fetch(`${LARK_ORIGIN}/lark/copilot`, {
             method: 'POST',
@@ -111,9 +105,10 @@ export const UploadForm: React.FC = () => {
           name="term"
           label="荒典期数"
           options={termsOptions}
-          initialValue={currentTerm?.term}
           rules={[{ required: true }]}
-          width={'sm'}
+          width={'md'}
+          fieldProps={{ mode: 'multiple' }}
+          showSearch={false}
         />
         <ProFormDependency name={['term']}>
           {({ term }) => (

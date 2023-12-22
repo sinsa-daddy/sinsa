@@ -1,3 +1,5 @@
+import { CopilotAurorianSummaryType } from '@sinsa/schema';
+
 export interface BilibiliVideoType {
   bvid: 'BV1Q64y1V7jc';
   aid: 579847514;
@@ -44,5 +46,23 @@ export interface BilibiliVideoType {
       };
       first_frame: 'http://i2.hdslb.com/bfs/storyff/n231214a239kwchvgg0r41aoet8finfg_firsti.jpg';
     },
+  ];
+}
+
+export interface FormValues {
+  term: number[];
+  bv: `BV${string}`;
+  duplicate: boolean;
+  title: string;
+  description: string;
+  author: string;
+  upload_time: number;
+  score: number;
+  aurorian_summaries: [
+    CopilotAurorianSummaryType,
+    CopilotAurorianSummaryType,
+    CopilotAurorianSummaryType,
+    CopilotAurorianSummaryType,
+    CopilotAurorianSummaryType,
   ];
 }

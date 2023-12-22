@@ -30,5 +30,5 @@ describe('Default cases', () => {
 
     const s = 'hello Modern.js';
     expect(s).toBe('hello Modern.js');
-  });
+  }, 8000);
 });

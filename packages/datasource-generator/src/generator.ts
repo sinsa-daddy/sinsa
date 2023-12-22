@@ -13,7 +13,7 @@ import {
   TermType,
   TermSchema,
 } from '@sinsa/schema';
-import { groupBy } from 'lodash';
+import { mergeWith } from 'lodash';
 import type {
   AurorianAppPartial,
   CopilotAppPartial,
@@ -96,7 +96,9 @@ export class DataSourceGenerator {
           for (const item of responseItem.items) {
             try {
               const remoteCopilot = RemoteCopilotSchema.parse(item.fields);
+
               const copilot = toCopilot(remoteCopilot);
+
               copilotsInThisTable.push(copilot);
             } catch {
               console.log(`Failed to parse ${item}`, item);
@@ -105,14 +107,44 @@ export class DataSourceGenerator {
         }
       }
 
-      const copilotGroupedByTerm = groupBy(copilotsInThisTable, c => c.term);
+      const mainCopilotsGroupedByTerm: Record<`${number}`, CopilotType[]> = {};
+      const rerunCopilotsGroupedByTerm: Record<`${number}`, CopilotType[]> = {};
+
+      for (const copilot of copilotsInThisTable) {
+        allTerms.add(copilot.term.toString());
+        if (Array.isArray(mainCopilotsGroupedByTerm[`${copilot.term}`])) {
+          mainCopilotsGroupedByTerm[`${copilot.term}`].push(copilot);
+        } else {
+          mainCopilotsGroupedByTerm[`${copilot.term}`] = [copilot];
+        }
+        for (const rerunTerm of copilot.term_rerun) {
+          allTerms.add(rerunTerm.toString());
+          if (Array.isArray(rerunCopilotsGroupedByTerm[`${rerunTerm}`])) {
+            rerunCopilotsGroupedByTerm[`${rerunTerm}`].push(copilot);
+          } else {
+            rerunCopilotsGroupedByTerm[`${rerunTerm}`] = [copilot];
+          }
+        }
+      }
+
+      const copilotGroupedByTerm: Record<`${number}`, CopilotType[]> =
+        mergeWith(
+          mainCopilotsGroupedByTerm,
+          rerunCopilotsGroupedByTerm,
+          (obj, src) => {
+            if (Array.isArray(obj)) {
+              return obj.concat(src);
+            }
+            return undefined;
+          },
+        );
 
       for (const [term, copilotArray] of Object.entries(copilotGroupedByTerm)) {
         const copilotsInThisTerm: Record<CopilotType['bv'], CopilotType> = {};
         for (const c of copilotArray) {
           copilotsInThisTerm[c.bv] = c;
         }
-        allTerms.add(term);
+
         const writeDirPath = join(outputDir, './copilots');
         await ensureDir(writeDirPath);
         await writeJSON(

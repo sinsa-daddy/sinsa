@@ -9,11 +9,11 @@ export const RemoteCopilotSchema = z.object({
   insert_db_time: z.optional(z.coerce.date()),
   upload_time: z.coerce.date(),
   score: z.coerce.number(),
-  term: z.tuple([
+  term: z.array(
     z.object({
-      text: z.string(),
+      text_arr: z.array(z.string()),
     }),
-  ]),
+  ),
 
   replaceable_position: z.optional(z.string().array()),
   aurorian_1: z.tuple([
@@ -71,6 +71,7 @@ export const CopilotSchema = z.object({
   upload_time: z.coerce.date(),
   score: z.coerce.number(),
   term: z.coerce.number().int(),
+  term_rerun: z.array(z.coerce.number().int()),
   aurorian_summaries: z.tuple([
     CopilotAurorianSummarySchema,
     CopilotAurorianSummarySchema,
