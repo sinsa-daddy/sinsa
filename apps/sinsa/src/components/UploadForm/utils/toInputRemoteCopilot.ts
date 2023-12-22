@@ -18,10 +18,8 @@ export function toInputRemoteCopilot(
     insert_db_time: c.insert_db_time?.valueOf(),
     upload_time: c.upload_time.valueOf(),
     score: Number(c.score),
-    term: [
-      termsMap[c.term]._record_id,
-      ...c.term_rerun.map(term => termsMap[term]._record_id),
-    ],
+    term: [termsMap[c.term]._record_id],
+    rerun_terms: c.rerun_terms?.map(term => termsMap[term]._record_id),
     aurorian_1: [
       auroriansMap[c.aurorian_summaries[0].aurorian_name]._record_id,
     ],

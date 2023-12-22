@@ -4,13 +4,20 @@ import { PageContainer } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
 import { useRequest } from 'ahooks';
+import { useModel } from '@modern-js/runtime/model';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotSolution } from '@/containers/CopilotSolution';
 import { RoutePath } from '@/components/MyLayout/constants';
+import { TermsModel } from '@/models/terms';
 
 const SolutionsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
+  const [{ termsMap }] = useModel(TermsModel);
+  const currentTerm = useMemo(
+    () => params.term && termsMap[params.term],
+    [params.term],
+  );
 
   const { data, error, loading } = useRequest(
     () =>
@@ -31,8 +38,8 @@ const SolutionsPage: React.FC = () => {
     >
       {error ? (
         <TermNotFound />
-      ) : params.term ? (
-        <CopilotSolution dataSource={copilots} term={params.term} />
+      ) : currentTerm ? (
+        <CopilotSolution dataSource={copilots} currentTerm={currentTerm} />
       ) : null}
     </PageContainer>
   );

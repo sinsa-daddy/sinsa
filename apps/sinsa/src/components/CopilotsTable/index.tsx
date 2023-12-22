@@ -1,13 +1,13 @@
 import { useCallback, useMemo, useRef } from 'react';
 import type { ActionType } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import type { CopilotType } from '@sinsa/schema';
+import type { CopilotType, TermType } from '@sinsa/schema';
 import { SortOrder } from 'antd/es/table/interface';
-import { type TableParams, copilotsColumns } from './columns';
+import { type TableParams, getCopilotsColumns } from './columns';
 
 interface CopilotsTableProps {
   dataSource: CopilotType[];
-  term?: `${number}`;
+  currentTerm?: TermType;
 }
 
 export function copilotRowKey(c: CopilotType) {
@@ -25,13 +25,16 @@ const TABLE_CONST_PROPS = {
 
 export const CopilotsTable: React.FC<CopilotsTableProps> = ({
   dataSource,
-  term,
+  currentTerm: term,
 }) => {
   const actionRef = useRef<ActionType>();
 
   const deps = useMemo(
-    (): TableParams => ({ term, dataSource }),
-    [term, dataSource],
+    (): TableParams => ({
+      term: term?.term,
+      dataSource,
+    }),
+    [term?.term, dataSource],
   );
 
   const request = useCallback(
@@ -70,11 +73,16 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
     [],
   );
 
+  const columns = useMemo(
+    () => getCopilotsColumns({ currentTerm: term }),
+    [term?.term],
+  );
+
   return (
     <ProTable<CopilotType, TableParams>
       rowKey={copilotRowKey}
       actionRef={actionRef}
-      columns={copilotsColumns}
+      columns={columns}
       params={deps}
       request={request}
       {...TABLE_CONST_PROPS}

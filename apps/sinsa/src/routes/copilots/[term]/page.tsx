@@ -3,24 +3,31 @@ import { useRequest } from 'ahooks';
 import { PageContainer } from '@ant-design/pro-components';
 import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
+import { useModel } from '@modern-js/runtime/model';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotsTable } from '@/components/CopilotsTable';
 import { RoutePath } from '@/components/MyLayout/constants';
 import { WalineComment } from '@/components/WalineComment';
 import { COMMENT_BACKEND_SERVER_URL } from '@/constants/comment';
+import { TermsModel } from '@/models/terms';
 
 const CopilotsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
+  const [{ termsMap }] = useModel(TermsModel);
+  const currentTerm = useMemo(
+    () => params.term && termsMap[params.term],
+    [params.term],
+  );
   const location = useLocation();
 
   const { data, error, loading } = useRequest(
     () =>
-      fetch(`/api/copilots/${params.term}.json`).then(
+      fetch(`/api/copilots/${currentTerm?.term}.json`).then(
         response =>
           response.json() as Promise<Record<CopilotType['bv'], CopilotType>>,
       ),
-    { refreshDeps: [params.term] },
+    { ready: Boolean(currentTerm?.term), refreshDeps: [currentTerm?.term] },
   );
 
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
@@ -35,7 +42,7 @@ const CopilotsPage: React.FC = () => {
         <TermNotFound />
       ) : (
         <>
-          <CopilotsTable term={params.term} dataSource={copilots} />
+          <CopilotsTable currentTerm={currentTerm} dataSource={copilots} />
           <WalineComment
             serverURL={COMMENT_BACKEND_SERVER_URL}
             path={location.pathname}

@@ -5,7 +5,7 @@ import { TermsModel } from '@/models/terms';
 import { RoutePath } from '@/components/MyLayout/constants';
 
 export const TermNotFound: React.FC = () => {
-  const [{ currentTerm }] = useModel(TermsModel);
+  const [{ latestTerm: currentTerm }] = useModel(TermsModel);
 
   return (
     <Result

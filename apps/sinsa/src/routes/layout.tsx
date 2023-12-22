@@ -56,7 +56,7 @@ export default function Layout() {
 
   return (
     <ConfigProvider prefixCls="sinsa" theme={theme}>
-      <MyLayout defaultTerm={terms.currentTerm?.term}>
+      <MyLayout defaultTerm={terms.latestTerm?.term}>
         <Outlet />
       </MyLayout>
     </ConfigProvider>

@@ -13,7 +13,7 @@ export const TermsModel = model<TermsState>('terms').define({
     terms: [],
   },
   computed: {
-    currentTerm: state => {
+    latestTerm: state => {
       return (
         state.terms.find(
           term =>

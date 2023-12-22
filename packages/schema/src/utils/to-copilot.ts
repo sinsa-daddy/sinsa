@@ -16,9 +16,9 @@ export function toCopilot(r: RemoteCopilotType): CopilotType {
     upload_time: r.upload_time,
     score: r.score,
     term: Number.parseInt(r.term[0].text_arr[0], 10),
-    term_rerun: r.term[0].text_arr
-      .slice(1)
-      .map(termStr => Number.parseInt(termStr, 10)),
+    rerun_terms: r.rerun_terms[0].text_arr.map(termStr =>
+      Number.parseInt(termStr, 10),
+    ),
     aurorian_summaries: POSITION_ARRAY.map(pos => {
       return {
         aurorian_name: r[`aurorian_${pos}`][0].text,

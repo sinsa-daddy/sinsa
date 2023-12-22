@@ -1,18 +1,18 @@
 import { CopilotAurorianSummaryType } from '@sinsa/schema';
 
 export interface BilibiliVideoType {
-  bvid: 'BV1Q64y1V7jc';
+  bvid: `BV${string}`;
   aid: 579847514;
   tname: '手机游戏';
   pic: 'http://i2.hdslb.com/bfs/archive/cbc0a76a2c8893ee28aba487fbc3971f29d43647.jpg';
-  title: '白夜极光 荒典22期- 1253w- 胥哥不仅站起来了！而且还能跳舞~ (';
+  title: string;
   pubdate: 1702562517;
   ctime: 1702562517;
   desc: string;
   duration: 313;
   owner: {
     mid: 454028395;
-    name: '极武晟';
+    name: string;
     face: 'https://i1.hdslb.com/bfs/face/5e42d80229d037e4249a398172ed726d15a66c00.jpg';
   };
   stat: {
@@ -50,7 +50,8 @@ export interface BilibiliVideoType {
 }
 
 export interface FormValues {
-  term: number[];
+  term: number;
+  rerun_terms?: number[];
   bv: `BV${string}`;
   duplicate: boolean;
   title: string;

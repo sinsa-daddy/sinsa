@@ -1,19 +1,21 @@
 import { ProTable } from '@ant-design/pro-components';
-import { CopilotType } from '@sinsa/schema';
+import { CopilotType, TermType } from '@sinsa/schema';
 import { useCallback, useMemo } from 'react';
 import { produce } from 'immer';
 import { copilotRowKey } from '../CopilotsTable';
-import { copilotsColumns } from '../CopilotsTable/columns';
+import { getCopilotsColumns } from '../CopilotsTable/columns';
 import type { SolutionScenario } from '@/features/backtrack/types';
 
 interface SolutionScenarioCardProps {
   solution: SolutionScenario;
   title?: string;
+  currentTerm?: TermType;
 }
 
 export const SolutionScenarioCard: React.FC<SolutionScenarioCardProps> = ({
   solution,
   title,
+  currentTerm,
 }) => {
   const request = useCallback(async () => {
     return {
@@ -28,12 +30,17 @@ export const SolutionScenarioCard: React.FC<SolutionScenarioCardProps> = ({
 
   const scroll = useMemo(() => ({ x: 'max-content' }), []);
 
+  const columns = useMemo(
+    () => getCopilotsColumns({ currentTerm }),
+    [currentTerm?.term],
+  );
+
   return (
     <ProTable<CopilotType>
       showHeader={true}
       toolbar={toolbar}
       rowKey={copilotRowKey}
-      columns={copilotsColumns}
+      columns={columns}
       request={request}
       search={false}
       pagination={false}

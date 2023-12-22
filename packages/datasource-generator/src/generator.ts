@@ -117,12 +117,14 @@ export class DataSourceGenerator {
         } else {
           mainCopilotsGroupedByTerm[`${copilot.term}`] = [copilot];
         }
-        for (const rerunTerm of copilot.term_rerun) {
-          allTerms.add(rerunTerm.toString());
-          if (Array.isArray(rerunCopilotsGroupedByTerm[`${rerunTerm}`])) {
-            rerunCopilotsGroupedByTerm[`${rerunTerm}`].push(copilot);
-          } else {
-            rerunCopilotsGroupedByTerm[`${rerunTerm}`] = [copilot];
+        if (Array.isArray(copilot.rerun_terms)) {
+          for (const rerunTerm of copilot.rerun_terms) {
+            allTerms.add(rerunTerm.toString());
+            if (Array.isArray(rerunCopilotsGroupedByTerm[`${rerunTerm}`])) {
+              rerunCopilotsGroupedByTerm[`${rerunTerm}`].push(copilot);
+            } else {
+              rerunCopilotsGroupedByTerm[`${rerunTerm}`] = [copilot];
+            }
           }
         }
       }

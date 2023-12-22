@@ -14,18 +14,18 @@ import dayjs from 'dayjs';
 import { Button, notification } from 'antd';
 import { useRequest } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
-import { CopilotSchema } from '@sinsa/schema';
+import { CopilotSchema, CopilotType } from '@sinsa/schema';
 import { LARK_ORIGIN } from '../LarkLoginCard/constants';
 import type { BilibiliVideoType, FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
 import { toInputRemoteCopilot } from './utils/toInputRemoteCopilot';
 import styles from './styles.module.less';
-import { postProcessingFormInitialValues } from './utils/postProccessingFormInitialValues';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
 
 export const UploadForm: React.FC = () => {
-  const [{ termsOptions, currentTerm, termsMap }] = useModel(TermsModel);
+  const [{ termsOptions, latestTerm: currentTerm, termsMap }] =
+    useModel(TermsModel);
   const [{ auroriansMap }] = useModel(AuroriansModel);
 
   const { data, loading, runAsync, mutate } = useRequest(
@@ -41,14 +41,34 @@ export const UploadForm: React.FC = () => {
 
   const [loadingValidateBV, setLoadingValidateBV] = useState(false);
 
+  const { loading: loadingSubmit, runAsync: submitAsync } = useRequest(
+    async (submitCopilot: CopilotType) => {
+      const result = await fetch(`${LARK_ORIGIN}/lark/copilot`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: JSON.stringify(
+          toInputRemoteCopilot(submitCopilot, { termsMap, auroriansMap }),
+        ),
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }).then(res => res.json());
+
+      return result;
+    },
+    { manual: true },
+  );
+
   const formRef = useRef<ProFormInstance<FormValues>>();
 
   const initialValues: Partial<FormValues> = useMemo(() => {
     const result: Partial<FormValues> = {};
     if (currentTerm?.term) {
-      result.term = [currentTerm.term];
+      result.term = currentTerm.term;
     }
-    return postProcessingFormInitialValues(result);
+    return result;
   }, [currentTerm?.term]);
 
   return (
@@ -56,31 +76,25 @@ export const UploadForm: React.FC = () => {
       formRef={formRef}
       initialValues={initialValues}
       submitter={{
-        submitButtonProps: { loading: loadingValidateBV },
+        submitButtonProps: { loading: loadingValidateBV || loadingSubmit },
         render: (_, dom) => (
           <FooterToolbar className={styles.FootBar}>{dom}</FooterToolbar>
         ),
-        searchConfig: { submitText: '提交作业' },
+        searchConfig: {
+          // eslint-disable-next-line no-nested-ternary
+          submitText: loadingValidateBV
+            ? '校验重复中'
+            : loadingSubmit
+            ? '提交中'
+            : '提交作业',
+        },
       }}
       onFinish={async (values: FormValues) => {
-        const parsed = CopilotSchema.safeParse({
-          ...values,
-          term_rerun: values.term.slice(1),
-          term: values.term[0],
-        });
-        if (parsed.success) {
-          const result = await fetch(`${LARK_ORIGIN}/lark/copilot`, {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            body: JSON.stringify(
-              toInputRemoteCopilot(parsed.data, { termsMap, auroriansMap }),
-            ),
-            headers: {
-              'Content-Type': 'application/json',
-              // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-          }).then(res => res.json());
+        console.log('开始提交', values);
+
+        try {
+          const submitCopilot = await CopilotSchema.parseAsync(values);
+          const result = await submitAsync(submitCopilot);
 
           if (result?.record?.record_id) {
             notification.success({
@@ -92,12 +106,13 @@ export const UploadForm: React.FC = () => {
             notification.error({
               message: `没有上传成功 ${JSON.stringify(result, null, 2)}`,
             });
-            console.log('upload failed', result, parsed);
+            console.log('upload failed', result, submitCopilot);
           }
-        } else {
+        } catch (error) {
           notification.error({
-            message: `解析表单失败 ${JSON.stringify(values, null, 2)}`,
+            message: `解析表单失败 ${JSON.stringify(error, null, 2)}`,
           });
+          console.error('解析失败', error);
         }
       }}
     >
@@ -107,24 +122,65 @@ export const UploadForm: React.FC = () => {
           label="荒典期数"
           options={termsOptions}
           rules={[{ required: true }]}
-          width={'md'}
-          fieldProps={{ mode: 'multiple' }}
+          width={'sm'}
           showSearch={false}
+          onChange={nextTerm => {
+            if (nextTerm === 14) {
+              formRef.current?.setFieldValue('rerun_terms', [24]);
+            } else {
+              formRef.current?.setFieldValue('rerun_terms', undefined);
+            }
+          }}
         />
+        <ProFormSelect
+          name="rerun_terms"
+          label="可被复用荒典期数"
+          options={termsOptions}
+          width={'md'}
+          showSearch={false}
+          fieldProps={{ mode: 'multiple' }}
+          tooltip="例如第 14 期荒典作业可被第 24 期荒典复用, 那么上一个选项荒典期数选择 14 期，此选项可被复用荒典期数选择 24 期"
+        />
+      </ProForm.Group>
+      <ProForm.Group>
         <ProFormDependency name={['term']}>
           {({ term }) => (
             <ProFormText
               name="bv"
-              label="BV号"
-              placeholder={'BVXXXXXXX'}
+              label="BV号或B站视频链接"
+              placeholder={
+                'BVxxxxxxxxxx 或 https://www.bilibili.com/video/BVxxxxxxxxxx/'
+              }
               validateTrigger="onBlur"
-              width={'md'}
+              width={'lg'}
               // initialValue={'BV1Q64y1V7jc'}
+              fieldProps={{
+                onChange(e) {
+                  const bvOrLink = e.target.value;
+                  if (
+                    typeof bvOrLink === 'string' &&
+                    (bvOrLink.startsWith('https://') ||
+                      bvOrLink.startsWith('http://'))
+                  ) {
+                    const bvResult = /\/(BV[^/]+)\/?/.exec(
+                      new URL(bvOrLink).pathname,
+                    )?.[1];
+                    if (
+                      typeof bvResult === 'string' &&
+                      bvResult.startsWith('BV')
+                    ) {
+                      formRef.current?.setFieldValue('bv', bvResult);
+                    }
+                  }
+                  return undefined;
+                },
+              }}
               rules={[
                 { required: true },
                 { pattern: /^BV.+$/, message: 'BV号格式不正确' },
                 {
                   async validator(_, bv) {
+                    console.log('bv', bv);
                     if (typeof bv === 'string' && bv.startsWith('BV')) {
                       setLoadingValidateBV(true);
                       const result = await fetch(

@@ -8,7 +8,7 @@ import { TermsModel } from '@/models/terms';
 import { RoutePath } from '@/components/MyLayout/constants';
 
 const Index = React.memo(() => {
-  const [{ currentTerm }] = useModel(TermsModel);
+  const [{ latestTerm: currentTerm }] = useModel(TermsModel);
   const location = useLocation();
 
   return (

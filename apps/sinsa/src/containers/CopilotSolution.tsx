@@ -5,7 +5,7 @@ import {
   ProFormRadio,
   ProFormSwitch,
 } from '@ant-design/pro-components';
-import { CopilotType } from '@sinsa/schema';
+import { CopilotType, TermType } from '@sinsa/schema';
 import { Card, List, Space, Typography } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';
@@ -21,7 +21,7 @@ import type { SolutionScenario } from '@/features/backtrack/types';
 
 interface CopilotSolutionProps {
   dataSource: CopilotType[];
-  term: `${number}`;
+  currentTerm: TermType;
 }
 
 interface QueryParams {
@@ -49,7 +49,7 @@ const EXTENDED_TEAM_COUNT = [{ label: '一队', value: 1 }, ...BASE_TEAM_COUNT];
 
 export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   dataSource,
-  term,
+  currentTerm,
 }) => {
   const [{ WHOLE_BOX }] = useModel(AuroriansModel);
 
@@ -57,8 +57,8 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   const [current, setCurrent] = useState(1);
   const inViewRef = useRef<HTMLDivElement>(null);
   const LOCAL_STORAGE_SETTING_KEY = useMemo(
-    () => `SINSA_DADDY_SOLUTIONS_FILTER_KEY_V1_${term}` as const,
-    [term],
+    () => `SINSA_DADDY_SOLUTIONS_FILTER_KEY_V1_${currentTerm.term}` as const,
+    [currentTerm.term],
   );
 
   const [localSetting, setLocalSetting] = useLocalStorageState(
@@ -195,7 +195,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               radioType="button"
             />
 
-            <ProFormRadio.Group
+            {/* <ProFormRadio.Group
               name="box"
               label="Box 匹配"
               options={[
@@ -206,7 +206,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               radioType="button"
               rules={[{ required: true }]}
               extra="自定义 Box 匹配暂不支持，无法选中，敬请期待w"
-            />
+            /> */}
             <ProFormSwitch
               name={'disalbeAlternative'}
               label="不考虑可替自由位"
@@ -267,7 +267,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               key={item.copilots.map(c => c.bv).join('')}
               style={{ marginBottom: '1rem' }}
             >
-              <SolutionScenarioCard solution={item} />
+              <SolutionScenarioCard solution={item} currentTerm={currentTerm} />
             </Card>
           );
         }}
