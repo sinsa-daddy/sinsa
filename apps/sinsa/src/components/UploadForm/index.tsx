@@ -20,7 +20,7 @@ import type { BilibiliVideoType, FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
 import { toInputRemoteCopilot } from './utils/toInputRemoteCopilot';
 import styles from './styles.module.less';
-import { postProcessingFormInitialValues } from './utils/postProcessingFormInitialValues';
+import { postProcessingFormInitialValues } from './utils/postProccessingFormInitialValues';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
 
