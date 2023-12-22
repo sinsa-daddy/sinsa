@@ -5,7 +5,7 @@ import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import { useModel } from '@modern-js/runtime/model';
-import { Space, Typography } from 'antd';
+import { Space, Tooltip, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
@@ -38,9 +38,15 @@ const SolutionsPage: React.FC = () => {
         <Space>
           <TermChanger pathFn={RoutePath.Solutions} />
           {copilots[0] ? (
-            <Typography.Text>
-              上次作业更新 {dayjs(copilots[0].upload_time).fromNow()}
-            </Typography.Text>
+            <Tooltip
+              title={dayjs(copilots[0].upload_time).format(
+                'YYYY-MM-DD HH:mm:ss',
+              )}
+            >
+              <Typography.Text>
+                上次作业更新 {dayjs(copilots[0].upload_time).fromNow()}
+              </Typography.Text>
+            </Tooltip>
           ) : null}
         </Space>
       }
