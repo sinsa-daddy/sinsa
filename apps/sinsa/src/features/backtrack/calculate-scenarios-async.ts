@@ -1,12 +1,18 @@
-import type { CalcOptions, SolutionContext, SolutionResult } from './types';
+import type {
+  CalcOptions,
+  SolutionContext,
+  AllSolutions,
+} from '@sinsa/solution-calculator/dist/types/types';
 
-export async function calculateScenariosAsync(
+export async function calculateAllSolutionsAsync(
   context: SolutionContext,
   k: number,
   options: CalcOptions,
-): Promise<SolutionResult> {
+): Promise<AllSolutions> {
   return new Promise((resolve, reject) => {
-    const worker = new Worker('./calculate-scenarios-worker.ts');
+    const worker = new Worker(
+      new URL('@sinsa/solution-calculator', import.meta.url),
+    );
 
     worker.addEventListener('message', event => {
       const result = event.data;

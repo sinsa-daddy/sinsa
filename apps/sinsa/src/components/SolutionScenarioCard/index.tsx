@@ -2,12 +2,12 @@ import { ProTable } from '@ant-design/pro-components';
 import { CopilotType, TermType } from '@sinsa/schema';
 import { useCallback, useMemo } from 'react';
 import { produce } from 'immer';
+import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import { copilotRowKey } from '../CopilotsTable';
 import { getCopilotsColumns } from '../CopilotsTable/columns';
-import type { SolutionScenario } from '@/features/backtrack/types';
 
 interface SolutionScenarioCardProps {
-  solution: SolutionScenario;
+  solution: Solution;
   title?: string;
   currentTerm?: TermType;
 }

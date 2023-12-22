@@ -13,11 +13,11 @@ import { produce } from 'immer';
 import { useLocalStorageState, useRequest } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
 import { useLocation } from '@modern-js/runtime/router';
-import { calculateAllScenariosAndScores } from '@/features/backtrack/calculate-all-scenarios-and-scores';
+import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import { AuroriansModel } from '@/models/aurorians';
 import { SolutionScenarioCard } from '@/components/SolutionScenarioCard';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
-import type { SolutionScenario } from '@/features/backtrack/types';
+import { calculateAllSolutionsAsync } from '@/features/backtrack/calculate-scenarios-async';
 
 interface CopilotSolutionProps {
   dataSource: CopilotType[];
@@ -87,23 +87,15 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
         });
       }
 
-      const [solutionResult] = await Promise.all([
-        Promise.resolve(
-          calculateAllScenariosAndScores(
-            {
-              copilots: dataSource,
-              availableBox: filterBox,
-            },
-            params.k,
-            { disalbeAlternative: params.disalbeAlternative },
-          ),
-        ),
-        new Promise<void>(resolve => window.setTimeout(resolve, 100)),
-      ]);
+      const allSolutions = await calculateAllSolutionsAsync(
+        { copilots: dataSource, availableBox: filterBox },
+        params.k,
+        { disalbeAlternative: params.disalbeAlternative },
+      );
 
-      const rankSet = new WeakMap<SolutionScenario, number>();
-      for (let i = 0; i < solutionResult.scenarios.length; i++) {
-        const target = solutionResult.scenarios[i];
+      const rankSet = new WeakMap<Solution, number>();
+      for (let i = 0; i < allSolutions.solutions.length; i++) {
+        const target = allSolutions.solutions[i];
         rankSet.set(target, i);
       }
 
@@ -112,7 +104,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
         box: params.box,
         disalbeAlternative: params.disalbeAlternative,
         enableExclude: params.enableExclude,
-        solutions_length: solutionResult.scenarios.length,
+        solutions_length: allSolutions.solutions.length,
         exclude: params.exclude
           ?.map(
             xclude =>
@@ -126,7 +118,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
       });
 
       return {
-        solutionResult,
+        allSolutions,
         rankSet,
       };
     },
@@ -160,11 +152,11 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               return (
                 <Space wrap>
                   {dom}
-                  {data?.solutionResult ? (
+                  {data?.allSolutions ? (
                     <Typography.Text>
                       已为您找到{' '}
                       <Typography.Text strong>
-                        {data?.solutionResult.scenarios.length}
+                        {data?.allSolutions.solutions.length}
                       </Typography.Text>{' '}
                       个匹配方案
                     </Typography.Text>
@@ -238,7 +230,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
       <div ref={inViewRef} />
       <List
         loading={loading}
-        dataSource={data?.solutionResult?.scenarios}
+        dataSource={data?.allSolutions?.solutions}
         pagination={{
           align: 'center',
           defaultPageSize: 5,

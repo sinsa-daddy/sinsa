@@ -5,13 +5,13 @@ export interface SolutionContext {
   availableBox: MyBoxType['aurorian_summaries'];
 }
 
-export interface SolutionScenario {
+export interface Solution {
   copilots: CopilotType[];
   totalScore: bigint;
 }
 
-export interface SolutionResult {
-  scenarios: SolutionScenario[];
+export interface AllSolutions {
+  solutions: Solution[];
 }
 
 export interface CalcOptions {

@@ -1,7 +1,7 @@
 import type { CopilotType } from '@sinsa/schema';
+import type { CalcOptions, SolutionContext, AllSolutions } from '../types';
 import { boxWithoutAuroriansInCopilot } from './helpers/box-without-aurorians-in-copilot';
 import { canUseCopilot } from './helpers/can-use-copilot';
-import type { CalcOptions, SolutionContext, SolutionResult } from './types';
 
 interface StackContext {
   currentCopilotIndex: number;
@@ -15,13 +15,13 @@ interface StackContext {
  * @param context 解决方案上下文
  * @param k 队伍数量
  */
-export function calculateAllScenariosAndScores(
+export function calculateAllSolutions(
   context: SolutionContext,
   k = 3,
   { disalbeAlternative }: CalcOptions = {},
-): SolutionResult {
-  const result: SolutionResult = {
-    scenarios: [],
+): AllSolutions {
+  const result: AllSolutions = {
+    solutions: [],
   };
 
   const stack: StackContext[] = [
@@ -39,7 +39,7 @@ export function calculateAllScenariosAndScores(
 
     if (count === 0 || currentCopilotIndex === context.copilots.length) {
       if (currentScenario.length >= k) {
-        result.scenarios.push({
+        result.solutions.push({
           copilots: [...currentScenario],
           totalScore: currentScenario.reduce(
             (score, next) => score + BigInt(next.score),
@@ -72,7 +72,7 @@ export function calculateAllScenariosAndScores(
     }
   }
 
-  result.scenarios.sort((a, b) => Number(b.totalScore - a.totalScore));
+  result.solutions.sort((a, b) => Number(b.totalScore - a.totalScore));
 
   return result;
 }

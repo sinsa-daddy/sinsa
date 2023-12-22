@@ -7,7 +7,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]
-    }
+    },
+    "module": "ESNext"
   },
   "include": ["src", "shared", "config", "plugins", "modern.config.ts"],
   "exclude": ["**/node_modules"]

@@ -3,7 +3,7 @@ import type {
   MyBoxType,
   AurorianSummaryType,
 } from '@sinsa/schema';
-import { CalcOptions } from '../types';
+import type { CalcOptions } from '../../types';
 
 /**
  * 我的 Box 能否抄这个作业
