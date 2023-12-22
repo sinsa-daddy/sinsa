@@ -9,6 +9,7 @@ import type { LayoutLoaderData } from './layout.data';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
 import LogoURL from '@/assets/wrench-512.svg';
+import '@/plugins/dayjs';
 
 const theme: ThemeConfig = {
   token: {

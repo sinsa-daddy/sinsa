@@ -5,6 +5,8 @@ import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import { useModel } from '@modern-js/runtime/model';
+import { Space, Typography } from 'antd';
+import dayjs from 'dayjs';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotSolution } from '@/containers/CopilotSolution';
@@ -32,7 +34,16 @@ const SolutionsPage: React.FC = () => {
 
   return (
     <PageContainer
-      content={<TermChanger pathFn={RoutePath.Solutions} />}
+      content={
+        <Space>
+          <TermChanger pathFn={RoutePath.Solutions} />
+          {copilots[0] ? (
+            <Typography.Text>
+              上次作业更新 {dayjs(copilots[0].upload_time).fromNow()}
+            </Typography.Text>
+          ) : null}
+        </Space>
+      }
       title="作业匹配"
       loading={loading}
     >
