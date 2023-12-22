@@ -3809,7 +3809,7 @@ packages:
       '@formily/json-schema': 2.3.0(typescript@5.0.4)
       '@formily/validator': 2.3.0
       '@modern-js/codesmith': 2.3.1
-      '@modern-js/utils': 2.42.1
+      '@modern-js/utils': 2.43.0
       '@swc/helpers': 0.5.1
       inquirer: 8.2.6
     transitivePeerDependencies:
@@ -3834,7 +3834,7 @@ packages:
   /@modern-js/codesmith@2.3.1:
     resolution: {integrity: sha512-pcqAdtbgkkLO8s05e5Z5Ru476FtyRqoz5tfG/GZEPBULG6CNMPulYt2qACcaWuM2Che8kyTQT2RF6YC2SmCnKw==}
     dependencies:
-      '@modern-js/utils': 2.42.1
+      '@modern-js/utils': 2.43.0
       '@swc/helpers': 0.5.1
       axios: 0.21.4
       tar: 6.2.0
