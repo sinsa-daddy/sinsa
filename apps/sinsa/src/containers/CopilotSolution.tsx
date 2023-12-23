@@ -224,7 +224,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
             <ProFormSwitch
               name={'enableSaveLocalStorage'}
               label="记住我的设置"
-              tooltip="开启后，当前筛选的设置将会储存在您的浏览器本地，避免繁琐重复筛选"
+              tooltip="开启后，这一期荒典筛选的设置将会储存在您的浏览器本地，避免繁琐重复筛选"
             />
           </ProForm.Group>
         </ProForm>
