@@ -129,9 +129,11 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   );
 
   const location = useLocation();
-  const COUNT = location.search.includes('k1')
-    ? EXTENDED_TEAM_COUNT
-    : BASE_TEAM_COUNT;
+  const COUNT = useMemo(() => {
+    return location.search.includes('k1')
+      ? EXTENDED_TEAM_COUNT
+      : BASE_TEAM_COUNT;
+  }, [location.search]);
 
   return (
     <>

@@ -42,8 +42,8 @@ export function calculateAllSolutions(
         result.solutions.push({
           copilots: [...currentScenario],
           totalScore: currentScenario.reduce(
-            (score, next) => score + BigInt(next.score),
-            BigInt(0),
+            (score, next) => score + next.score,
+            0,
           ),
         });
       }

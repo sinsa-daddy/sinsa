@@ -7,7 +7,7 @@ export interface SolutionContext {
 
 export interface Solution {
   copilots: CopilotType[];
-  totalScore: bigint;
+  totalScore: number;
 }
 
 export interface AllSolutions {
