@@ -6,7 +6,7 @@ import {
   ProFormSwitch,
 } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
-import { Button, Popconfirm, Select } from 'antd';
+import { Button, Select, Tooltip } from 'antd';
 import { RarityMapper } from '../AurorianCard/constants';
 import { AurorianCard } from '../AurorianCard';
 import { ReactComponent as IconDelete } from './assets/icon-delete.svg';
@@ -33,19 +33,16 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
       actionRender={(field, action, _, count) => {
         if (count > 1) {
           return [
-            <Popconfirm
-              key="delete"
-              title="确定删除此光灵吗？"
-              onConfirm={e => {
-                e?.stopPropagation();
-                action.remove(field.name);
-              }}
-            >
+            <Tooltip key="delete" title="删除此光灵">
               <Button
-                style={{ marginLeft: '1rem' }}
+                style={{ marginLeft: '.5rem' }}
                 icon={<IconDelete style={{ verticalAlign: '-2px' }} />}
+                onClick={e => {
+                  e.stopPropagation();
+                  action.remove(field.name);
+                }}
               />
-            </Popconfirm>,
+            </Tooltip>,
           ];
         }
         return [];
