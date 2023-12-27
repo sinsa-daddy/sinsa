@@ -7,6 +7,7 @@ import { useRequest } from 'ahooks';
 import { useModel } from '@modern-js/runtime/model';
 import { Space, Tooltip, Typography } from 'antd';
 import dayjs from 'dayjs';
+import styles from './styles.module.less';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotSolution } from '@/containers/CopilotSolution';
@@ -38,15 +39,18 @@ const SolutionsPage: React.FC = () => {
         <Space>
           <TermChanger pathFn={RoutePath.Solutions} />
           {copilots[0] ? (
-            <Tooltip
-              title={dayjs(copilots[0].upload_time).format(
-                'YYYY-MM-DD HH:mm:ss',
-              )}
-            >
-              <Typography.Text>
-                上次作业更新 {dayjs(copilots[0].upload_time).fromNow()}
-              </Typography.Text>
-            </Tooltip>
+            <Typography.Text>
+              上次作业更新{' '}
+              <Tooltip
+                title={dayjs(copilots[0].upload_time).format(
+                  'YYYY-MM-DD HH:mm:ss',
+                )}
+              >
+                <span className={styles.LatestUpdatedText}>
+                  {dayjs(copilots[0].upload_time).fromNow()}
+                </span>
+              </Tooltip>
+            </Typography.Text>
           ) : null}
         </Space>
       }
