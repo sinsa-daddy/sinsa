@@ -2,9 +2,3 @@
 /// <reference types='@modern-js/runtime/types' />
 /// <reference types='@modern-js/runtime/types/router' />
 /// <reference types='@types/gtag.js' />
-
-declare global {
-  interface Window {
-    dataLayer: Record<string, unknown>[];
-  }
-}

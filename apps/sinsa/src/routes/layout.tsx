@@ -16,18 +16,6 @@ import styles from './layout.module.less';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
 import LogoURL from '@/assets/wrench-512.svg';
-import '@/plugins/dayjs';
-
-declare global {
-  interface Window {
-    dataLayer: Record<string, unknown>[];
-    $subscribeTermsUpdate?: Promise<{
-      cacheName: string;
-      updatedURL: string;
-      terms: unknown[];
-    }>;
-  }
-}
 
 const theme: ThemeConfig = {
   token: {
