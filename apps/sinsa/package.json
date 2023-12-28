@@ -5,6 +5,7 @@
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
     "build": "modern fetch && modern build",
+    "build-only": "modern build",
     "start": "modern start",
     "serve": "modern serve",
     "new": "modern new",
@@ -12,7 +13,7 @@
     "upgrade": "modern upgrade",
     "data": "modern fetch",
     "format-output": "modern format-output",
-    "sw": "workbox generateSW workbox-config.js"
+    "sw": "workbox injectManifest workbox-config.js"
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.6.43",
@@ -38,6 +39,7 @@
     "@modern-js/eslint-config": "2.42.1",
     "@modern-js/tsconfig": "2.42.1",
     "@sinsa/datasource-generator": "workspace:^",
+    "@sinsa/service-worker": "workspace:^0.1.0",
     "@types/fs-extra": "^11.0.4",
     "@types/gtag.js": "^0.0.18",
     "@types/jest": "~29.2.4",
@@ -52,6 +54,8 @@
     "prettier": "~2.8.1",
     "rimraf": "~3.0.2",
     "typescript": "~5.0.4",
-    "workbox-cli": "^7.0.0"
+    "workbox-build": "^7.0.0",
+    "workbox-cli": "^7.0.0",
+    "workbox-precaching": "^7.0.0"
   }
 }

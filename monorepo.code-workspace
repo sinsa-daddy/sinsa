@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "service-worker",
+      "path": "packages/service-worker/"
+    },
+    {
       "name": "solution-calculator",
       "path": "packages/solution-calculator/"
     },

@@ -71,8 +71,6 @@ export class DataSourceGenerator {
       }
     }
 
-    const allTerms: Set<string> = new Set();
-
     const writeCopilotsPromises = tableSummaries.map(async tableSummary => {
       if (!this._client) {
         return;
@@ -111,7 +109,6 @@ export class DataSourceGenerator {
       const rerunCopilotsGroupedByTerm: Record<`${number}`, CopilotType[]> = {};
 
       for (const copilot of copilotsInThisTable) {
-        allTerms.add(copilot.term.toString());
         if (Array.isArray(mainCopilotsGroupedByTerm[`${copilot.term}`])) {
           mainCopilotsGroupedByTerm[`${copilot.term}`].push(copilot);
         } else {
@@ -119,7 +116,6 @@ export class DataSourceGenerator {
         }
         if (Array.isArray(copilot.rerun_terms)) {
           for (const rerunTerm of copilot.rerun_terms) {
-            allTerms.add(rerunTerm.toString());
             if (Array.isArray(rerunCopilotsGroupedByTerm[`${rerunTerm}`])) {
               rerunCopilotsGroupedByTerm[`${rerunTerm}`].push(copilot);
             } else {
@@ -185,11 +181,7 @@ export class DataSourceGenerator {
                 _record_id: item.record_id,
               });
 
-              if (
-                allTerms.has(term.term.toString()) ||
-                Math.abs(term.start_time.valueOf() - Date.now()) <
-                  3 * 24 * 60 * 60 * 1000
-              ) {
+              if (Date.now() > term.start_time.valueOf()) {
                 termsInBossTable.push(term);
               }
             } catch (error) {
