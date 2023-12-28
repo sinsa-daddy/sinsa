@@ -1,6 +1,6 @@
 import { ProLayout } from '@ant-design/pro-components';
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-components';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { MY_ROUTE, RoutePath } from './constants';
@@ -62,6 +62,10 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
     }
   }, []);
 
+  const token = useMemo(() => {
+    return { pageContainer: { paddingInlinePageContainerContent: 8 } };
+  }, []);
+
   return (
     <ProLayout
       title="红油扳手作业站"
@@ -74,7 +78,7 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
       onMenuHeaderClick={handleClickLogo}
       siderWidth={200}
       layout="mix"
-      token={{ pageContainer: { paddingInlinePageContainerContent: 8 } }}
+      token={token}
       ErrorBoundary={ErrorBoundary}
     >
       {children}
