@@ -5,5 +5,6 @@ export default async function bootstrap(
   _: React.ComponentType,
   innerBootStrap: () => void,
 ) {
+  console.log('start bootstrap');
   innerBootStrap();
 }
