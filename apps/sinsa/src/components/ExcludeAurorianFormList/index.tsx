@@ -21,7 +21,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
   ...props
 }) => {
   const [{ auroriansOptions, auroriansMap }] = useModel(AuroriansModel);
-  console.log('auroriansOptions', auroriansOptions);
+
   return (
     <ProFormList
       {...props}
