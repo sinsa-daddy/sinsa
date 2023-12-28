@@ -2,6 +2,7 @@ import { ProLayout } from '@ant-design/pro-components';
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
 import { useCallback, useEffect } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-components';
+import { ErrorBoundary } from '../ErrorBoundary';
 import { MY_ROUTE, RoutePath } from './constants';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 
@@ -74,6 +75,7 @@ export const MyLayout: React.FC<React.PropsWithChildren<MyLayoutProps>> = ({
       siderWidth={200}
       layout="mix"
       token={{ pageContainer: { paddingInlinePageContainerContent: 8 } }}
+      ErrorBoundary={ErrorBoundary}
     >
       {children}
     </ProLayout>
