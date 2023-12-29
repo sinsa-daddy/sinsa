@@ -2,6 +2,7 @@ import type { ProColumns } from '@ant-design/pro-components';
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { Tag, Tooltip, Typography } from 'antd';
 import { AuroriansTeam } from '../AuroriansTeam';
+import { RelativeTimeText } from '../RelativeTimeText';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';
 import styles from './styles.module.less';
 
@@ -16,10 +17,12 @@ export interface TableParams {
 
 export interface GetColumnsContext {
   currentTerm?: TermType;
+  showScoreSorter?: boolean;
 }
 
 export function getCopilotsColumns({
   currentTerm,
+  showScoreSorter,
 }: GetColumnsContext): ProColumns<CopilotType>[] {
   return [
     {
@@ -37,7 +40,7 @@ export function getCopilotsColumns({
       valueType: 'digit',
       hideInSearch: true,
       width: 130,
-      sorter: true,
+      sorter: showScoreSorter,
     },
     {
       title: '作者',
@@ -85,6 +88,10 @@ export function getCopilotsColumns({
       valueType: 'dateTime',
       width: 160,
       hideInSearch: true,
+      render(_, entity) {
+        console.log('entity', entity.upload_time);
+        return <RelativeTimeText time={entity.upload_time} />;
+      },
     },
     {
       title: 'BV 号',

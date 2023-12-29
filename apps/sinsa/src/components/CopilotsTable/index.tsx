@@ -2,7 +2,8 @@ import { useCallback, useMemo, useRef } from 'react';
 import type { ActionType } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import type { CopilotType, TermType } from '@sinsa/schema';
-import { SortOrder } from 'antd/es/table/interface';
+import type { SortOrder } from 'antd/es/table/interface';
+import { Card } from 'antd';
 import { type TableParams, getCopilotsColumns } from './columns';
 
 interface CopilotsTableProps {
@@ -19,6 +20,9 @@ const TABLE_CONST_PROPS = {
     pageSize: 5,
     size: 'default',
     position: ['bottomCenter'] as any,
+    showTotal(total: number): string {
+      return `总共 ${total} 条作业`;
+    },
   },
   scroll: { x: 'max-content', scrollToFirstRowOnChange: true },
 } as const;
@@ -74,18 +78,23 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
   );
 
   const columns = useMemo(
-    () => getCopilotsColumns({ currentTerm: term }),
+    () => getCopilotsColumns({ currentTerm: term, showScoreSorter: true }),
     [term?.term],
   );
 
   return (
-    <ProTable<CopilotType, TableParams>
-      rowKey={copilotRowKey}
-      actionRef={actionRef}
-      columns={columns}
-      params={deps}
-      request={request}
-      {...TABLE_CONST_PROPS}
-    />
+    <Card>
+      <ProTable<CopilotType, TableParams>
+        rowKey={copilotRowKey}
+        actionRef={actionRef}
+        columns={columns}
+        params={deps}
+        request={request}
+        search={false}
+        toolBarRender={false}
+        ghost
+        {...TABLE_CONST_PROPS}
+      />
+    </Card>
   );
 };

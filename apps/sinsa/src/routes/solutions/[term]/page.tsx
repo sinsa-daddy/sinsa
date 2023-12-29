@@ -4,15 +4,14 @@ import { PageContainer } from '@ant-design/pro-components';
 import { useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import { useModel } from '@modern-js/runtime/model';
-import { Space, Tooltip, Typography } from 'antd';
-import dayjs from 'dayjs';
-import styles from './styles.module.less';
+import { Space, Typography } from 'antd';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotSolution } from '@/containers/CopilotSolution';
 import { TermsModel } from '@/models/terms';
 import { http } from '@/services/fetch';
 import { RoutePath } from '@/views/GlobalLayout/constants';
+import { RelativeTimeText } from '@/components/RelativeTimeText';
 
 const SolutionsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
@@ -38,16 +37,7 @@ const SolutionsPage: React.FC = () => {
           <TermChanger pathFn={RoutePath.Solutions} />
           {copilots[0] ? (
             <Typography.Text>
-              上次作业更新{' '}
-              <Tooltip
-                title={dayjs(copilots[0].upload_time).format(
-                  'YYYY-MM-DD HH:mm:ss',
-                )}
-              >
-                <span className={styles.LatestUpdatedText}>
-                  {dayjs(copilots[0].upload_time).fromNow()}
-                </span>
-              </Tooltip>
+              上次作业更新 <RelativeTimeText time={copilots[0].upload_time} />
             </Typography.Text>
           ) : null}
         </Space>

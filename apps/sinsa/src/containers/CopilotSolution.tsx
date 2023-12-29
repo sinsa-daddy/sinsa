@@ -1,11 +1,11 @@
+import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   ProForm,
   ProFormDependency,
-  ProFormInstance,
   ProFormRadio,
   ProFormSwitch,
 } from '@ant-design/pro-components';
-import { CopilotType, TermType } from '@sinsa/schema';
+import type { CopilotType, TermType } from '@sinsa/schema';
 import { Card, List, Space, Typography } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';

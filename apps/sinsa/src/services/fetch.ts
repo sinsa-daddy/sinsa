@@ -1,9 +1,6 @@
-import {
-  AurorianType,
-  CopilotType,
-  TermSchema,
-  type TermType,
-} from '@sinsa/schema';
+import { CopilotSchema, TermSchema } from '@sinsa/schema';
+import type { AurorianType, CopilotType, TermType } from '@sinsa/schema';
+import { isPlainObject, mapValues } from 'lodash-es';
 
 export class FetchService {
   private static instance: FetchService | null = null;
@@ -47,7 +44,11 @@ export class FetchService {
     const response = await fetch(`/api/copilots/${term}.json`, {
       cache: 'no-cache',
     });
-    return await response.json();
+    const data = await response.json();
+    if (isPlainObject(data)) {
+      return mapValues(data, v => CopilotSchema.parse(v));
+    }
+    return {};
   }
 }
 
