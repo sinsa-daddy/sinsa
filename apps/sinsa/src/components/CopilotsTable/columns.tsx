@@ -89,7 +89,6 @@ export function getCopilotsColumns({
       width: 160,
       hideInSearch: true,
       render(_, entity) {
-        console.log('entity', entity.upload_time);
         return <RelativeTimeText time={entity.upload_time} />;
       },
     },

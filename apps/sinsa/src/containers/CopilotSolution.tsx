@@ -6,7 +6,15 @@ import {
   ProFormSwitch,
 } from '@ant-design/pro-components';
 import type { CopilotType, TermType } from '@sinsa/schema';
-import { Card, List, Space, Typography } from 'antd';
+import {
+  Card,
+  ConfigProvider,
+  Empty,
+  List,
+  Result,
+  Space,
+  Typography,
+} from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';
 import { produce } from 'immer';
@@ -14,6 +22,7 @@ import { useLocalStorageState, useRequest } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
 import { useLocation } from '@modern-js/runtime/router';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
+import SINSA_SORRY from './assets/sorry.png';
 import { AuroriansModel } from '@/models/aurorians';
 import { SolutionScenarioCard } from '@/components/SolutionScenarioCard';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
@@ -230,42 +239,74 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
         </ProForm>
       </Card>
       <div ref={inViewRef} />
-      <List
-        loading={loading}
-        dataSource={data?.allSolutions?.solutions}
-        pagination={{
-          align: 'center',
-          defaultPageSize: 5,
-          current,
-          onChange(page) {
-            setCurrent(page);
-            window.scrollTo({
-              top: inViewRef.current!.offsetTop,
-              behavior: 'smooth',
-            });
-          },
-          showSizeChanger: false,
+      <ConfigProvider
+        renderEmpty={name => {
+          if (name === 'List') {
+            return data?.allSolutions?.solutions?.length === 0 ? (
+              <Result
+                icon={
+                  <img width={100} src={SINSA_SORRY} alt="醒山daddy: 很抱歉" />
+                }
+                title="没能找到匹配的作业"
+                subTitle={
+                  <div>
+                    <div>
+                      1. 可以适当降低搜索的队伍数量。例如搜索两队 + 自己自动一队
+                    </div>
+                    <div>2. 当前作业数量较少。可等待作业站更新后再次搜索</div>
+                  </div>
+                }
+              />
+            ) : (
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description="准备好寻找作业了！"
+              />
+            );
+          }
+          return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
         }}
-        rowKey={sc => sc.copilots.map(c => c.bv).join('')}
-        renderItem={item => {
-          return (
-            <Card
-              title={
-                <>
-                  {data?.rankSet
-                    ? `#${(data.rankSet.get(item) ?? 0) + 1} 匹配方案 `
-                    : null}
-                  {numeral(item.totalScore).format('0,0')}
-                </>
-              }
-              key={item.copilots.map(c => c.bv).join('')}
-              style={{ marginBottom: '1rem' }}
-            >
-              <SolutionScenarioCard solution={item} currentTerm={currentTerm} />
-            </Card>
-          );
-        }}
-      />
+      >
+        <List
+          loading={loading}
+          dataSource={data?.allSolutions?.solutions}
+          pagination={{
+            align: 'center',
+            defaultPageSize: 5,
+            current,
+            onChange(page) {
+              setCurrent(page);
+              window.scrollTo({
+                top: inViewRef.current!.offsetTop,
+                behavior: 'smooth',
+              });
+            },
+            showSizeChanger: false,
+          }}
+          rowKey={sc => sc.copilots.map(c => c.bv).join('')}
+          renderItem={item => {
+            return (
+              <Card
+                title={
+                  <>
+                    {data?.rankSet
+                      ? `#${(data.rankSet.get(item) ?? 0) + 1} 匹配方案 `
+                      : null}
+                    {numeral(item.totalScore).format('0,0')}
+                  </>
+                }
+                key={item.copilots.map(c => c.bv).join('')}
+                style={{ marginBottom: '1rem' }}
+              >
+                <SolutionScenarioCard
+                  solution={item}
+                  currentTerm={currentTerm}
+                />
+              </Card>
+            );
+          }}
+        />
+      </ConfigProvider>
     </>
   );
 };
