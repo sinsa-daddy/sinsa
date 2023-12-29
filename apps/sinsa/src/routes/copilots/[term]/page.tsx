@@ -6,9 +6,9 @@ import { useModel } from '@modern-js/runtime/model';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotsTable } from '@/components/CopilotsTable';
-import { RoutePath } from '@/components/MyLayout/constants';
 import { TermsModel } from '@/models/terms';
 import { http } from '@/services/fetch';
+import { RoutePath } from '@/views/GlobalLayout/constants';
 
 const CopilotsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();

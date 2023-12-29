@@ -4,7 +4,4 @@ module.exports = {
   parserOptions: {
     tsconfigRootDir: __dirname,
   },
-  rules: {
-    '@typescript-eslint/consistent-type-imports': 'error',
-  },
 };

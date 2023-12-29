@@ -1,5 +1,6 @@
-import React from 'react';
+import type React from 'react';
 import '@/plugins/dayjs';
+import { redirectToUploadPageWhenGettingCode } from '@/services/feishu-oauth';
 import { serviceWorker } from '@/services/service-worker';
 
 export default async function bootstrap(
@@ -9,4 +10,5 @@ export default async function bootstrap(
   innerBootStrap();
 
   serviceWorker.register();
+  redirectToUploadPageWhenGettingCode();
 }

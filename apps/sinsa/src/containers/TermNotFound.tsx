@@ -2,7 +2,7 @@ import { useModel } from '@modern-js/runtime/model';
 import { Button, Result } from 'antd';
 import { Link } from '@modern-js/runtime/router';
 import { TermsModel } from '@/models/terms';
-import { RoutePath } from '@/components/MyLayout/constants';
+import { RoutePath } from '@/views/GlobalLayout/constants';
 
 export const TermNotFound: React.FC = () => {
   const [{ latestTerm: currentTerm }] = useModel(TermsModel);

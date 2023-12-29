@@ -2,7 +2,7 @@ import { useModel } from '@modern-js/runtime/model';
 import { Select } from 'antd';
 import { useNavigate, useParams } from '@modern-js/runtime/router';
 import { TermsModel } from '@/models/terms';
-import { RoutePath } from '@/components/MyLayout/constants';
+import type { RoutePath } from '@/views/GlobalLayout/constants';
 
 export const TermChanger: React.FC<{
   pathFn: typeof RoutePath.Copilots | typeof RoutePath.Solutions;

@@ -2,9 +2,9 @@ import { Link, useLocation } from '@modern-js/runtime/router';
 import { Avatar, Button, Card, Space, Typography } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from 'ahooks';
-import { RoutePath } from '../MyLayout/constants';
 import { LARK_ORIGIN, LARK_SCOPE, UPLOAD_APP_ID } from './constants';
-import { LarkProfile } from './types';
+import type { LarkProfile } from './types';
+import { RoutePath } from '@/views/GlobalLayout/constants';
 
 export const LarkLoginCard: React.FC = () => {
   const REDIRECT_URI = useMemo(() => {

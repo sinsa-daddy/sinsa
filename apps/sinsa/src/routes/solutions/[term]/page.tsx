@@ -10,9 +10,9 @@ import styles from './styles.module.less';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotSolution } from '@/containers/CopilotSolution';
-import { RoutePath } from '@/components/MyLayout/constants';
 import { TermsModel } from '@/models/terms';
 import { http } from '@/services/fetch';
+import { RoutePath } from '@/views/GlobalLayout/constants';
 
 const SolutionsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();

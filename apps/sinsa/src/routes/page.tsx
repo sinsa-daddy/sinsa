@@ -5,7 +5,7 @@ import { Link, useLocation } from '@modern-js/runtime/router';
 import { useModel } from '@modern-js/runtime/model';
 import QunURL from '@/assets/docs/qun.webp';
 import { TermsModel } from '@/models/terms';
-import { RoutePath } from '@/components/MyLayout/constants';
+import { RoutePath } from '@/views/GlobalLayout/constants';
 
 const Index = React.memo(() => {
   const [{ latestTerm: currentTerm }] = useModel(TermsModel);
@@ -72,13 +72,6 @@ const Index = React.memo(() => {
           https://sinsa-daddy.github.io/
         </Typography.Link>
       </Typography.Paragraph>
-      {/* <Typography.Paragraph>
-        国内镜像站点{' '}
-        <Typography.Link href="https://sinsa-daddy.gitee.io/" target="_self">
-          https://sinsa-daddy.gitee.io/
-        </Typography.Link>{' '}
-        <Tag color="blue">推荐</Tag>
-      </Typography.Paragraph> */}
       <Typography.Paragraph>
         国内镜像站点{' '}
         <Typography.Link href="https://sinsa-daddy.gitee.io/" target="_self">
