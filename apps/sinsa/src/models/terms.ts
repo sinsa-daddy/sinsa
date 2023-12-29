@@ -8,6 +8,13 @@ export interface TermsState {
 
 const NOW = Date.now();
 
+/**
+ * 这期荒典是否正在进行中
+ */
+export function isCurrentlyUnderway(term: TermType) {
+  return term.start_time.valueOf() < NOW && NOW < term.end_time.valueOf();
+}
+
 export const TermsModel = model<TermsState>('terms').define({
   state: {
     terms: [],
@@ -15,10 +22,8 @@ export const TermsModel = model<TermsState>('terms').define({
   computed: {
     latestTerm: state => {
       return (
-        state.terms.find(
-          term =>
-            term.start_time.valueOf() < NOW && NOW < term.end_time.valueOf(),
-        ) ?? first(state.terms)
+        state.terms.find(term => isCurrentlyUnderway(term)) ??
+        first(state.terms)
       );
     },
     termsOptions: state =>

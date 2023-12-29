@@ -9,12 +9,13 @@ import {
 import { useModel } from '@modern-js/runtime/model';
 import { isEmpty } from 'lodash-es';
 import { useEffect, useState } from 'react';
-import { TermSchema } from '@sinsa/schema';
+import { TermSchema, TermType } from '@sinsa/schema';
 import { MyLayout } from '../components/MyLayout';
 import type { LayoutLoaderData } from './layout.data';
 import styles from './layout.module.less';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
+import { useActualLatestTerm } from '@/services/service-worker';
 
 const theme: ThemeConfig = {
   token: {
@@ -27,29 +28,20 @@ export default function Layout() {
     useLoaderData() as LayoutLoaderData;
 
   const [terms, termsActions] = useModel(TermsModel);
-  const [actualTerm, setActualTerm] = useState<number>();
+  const [alertTerm, setAlertTerm] = useState<TermType>();
+  const actualLatestTerm = useActualLatestTerm();
 
   useEffect(() => {
-    if (terms.latestTerm?.term) {
-      window.$subscribeTermsUpdate?.then(payload => {
-        const NOW = Date.now();
-        const actualLatest = payload.terms
-          .map(item => TermSchema.parse(item))
-          .find(
-            target =>
-              target.start_time.valueOf() < NOW &&
-              NOW < target.end_time.valueOf(),
-          );
-        if (
-          actualLatest &&
-          terms.latestTerm &&
-          actualLatest.term > terms.latestTerm.term
-        ) {
-          setActualTerm(actualLatest.term);
-        }
-      });
+    if (
+      typeof terms.latestTerm?.term === 'number' &&
+      typeof actualLatestTerm?.term === 'number'
+    ) {
+      if (actualLatestTerm.term > terms.latestTerm.term) {
+        setAlertTerm(actualLatestTerm);
+      }
     }
-  }, [terms.latestTerm]);
+  }, [terms.latestTerm?.term, actualLatestTerm?.term]);
+
   if (terms.terms.length === 0) {
     termsActions.setTerms(termsFromRemote.map(t => TermSchema.parse(t)));
   }
@@ -62,13 +54,13 @@ export default function Layout() {
   return (
     <ConfigProvider prefixCls="sinsa" theme={theme}>
       <MyLayout defaultTerm={terms.latestTerm?.term}>
-        {actualTerm ? (
+        {alertTerm ? (
           <Alert
             className={styles.Alert}
             type="error"
             showIcon={false}
             banner
-            message={`荒典已经更新至 ${actualTerm} 期，刷新页面后可选择`}
+            message={`荒典已经更新至 ${alertTerm.term} 期，刷新页面后可选择`}
             action={
               <Typography.Link
                 onClick={e => {
