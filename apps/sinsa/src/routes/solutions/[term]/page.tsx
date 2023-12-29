@@ -24,7 +24,7 @@ const SolutionsPage: React.FC = () => {
 
   const { data, error, loading } = useRequest(
     () =>
-      fetch(`/api/copilots/${params.term}.json?t=${Date.now()}`).then(
+      fetch(`/api/copilots/${params.term}.json}`, { cache: 'no-cache' }).then(
         response =>
           response.json() as Promise<Record<CopilotType['bv'], CopilotType>>,
       ),
