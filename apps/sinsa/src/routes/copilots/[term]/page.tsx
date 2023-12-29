@@ -1,16 +1,14 @@
-import { useParams, useLocation } from '@modern-js/runtime/router';
+import { useParams } from '@modern-js/runtime/router';
 import { useRequest } from 'ahooks';
 import { PageContainer } from '@ant-design/pro-components';
-import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotsTable } from '@/components/CopilotsTable';
 import { RoutePath } from '@/components/MyLayout/constants';
-import { WalineComment } from '@/components/WalineComment';
-import { COMMENT_BACKEND_SERVER_URL } from '@/constants/comment';
 import { TermsModel } from '@/models/terms';
+import { http } from '@/services/fetch';
 
 const CopilotsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
@@ -19,16 +17,12 @@ const CopilotsPage: React.FC = () => {
     () => params.term && termsMap[params.term],
     [params.term],
   );
-  const location = useLocation();
 
   const { data, error, loading } = useRequest(
     () =>
-      fetch(`/api/copilots/${currentTerm?.term}.json`, {
-        cache: 'no-cache',
-      }).then(
-        response =>
-          response.json() as Promise<Record<CopilotType['bv'], CopilotType>>,
-      ),
+      currentTerm?.term
+        ? http.getCopilots(currentTerm.term)
+        : (Promise.resolve({}) as ReturnType<typeof http.getCopilots>),
     { ready: Boolean(currentTerm?.term), refreshDeps: [currentTerm?.term] },
   );
 
@@ -43,13 +37,7 @@ const CopilotsPage: React.FC = () => {
       {error ? (
         <TermNotFound />
       ) : (
-        <>
-          <CopilotsTable currentTerm={currentTerm} dataSource={copilots} />
-          <WalineComment
-            serverURL={COMMENT_BACKEND_SERVER_URL}
-            path={location.pathname}
-          />
-        </>
+        <CopilotsTable currentTerm={currentTerm} dataSource={copilots} />
       )}
     </PageContainer>
   );

@@ -17,7 +17,7 @@ import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import { AuroriansModel } from '@/models/aurorians';
 import { SolutionScenarioCard } from '@/components/SolutionScenarioCard';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
-import { calculateAllSolutionsAsync } from '@/features/backtrack/calculate-scenarios-async';
+import { solutionAlgorithm } from '@/services/solution-algorithm';
 
 interface CopilotSolutionProps {
   dataSource: CopilotType[];
@@ -87,7 +87,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
         });
       }
 
-      const allSolutions = await calculateAllSolutionsAsync(
+      const allSolutions = await solutionAlgorithm.calculateAllSolutions(
         { copilots: dataSource, availableBox: filterBox },
         params.k,
         { disalbeAlternative: params.disalbeAlternative },

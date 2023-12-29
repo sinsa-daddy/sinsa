@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { useParams } from '@modern-js/runtime/router';
 import { PageContainer } from '@ant-design/pro-components';
-import type { CopilotType } from '@sinsa/schema';
 import { useMemo } from 'react';
 import { useRequest } from 'ahooks';
 import { useModel } from '@modern-js/runtime/model';
@@ -13,6 +12,7 @@ import { TermChanger } from '@/containers/TermChanger';
 import { CopilotSolution } from '@/containers/CopilotSolution';
 import { RoutePath } from '@/components/MyLayout/constants';
 import { TermsModel } from '@/models/terms';
+import { http } from '@/services/fetch';
 
 const SolutionsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
@@ -21,14 +21,12 @@ const SolutionsPage: React.FC = () => {
     () => params.term && termsMap[params.term],
     [params.term],
   );
-
   const { data, error, loading } = useRequest(
     () =>
-      fetch(`/api/copilots/${params.term}.json`, { cache: 'no-cache' }).then(
-        response =>
-          response.json() as Promise<Record<CopilotType['bv'], CopilotType>>,
-      ),
-    { refreshDeps: [params.term] },
+      currentTerm?.term
+        ? http.getCopilots(currentTerm.term)
+        : (Promise.resolve({}) as ReturnType<typeof http.getCopilots>),
+    { ready: Boolean(currentTerm?.term), refreshDeps: [currentTerm?.term] },
   );
 
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
