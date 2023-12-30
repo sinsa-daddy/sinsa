@@ -37,7 +37,11 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
             NOOP
           );
         default:
-          return <Link to={item.path}>{dom}</Link>;
+          return (
+            <Link to={item.path} target={item.link ? '_blank' : undefined}>
+              {dom}
+            </Link>
+          );
       }
     },
     [latestTerm?.term],
