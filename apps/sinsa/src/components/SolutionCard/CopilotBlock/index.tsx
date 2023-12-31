@@ -1,7 +1,8 @@
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { clsx } from 'clsx';
-import { Flex, Statistic, Tag, Tooltip, Typography } from 'antd';
+import { Flex, Tag, Tooltip, Typography } from 'antd';
 import React from 'react';
+import numeral from 'numeral';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';
@@ -20,7 +21,15 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
         <AdaptiveAuroriansTeam aurorianSummaries={copilot.aurorian_summaries} />
         <div className={styles.PaddingContainer}>
           <Flex className={styles.Header}>
-            <Statistic valueStyle={{ fontSize: 22 }} value={copilot.score} />
+            <Typography.Link
+              href={`https://www.bilibili.com/video/${copilot.bv}`}
+              target="_blank"
+              title={copilot.title}
+            >
+              <span className={styles.Score}>
+                {numeral(copilot.score).format('0,0')}
+              </span>
+            </Typography.Link>
             <Flex className={styles.Author} align="center">
               <Typography.Text strong>{copilot.author}</Typography.Text>
               {copilot.description ? (
