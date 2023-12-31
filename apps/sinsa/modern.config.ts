@@ -4,9 +4,7 @@ import { fetchDataSourcePlugin } from './plugins/fetch-data-source-plugin';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
-  source: {
-    preEntry: './src/global.less',
-  },
+  source: {},
   runtime: {
     router: {
       supportHtml5History: false,
