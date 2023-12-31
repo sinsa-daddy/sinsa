@@ -8,6 +8,7 @@ import { Button } from 'antd';
 import { useLocation } from '@modern-js/runtime/router';
 import { copilotRowKey } from '../CopilotsTable';
 import { getCopilotsColumns } from '../CopilotsTable/columns';
+import { X_FEATURE_FIELD } from '../XFeatureBanner/constants';
 
 interface SolutionScenarioCardProps {
   solution: Solution;
@@ -39,7 +40,7 @@ export const SolutionScenarioCard: React.FC<SolutionScenarioCardProps> = ({
 
   const columns = useMemo(
     () =>
-      location.search.includes('feature=ignore')
+      location.search.includes(`${X_FEATURE_FIELD}=ignore`)
         ? [
             ...getCopilotsColumns({ currentTerm }),
             {

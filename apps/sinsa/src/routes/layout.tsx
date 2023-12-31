@@ -8,6 +8,7 @@ import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
 import { GlobalLayout } from '@/views/GlobalLayout';
 import { ServiceWorkerUpdateBanner } from '@/components/ServiceWorkerUpdateBanner';
+import { XFeatureBanner } from '@/components/XFeatureBanner';
 
 const THEME: ThemeConfig = {
   token: {
@@ -36,6 +37,7 @@ const Layout: React.FC = () => {
     <ConfigProvider prefixCls={ANTD_PREFIX_CLASSNAME} theme={THEME}>
       <GlobalLayout>
         <ServiceWorkerUpdateBanner />
+        <XFeatureBanner />
         <Outlet />
       </GlobalLayout>
     </ConfigProvider>
