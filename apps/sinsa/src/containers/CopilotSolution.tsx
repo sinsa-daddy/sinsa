@@ -15,6 +15,7 @@ import {
   Result,
   Space,
   Typography,
+  notification,
 } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import { produce } from 'immer';
@@ -184,6 +185,10 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
             ]);
           }
           formRef.current.submit();
+        } else {
+          notification.error({
+            message: `这个光灵已经在排除列表中了 ❤`,
+          });
         }
       }
     }
