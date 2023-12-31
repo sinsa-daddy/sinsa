@@ -40,6 +40,9 @@ const SolutionsPage: React.FC = () => {
               上次作业更新 <RelativeTimeText time={copilots[0].upload_time} />
             </Typography.Text>
           ) : null}
+          <Typography.Text type="secondary">
+            Tips: 点击匹配作业中光灵头像可唤出菜单一键排除光灵或仅排除突破 ❤
+          </Typography.Text>
         </Space>
       }
       title="作业匹配"
