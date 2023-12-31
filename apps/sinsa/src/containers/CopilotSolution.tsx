@@ -17,7 +17,7 @@ import {
 } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import { produce } from 'immer';
-import { useDeepCompareEffect, useLocalStorageState, useRequest } from 'ahooks';
+import { useLocalStorageState, useRequest, useUpdateEffect } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import SINSA_SORRY from './assets/sorry.png';
@@ -139,7 +139,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
     },
   );
 
-  useDeepCompareEffect(() => {
+  useUpdateEffect(() => {
     formRef.current?.submit();
   }, [copilotsIgnore]);
 
