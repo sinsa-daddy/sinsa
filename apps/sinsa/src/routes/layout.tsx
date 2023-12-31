@@ -13,6 +13,7 @@ import { XFeatureBanner } from '@/components/XFeatureBanner';
 const THEME: ThemeConfig = {
   token: {
     colorPrimary: 'rgb(220, 89, 80)',
+    colorLink: 'rgb(220, 89, 80)',
   },
 };
 

@@ -1,0 +1,26 @@
+.SolutionCard {
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.ControlledCopilotBlock {
+  margin: 0 -24px;
+}
+
+@media (min-width: 1200px) {
+  .ControlledCopilotBlock {
+    flex-flow: row nowrap;
+    align-items: start;
+    margin: 0;
+
+    &:not(:last-child) {
+      padding-bottom: 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    // .Header {
+    //   justify-content: flex-start;
+    // }
+  }
+}

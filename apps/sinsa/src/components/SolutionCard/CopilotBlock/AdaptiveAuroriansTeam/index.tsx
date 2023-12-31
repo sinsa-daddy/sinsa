@@ -1,21 +1,22 @@
 import type { CopilotType } from '@sinsa/schema';
 import type React from 'react';
-import { AurorianCard } from '../AurorianCard';
+import { Flex } from 'antd';
 import styles from './styles.module.less';
+import { AdaptiveAurorianCard } from './AdaptiveAurorianCard';
 
-interface AuroriansTeamProps {
+interface AdaptiveAuroriansTeamProps {
   aurorianSummaries: CopilotType['aurorian_summaries'];
 }
 
-export const AuroriansTeam: React.FC<AuroriansTeamProps> = ({
+export const AdaptiveAuroriansTeam: React.FC<AdaptiveAuroriansTeamProps> = ({
   aurorianSummaries,
 }) => {
   return (
-    <div className={styles.AuroriansTeam}>
+    <Flex className={styles.AuroriansTeam}>
       {aurorianSummaries.map(
         ({ aurorian_name, breakthrough, is_replaceable }) => {
           return (
-            <AurorianCard
+            <AdaptiveAurorianCard
               key={aurorian_name}
               name={aurorian_name}
               breakthrough={breakthrough}
@@ -24,6 +25,6 @@ export const AuroriansTeam: React.FC<AuroriansTeamProps> = ({
           );
         },
       )}
-    </div>
+    </Flex>
   );
 };

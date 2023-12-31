@@ -16,16 +16,15 @@ import {
   Typography,
 } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
-import numeral from 'numeral';
 import { produce } from 'immer';
 import { useDeepCompareEffect, useLocalStorageState, useRequest } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import SINSA_SORRY from './assets/sorry.png';
 import { AuroriansModel } from '@/models/aurorians';
-import { SolutionScenarioCard } from '@/components/SolutionScenarioCard';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
 import { solutionAlgorithm } from '@/services/solution-algorithm';
+import { SolutionCard } from '@/components/SolutionCard';
 
 interface CopilotSolutionProps {
   dataSource: CopilotType[];
@@ -296,25 +295,32 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           }}
           rowKey={sc => sc.copilots.map(c => c.bv).join('')}
           renderItem={item => {
+            // return (
+            //   <Card
+            //     title={
+            //       <>
+            //         {data?.rankSet
+            //           ? `#${(data.rankSet.get(item) ?? 0) + 1} 匹配方案 `
+            //           : null}
+            //         {numeral(item.totalScore).format('0,0')}
+            //       </>
+            //     }
+            //     key={item.copilots.map(c => c.bv).join('')}
+            //     style={{ marginBottom: '1rem' }}
+            //   >
+            //     <SolutionScenarioCard
+            //       solution={item}
+            //       currentTerm={currentTerm}
+            //       onIgnore={co => setCopilotsIgnore(prev => [...prev, co.bv])}
+            //     />
+            //   </Card>
+            // );
             return (
-              <Card
-                title={
-                  <>
-                    {data?.rankSet
-                      ? `#${(data.rankSet.get(item) ?? 0) + 1} 匹配方案 `
-                      : null}
-                    {numeral(item.totalScore).format('0,0')}
-                  </>
-                }
-                key={item.copilots.map(c => c.bv).join('')}
-                style={{ marginBottom: '1rem' }}
-              >
-                <SolutionScenarioCard
-                  solution={item}
-                  currentTerm={currentTerm}
-                  onIgnore={co => setCopilotsIgnore(prev => [...prev, co.bv])}
-                />
-              </Card>
+              <SolutionCard
+                index={data?.rankSet.get(item) ?? 0}
+                solution={item}
+                currentTerm={currentTerm}
+              />
             );
           }}
         />

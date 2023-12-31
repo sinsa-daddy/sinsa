@@ -1,0 +1,88 @@
+.AdaptiveAurorianCard {
+  position: relative;
+  flex-grow: 1;
+  flex-basis: 20%;
+  flex-direction: column-reverse;
+  aspect-ratio: 8/13;
+  overflow: hidden;
+  box-shadow: -6px 0 10px -5px rgba(0, 0, 0, 0.5);
+}
+
+.BackgroundImage {
+  background-repeat: no-repeat;
+  background-size: 150%;
+  background-position-x: 85%;
+  background-position-y: -48%;
+  background-color: lightgray;
+}
+
+.MetaContainer {
+  background-color: rgba(black, 0.4);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  color: white;
+}
+
+.MetaClass {
+  width: 16px;
+  height: 16px;
+}
+
+.MetaFirstAttribute {
+  width: 16px;
+  height: 16px;
+}
+
+.MetaSecondAttribute {
+  width: 10px;
+  height: 10px;
+}
+
+.NameContainer {
+  background-color: rgba(black, 0.4);
+  backdrop-filter: blur(8px);
+  width: 100%;
+  text-align: center;
+  color: white;
+  white-space: nowrap; /* 禁止文本换行 */
+  overflow: hidden; /* 隐藏溢出的部分 */
+  text-overflow: ellipsis; /* 显示省略号 */
+  font-size: 13px;
+  padding-bottom: 2px;
+}
+
+.ReplaceableTag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 2px 2px 0 0;
+  padding-inline: 4px;
+}
+
+.BreakThrough {
+  text-align: center;
+  & > * {
+    margin-inline-end: 0px !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .MetaClass {
+    width: 24px;
+    height: 24px;
+  }
+
+  .MetaFirstAttribute {
+    width: 24px;
+    height: 24px;
+  }
+
+  .MetaSecondAttribute {
+    width: 16px;
+    height: 16px;
+  }
+
+  .NameContainer {
+    font-size: 14px;
+  }
+}
