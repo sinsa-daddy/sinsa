@@ -7,15 +7,17 @@ import numeral from 'numeral';
 import { copilotRowKey } from '../CopilotsTable';
 import { CopilotBlock } from './CopilotBlock';
 import styles from './styles.module.less';
+import type { IgnoreMessage } from './types';
 
 export interface SolutionCardProps {
   solution: Solution;
   currentTerm: TermType;
   index: number;
+  onIgnore?: (msg: IgnoreMessage) => void;
 }
 
 export const SolutionCard = React.memo<SolutionCardProps>(
-  ({ solution, currentTerm, index }) => {
+  ({ solution, currentTerm, index, onIgnore }) => {
     const sorted = useMemo(() => {
       return [...solution.copilots].sort((a, b) => b.score - a.score);
     }, [solution]);
@@ -34,6 +36,7 @@ export const SolutionCard = React.memo<SolutionCardProps>(
               key={copilotRowKey(copilot)}
               copilot={copilot}
               currentTerm={currentTerm}
+              onIgnore={onIgnore}
             />
           );
         })}

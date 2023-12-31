@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { Flex, Tag, Tooltip, Typography } from 'antd';
 import React from 'react';
 import numeral from 'numeral';
+import type { IgnoreMessage } from '../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';
@@ -12,13 +13,17 @@ interface CopilotBlockProps {
   copilot: CopilotType;
   currentTerm: TermType;
   className?: string;
+  onIgnore?: (msg: IgnoreMessage) => void;
 }
 
 export const CopilotBlock = React.memo<CopilotBlockProps>(
-  ({ copilot, currentTerm, className }) => {
+  ({ copilot, currentTerm, className, onIgnore }) => {
     return (
       <div className={clsx(styles.CopilotBlock, className)}>
-        <AdaptiveAuroriansTeam aurorianSummaries={copilot.aurorian_summaries} />
+        <AdaptiveAuroriansTeam
+          onIgnore={onIgnore}
+          aurorianSummaries={copilot.aurorian_summaries}
+        />
         <div className={styles.PaddingContainer}>
           <Flex className={styles.Header}>
             <Typography.Link

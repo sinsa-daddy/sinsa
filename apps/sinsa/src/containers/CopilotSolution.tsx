@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   ProForm,
@@ -17,14 +18,21 @@ import {
 } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import { produce } from 'immer';
-import { useLocalStorageState, useRequest, useUpdateEffect } from 'ahooks';
+import {
+  useLocalStorageState,
+  useMemoizedFn,
+  useRequest,
+  useUpdateEffect,
+} from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
+import { isEmpty } from 'lodash-es';
 import SINSA_SORRY from './assets/sorry.png';
 import { AuroriansModel } from '@/models/aurorians';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
 import { solutionAlgorithm } from '@/services/solution-algorithm';
 import { SolutionCard } from '@/components/SolutionCard';
+import type { IgnoreMessage } from '@/components/SolutionCard/types';
 
 interface CopilotSolutionProps {
   dataSource: CopilotType[];
@@ -142,6 +150,44 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   useUpdateEffect(() => {
     formRef.current?.submit();
   }, [copilotsIgnore]);
+
+  const handleIgnore = useMemoizedFn((msg: IgnoreMessage) => {
+    if (!formRef.current) {
+      return;
+    }
+    if (msg.aurorianName) {
+      formRef.current.setFieldValue('enableExclude', true);
+      const prevExcludeArray = formRef.current.getFieldValue(
+        'exclude',
+      ) as QueryParams['exclude'];
+      if (Array.isArray(prevExcludeArray)) {
+        const target = prevExcludeArray.find(
+          t => t.aurorianName === msg.aurorianName,
+        );
+        if (!target) {
+          if (prevExcludeArray.length === 1 && isEmpty(prevExcludeArray[0])) {
+            prevExcludeArray.pop();
+          }
+          if (msg.breakthrough) {
+            formRef.current.setFieldValue('exclude', [
+              ...prevExcludeArray,
+              {
+                aurorianName: msg.aurorianName,
+                excludeBreakthroughOnly: true,
+                excludeBreakthrough: msg.breakthrough,
+              },
+            ]);
+          } else {
+            formRef.current.setFieldValue('exclude', [
+              ...prevExcludeArray,
+              { aurorianName: msg.aurorianName },
+            ]);
+          }
+          formRef.current.submit();
+        }
+      }
+    }
+  });
 
   return (
     <>
@@ -295,31 +341,12 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
           }}
           rowKey={sc => sc.copilots.map(c => c.bv).join('')}
           renderItem={item => {
-            // return (
-            //   <Card
-            //     title={
-            //       <>
-            //         {data?.rankSet
-            //           ? `#${(data.rankSet.get(item) ?? 0) + 1} 匹配方案 `
-            //           : null}
-            //         {numeral(item.totalScore).format('0,0')}
-            //       </>
-            //     }
-            //     key={item.copilots.map(c => c.bv).join('')}
-            //     style={{ marginBottom: '1rem' }}
-            //   >
-            //     <SolutionScenarioCard
-            //       solution={item}
-            //       currentTerm={currentTerm}
-            //       onIgnore={co => setCopilotsIgnore(prev => [...prev, co.bv])}
-            //     />
-            //   </Card>
-            // );
             return (
               <SolutionCard
                 index={data?.rankSet.get(item) ?? 0}
                 solution={item}
                 currentTerm={currentTerm}
+                onIgnore={handleIgnore}
               />
             );
           }}
