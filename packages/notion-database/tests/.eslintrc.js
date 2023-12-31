@@ -6,4 +6,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: require.resolve('./tsconfig.json'),
   },
+  rules: {
+    '@typescript-eslint/consistent-type-imports': 'error',
+  },
 };
