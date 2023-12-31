@@ -13,26 +13,7 @@ export function useLazyImage(aurorian_name?: string) {
         }
       }
     };
-
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].intersectionRatio <= 0) {
-        return;
-      }
-      loadImage();
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-    });
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-    };
+    loadImage();
   }, [aurorian_name]);
 
   return {

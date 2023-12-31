@@ -25,12 +25,19 @@
     width: 100%;
 
     &:first-child {
-      padding-top: 8px;
+      padding-top: 0;
     }
   }
 }
 
-.Score {
+@media (min-width: 1200px) {
+  .PaddingContainer {
+    > * {
+      &:first-child {
+        padding-top: 8px;
+      }
+    }
+  }
 }
 
 .Header {

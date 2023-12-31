@@ -20,7 +20,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
         <AdaptiveAuroriansTeam aurorianSummaries={copilot.aurorian_summaries} />
         <div className={styles.PaddingContainer}>
           <Flex className={styles.Header}>
-            <Statistic value={copilot.score} />
+            <Statistic valueStyle={{ fontSize: 22 }} value={copilot.score} />
             <Flex className={styles.Author} align="center">
               <Typography.Text strong>{copilot.author}</Typography.Text>
               {copilot.description ? (

@@ -1,8 +1,9 @@
 import type { TermType } from '@sinsa/schema';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
-import { Card, Statistic } from 'antd';
+import { Card, Typography } from 'antd';
 import React, { useMemo } from 'react';
 import { isEqual } from 'lodash-es';
+import numeral from 'numeral';
 import { copilotRowKey } from '../CopilotsTable';
 import { CopilotBlock } from './CopilotBlock';
 import styles from './styles.module.less';
@@ -19,11 +20,13 @@ export const SolutionCard = React.memo<SolutionCardProps>(
       return [...solution.copilots].sort((a, b) => b.score - a.score);
     }, [solution]);
     return (
-      <Card className={styles.SolutionCard}>
-        <Statistic
-          title={`#${index + 1} 匹配方案`}
-          value={solution.totalScore}
-        />
+      <Card className={styles.SolutionCard} bodyStyle={{ paddingBottom: 16 }}>
+        <div className={styles.TotalScore}>
+          <Typography.Text strong>{`#${index + 1} 匹配方案 ${numeral(
+            solution.totalScore,
+          ).format('0,0')}`}</Typography.Text>
+        </div>
+
         {sorted.map(copilot => {
           return (
             <CopilotBlock
