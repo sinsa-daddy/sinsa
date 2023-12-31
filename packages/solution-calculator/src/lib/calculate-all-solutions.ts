@@ -18,7 +18,7 @@ interface StackContext {
 export function calculateAllSolutions(
   context: SolutionContext,
   k = 3,
-  { disalbeAlternative }: CalcOptions = {},
+  options: CalcOptions = {},
 ): AllSolutions {
   const result: AllSolutions = {
     solutions: [],
@@ -49,11 +49,11 @@ export function calculateAllSolutions(
       }
     } else {
       const currentCopilot = context.copilots[currentCopilotIndex];
-      if (canUseCopilot(remainingBox, currentCopilot, { disalbeAlternative })) {
+      if (canUseCopilot(remainingBox, currentCopilot, options)) {
         const newRemainingBox = boxWithoutAuroriansInCopilot(
           remainingBox,
           currentCopilot,
-          { disalbeAlternative },
+          options,
         );
         stack.push({
           currentCopilotIndex: currentCopilotIndex + 1,

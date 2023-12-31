@@ -35,12 +35,13 @@ export function getCopilotsColumns({
       width: 80 * 5 + 24,
     },
     {
-      title: '结算分数',
+      title: '分数',
       dataIndex: 'score',
       valueType: 'digit',
       hideInSearch: true,
-      width: 130,
+      width: 100,
       sorter: showScoreSorter,
+      align: 'right',
     },
     {
       title: '作者',

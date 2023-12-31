@@ -19,4 +19,9 @@ export interface CalcOptions {
    * 是否禁止可替换位置
    */
   disalbeAlternative?: boolean;
+
+  /**
+   * 是否忽略掉特定作业
+   */
+  copilotsIgnore?: CopilotType['bv'][];
 }

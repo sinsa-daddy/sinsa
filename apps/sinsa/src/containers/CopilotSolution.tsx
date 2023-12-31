@@ -18,9 +18,8 @@ import {
 import { useModel } from '@modern-js/runtime/model';
 import numeral from 'numeral';
 import { produce } from 'immer';
-import { useLocalStorageState, useRequest } from 'ahooks';
+import { useDeepCompareEffect, useLocalStorageState, useRequest } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
-import { useLocation } from '@modern-js/runtime/router';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import SINSA_SORRY from './assets/sorry.png';
 import { AuroriansModel } from '@/models/aurorians';
@@ -48,13 +47,12 @@ interface QueryParams {
 
 const initialValues = { k: 3, box: 'whole', exclude: [{}] as any[] } as const;
 
-const BASE_TEAM_COUNT = [
+const EXTENDED_TEAM_COUNT = [
+  { label: '一队', value: 1 },
   { label: '两队', value: 2 },
   { label: '三队', value: 3 },
   { label: '四队', value: 4 },
 ];
-
-const EXTENDED_TEAM_COUNT = [{ label: '一队', value: 1 }, ...BASE_TEAM_COUNT];
 
 export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
   dataSource,
@@ -75,6 +73,10 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
     {
       defaultValue: undefined,
     },
+  );
+
+  const [copilotsIgnore, setCopilotsIgnore] = useState<CopilotType['bv'][]>(
+    () => [],
   );
 
   const { data, loading, runAsync } = useRequest(
@@ -99,7 +101,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
       const allSolutions = await solutionAlgorithm.calculateAllSolutions(
         { copilots: dataSource, availableBox: filterBox },
         params.k,
-        { disalbeAlternative: params.disalbeAlternative },
+        { disalbeAlternative: params.disalbeAlternative, copilotsIgnore },
       );
 
       const rankSet = new WeakMap<Solution, number>();
@@ -134,15 +136,13 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
     {
       manual: true,
       defaultParams: [initialValues],
+      refreshDeps: [copilotsIgnore],
     },
   );
 
-  const location = useLocation();
-  const COUNT = useMemo(() => {
-    return location.search.includes('k1')
-      ? EXTENDED_TEAM_COUNT
-      : BASE_TEAM_COUNT;
-  }, [location.search]);
+  useDeepCompareEffect(() => {
+    formRef.current?.submit();
+  }, [copilotsIgnore]);
 
   return (
     <>
@@ -153,11 +153,13 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
             await runAsync(params);
             setCurrent(1);
           }}
-          // sub="寻找队伍方案"
           initialValues={localSetting ?? initialValues}
           layout="vertical"
           submitter={{
             // render: (_, dom) => <FooterToolbar>{dom}</FooterToolbar>,
+            onReset() {
+              setCopilotsIgnore([]);
+            },
             searchConfig: { submitText: '寻找匹配方案' },
             render(_, dom) {
               return (
@@ -170,6 +172,15 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
                         {data?.allSolutions.solutions.length}
                       </Typography.Text>{' '}
                       个匹配方案
+                    </Typography.Text>
+                  ) : null}
+                  {copilotsIgnore.length ? (
+                    <Typography.Text>
+                      已忽略{' '}
+                      <Typography.Text strong>
+                        {copilotsIgnore.length}
+                      </Typography.Text>{' '}
+                      个作业
                     </Typography.Text>
                   ) : null}
                 </Space>
@@ -193,7 +204,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               name="k"
               label="队伍数量"
               rules={[{ required: true }]}
-              options={COUNT}
+              options={EXTENDED_TEAM_COUNT}
               allowClear={false}
               radioType="button"
             />
@@ -301,6 +312,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
                 <SolutionScenarioCard
                   solution={item}
                   currentTerm={currentTerm}
+                  onIgnore={co => setCopilotsIgnore(prev => [...prev, co.bv])}
                 />
               </Card>
             );
