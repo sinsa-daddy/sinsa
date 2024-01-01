@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from '@modern-js/runtime/router';
 import { useCallback, useMemo } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
+import { FloatButton } from 'antd';
 import { MY_ROUTE, RoutePath } from './constants';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
@@ -56,21 +57,24 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
   }, []);
 
   return (
-    <ProLayout
-      title="红油扳手作业站"
-      logo={<IconLogo />}
-      location={location}
-      fixedHeader
-      fixSiderbar
-      route={MY_ROUTE}
-      menuItemRender={renderMenuItem}
-      onMenuHeaderClick={handleClickLogo}
-      siderWidth={200}
-      layout="mix"
-      token={token}
-      ErrorBoundary={ErrorBoundary}
-    >
-      {children}
-    </ProLayout>
+    <>
+      <ProLayout
+        title="红油扳手作业站"
+        logo={<IconLogo />}
+        location={location}
+        fixedHeader
+        fixSiderbar
+        route={MY_ROUTE}
+        menuItemRender={renderMenuItem}
+        onMenuHeaderClick={handleClickLogo}
+        siderWidth={200}
+        layout="mix"
+        token={token}
+        ErrorBoundary={ErrorBoundary}
+      >
+        {children}
+      </ProLayout>
+      <FloatButton.BackTop />
+    </>
   );
 };
