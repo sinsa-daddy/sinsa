@@ -33,7 +33,7 @@ const SolutionsPage: React.FC = () => {
   return (
     <PageContainer
       content={
-        <Space>
+        <Space wrap>
           <TermChanger pathFn={RoutePath.Solutions} />
           {copilots[0] ? (
             <Typography.Text>
