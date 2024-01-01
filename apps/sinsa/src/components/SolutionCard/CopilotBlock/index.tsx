@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { Flex, Tag, Tooltip, Typography } from 'antd';
 import React from 'react';
 import numeral from 'numeral';
+import { useBreakpoint } from '@ant-design/pro-components';
 import type { IgnoreMessage } from '../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
@@ -18,6 +19,8 @@ interface CopilotBlockProps {
 
 export const CopilotBlock = React.memo<CopilotBlockProps>(
   ({ copilot, currentTerm, className, onIgnore }) => {
+    const screen = useBreakpoint();
+    const isLarge = screen === 'lg' || screen === 'xl' || screen === 'xxl';
     return (
       <div className={clsx(styles.CopilotBlock, className)}>
         <AdaptiveAuroriansTeam
@@ -37,12 +40,12 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
             </Typography.Link>
             <Flex className={styles.Author} align="center">
               <Typography.Text strong>{copilot.author}</Typography.Text>
-              {copilot.description ? (
+              {copilot.description && !isLarge ? (
                 <Typography.Text className={styles.Dot} type="secondary">
                   ·
                 </Typography.Text>
               ) : null}
-              {copilot.description ? (
+              {copilot.description && !isLarge ? (
                 <Tooltip title={copilot.description}>
                   {copilot.description ? <IconMessage /> : null}
                 </Tooltip>
@@ -72,6 +75,11 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                 .replace('荒典', '')}
             </Typography.Link>
           </div>
+          {copilot.description && isLarge ? (
+            <Typography.Paragraph type="secondary">
+              {copilot.description}
+            </Typography.Paragraph>
+          ) : null}
         </div>
       </div>
     );
