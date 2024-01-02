@@ -8,6 +8,7 @@ import { MY_ROUTE, RoutePath } from './constants';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 import { TermsModel } from '@/models/terms';
+import { ReducedLazyMotion } from '@/plugins/framer-motion';
 
 const NOOP = <div />;
 
@@ -72,7 +73,7 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         token={token}
         ErrorBoundary={ErrorBoundary}
       >
-        {children}
+        <ReducedLazyMotion>{children}</ReducedLazyMotion>
       </ProLayout>
       <FloatButton.BackTop />
     </>

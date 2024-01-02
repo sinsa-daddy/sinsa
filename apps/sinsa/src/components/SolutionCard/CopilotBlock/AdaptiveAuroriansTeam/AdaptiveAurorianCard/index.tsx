@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import type { MenuProps } from 'antd';
 import { ConfigProvider, Flex, Rate, Tag, Dropdown } from 'antd';
 import { useBreakpoint } from '@ant-design/pro-components';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { IgnoreMessage } from '../../../types';
 import styles from './styles.module.less';
 import { useLazyImage } from './hooks/use-lazy-image';
@@ -92,7 +92,7 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
           },
         }}
       >
-        <motion.div
+        <m.div
           ref={containerRef}
           className={clsx(styles.AdaptiveAurorianCard, styles.BackgroundImage)}
           whileHover={{ opacity: 0.6 }}
@@ -141,7 +141,7 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
               可替
             </Tag>
           ) : null}
-        </motion.div>
+        </m.div>
       </Dropdown>
     );
   },
