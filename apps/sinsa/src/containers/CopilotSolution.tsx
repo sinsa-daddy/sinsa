@@ -51,9 +51,15 @@ interface QueryParams {
     excludeBreakthroughOnly?: boolean;
   }[];
   enableSaveLocalStorage?: boolean;
+  showHidden?: boolean;
 }
 
-const initialValues = { k: 3, box: 'whole', exclude: [{}] as any[] } as const;
+const initialValues: QueryParams = {
+  k: 3,
+  box: 'whole',
+  exclude: [{}] as any[],
+  showHidden: false,
+} as const;
 
 const EXTENDED_TEAM_COUNT = [
   { label: '一队', value: 1 },
@@ -109,7 +115,11 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
       const allSolutions = await solutionAlgorithm.calculateAllSolutions(
         { copilots: dataSource, availableBox: filterBox },
         params.k,
-        { disalbeAlternative: params.disalbeAlternative, copilotsIgnore },
+        {
+          disalbeAlternative: params.disalbeAlternative,
+          copilotsIgnore,
+          showHidden: params.showHidden,
+        },
       );
 
       const rankSet = new WeakMap<Solution, number>();
@@ -291,6 +301,11 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
                 }}
               </ProFormDependency>
             </ProForm.Group>
+            <ProFormSwitch
+              name={'showHidden'}
+              label="展示隐藏的作业"
+              tooltip="开启后，将展示视频源不可用的作业"
+            />
             <ProFormSwitch
               name={'enableSaveLocalStorage'}
               label="记住我的设置"

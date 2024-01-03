@@ -14,7 +14,7 @@ import type { CalcOptions } from '../../types';
 export function canUseCopilot(
   myBox: MyBoxType['aurorian_summaries'],
   copilot: CopilotType,
-  { disalbeAlternative, copilotsIgnore }: CalcOptions,
+  { disalbeAlternative, copilotsIgnore, showHidden }: CalcOptions,
 ): boolean {
   // 0. 一开始就排除特定作业
   if (
@@ -22,6 +22,10 @@ export function canUseCopilot(
     copilotsIgnore.length > 0 &&
     copilotsIgnore.includes(copilot.bv)
   ) {
+    return false;
+  }
+
+  if (!showHidden && copilot.title.includes('[hidden]')) {
     return false;
   }
 

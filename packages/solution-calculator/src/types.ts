@@ -24,4 +24,9 @@ export interface CalcOptions {
    * 是否忽略掉特定作业
    */
   copilotsIgnore?: CopilotType['bv'][];
+
+  /**
+   * 是否展示视频已经被删除的作业
+   */
+  showHidden?: boolean;
 }

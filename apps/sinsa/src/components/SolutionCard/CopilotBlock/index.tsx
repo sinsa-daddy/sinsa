@@ -1,7 +1,7 @@
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { clsx } from 'clsx';
 import { Flex, Tag, Tooltip, Typography } from 'antd';
-import React from 'react';
+import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
 import type { IgnoreMessage } from '../types';
@@ -20,7 +20,23 @@ interface CopilotBlockProps {
 export const CopilotBlock = React.memo<CopilotBlockProps>(
   ({ copilot, currentTerm, className, onIgnore }) => {
     const screen = useBreakpoint();
-    const isLarge = screen === 'lg' || screen === 'xl' || screen === 'xxl';
+    const isLarge = useMemo(
+      () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
+      [screen],
+    );
+    const isHidden = useMemo(
+      () => copilot.title.includes('[hidden]'),
+      [copilot.title],
+    );
+    const displayTitle = useMemo(
+      () =>
+        copilot.title
+          .replace('【白夜极光】', '')
+          .replace('白夜极光', '')
+          .replace('荒典', '')
+          .replace('[hidden]', ''),
+      [copilot.title],
+    );
     return (
       <div className={clsx(styles.CopilotBlock, className)}>
         <AdaptiveAuroriansTeam
@@ -30,6 +46,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
         <div className={styles.PaddingContainer}>
           <Flex className={styles.Header}>
             <Typography.Link
+              disabled={isHidden}
               href={`https://www.bilibili.com/video/${copilot.bv}`}
               target="_blank"
               title={copilot.title}
@@ -58,6 +75,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
           </Flex>
           <div className={styles.Title}>
             <Typography.Link
+              disabled={isHidden}
               href={`https://www.bilibili.com/video/${copilot.bv}`}
               target="_blank"
               title={copilot.title}
@@ -69,10 +87,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                   <Tag color="red">复刻</Tag>
                 </Tooltip>
               ) : null}
-              {copilot.title
-                .replace('【白夜极光】', '')
-                .replace('白夜极光', '')
-                .replace('荒典', '')}
+              {displayTitle}
             </Typography.Link>
           </div>
           {copilot.description && isLarge ? (
