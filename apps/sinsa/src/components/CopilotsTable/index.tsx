@@ -46,6 +46,9 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
       const base =
         params.dataSource?.filter(item => {
           let ok = true;
+          if (params.title?.includes('[hidden]')) {
+            ok = false;
+          }
           if (params.title) {
             ok = item.title.includes(params.title);
           }
