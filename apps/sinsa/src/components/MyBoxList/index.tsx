@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 import { ProList } from '@ant-design/pro-components';
-import { MyBoxType } from '@sinsa/schema';
+import type { MyBoxType } from '@sinsa/schema';
 import { Typography } from 'antd';
 
 interface MyBoxListProps {
