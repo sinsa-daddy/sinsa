@@ -36,7 +36,7 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
   const deps = useMemo(
     (): TableParams => ({
       term: term?.term,
-      dataSource,
+      dataSource: dataSource?.filter(c => !c.title?.includes('[hidden]')),
     }),
     [term?.term, dataSource],
   );
@@ -46,9 +46,7 @@ export const CopilotsTable: React.FC<CopilotsTableProps> = ({
       const base =
         params.dataSource?.filter(item => {
           let ok = true;
-          if (params.title?.includes('[hidden]')) {
-            ok = false;
-          }
+
           if (params.title) {
             ok = item.title.includes(params.title);
           }
