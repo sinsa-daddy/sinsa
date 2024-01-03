@@ -30,23 +30,18 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
       }}
       name={name}
       alwaysShowItemLabel
-      actionRender={(field, action, _, count) => {
-        if (count > 1) {
-          return [
-            <Tooltip key="delete" title="删除此光灵">
-              <Button
-                style={{ marginLeft: '.5rem' }}
-                icon={<IconDelete style={{ verticalAlign: '-2px' }} />}
-                onClick={e => {
-                  e.stopPropagation();
-                  action.remove(field.name);
-                }}
-              />
-            </Tooltip>,
-          ];
-        }
-        return [];
-      }}
+      actionRender={(field, action) => [
+        <Tooltip key="delete" title="删除此光灵">
+          <Button
+            style={{ marginLeft: '.5rem' }}
+            icon={<IconDelete style={{ verticalAlign: '-2px' }} />}
+            onClick={e => {
+              e.stopPropagation();
+              action.remove(field.name);
+            }}
+          />
+        </Tooltip>,
+      ]}
     >
       {() => {
         return (
