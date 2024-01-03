@@ -301,15 +301,16 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
                 }}
               </ProFormDependency>
             </ProForm.Group>
-            <ProFormSwitch
-              name={'showHidden'}
-              label="展示隐藏的作业"
-              tooltip="开启后，将展示视频源不可用的作业"
-            />
+
             <ProFormSwitch
               name={'enableSaveLocalStorage'}
               label="记住我的设置"
               tooltip="开启后，这一期荒典筛选的设置将会储存在您的浏览器本地，避免繁琐重复筛选"
+            />
+            <ProFormSwitch
+              name={'showHidden'}
+              label="包含隐藏的作业"
+              tooltip="开启后，将展示视频源不可用的作业"
             />
           </ProForm.Group>
         </ProForm>
