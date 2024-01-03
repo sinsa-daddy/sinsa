@@ -308,6 +308,7 @@ export const CopilotSolution: React.FC<CopilotSolutionProps> = ({
               tooltip="开启后，这一期荒典筛选的设置将会储存在您的浏览器本地，避免繁琐重复筛选"
             />
             <ProFormSwitch
+              style={{ display: 'none' }}
               name={'showHidden'}
               label="包含隐藏的作业"
               tooltip="开启后，将展示视频源不可用的作业"
