@@ -6,7 +6,7 @@ import type { MenuProps } from 'antd';
 import { ConfigProvider, Flex, Rate, Tag, Dropdown } from 'antd';
 import { useBreakpoint } from '@ant-design/pro-components';
 import { m } from 'framer-motion';
-import type { IgnoreMessage } from '../../../types';
+import type { IgnoreMessage } from '../types';
 import styles from './styles.module.less';
 import { useLazyImage } from './hooks/use-lazy-image';
 import { ClassURLMapper, ElementURLMapper, RarityMapper } from './constants';

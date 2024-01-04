@@ -1,13 +1,12 @@
-/* eslint-disable no-nested-ternary */
 import { useModel } from '@modern-js/runtime/model';
-import { CopilotAurorianSummaryType } from '@sinsa/schema';
-import { Select } from 'antd';
+import type { CopilotAurorianSummaryType } from '@sinsa/schema';
+import { Flex, Select } from 'antd';
 import { intersection } from 'lodash-es';
 import { produce } from 'immer';
 import styles from './styles.module.less';
+import { getDefaultBreakthrough } from './utils/getDefaultBreakthrough';
 import { AuroriansModel, filterAuroriansOption } from '@/models/aurorians';
 import { AurorianTallCard } from '@/components/UploadForm/AurorianTallCard';
-import { RarityMapper } from '@/components/AurorianCard/constants';
 
 interface CopilotSelector {
   value?: CopilotAurorianSummaryType[];
@@ -44,24 +43,18 @@ export const CopilotnSelector: React.FC<CopilotSelector> = ({
                 return { ...oldEntity };
               }
               const targetAurorian = auroriansMap[newName];
-              const rarity = RarityMapper[targetAurorian.rarity];
+
               return {
                 aurorian_name: newName,
-                breakthrough:
-                  rarity === 6
-                    ? 2
-                    : rarity === 5
-                    ? 1
-                    : rarity <= 4
-                    ? rarity
-                    : 0,
+                breakthrough: getDefaultBreakthrough(targetAurorian.rarity),
                 is_replaceable: false,
               };
             }),
           );
         }}
       />
-      <div className={styles.AuroriansTeam}>
+
+      <Flex className={styles.AuroriansTeam} gap={16}>
         {value?.map(
           ({ aurorian_name, breakthrough, is_replaceable }, index) => {
             return (
@@ -92,7 +85,7 @@ export const CopilotnSelector: React.FC<CopilotSelector> = ({
             );
           },
         )}
-      </div>
+      </Flex>
     </div>
   );
 };

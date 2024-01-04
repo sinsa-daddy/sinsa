@@ -5,9 +5,9 @@ import React, { useMemo } from 'react';
 import { isEqual } from 'lodash-es';
 import numeral from 'numeral';
 import { copilotRowKey } from '../CopilotsTable';
+import type { IgnoreMessage } from '../types';
 import { CopilotBlock } from './CopilotBlock';
 import styles from './styles.module.less';
-import type { IgnoreMessage } from './types';
 
 export interface SolutionCardProps {
   solution: Solution;

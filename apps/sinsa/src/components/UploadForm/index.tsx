@@ -1,10 +1,10 @@
+import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   FooterToolbar,
   ProForm,
   ProFormDateTimePicker,
   ProFormDependency,
   ProFormDigit,
-  ProFormInstance,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
@@ -14,7 +14,9 @@ import dayjs from 'dayjs';
 import { Button, notification } from 'antd';
 import { useRequest } from 'ahooks';
 import { useMemo, useRef, useState } from 'react';
-import { CopilotSchema, CopilotType } from '@sinsa/schema';
+import type { CopilotType } from '@sinsa/schema';
+import { CopilotSchema } from '@sinsa/schema';
+import numeral from 'numeral';
 import { LARK_ORIGIN } from '../LarkLoginCard/constants';
 import type { BilibiliVideoType, FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
@@ -272,8 +274,35 @@ export const UploadForm: React.FC = () => {
       <ProFormDigit
         label="结算分数"
         name="score"
-        rules={[{ required: true }]}
+        validateTrigger="onBlur"
+        rules={[
+          { required: true },
+          {
+            async validator(_, value) {
+              if (
+                typeof value === 'number' &&
+                Number.isInteger(value) &&
+                value > 0
+              ) {
+                // pass
+              } else {
+                throw new Error('分数必须是正整数');
+              }
+
+              if (value >= 1e8) {
+                throw new Error('分数大于一亿分了，你要不再看看有没有填对？');
+              } else if (value <= 1e5) {
+                throw new Error('分数小于十万分，你要不要再看看有没有填对？');
+              }
+            },
+          },
+        ]}
         min={0}
+        fieldProps={{
+          formatter: value => numeral(value).format('0,0'),
+          parser: str => numeral(str).value() ?? 0,
+          size: 'large',
+        }}
       />
 
       <ProFormText label="视频标题" name="title" rules={[{ required: true }]} />

@@ -33,7 +33,7 @@ import { AuroriansModel } from '@/models/aurorians';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
 import { solutionAlgorithm } from '@/services/solution-algorithm';
 import { SolutionCard } from '@/components/SolutionCard';
-import type { IgnoreMessage } from '@/components/SolutionCard/types';
+import type { IgnoreMessage } from '@/components/types';
 
 interface CopilotSolutionProps {
   dataSource: CopilotType[];

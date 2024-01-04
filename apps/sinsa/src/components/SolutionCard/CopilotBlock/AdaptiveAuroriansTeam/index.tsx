@@ -1,9 +1,9 @@
 import type { CopilotType } from '@sinsa/schema';
 import type React from 'react';
 import { Flex } from 'antd';
-import type { IgnoreMessage } from '../../types';
+import type { IgnoreMessage } from '../../../types';
 import styles from './styles.module.less';
-import { AdaptiveAurorianCard } from './AdaptiveAurorianCard';
+import { AdaptiveAurorianCard } from '@/components/AdaptiveAurorianCard';
 
 interface AdaptiveAuroriansTeamProps {
   aurorianSummaries: CopilotType['aurorian_summaries'];

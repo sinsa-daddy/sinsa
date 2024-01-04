@@ -4,7 +4,7 @@ import { Flex, Tag, Tooltip, Typography } from 'antd';
 import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
-import type { IgnoreMessage } from '../types';
+import type { IgnoreMessage } from '../../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';

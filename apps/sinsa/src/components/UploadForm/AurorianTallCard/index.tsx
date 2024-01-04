@@ -1,15 +1,12 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import { type AurorianType } from '@sinsa/schema';
-import { Badge, Rate, Switch } from 'antd';
-import { clsx } from 'clsx';
-import {
-  ClassURLMapper,
-  ElementURLMapper,
-  RarityMapper,
-} from '../../AurorianCard/constants';
+import { Flex, Rate, Switch } from 'antd';
+import { RarityMapper } from '../../AurorianCard/constants';
 import styles from './styles.module.less';
+import { getDefaultTooltips } from './utils/getDefaultBreakthrough';
 import { AuroriansModel } from '@/models/aurorians';
+import { AdaptiveAurorianCard } from '@/components/AdaptiveAurorianCard';
 
 interface AurorianTallCardProps {
   name: string;
@@ -33,76 +30,27 @@ export const AurorianTallCard = React.memo<AurorianTallCardProps>(
       [auroriansMap, name],
     );
 
-    const cardRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (aurorian?.aurorian_name) {
-        import(`@/assets/skins/${aurorian.aurorian_name}.webp`)
-          .then(esm => {
-            if (typeof esm?.default === 'string') {
-              if (cardRef.current) {
-                cardRef.current.style.backgroundImage = `url(${esm.default})`;
-              }
-            }
-          })
-          .catch(() => {
-            // ignore
-          });
-      }
-    }, [aurorian?.aurorian_name]);
-
     return (
-      <Badge.Ribbon
-        style={{
-          fontSize: '12px',
-          display: isReplaceable ? 'block' : 'none',
-          zIndex: 10000,
-        }}
-        text={isReplaceable ? '可替' : undefined}
-      >
-        <div className={clsx(styles.AurorianCard)} ref={cardRef}>
-          {aurorian?.class && aurorian?.attribute ? (
-            <div className={clsx(styles.MetaContainer)}>
-              <img
-                className={styles.MetaClass}
-                alt={aurorian.class}
-                src={ClassURLMapper[aurorian.class]}
-              />
-              <div className={styles.MetaAttributeContainer}>
-                <img
-                  className={styles.MetaFirstAttribute}
-                  alt={aurorian.attribute}
-                  src={ElementURLMapper[aurorian.attribute]}
-                />
-                {aurorian.secondary_attribute ? (
-                  <img
-                    className={styles.MetaSecondAttribute}
-                    alt={aurorian.secondary_attribute}
-                    src={ElementURLMapper[aurorian.secondary_attribute]}
-                  />
-                ) : null}
-              </div>
-            </div>
-          ) : null}
-          <div className={styles.NameContainer}>
-            <div title={aurorian?.aurorian_name}>
-              {aurorian?.aurorian_cn_name}
-            </div>
-
-            {typeof breakthrough === 'number' && aurorian?.rarity ? (
-              <Rate
-                className={styles.BreakThrough}
-                value={breakthrough}
-                count={RarityMapper[aurorian.rarity]}
-                onChange={onBreakthroughChange}
-              />
-            ) : null}
-            <div>
-              <Switch size="small" onChange={onReplaceableChange} />
-            </div>
-          </div>
+      <Flex vertical align="center" gap={8}>
+        <div className={styles.AdaptiveContainer}>
+          <AdaptiveAurorianCard name={name} isReplaceable={isReplaceable} />
         </div>
-      </Badge.Ribbon>
+
+        {typeof breakthrough === 'number' && aurorian?.rarity ? (
+          <Rate
+            className={styles.BreakThrough}
+            value={breakthrough}
+            count={RarityMapper[aurorian.rarity]}
+            onChange={onBreakthroughChange}
+            tooltips={getDefaultTooltips(aurorian.rarity)}
+          />
+        ) : null}
+        <Switch
+          checkedChildren="可替换"
+          unCheckedChildren="不可替换"
+          onChange={onReplaceableChange}
+        />
+      </Flex>
     );
   },
 );
