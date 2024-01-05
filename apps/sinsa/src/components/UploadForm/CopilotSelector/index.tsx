@@ -20,7 +20,7 @@ export const CopilotnSelector: React.FC<CopilotSelector> = ({
   const [{ auroriansOptions, auroriansMap }] = useModel(AuroriansModel);
   const multiSelectValue = value?.map(item => item.aurorian_name);
   return (
-    <div>
+    <Flex vertical gap={8}>
       <Select
         mode="multiple"
         options={auroriansOptions}
@@ -54,7 +54,7 @@ export const CopilotnSelector: React.FC<CopilotSelector> = ({
         }}
       />
 
-      <Flex className={styles.AuroriansTeam} gap={16}>
+      <Flex className={styles.AuroriansTeam} wrap="wrap" gap={16}>
         {value?.map(
           ({ aurorian_name, breakthrough, is_replaceable }, index) => {
             return (
@@ -86,6 +86,6 @@ export const CopilotnSelector: React.FC<CopilotSelector> = ({
           },
         )}
       </Flex>
-    </div>
+    </Flex>
   );
 };
