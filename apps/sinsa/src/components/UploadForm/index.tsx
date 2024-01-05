@@ -155,7 +155,6 @@ export const UploadForm: React.FC = () => {
               }
               validateTrigger="onBlur"
               width={'lg'}
-              // initialValue={'BV1Q64y1V7jc'}
               fieldProps={{
                 onChange(e) {
                   const bvOrLink = e.target.value;

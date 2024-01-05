@@ -17,10 +17,11 @@ interface AdaptiveArurorianCardProps {
   breakthrough?: number;
   isReplaceable?: boolean;
   onIgnore?: (msg: IgnoreMessage) => void;
+  disable?: boolean;
 }
 
 export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
-  ({ name, breakthrough, isReplaceable, onIgnore }) => {
+  ({ name, breakthrough, isReplaceable, onIgnore, disable }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
       () => auroriansMap[name] as AurorianType | undefined,
@@ -65,6 +66,7 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
 
     return (
       <Dropdown
+        disabled={disable}
         trigger={['click']}
         getPopupContainer={() => document.body}
         menu={{
@@ -94,9 +96,13 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
       >
         <m.div
           ref={containerRef}
-          className={clsx(styles.AdaptiveAurorianCard, styles.BackgroundImage)}
-          whileHover={{ opacity: 0.6 }}
-          whileTap={{ opacity: 0.2 }}
+          className={clsx(
+            styles.AdaptiveAurorianCard,
+            styles.BackgroundImage,
+            disable && styles.Disabled,
+          )}
+          whileHover={disable ? undefined : { opacity: 0.6 }}
+          whileTap={disable ? undefined : { opacity: 0.2 }}
         >
           {aurorian ? (
             <>

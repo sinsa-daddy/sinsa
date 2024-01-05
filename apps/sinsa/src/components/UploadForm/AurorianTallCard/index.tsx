@@ -33,7 +33,11 @@ export const AurorianTallCard = React.memo<AurorianTallCardProps>(
     return (
       <Flex vertical align="center" gap={8}>
         <div className={styles.AdaptiveContainer}>
-          <AdaptiveAurorianCard name={name} isReplaceable={isReplaceable} />
+          <AdaptiveAurorianCard
+            disable
+            name={name}
+            isReplaceable={isReplaceable}
+          />
         </div>
 
         {typeof breakthrough === 'number' && aurorian?.rarity ? (
