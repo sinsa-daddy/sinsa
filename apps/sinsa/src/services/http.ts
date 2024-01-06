@@ -86,7 +86,10 @@ export async function getVideoInfo(bv: string) {
   try {
     const response = await http.get(`/api-upload/btv/video/${bv}`);
     if (response.data) {
-      return BilibiliVideoDetailSchema.parse(response.data);
+      return BilibiliVideoDetailSchema.parse({
+        ...response.data,
+        pubdate: response.data.pubdate * 1000,
+      });
     }
   } catch (error) {
     console.log('error', error);
