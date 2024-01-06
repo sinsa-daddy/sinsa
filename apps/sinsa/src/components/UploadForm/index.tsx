@@ -12,45 +12,31 @@ import {
 import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
 import { Button, notification } from 'antd';
-import { useRequest } from 'ahooks';
-import { useMemo, useRef, useState } from 'react';
-import type { CopilotType } from '@sinsa/schema';
+import { useMemo, useRef } from 'react';
 import { CopilotSchema } from '@sinsa/schema';
 import numeral from 'numeral';
 import type { FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
-import { toInputRemoteCopilot } from './utils/toInputRemoteCopilot';
 import styles from './styles.module.less';
 import { useVideoInfo } from './hooks/useVideoInfo';
 import { VideoIframe } from './VideoIframe';
+import { AURORIAN_SUMMARIES_RULES, SCORE_RULES } from './utils/rules';
+import { autoSetTerm, trimBV } from './utils/preprocess';
+import { useCheckVideoExist } from './hooks/useCheckVideoExist';
+import { usePostCopilot } from './hooks/usePostCopilot';
 import { TermsModel } from '@/models/terms';
-import { AuroriansModel } from '@/models/aurorians';
-import { checkVideoExist, postCopilot } from '@/services/http';
 import { FeishuModel } from '@/models/feishu';
 
 export const UploadForm: React.FC = () => {
-  const [{ termsOptions, latestTerm: currentTerm, termsMap }] =
-    useModel(TermsModel);
-  const [{ auroriansMap }] = useModel(AuroriansModel);
+  const [{ termsOptions, latestTerm: currentTerm }] = useModel(TermsModel);
   const [{ isLogin }] = useModel(FeishuModel);
 
   const { videoInfo, loadingVideoInfo, getVideoInfo, setVideoInfo } =
     useVideoInfo();
 
-  const [loadingValidateBV, setLoadingValidateBV] = useState(false);
+  const { loadingCheckVideoExist, check } = useCheckVideoExist();
 
-  const { loading: loadingSubmit, runAsync: submitAsync } = useRequest(
-    async (submitCopilot: CopilotType) => {
-      const remoteCopilot = toInputRemoteCopilot(submitCopilot, {
-        termsMap,
-        auroriansMap,
-      });
-      const result = await postCopilot(remoteCopilot);
-
-      return result;
-    },
-    { manual: true },
-  );
+  const { loadingPostCopilot, postCopilotAsync } = usePostCopilot();
 
   const formRef = useRef<ProFormInstance<FormValues>>();
 
@@ -67,15 +53,17 @@ export const UploadForm: React.FC = () => {
       formRef={formRef}
       initialValues={initialValues}
       submitter={{
-        submitButtonProps: { loading: loadingValidateBV || loadingSubmit },
+        submitButtonProps: {
+          loading: loadingCheckVideoExist || loadingPostCopilot,
+        },
         render: (_, dom) => (
           <FooterToolbar className={styles.FootBar}>{dom}</FooterToolbar>
         ),
         searchConfig: {
           // eslint-disable-next-line no-nested-ternary
-          submitText: loadingValidateBV
+          submitText: loadingCheckVideoExist
             ? '校验重复中'
-            : loadingSubmit
+            : loadingPostCopilot
             ? '提交中'
             : '提交作业',
         },
@@ -85,7 +73,7 @@ export const UploadForm: React.FC = () => {
 
         try {
           const submitCopilot = await CopilotSchema.parseAsync(values);
-          const result = await submitAsync(submitCopilot);
+          const result = await postCopilotAsync(submitCopilot);
 
           if (result?.record?.record_id) {
             notification.success({
@@ -116,10 +104,8 @@ export const UploadForm: React.FC = () => {
           width={'sm'}
           showSearch={false}
           onChange={nextTerm => {
-            if (nextTerm === 14) {
-              formRef.current?.setFieldValue('rerun_terms', [24]);
-            } else {
-              formRef.current?.setFieldValue('rerun_terms', undefined);
+            if (typeof nextTerm === 'number') {
+              autoSetTerm(formRef.current, nextTerm);
             }
           }}
         />
@@ -147,22 +133,7 @@ export const UploadForm: React.FC = () => {
               fieldProps={{
                 onChange(e) {
                   const bvOrLink = e.target.value;
-                  if (
-                    typeof bvOrLink === 'string' &&
-                    (bvOrLink.startsWith('https://') ||
-                      bvOrLink.startsWith('http://'))
-                  ) {
-                    const bvResult = /\/(BV[^/]+)\/?/.exec(
-                      new URL(bvOrLink).pathname,
-                    )?.[1];
-                    if (
-                      typeof bvResult === 'string' &&
-                      bvResult.startsWith('BV')
-                    ) {
-                      formRef.current?.setFieldValue('bv', bvResult);
-                    }
-                  }
-                  return undefined;
+                  trimBV(formRef.current, bvOrLink);
                 },
               }}
               rules={[
@@ -171,8 +142,7 @@ export const UploadForm: React.FC = () => {
                 {
                   async validator(_, bv) {
                     if (typeof bv === 'string' && bv.startsWith('BV')) {
-                      setLoadingValidateBV(true);
-                      const result = await checkVideoExist({ bv, term });
+                      const result = await check({ bv, term });
                       if (result?.noExist || result?.target) {
                         if (result?.target) {
                           const errorMessage = `${
@@ -186,7 +156,6 @@ export const UploadForm: React.FC = () => {
                           throw new Error(errorMessage);
                         }
                       }
-                      setLoadingValidateBV(false);
                     }
                   },
                 },
@@ -229,18 +198,7 @@ export const UploadForm: React.FC = () => {
       <ProForm.Item
         label="光灵阵容"
         name="aurorian_summaries"
-        rules={[
-          {
-            async validator(_, array) {
-              if (Array.isArray(array) && array.length === 5) {
-                // pass
-              } else {
-                throw new Error('光灵阵容搭配不正确');
-              }
-            },
-          },
-          { required: true },
-        ]}
+        rules={AURORIAN_SUMMARIES_RULES}
       >
         <CopilotnSelector />
       </ProForm.Item>
@@ -249,28 +207,7 @@ export const UploadForm: React.FC = () => {
         label="结算分数"
         name="score"
         validateTrigger="onBlur"
-        rules={[
-          { required: true },
-          {
-            async validator(_, value) {
-              if (
-                typeof value === 'number' &&
-                Number.isInteger(value) &&
-                value > 0
-              ) {
-                // pass
-              } else {
-                throw new Error('分数必须是正整数');
-              }
-
-              if (value >= 1e8) {
-                throw new Error('分数大于一亿分了，你要不再看看有没有填对？');
-              } else if (value <= 1e5) {
-                throw new Error('分数小于十万分，你要不要再看看有没有填对？');
-              }
-            },
-          },
-        ]}
+        rules={SCORE_RULES}
         min={0}
         fieldProps={{
           formatter: value => numeral(value).format('0,0'),
