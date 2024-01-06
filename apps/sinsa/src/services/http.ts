@@ -135,12 +135,26 @@ export async function postCopilot(
 
 /**
  * 获取最近的 B 站作业收录情况
+ * @returns
+ */
+export async function getLatestVideo() {
+  try {
+    const response = await http.get('/api-upload/btv/latest');
+    return response.data;
+  } catch (error) {}
+  return undefined;
+}
+
+/**
+ * 获取最近的 数据库 作业收录情况
  * @param params.pageSize 读取飞书数据库中最近作业条目
  * @returns
  */
-export async function getLatestVideo(params: { pageSize: number }) {
+export async function getLatestCopilots(params: { pageSize: number }) {
   try {
-    const response = await http.get('/api-upload/btv/latest', { params });
+    const response = await http.get('/api-upload/lark/latestCopilots', {
+      params,
+    });
     return response.data;
   } catch (error) {}
   return undefined;

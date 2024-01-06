@@ -9,6 +9,7 @@ import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
+import { trimTitle } from '@/components/utils';
 
 interface CopilotBlockProps {
   copilot: CopilotType;
@@ -29,12 +30,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
       [copilot.title],
     );
     const displayTitle = useMemo(
-      () =>
-        copilot.title
-          .replace('【白夜极光】', '')
-          .replace('白夜极光', '')
-          .replace('荒典', '')
-          .replace('[hidden]', ''),
+      () => trimTitle(copilot.title),
       [copilot.title],
     );
     return (

@@ -35,6 +35,7 @@ export const LarkLoginCard: React.FC = () => {
       if (larkpreLoginCode) {
         await saveAuthCallback({ code: larkpreLoginCode });
         setLarkpreLoginCode(undefined);
+        return undefined;
       }
 
       return getFeishuProfile();
