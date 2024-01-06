@@ -21,9 +21,11 @@ import type { FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
 import { toInputRemoteCopilot } from './utils/toInputRemoteCopilot';
 import styles from './styles.module.less';
+import { useVideoInfo } from './hooks/useVideoInfo';
+import { VideoIframe } from './VideoIframe';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
-import { checkVideoExist, getVideoInfo, postCopilot } from '@/services/http';
+import { checkVideoExist, postCopilot } from '@/services/http';
 import { FeishuModel } from '@/models/feishu';
 
 export const UploadForm: React.FC = () => {
@@ -32,14 +34,8 @@ export const UploadForm: React.FC = () => {
   const [{ auroriansMap }] = useModel(AuroriansModel);
   const [{ isLogin }] = useModel(FeishuModel);
 
-  const { data, loading, runAsync, mutate } = useRequest(
-    async bv => {
-      const result = await getVideoInfo(bv);
-
-      return result;
-    },
-    { manual: true },
-  );
+  const { videoInfo, loadingVideoInfo, getVideoInfo, setVideoInfo } =
+    useVideoInfo();
 
   const [loadingValidateBV, setLoadingValidateBV] = useState(false);
 
@@ -96,7 +92,7 @@ export const UploadForm: React.FC = () => {
               message: `醒山小狗已经成功帮您添加了一份作业，record_id 为 ${result?.record?.record_id}`,
             });
             formRef.current?.resetFields();
-            mutate(undefined);
+            setVideoInfo(undefined);
           } else {
             notification.error({
               message: `没有上传成功 ${JSON.stringify(result, null, 2)}`,
@@ -206,10 +202,10 @@ export const UploadForm: React.FC = () => {
                   !isLogin || !(typeof bv === 'string' && bv.startsWith('BV'))
                 }
                 type="primary"
-                loading={loading}
+                loading={loadingVideoInfo}
                 onClick={async e => {
                   e.stopPropagation();
-                  const result = await runAsync(bv);
+                  const result = await getVideoInfo(bv);
 
                   if (result) {
                     const { title, desc, owner, pubdate } = result;
@@ -228,16 +224,7 @@ export const UploadForm: React.FC = () => {
           </ProFormDependency>
         </ProForm.Item>
       </ProForm.Group>
-      {data ? (
-        <>
-          <iframe
-            src={`//player.bilibili.com/player.html?bvid=${data.bvid}`}
-            scrolling="no"
-            frameBorder="no"
-            style={{ border: 0, width: 700, height: 420 }}
-          ></iframe>
-        </>
-      ) : null}
+      <VideoIframe bvid={videoInfo?.bvid} />
 
       <ProForm.Item
         label="光灵阵容"

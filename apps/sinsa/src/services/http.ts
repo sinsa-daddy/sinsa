@@ -132,3 +132,16 @@ export async function postCopilot(
   } catch (error) {}
   return undefined;
 }
+
+/**
+ * 获取最近的 B 站作业收录情况
+ * @param params.pageSize 读取飞书数据库中最近作业条目
+ * @returns
+ */
+export async function getLatestVideo(params: { pageSize: number }) {
+  try {
+    const response = await http.get('/api-upload/btv/latest', { params });
+    return response.data;
+  } catch (error) {}
+  return undefined;
+}
