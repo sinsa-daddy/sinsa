@@ -7,7 +7,7 @@ import type {
 } from '@sinsa/schema';
 import { groupBy, mapValues } from 'lodash-es';
 import { match } from 'pinyin-pro';
-import React from 'react';
+import type React from 'react';
 import { ElementTextMapper } from '@/components/AurorianCard/constants';
 
 export interface AuroriansState {

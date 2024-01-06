@@ -2,9 +2,11 @@ import { Link, useLocation } from '@modern-js/runtime/router';
 import { Avatar, Button, Card, Space, Typography } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from 'ahooks';
-import { LARK_ORIGIN, LARK_SCOPE, UPLOAD_APP_ID } from './constants';
-import type { LarkProfile } from './types';
+import { useModel } from '@modern-js/runtime/model';
+import { LARK_SCOPE, UPLOAD_APP_ID } from './constants';
 import { RoutePath } from '@/views/GlobalLayout/constants';
+import { getFeishuProfile, saveAuthCallback } from '@/services/http';
+import { FeishuModel } from '@/models/feishu';
 
 export const LarkLoginCard: React.FC = () => {
   const REDIRECT_URI = useMemo(() => {
@@ -20,37 +22,39 @@ export const LarkLoginCard: React.FC = () => {
       .split('&')
       .find(item => item.startsWith('code='))
       ?.replace('code=', '');
-    console.log('location', location);
+
     if (code) {
       setLarkpreLoginCode(code);
     }
   }, [location.search]);
 
+  const [, { setProfile }] = useModel(FeishuModel);
+
   const { data, loading } = useRequest(
     async () => {
       if (larkpreLoginCode) {
-        await fetch(
-          `${LARK_ORIGIN}/lark/auth-callback?code=${larkpreLoginCode}`,
-          {
-            credentials: 'include',
-            mode: 'cors',
-          },
-        ).then(res => res.json());
+        await saveAuthCallback({ code: larkpreLoginCode });
         setLarkpreLoginCode(undefined);
       }
 
-      const profile = await fetch(`${LARK_ORIGIN}/lark/profile`, {
-        credentials: 'include',
-        mode: 'cors',
-      }).then(res => res.json());
-
-      if (profile?.name) {
-        return profile as LarkProfile;
-      }
-      return null;
+      return getFeishuProfile();
     },
-    { refreshDeps: [larkpreLoginCode] },
+    {
+      refreshDeps: [larkpreLoginCode],
+      onSuccess(_p) {
+        setProfile(_p);
+      },
+    },
   );
+
+  const FEISHU_AUTH_URL = useMemo(() => {
+    const url = new URL(`https://open.feishu.cn/open-apis/authen/v1/authorize`);
+    url.searchParams.append('app_id', UPLOAD_APP_ID);
+    url.searchParams.append('redirect_uri', REDIRECT_URI);
+    url.searchParams.append('scope', LARK_SCOPE);
+
+    return url.href;
+  }, []);
   return (
     <Card loading={loading}>
       {data ? (
@@ -64,12 +68,7 @@ export const LarkLoginCard: React.FC = () => {
           <Typography.Text>
             您好，我是作业提交醒山小狗，我需要您飞书授权才能工作
           </Typography.Text>
-          <Link
-            target="_self"
-            to={`https://open.feishu.cn/open-apis/authen/v1/authorize?app_id=${UPLOAD_APP_ID}&redirect_uri=${window.encodeURIComponent(
-              REDIRECT_URI,
-            )}&scope=${window.encodeURIComponent(LARK_SCOPE)}`}
-          >
+          <Link target="_self" to={FEISHU_AUTH_URL}>
             <Button type="primary">去飞书授权</Button>
           </Link>
         </Space>

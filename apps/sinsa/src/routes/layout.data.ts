@@ -1,5 +1,5 @@
 import type { AurorianType, TermType } from '@sinsa/schema';
-import { http } from '@/services/fetch';
+import { getAurorians, getTerms } from '@/services/http';
 
 export interface LayoutLoaderData {
   terms: TermType[];
@@ -7,10 +7,7 @@ export interface LayoutLoaderData {
 }
 
 export async function loader(): Promise<LayoutLoaderData> {
-  const [terms, auroriansMap] = await Promise.all([
-    http.getTerms(),
-    http.getAurorians(),
-  ]);
+  const [terms, auroriansMap] = await Promise.all([getTerms(), getAurorians()]);
   return {
     terms,
     auroriansMap,

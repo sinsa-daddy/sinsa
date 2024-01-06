@@ -9,7 +9,7 @@ import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
 import { CopilotSolution } from '@/containers/CopilotSolution';
 import { TermsModel } from '@/models/terms';
-import { http } from '@/services/fetch';
+import { getCopilots } from '@/services/http';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
 
@@ -23,8 +23,8 @@ const SolutionsPage: React.FC = () => {
   const { data, error, loading } = useRequest(
     () =>
       currentTerm?.term
-        ? http.getCopilots(currentTerm.term)
-        : (Promise.resolve({}) as ReturnType<typeof http.getCopilots>),
+        ? getCopilots(currentTerm.term)
+        : (Promise.resolve({}) as ReturnType<typeof getCopilots>),
     { ready: Boolean(currentTerm?.term), refreshDeps: [currentTerm?.term] },
   );
 

@@ -15,6 +15,7 @@ export default defineConfig<'rspack'>({
     appTools({
       bundler: 'experimental-rspack',
     }),
+
     fetchDataSourcePlugin(),
     formatOutputPlugin(),
   ],
@@ -35,6 +36,7 @@ export default defineConfig<'rspack'>({
       'react-dom': 'ReactDOM',
       '@waline/client': 'Waline',
       'pinyin-pro': 'pinyinPro',
+      axios: 'axios',
       // '@ant-design/pro-components': 'ProComponents',
     },
     distPath: {
@@ -44,6 +46,16 @@ export default defineConfig<'rspack'>({
   tools: {
     htmlPlugin: {
       filename: 'index.html',
+    },
+    devServer: {
+      proxy: {
+        '/api-upload': {
+          target: 'http://localhost:3000',
+          pathRewrite: {
+            '^/api-upload': '',
+          },
+        },
+      },
     },
   },
 });

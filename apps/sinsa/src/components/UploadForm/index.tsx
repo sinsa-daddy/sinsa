@@ -17,26 +17,26 @@ import { useMemo, useRef, useState } from 'react';
 import type { CopilotType } from '@sinsa/schema';
 import { CopilotSchema } from '@sinsa/schema';
 import numeral from 'numeral';
-import { LARK_ORIGIN } from '../LarkLoginCard/constants';
-import type { BilibiliVideoType, FormValues } from './types';
+import type { FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
 import { toInputRemoteCopilot } from './utils/toInputRemoteCopilot';
 import styles from './styles.module.less';
 import { TermsModel } from '@/models/terms';
 import { AuroriansModel } from '@/models/aurorians';
+import { checkVideoExist, getVideoInfo, postCopilot } from '@/services/http';
+import { FeishuModel } from '@/models/feishu';
 
 export const UploadForm: React.FC = () => {
   const [{ termsOptions, latestTerm: currentTerm, termsMap }] =
     useModel(TermsModel);
   const [{ auroriansMap }] = useModel(AuroriansModel);
+  const [{ isLogin }] = useModel(FeishuModel);
 
   const { data, loading, runAsync, mutate } = useRequest(
     async bv => {
-      const result = await fetch(`${LARK_ORIGIN}/btv/video/${bv}`, {
-        mode: 'cors',
-        credentials: 'include',
-      }).then(res => res.json());
-      return result as BilibiliVideoType | undefined;
+      const result = await getVideoInfo(bv);
+
+      return result;
     },
     { manual: true },
   );
@@ -45,18 +45,11 @@ export const UploadForm: React.FC = () => {
 
   const { loading: loadingSubmit, runAsync: submitAsync } = useRequest(
     async (submitCopilot: CopilotType) => {
-      const result = await fetch(`${LARK_ORIGIN}/lark/copilot`, {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
-        body: JSON.stringify(
-          toInputRemoteCopilot(submitCopilot, { termsMap, auroriansMap }),
-        ),
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }).then(res => res.json());
+      const remoteCopilot = toInputRemoteCopilot(submitCopilot, {
+        termsMap,
+        auroriansMap,
+      });
+      const result = await postCopilot(remoteCopilot);
 
       return result;
     },
@@ -181,16 +174,9 @@ export const UploadForm: React.FC = () => {
                 { pattern: /^BV.+$/, message: 'BV号格式不正确' },
                 {
                   async validator(_, bv) {
-                    console.log('bv', bv);
                     if (typeof bv === 'string' && bv.startsWith('BV')) {
                       setLoadingValidateBV(true);
-                      const result = await fetch(
-                        `${LARK_ORIGIN}/lark/check?bv=${bv}&term=${term}`,
-                        {
-                          mode: 'cors',
-                          credentials: 'include',
-                        },
-                      ).then(res => res.json());
+                      const result = await checkVideoExist({ bv, term });
                       if (result?.noExist || result?.target) {
                         if (result?.target) {
                           const errorMessage = `${
@@ -216,20 +202,22 @@ export const UploadForm: React.FC = () => {
           <ProFormDependency name={['bv']}>
             {({ bv }) => (
               <Button
-                disabled={!(typeof bv === 'string' && bv.startsWith('BV'))}
+                disabled={
+                  !isLogin || !(typeof bv === 'string' && bv.startsWith('BV'))
+                }
                 type="primary"
                 loading={loading}
                 onClick={async e => {
                   e.stopPropagation();
                   const result = await runAsync(bv);
-                  console.log('result', result);
+
                   if (result) {
                     const { title, desc, owner, pubdate } = result;
                     formRef.current?.setFieldsValue({
                       title,
                       description: desc === '-' ? undefined : desc,
                       author: owner.name,
-                      upload_time: pubdate * 1000,
+                      upload_time: pubdate.valueOf(),
                     });
                   }
                 }}

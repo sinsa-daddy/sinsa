@@ -1,4 +1,4 @@
-import { AurorianType, CopilotType, TermType } from '@sinsa/schema';
+import type { AurorianType, CopilotType, TermType } from '@sinsa/schema';
 
 export function toInputRemoteCopilot(
   c: CopilotType,

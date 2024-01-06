@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { Card } from 'antd';
 import { UploadForm } from '@/components/UploadForm';
-import { LarkLoginCard } from '@/components/LarkLoginCard';
+import { LarkLoginCard } from '@/views/UploadView/LarkLoginCard';
 
 const UploadPage: React.FC = () => {
   return (
