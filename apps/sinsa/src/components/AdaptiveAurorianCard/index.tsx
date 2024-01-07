@@ -11,6 +11,7 @@ import styles from './styles.module.less';
 import { useLazyImage } from './hooks/use-lazy-image';
 import { ClassURLMapper, ElementURLMapper, RarityMapper } from './constants';
 import { AuroriansModel } from '@/models/aurorians';
+import { getNormalizeBreakthroughByRarity } from '@/views/SolutionView/utils/without-exclude';
 
 interface AdaptiveArurorianCardProps {
   name: string;
@@ -81,7 +82,10 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
                 onIgnore?.({
                   type: 'aurorian',
                   aurorianName: aurorian.aurorian_name,
-                  breakthrough,
+                  breakthrough: getNormalizeBreakthroughByRarity(
+                    breakthrough ?? 0,
+                    aurorian.rarity,
+                  ),
                 });
                 break;
               case 'ignore':
