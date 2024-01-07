@@ -3,7 +3,7 @@ import { AurorianRarityType } from '@sinsa/schema';
 import { produce } from 'immer';
 import type { QueryParamsType } from '../schemas/query-params';
 
-function getNormalizeBreakthroughByRarity(
+export function getNormalizeBreakthroughByRarity(
   currentBreakthrough: number,
   rarity: AurorianRarityType,
 ) {
@@ -28,7 +28,7 @@ function getNormalizeBreakthroughByRarity(
 export function withoutExclude(
   summaries: MyBoxType['aurorian_summaries'],
   exclude: QueryParamsType['exclude'],
-  auroriansMap: Record<AurorianType['aurorian_name'], AurorianType>,
+  _: Record<AurorianType['aurorian_name'], AurorianType>,
 ) {
   if (!exclude) {
     return summaries;
@@ -46,13 +46,10 @@ export function withoutExclude(
           typeof excludeBreakthrough === 'number' &&
           excludeBreakthrough >= 1
         ) {
-          const targetAurorian = auroriansMap[aurorianName];
+          // const targetAurorian = auroriansMap[aurorianName];
           // 那么说明 Box 里的该光灵的突破一定比排除突破小 1
           draft[aurorianName].breakthrough = Math.max(
-            getNormalizeBreakthroughByRarity(
-              excludeBreakthrough,
-              targetAurorian.rarity,
-            ) - 1,
+            excludeBreakthrough - 1,
             0,
           );
         }
