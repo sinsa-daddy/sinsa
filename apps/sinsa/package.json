@@ -16,6 +16,7 @@
     "sw": "workbox injectManifest workbox-config.js"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.43",
     "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",

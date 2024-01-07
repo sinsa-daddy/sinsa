@@ -41,6 +41,9 @@ importers:
 
   apps/sinsa:
     dependencies:
+      '@ant-design/icons':
+        specifier: ^5.2.6
+        version: 5.2.6(react-dom@18.2.0)(react@18.2.0)
       '@ant-design/pro-components':
         specifier: ^2.6.43
         version: 2.6.43(antd@5.11.3)(rc-field-form@1.40.0)(react-dom@18.2.0)(react@18.2.0)

@@ -1,5 +1,5 @@
 import { Outlet, useLoaderData } from '@modern-js/runtime/router';
-import { ConfigProvider, type ThemeConfig } from 'antd';
+import { ConfigProvider, theme, type ThemeConfig } from 'antd';
 import { useModel } from '@modern-js/runtime/model';
 import { isEmpty } from 'lodash-es';
 import { TermSchema } from '@sinsa/schema';
@@ -17,6 +17,9 @@ const THEME: ThemeConfig = {
     colorPrimary: 'rgb(220, 89, 80)',
     colorLink: 'rgb(220, 89, 80)',
   },
+  algorithm: window.matchMedia(`(prefers-color-scheme: dark)`).matches
+    ? theme.darkAlgorithm
+    : theme.defaultAlgorithm,
 };
 
 const ANTD_PREFIX_CLASSNAME = 'sinsa' as const;
