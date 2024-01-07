@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
 import { Button, Card, Flex, Tag, Tooltip, Typography } from 'antd';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
@@ -8,6 +9,7 @@ import { RelativeTimeText } from '../RelativeTimeText';
 import { trimTitle } from '../utils';
 import { useLatestVideo } from './useLatestVideo';
 import styles from './styles.module.less';
+import denyList from './deny-list.json';
 import { FeishuModel } from '@/models/feishu';
 
 interface LatestVideoCardProps {
@@ -90,9 +92,11 @@ export const LatestVideoCard = React.forwardRef<
 
             const tooShort = first(video.duration.split(':')) === '0';
 
+            const inDenyList = denyList.includes(video.bvid);
+
             return (
               <Card
-                hoverable={!copilotInfo}
+                hoverable={!copilotInfo && !inDenyList}
                 className={styles.Card}
                 size="small"
                 key={video.bvid}
@@ -107,12 +111,13 @@ export const LatestVideoCard = React.forwardRef<
                         >
                           <Tag color="green">已收录</Tag>
                         </Tooltip>
-                      ) : (
+                      ) : inDenyList ? null : (
                         <Tag color={'#dc5950'}>未收录</Tag>
                       )}
                       {onlyHitAuthor || tooShort ? (
                         <Tag color="orange-inverse">疑似非荒典作业</Tag>
                       ) : null}
+                      {inDenyList ? <Tag color="gray">无需收录</Tag> : null}
                     </Flex>
                     <img
                       className={styles.CoverImage}
