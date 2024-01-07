@@ -5,7 +5,7 @@
 
   &:not(:last-child) {
     padding-bottom: 16px;
-    border-bottom: 1px solid #f0f0f0;
+    // border-bottom: 1px solid #f0f0f0;
   }
 }
 
@@ -32,6 +32,9 @@
 
 @media (min-width: 1200px) {
   .PaddingContainer {
+    flex-grow: 1;
+    flex-basis: 0;
+    overflow: hidden;
     > * {
       &:first-child {
         padding-top: 8px;
@@ -51,11 +54,7 @@
 .Score.Score.Score {
   font-size: 14px;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.88);
   transition: color 100ms;
-  &:hover {
-    color: rgb(220, 89, 80);
-  }
 }
 
 @media (min-width: 768px) {

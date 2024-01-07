@@ -3,12 +3,13 @@ import { Link, useLocation, useNavigate } from '@modern-js/runtime/router';
 import { useCallback, useMemo } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
-import { FloatButton } from 'antd';
+import { Flex, FloatButton } from 'antd';
 import { MY_ROUTE, RoutePath } from './constants';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 import { TermsModel } from '@/models/terms';
 import { ReducedLazyMotion } from '@/plugins/framer-motion';
+import { DarkModeButton } from '@/components/DarkModeButton';
 
 const NOOP = <div />;
 
@@ -72,6 +73,11 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         layout="mix"
         token={token}
         ErrorBoundary={ErrorBoundary}
+        headerContentRender={() => (
+          <Flex justify="flex-end">
+            <DarkModeButton />
+          </Flex>
+        )}
       >
         <ReducedLazyMotion>{children}</ReducedLazyMotion>
       </ProLayout>

@@ -42,16 +42,9 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
         />
         <div className={styles.PaddingContainer}>
           <Flex className={styles.Header}>
-            <Typography.Link
-              disabled={isHidden}
-              href={`https://www.bilibili.com/video/${copilot.bv}`}
-              target="_blank"
-              title={copilot.title}
-            >
-              <span className={styles.Score}>
-                {numeral(copilot.score).format('0,0')}
-              </span>
-            </Typography.Link>
+            <span className={styles.Score}>
+              {numeral(copilot.score).format('0,0')}
+            </span>
             <Flex className={styles.Author} align="center">
               <Typography.Text strong>{copilot.author}</Typography.Text>
               {copilot.description && !isLarge ? (
