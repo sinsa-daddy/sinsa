@@ -1,5 +1,5 @@
 import { ConfigProvider, Empty, List, Result, notification } from 'antd';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import type { TermType } from '@sinsa/schema';
 import { useMemoizedFn } from 'ahooks';
@@ -26,6 +26,13 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
     useSolutionResultContext();
 
   const [current, setCurrent] = useState(1);
+
+  useEffect(() => {
+    if (solutionResult && current !== 1) {
+      setCurrent(1);
+    }
+  }, [solutionResult]);
+
   const pagination = useMemo(() => {
     return {
       align: 'center' as const,
