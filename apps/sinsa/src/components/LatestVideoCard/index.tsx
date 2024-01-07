@@ -3,6 +3,7 @@ import { Button, Card, Flex, Tag, Tooltip, Typography } from 'antd';
 import React, { useEffect, useImperativeHandle, useRef } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
+import { first } from 'lodash-es';
 import { RelativeTimeText } from '../RelativeTimeText';
 import { trimTitle } from '../utils';
 import { useLatestVideo } from './useLatestVideo';
@@ -87,6 +88,8 @@ export const LatestVideoCard = React.forwardRef<
               video.hit_columns.length === 1 &&
               video.hit_columns.includes('author');
 
+            const tooShort = first(video.duration.split(':')) === '0';
+
             return (
               <Card
                 hoverable={!copilotInfo}
@@ -107,7 +110,7 @@ export const LatestVideoCard = React.forwardRef<
                       ) : (
                         <Tag color={'#dc5950'}>未收录</Tag>
                       )}
-                      {onlyHitAuthor ? (
+                      {onlyHitAuthor || tooShort ? (
                         <Tag color="orange-inverse">疑似非荒典作业</Tag>
                       ) : null}
                     </Flex>
