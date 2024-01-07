@@ -79,12 +79,14 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
             switch (key) {
               case 'ignore-breakthrough':
                 onIgnore?.({
+                  type: 'aurorian',
                   aurorianName: aurorian.aurorian_name,
                   breakthrough,
                 });
                 break;
               case 'ignore':
                 onIgnore?.({
+                  type: 'aurorian',
                   aurorianName: aurorian.aurorian_name,
                 });
                 break;

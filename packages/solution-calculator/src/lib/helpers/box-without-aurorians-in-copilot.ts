@@ -4,7 +4,7 @@ import type { CalcOptions } from '../../types';
 export function boxWithoutAuroriansInCopilot(
   myBox: MyBoxType['aurorian_summaries'],
   copilot: CopilotType,
-  { disalbeAlternative }: CalcOptions,
+  { disableAlternative: disalbeAlternative }: CalcOptions,
 ): MyBoxType['aurorian_summaries'] {
   const cloneMyBox = { ...myBox };
   for (const aurorianInCopilot of copilot.aurorian_summaries) {

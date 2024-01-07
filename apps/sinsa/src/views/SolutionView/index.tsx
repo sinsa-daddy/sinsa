@@ -1,16 +1,26 @@
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { Card, Flex } from 'antd';
+import { SolutionResultProvider } from './context';
+import { QueryForm } from './QueryForm';
+import { SolutionListView } from './SolutionListView';
 
 interface SolutionViewProps {
   copilots: CopilotType[];
   currentTerm: TermType;
 }
 
-export const SolutionView: React.FC<SolutionViewProps> = () => {
+export const SolutionView: React.FC<SolutionViewProps> = ({
+  copilots,
+  currentTerm,
+}) => {
   return (
-    <Flex vertical gap="middle">
-      <Card>123</Card>
-      <Card>456</Card>
-    </Flex>
+    <SolutionResultProvider>
+      <Flex vertical gap="middle">
+        <Card>
+          <QueryForm copilots={copilots} term={currentTerm.term} />
+        </Card>
+        <SolutionListView currentTerm={currentTerm} />
+      </Flex>
+    </SolutionResultProvider>
   );
 };

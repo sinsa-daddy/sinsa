@@ -7,11 +7,11 @@ import { useModel } from '@modern-js/runtime/model';
 import { Space, Typography } from 'antd';
 import { TermNotFound } from '@/containers/TermNotFound';
 import { TermChanger } from '@/containers/TermChanger';
-import { CopilotSolution } from '@/containers/CopilotSolution';
 import { TermsModel } from '@/models/terms';
 import { getCopilots } from '@/services/http';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
+import { SolutionView } from '@/views/SolutionView';
 
 const SolutionsPage: React.FC = () => {
   const params = useParams<{ term: `${number}` }>();
@@ -51,7 +51,7 @@ const SolutionsPage: React.FC = () => {
       {error ? (
         <TermNotFound />
       ) : currentTerm ? (
-        <CopilotSolution dataSource={copilots} currentTerm={currentTerm} />
+        <SolutionView copilots={copilots} currentTerm={currentTerm} />
       ) : null}
     </PageContainer>
   );

@@ -1,6 +1,6 @@
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { clsx } from 'clsx';
-import { Flex, Tag, Tooltip, Typography } from 'antd';
+import { Button, Dropdown, Flex, Tag, Tooltip, Typography } from 'antd';
 import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
@@ -8,6 +8,8 @@ import type { IgnoreMessage } from '../../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';
+import { ReactComponent as IconMore } from './assets/icon-more.svg';
+import { ReactComponent as IconEyeClose } from './assets/icon-eye-close.svg';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
 import { trimTitle } from '@/components/utils';
 
@@ -67,6 +69,31 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                 ·
               </Typography.Text>
               <RelativeTimeText time={copilot.upload_time} />
+              <Typography.Text className={styles.Dot} type="secondary" />
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'ignore',
+                      label: (
+                        <span>
+                          <IconEyeClose /> 排除此作业
+                        </span>
+                      ),
+                    },
+                  ],
+                  onClick(info) {
+                    if (info.key === 'ignore') {
+                      onIgnore?.({
+                        type: 'copilot',
+                        bv: copilot.bv,
+                      });
+                    }
+                  },
+                }}
+              >
+                <Button size="small" icon={<IconMore />} />
+              </Dropdown>
             </Flex>
           </Flex>
           <div className={styles.Title}>
