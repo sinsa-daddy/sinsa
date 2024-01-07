@@ -96,6 +96,7 @@ export const LatestVideoCard = React.forwardRef<
                 cover={
                   <img
                     className={styles.CoverImage}
+                    referrerPolicy="no-referrer"
                     crossOrigin="anonymous"
                     alt={video.title}
                     src={`${video.pic}@672w_378h_1c_!web-search-common-cover.webp`}
