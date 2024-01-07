@@ -11,7 +11,7 @@ export function getNormalizeBreakthroughByRarity(
     case AurorianRarityType.Star6:
       return [0, 0, 3, 3, 3, 6].at(currentBreakthrough - 1)!;
     case AurorianRarityType.Star5:
-      return [0, 1, 1, 1, 5].at(currentBreakthrough - 1)!;
+      return [0, 2, 2, 2, 5].at(currentBreakthrough - 1)!;
     case AurorianRarityType.Star4:
       return [0, 0, 0, 4].at(currentBreakthrough - 1)!;
     case AurorianRarityType.Star3:
