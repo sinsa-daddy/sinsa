@@ -83,6 +83,10 @@ export const LatestVideoCard = React.forwardRef<
 
             const copilotInfo = latestCopilots.find(c => c.bv === video.bvid);
 
+            const onlyHitAuthor =
+              video.hit_columns.length === 1 &&
+              video.hit_columns.includes('author');
+
             return (
               <Card
                 hoverable={!copilotInfo}
@@ -122,21 +126,22 @@ export const LatestVideoCard = React.forwardRef<
                     <span dangerouslySetInnerHTML={{ __html: displayTitle }} />
                   </Typography.Link>
                 </div>
-                {copilotInfo ? (
-                  <Tooltip
-                    title={`${copilotInfo?.creator.name} 于 ${dayjs(
-                      copilotInfo?.insert_db_time,
-                    ).format('YYYY-MM-DD HH:mm:ss')} 收录了此作业`}
-                  >
-                    <Tag className={styles.UploadedTag} color="green">
-                      已收录
-                    </Tag>
-                  </Tooltip>
-                ) : (
-                  <Tag className={styles.UploadedTag} color={'#dc5950'}>
-                    未收录
-                  </Tag>
-                )}
+                <Flex className={styles.UploadedTagContainer} wrap="wrap">
+                  {copilotInfo ? (
+                    <Tooltip
+                      title={`${copilotInfo?.creator.name} 于 ${dayjs(
+                        copilotInfo?.insert_db_time,
+                      ).format('YYYY-MM-DD HH:mm:ss')} 收录了此作业`}
+                    >
+                      <Tag color="green">已收录</Tag>
+                    </Tooltip>
+                  ) : (
+                    <Tag color={'#dc5950'}>未收录</Tag>
+                  )}
+                  {onlyHitAuthor ? (
+                    <Tag color="orange-inverse">疑似非荒典作业</Tag>
+                  ) : null}
+                </Flex>
               </Card>
             );
           })}

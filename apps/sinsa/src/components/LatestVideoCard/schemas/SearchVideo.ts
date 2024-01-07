@@ -7,6 +7,7 @@ export const SearchVideoSchema = z.object({
   bvid: z.string().startsWith('BV'),
   title: z.string(),
   pubdate: z.number().transform(v => v * 1000),
+  hit_columns: z.array(z.enum(['title', 'tag', 'author', 'description'])),
 });
 
 export type SearchVideoType = z.infer<typeof SearchVideoSchema>;
