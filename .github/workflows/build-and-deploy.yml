@@ -5,10 +5,10 @@ on:
     branches: ['main']
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  # repository_dispatch:
-  #   types: [deploy]
+  repository_dispatch:
+    types: [regenerate]
   schedule:
-    - cron: '0 7,10,13,16 * * *' # 注意：这里的时间是UTC+8的15点、18点、21点和24点
+    # - cron: '0 7,10,13,16 * * *' # 注意：这里的时间是UTC+8的15点、18点、21点和24点
     - cron: '0 21 * * THU'
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
