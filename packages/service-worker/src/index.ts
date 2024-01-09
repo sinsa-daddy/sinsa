@@ -1,9 +1,15 @@
 import { clientsClaim } from 'workbox-core';
-import { precacheAndRoute, addPlugins } from 'workbox-precaching';
+import {
+  precacheAndRoute,
+  addPlugins,
+  cleanupOutdatedCaches,
+} from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
 
 declare const self: ServiceWorkerGlobalScope;
+
+cleanupOutdatedCaches();
 
 self.skipWaiting();
 clientsClaim();
