@@ -1,7 +1,7 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { Button, Checkbox, Image, Tag, Typography } from 'antd';
 import React from 'react';
-import { Link, useLocation } from '@modern-js/runtime/router';
+import { Link } from '@modern-js/runtime/router';
 import { useModel } from '@modern-js/runtime/model';
 import QunURL from '@/assets/docs/qun.webp';
 import { TermsModel } from '@/models/terms';
@@ -9,7 +9,6 @@ import { RoutePath } from '@/views/GlobalLayout/constants';
 
 const Index = React.memo(() => {
   const [{ latestTerm: currentTerm }] = useModel(TermsModel);
-  const location = useLocation();
 
   return (
     <PageContainer
@@ -38,12 +37,12 @@ const Index = React.memo(() => {
         {currentTerm ? (
           <Link
             to={RoutePath.Solutions(currentTerm.term)}
-            onClick={e => {
-              e.stopPropagation();
-              gtag('event', 'navigate_to_solutions_page', {
-                source_pathname: location.pathname,
-              });
-            }}
+            // onClick={e => {
+            //   e.stopPropagation();
+            //   gtag('event', 'navigate_to_solutions_page', {
+            //     source_pathname: location.pathname,
+            //   });
+            // }}
           >
             <Button type="primary">立即试试</Button>
           </Link>

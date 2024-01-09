@@ -44,22 +44,22 @@ export function useRequestSolution() {
         rankSet.set(target, i);
       }
 
-      gtag('event', 'get_solution_result', {
-        k,
-        disableAlternative,
-        enableExclude,
-        solutions_length: allSolutions.solutions.length,
-        exclude: exclude
-          ?.map(
-            xclude =>
-              `${xclude.aurorianName}_${
-                (xclude.excludeBreakthroughOnly &&
-                  xclude.excludeBreakthrough) ||
-                ''
-              }`,
-          )
-          .join(','),
-      });
+      // gtag('event', 'get_solution_result', {
+      //   k,
+      //   disableAlternative,
+      //   enableExclude,
+      //   solutions_length: allSolutions.solutions.length,
+      //   exclude: exclude
+      //     ?.map(
+      //       xclude =>
+      //         `${xclude.aurorianName}_${
+      //           (xclude.excludeBreakthroughOnly &&
+      //             xclude.excludeBreakthrough) ||
+      //           ''
+      //         }`,
+      //     )
+      //     .join(','),
+      // });
 
       return {
         allSolutions,
