@@ -1,4 +1,3 @@
-import { clientsClaim } from 'workbox-core';
 import {
   precacheAndRoute,
   addPlugins,
@@ -11,8 +10,8 @@ declare const self: ServiceWorkerGlobalScope;
 
 cleanupOutdatedCaches();
 
-self.skipWaiting();
-clientsClaim();
+// self.skipWaiting();
+// clientsClaim();
 
 addPlugins([
   {
