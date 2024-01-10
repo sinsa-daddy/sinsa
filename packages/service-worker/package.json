@@ -10,17 +10,18 @@
     "new": "modern new",
     "upgrade": "modern upgrade"
   },
-  "dependencies": {},
-  "peerDependencies": {},
+  "dependencies": {
+    "workbox-recipes": "^7.0.0"
+  },
   "devDependencies": {
-    "@modern-js/module-tools": "2.43.0",
     "@modern-js/eslint-config": "2.43.0",
-    "typescript": "~5.0.4",
+    "@modern-js/module-tools": "2.43.0",
     "@types/node": "~16.11.7",
-    "rimraf": "~3.0.2",
+    "husky": "~8.0.1",
     "lint-staged": "~13.1.0",
     "prettier": "~2.8.1",
-    "husky": "~8.0.1",
+    "rimraf": "~3.0.2",
+    "typescript": "~5.0.4",
     "workbox-core": "^7.0.0",
     "workbox-precaching": "^7.0.0",
     "workbox-routing": "^7.0.0",

@@ -5,13 +5,25 @@ import {
 } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
+import { pageCache } from 'workbox-recipes';
+import { clientsClaim, skipWaiting } from 'workbox-core';
 
 declare const self: ServiceWorkerGlobalScope;
 
+skipWaiting();
+clientsClaim();
 cleanupOutdatedCaches();
 
-// self.skipWaiting();
-// clientsClaim();
+pageCache();
+
+registerRoute(
+  /\/api\/copilots\/\d+\.json/,
+  new NetworkFirst({
+    cacheName: 'Copilots',
+    networkTimeoutSeconds: 8,
+  }),
+  'GET',
+);
 
 addPlugins([
   {
@@ -41,12 +53,3 @@ addPlugins([
  * See https://goo.gl/S9QRab
  */
 precacheAndRoute(self.__WB_MANIFEST, {});
-
-registerRoute(
-  /\/api\/copilots\/\d+\.json/,
-  new NetworkFirst({
-    cacheName: 'Copilots',
-    networkTimeoutSeconds: 8,
-  }),
-  'GET',
-);

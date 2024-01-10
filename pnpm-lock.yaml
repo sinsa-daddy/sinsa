@@ -316,6 +316,10 @@ importers:
         version: 3.22.4
 
   packages/service-worker:
+    dependencies:
+      workbox-recipes:
+        specifier: ^7.0.0
+        version: 7.0.0
     devDependencies:
       '@modern-js/eslint-config':
         specifier: 2.43.0
@@ -11233,7 +11237,6 @@ packages:
 
   /idb@7.1.1:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
-    dev: true
 
   /identity-obj-proxy@3.0.0:
     resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
@@ -17840,7 +17843,6 @@ packages:
     resolution: {integrity: sha512-0lrtyGHn/LH8kKAJVOQfSu3/80WDc9Ma8ng0p2i/5HuUndGttH+mGMSvOskjOdFImLs2XZIimErp7tSOPmu/6g==}
     dependencies:
       workbox-core: 7.0.0
-    dev: true
 
   /workbox-cli@7.0.0:
     resolution: {integrity: sha512-sPqIMh7h8s4vXR2cXZGLUrRbXTVIeTtL4d/sZqwx8NIpRwlk0gay8Xqa4XtKKesN5PDA7cyLTIFsnopXrH/DbA==}
@@ -17873,7 +17875,6 @@ packages:
     dependencies:
       idb: 7.1.1
       workbox-core: 7.0.0
-    dev: true
 
   /workbox-google-analytics@7.0.0:
     resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
@@ -17896,7 +17897,6 @@ packages:
       workbox-core: 7.0.0
       workbox-routing: 7.0.0
       workbox-strategies: 7.0.0
-    dev: true
 
   /workbox-range-requests@7.0.0:
     resolution: {integrity: sha512-SxAzoVl9j/zRU9OT5+IQs7pbJBOUOlriB8Gn9YMvi38BNZRbM+RvkujHMo8FOe9IWrqqwYgDFBfv6sk76I1yaQ==}
@@ -17913,19 +17913,16 @@ packages:
       workbox-precaching: 7.0.0
       workbox-routing: 7.0.0
       workbox-strategies: 7.0.0
-    dev: true
 
   /workbox-routing@7.0.0:
     resolution: {integrity: sha512-8YxLr3xvqidnbVeGyRGkaV4YdlKkn5qZ1LfEePW3dq+ydE73hUUJJuLmGEykW3fMX8x8mNdL0XrWgotcuZjIvA==}
     dependencies:
       workbox-core: 7.0.0
-    dev: true
 
   /workbox-strategies@7.0.0:
     resolution: {integrity: sha512-dg3qJU7tR/Gcd/XXOOo7x9QoCI9nk74JopaJaYAQ+ugLi57gPsXycVdBnYbayVj34m6Y8ppPwIuecrzkpBVwbA==}
     dependencies:
       workbox-core: 7.0.0
-    dev: true
 
   /workbox-streams@7.0.0:
     resolution: {integrity: sha512-moVsh+5to//l6IERWceYKGiftc+prNnqOp2sgALJJFbnNVpTXzKISlTIsrWY+ogMqt+x1oMazIdHj25kBSq/HQ==}
