@@ -5,7 +5,6 @@ import {
 } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst } from 'workbox-strategies';
-import { pageCache } from 'workbox-recipes';
 import { clientsClaim, skipWaiting } from 'workbox-core';
 
 declare const self: ServiceWorkerGlobalScope;
@@ -13,8 +12,6 @@ declare const self: ServiceWorkerGlobalScope;
 skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();
-
-pageCache();
 
 registerRoute(
   /\/api\/copilots\/\d+\.json/,
