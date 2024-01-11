@@ -25,15 +25,17 @@ const Layout: React.FC = () => {
   }, []);
 
   const [terms, termsActions] = useModel(TermsModel);
-
-  if (terms.terms.length === 0) {
-    termsActions.setTerms(termsFromRemote.map(t => TermSchema.parse(t)));
-  }
-
   const [aurorians, auroriansActions] = useModel(AuroriansModel);
-  if (isEmpty(aurorians.auroriansMap)) {
-    auroriansActions.setAuroriansMap(auroriansMapFromRemote);
-  }
+
+  useEffect(() => {
+    if (terms.terms.length === 0) {
+      termsActions.setTerms(termsFromRemote.map(t => TermSchema.parse(t)));
+    }
+
+    if (isEmpty(aurorians.auroriansMap)) {
+      auroriansActions.setAuroriansMap(auroriansMapFromRemote);
+    }
+  }, []);
 
   const [{ mode }] = useModel(DarkModel);
   useEffect(() => {
