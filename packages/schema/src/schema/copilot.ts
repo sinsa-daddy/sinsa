@@ -1,6 +1,10 @@
 import { z } from 'zod';
 import { AurorianSummarySchema } from './my-box';
 
+export enum AssetType {
+  No33Scripts = 'No33Scripts',
+}
+
 export const RemoteCopilotSchema = z.object({
   bv: z.string().startsWith('BV'),
   title: z.string(),
@@ -55,6 +59,8 @@ export const RemoteCopilotSchema = z.object({
     }),
   ]),
   aurorian_5_breakthrough: z.coerce.number().min(0).max(6),
+  asset_type: z.optional(z.nativeEnum(AssetType)),
+  asset_link: z.optional(z.string().startsWith('https://')),
 });
 
 export type RemoteCopilotType = z.infer<typeof RemoteCopilotSchema>;
@@ -84,6 +90,8 @@ export const CopilotSchema = z.object({
     CopilotAurorianSummarySchema,
     CopilotAurorianSummarySchema,
   ]),
+  asset_type: z.optional(z.nativeEnum(AssetType)),
+  asset_link: z.optional(z.string().startsWith('https://')),
 });
 
 export type CopilotType = z.infer<typeof CopilotSchema>;

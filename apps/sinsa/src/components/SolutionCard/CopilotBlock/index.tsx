@@ -4,11 +4,16 @@ import { Button, Dropdown, Flex, Tag, Tooltip, Typography } from 'antd';
 import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
-import { EyeInvisibleOutlined, MoreOutlined } from '@ant-design/icons';
+import {
+  EyeInvisibleOutlined,
+  MoreOutlined,
+  PaperClipOutlined,
+} from '@ant-design/icons';
 import type { IgnoreMessage } from '../../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { ReactComponent as IconMessage } from './assets/icon-message.svg';
+import { AssetTypeTextMapper } from './constants';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
 import { trimTitle } from '@/components/utils';
 
@@ -26,6 +31,9 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
       () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
       [screen],
     );
+    const hasAsset = useMemo(() => {
+      return Boolean(copilot.asset_link && copilot.asset_type);
+    }, [copilot.asset_link, copilot.asset_type]);
     const isHidden = useMemo(
       () => copilot.title.includes('[hidden]'),
       [copilot.title],
@@ -109,6 +117,12 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
             <Typography.Paragraph type="secondary">
               {copilot.description}
             </Typography.Paragraph>
+          ) : null}
+          {hasAsset && isLarge ? (
+            <Typography.Link target="_blank" href={copilot.asset_link}>
+              <PaperClipOutlined /> {AssetTypeTextMapper[copilot.asset_type!]}
+              存档
+            </Typography.Link>
           ) : null}
         </div>
       </div>

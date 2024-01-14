@@ -7,6 +7,9 @@ import {
 const POSITION_ARRAY = ['1', '2', '3', '4', '5'] as const;
 
 export function toCopilot(r: RemoteCopilotType): CopilotType {
+  const rerurnTerms = r.rerun_terms[0].text_arr.map(termStr =>
+    Number.parseInt(termStr, 10),
+  );
   return {
     bv: r.bv,
     title: r.title,
@@ -16,9 +19,7 @@ export function toCopilot(r: RemoteCopilotType): CopilotType {
     upload_time: r.upload_time,
     score: r.score,
     term: Number.parseInt(r.term[0].text_arr[0], 10),
-    rerun_terms: r.rerun_terms[0].text_arr.map(termStr =>
-      Number.parseInt(termStr, 10),
-    ),
+    rerun_terms: rerurnTerms.length ? rerurnTerms : undefined,
     aurorian_summaries: POSITION_ARRAY.map(pos => {
       return {
         aurorian_name: r[`aurorian_${pos}`][0].text,
@@ -32,5 +33,7 @@ export function toCopilot(r: RemoteCopilotType): CopilotType {
       CopilotAurorianSummaryType,
       CopilotAurorianSummaryType,
     ],
+    asset_link: r.asset_link,
+    asset_type: r.asset_type,
   };
 }
