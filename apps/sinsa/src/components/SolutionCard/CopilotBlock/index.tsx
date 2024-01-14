@@ -1,6 +1,14 @@
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { clsx } from 'clsx';
-import { Button, Dropdown, Flex, Tag, Tooltip, Typography } from 'antd';
+import {
+  Button,
+  Dropdown,
+  Flex,
+  Popconfirm,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
 import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
@@ -119,10 +127,20 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
             </Typography.Paragraph>
           ) : null}
           {hasAsset && isLarge ? (
-            <Typography.Link target="_blank" href={copilot.asset_link}>
-              <PaperClipOutlined /> {AssetTypeTextMapper[copilot.asset_type!]}
-              存档
-            </Typography.Link>
+            <Popconfirm
+              okText="确认"
+              title="此资源仅为临时存档。是否开始下载？"
+              onConfirm={() => {
+                const el = document.createElement('a');
+                el.href = copilot.asset_link!;
+                el.click();
+              }}
+            >
+              <Typography.Link>
+                <PaperClipOutlined /> {AssetTypeTextMapper[copilot.asset_type!]}
+                存档
+              </Typography.Link>
+            </Popconfirm>
           ) : null}
         </div>
       </div>
