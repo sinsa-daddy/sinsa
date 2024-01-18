@@ -37,7 +37,7 @@ export default defineConfig<'rspack'>({
       '@waline/client': 'Waline',
       'pinyin-pro': 'pinyinPro',
       axios: 'axios',
-      // '@ant-design/pro-components': 'ProComponents',
+      '@ant-design/charts': 'Charts',
     },
     distPath: {
       html: '',
