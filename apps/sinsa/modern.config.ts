@@ -95,7 +95,7 @@ export default defineConfig<'rspack'>({
       strategy: 'split-by-experience',
       override: {
         cacheGroups: {
-          ...createCacheGroups(10),
+          ...createCacheGroups(8),
         },
       },
     },
