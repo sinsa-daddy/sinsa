@@ -1,9 +1,16 @@
-import { EmotionHappy, Home, Search, ViewList } from '@icon-park/react';
+import {
+  // Analysis,
+  EmotionHappy,
+  Home,
+  Search,
+  ViewList,
+} from '@icon-park/react';
 
 export const RoutePath = {
   Home: '/',
   Solutions: (term: string | number = ':term') => `/solutions/${term}`,
   Copilots: (term: string | number = ':term') => `/copilots/${term}`,
+  Dashboard: '/dashboard',
   Upload: '/upload',
   Questions:
     'https://fwf92qm5h53.feishu.cn/share/base/form/shrcnkfhNUEP1AHIktUV6gRMFKc',
@@ -28,6 +35,11 @@ export const MY_ROUTE = {
       icon: <ViewList size={16} />,
       requireLatestTerm: true,
     },
+    // {
+    //   path: RoutePath.Dashboard,
+    //   name: '数据全览',
+    //   icon: <Analysis size={16} />,
+    // },
     {
       path: RoutePath.Questions,
       name: '反馈建议',
