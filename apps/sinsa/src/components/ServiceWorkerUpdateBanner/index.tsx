@@ -3,8 +3,8 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 import type { TermType } from '@sinsa/schema';
 import { Alert, Button, Typography } from 'antd';
+import { Tips } from '@icon-park/react';
 import styles from './styles.module.less';
-import { ReactComponent as IconTips } from './assets/icon-tips.svg';
 import { TermsModel } from '@/models/terms';
 import { useActualLatestTerm } from '@/services/service-worker/use-actual-latest-term';
 
@@ -29,7 +29,7 @@ export const ServiceWorkerUpdateBanner: React.FC = () => {
       <Alert
         className={styles.Alert}
         type="error"
-        icon={<IconTips />}
+        icon={<Tips />}
         banner
         message={`荒典已经更新至 ${alertTerm.term} 期，刷新页面后可选择`}
         action={

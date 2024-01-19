@@ -12,15 +12,10 @@ import {
 import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
-import {
-  EyeInvisibleOutlined,
-  MoreOutlined,
-  PaperClipOutlined,
-} from '@ant-design/icons';
+import { MessageOne, More, Paperclip, PreviewCloseOne } from '@icon-park/react';
 import type { IgnoreMessage } from '../../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
-import { ReactComponent as IconMessage } from './assets/icon-message.svg';
 import { AssetTypeTextMapper } from './constants';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
 import { trimTitle } from '@/components/utils';
@@ -70,7 +65,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
               ) : null}
               {copilot.description && !isLarge ? (
                 <Tooltip title={copilot.description}>
-                  {copilot.description ? <IconMessage /> : null}
+                  {copilot.description ? <MessageOne size={18} /> : null}
                 </Tooltip>
               ) : null}
               <Typography.Text className={styles.Dot} type="secondary">
@@ -85,7 +80,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                       key: 'ignore',
                       label: (
                         <span>
-                          <EyeInvisibleOutlined /> 排除此作业
+                          <PreviewCloseOne /> 排除此作业
                         </span>
                       ),
                     },
@@ -100,7 +95,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                   },
                 }}
               >
-                <Button size="small" icon={<MoreOutlined />} />
+                <Button size="small" icon={<More />} />
               </Dropdown>
             </Flex>
           </Flex>
@@ -137,7 +132,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
               }}
             >
               <Typography.Link>
-                <PaperClipOutlined /> {AssetTypeTextMapper[copilot.asset_type!]}
+                <Paperclip /> {AssetTypeTextMapper[copilot.asset_type!]}
                 存档
               </Typography.Link>
             </Popconfirm>

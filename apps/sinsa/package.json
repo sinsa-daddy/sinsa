@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
-    "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.43",
     "@icon-park/react": "^1.4.2",
     "@modern-js/runtime": "2.42.1",

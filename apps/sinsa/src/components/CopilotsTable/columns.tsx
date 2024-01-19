@@ -1,9 +1,9 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { Tag, Tooltip, Typography } from 'antd';
+import { MessageOne } from '@icon-park/react';
 import { AuroriansTeam } from '../AuroriansTeam';
 import { RelativeTimeText } from '../RelativeTimeText';
-import { ReactComponent as IconMessage } from './assets/icon-message.svg';
 import styles from './styles.module.less';
 
 export interface TableParams {
@@ -55,7 +55,7 @@ export function getCopilotsColumns({
           <div className={styles.AuthorContainer}>
             <span>{dom}</span>
             <Tooltip title={entity.description}>
-              {entity.description ? <IconMessage /> : null}
+              {entity.description ? <MessageOne /> : null}
             </Tooltip>
           </div>
         );

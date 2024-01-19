@@ -7,9 +7,9 @@ import {
 } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
 import { Button, Select, Tooltip } from 'antd';
+import { Delete } from '@icon-park/react';
 import { RarityMapper } from '../AurorianCard/constants';
 import { AurorianCard } from '../AurorianCard';
-import { ReactComponent as IconDelete } from './assets/icon-delete.svg';
 import { AuroriansModel, filterAuroriansOption } from '@/models/aurorians';
 
 interface ExcludeFormListProps {
@@ -34,7 +34,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
         <Tooltip key="delete" title="删除此光灵">
           <Button
             style={{ marginLeft: '.5rem' }}
-            icon={<IconDelete style={{ verticalAlign: '-2px' }} />}
+            icon={<Delete />}
             onClick={e => {
               e.stopPropagation();
               action.remove(field.name);
