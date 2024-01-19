@@ -1,7 +1,4 @@
-import { ReactComponent as IconHome } from './assets/icon-home.svg';
-import { ReactComponent as IconLog } from './assets/icon-log.svg';
-import { ReactComponent as IconSolution } from './assets/icon-solution.svg';
-import { ReactComponent as IconHappyFace } from './assets/icon-happy-face.svg';
+import { EmotionHappy, Home, Search, ViewList } from '@icon-park/react';
 
 export const RoutePath = {
   Home: '/',
@@ -17,24 +14,24 @@ export const MY_ROUTE = {
     {
       path: RoutePath.Home,
       name: '首页',
-      icon: <IconHome />,
+      icon: <Home size={16} />,
     },
     {
       path: RoutePath.Solutions(),
       name: '作业匹配',
-      icon: <IconSolution />,
+      icon: <Search size={16} />,
       requireLatestTerm: true,
     },
     {
       path: RoutePath.Copilots(),
       name: '作业全览',
-      icon: <IconLog />,
+      icon: <ViewList size={16} />,
       requireLatestTerm: true,
     },
     {
       path: RoutePath.Questions,
       name: '反馈建议',
-      icon: <IconHappyFace />,
+      icon: <EmotionHappy size={16} />,
       link: true,
     },
   ],

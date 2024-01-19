@@ -5,6 +5,7 @@ import type React from 'react';
 import { useEffect, useMemo } from 'react';
 import { DarkModel } from '@/models/dark';
 import { DARK_MODE_KEY } from '@/services/dark-mode';
+import { IconParkProvider } from '@/plugins/icon-park';
 
 const ANTD_PREFIX_CLASSNAME = 'sinsa' as const;
 const COLOR_PRIMARY = 'rgb(220, 89, 80)';
@@ -39,7 +40,7 @@ export const Providers: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { theme } = useAntDesignTheme();
   return (
     <ConfigProvider prefixCls={ANTD_PREFIX_CLASSNAME} theme={theme}>
-      {children}
+      <IconParkProvider>{children}</IconParkProvider>
     </ConfigProvider>
   );
 };
