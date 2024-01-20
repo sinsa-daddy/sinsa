@@ -6,6 +6,7 @@ export const SimpleLatestCopilotSchema = z.object({
     name: z.string(),
   }),
   bv: z.string(),
+  score: z.coerce.number(),
 });
 
 export type SimpleLatestCopilotType = z.infer<typeof SimpleLatestCopilotSchema>;

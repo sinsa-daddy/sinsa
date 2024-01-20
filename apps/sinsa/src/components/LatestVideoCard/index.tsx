@@ -1,15 +1,16 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
 import { Button, Card, Flex, Tag, Tooltip, Typography } from 'antd';
-import React, { useEffect, useImperativeHandle, useRef } from 'react';
+import React, { useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
-import { first } from 'lodash-es';
+import { first, maxBy, minBy } from 'lodash-es';
 import { RelativeTimeText } from '../RelativeTimeText';
 import { trimTitle } from '../utils';
 import { useLatestVideo } from './useLatestVideo';
 import styles from './styles.module.less';
 import denyList from './deny-list.json';
+import type { SimpleLatestCopilotType } from './schemas/SimpleLatestCopilot';
 import { FeishuModel } from '@/models/feishu';
 
 interface LatestVideoCardProps {
@@ -18,6 +19,10 @@ interface LatestVideoCardProps {
 
 interface LatestVideoCardRef {
   refresh: () => void;
+  latestMaxAndMinScoreCopilots: {
+    maxScoreCopilot: SimpleLatestCopilotType | undefined;
+    minScoreCopilot: SimpleLatestCopilotType | undefined;
+  };
 }
 
 export function useLatestVideoCardRef() {
@@ -47,14 +52,25 @@ export const LatestVideoCard = React.forwardRef<
     }
   }, [isLogin]);
 
+  const latestMaxAndMinScoreCopilots = useMemo(() => {
+    const maxScoreCopilot = maxBy(latestCopilots, c => c.score);
+    const minScoreCopilot = minBy(latestCopilots, c => c.score);
+
+    return {
+      maxScoreCopilot,
+      minScoreCopilot,
+    };
+  }, [latestCopilots]);
+
   useImperativeHandle(
     ref,
     () => {
       return {
         refresh,
+        latestMaxAndMinScoreCopilots,
       };
     },
-    [refresh],
+    [refresh, latestMaxAndMinScoreCopilots],
   );
 
   if (!isLogin) {

@@ -1,4 +1,3 @@
-import type { ProFormInstance } from '@ant-design/pro-components';
 import {
   FooterToolbar,
   ProForm,
@@ -11,8 +10,8 @@ import {
 } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
-import { Button, Card, notification } from 'antd';
-import { useMemo, useRef } from 'react';
+import { Button, Card, Typography, notification } from 'antd';
+import { useMemo } from 'react';
 import { CopilotSchema } from '@sinsa/schema';
 import numeral from 'numeral';
 import { LatestVideoCard, useLatestVideoCardRef } from '../LatestVideoCard';
@@ -39,7 +38,7 @@ export const UploadForm: React.FC = () => {
 
   const { loadingPostCopilot, postCopilotAsync } = usePostCopilot();
 
-  const formRef = useRef<ProFormInstance<FormValues>>();
+  const [form] = ProForm.useForm<FormValues>();
 
   const initialValues: Partial<FormValues> = useMemo(() => {
     const result: Partial<FormValues> = {};
@@ -56,12 +55,12 @@ export const UploadForm: React.FC = () => {
       <LatestVideoCard
         ref={latestVideoCardRef}
         onClickNewCard={bvid => {
-          formRef.current?.setFieldValue('bv', bvid);
+          form.setFieldValue('bv', bvid);
         }}
       />
       <Card>
         <ProForm<FormValues>
-          formRef={formRef}
+          form={form}
           initialValues={initialValues}
           submitter={{
             submitButtonProps: {
@@ -90,7 +89,7 @@ export const UploadForm: React.FC = () => {
                 notification.success({
                   message: `醒山小狗已经成功帮您添加了一份作业，record_id 为 ${result?.record?.record_id}`,
                 });
-                formRef.current?.resetFields();
+                form.resetFields();
                 setVideoInfo(undefined);
                 latestVideoCardRef.current?.refresh();
               } else {
@@ -117,7 +116,7 @@ export const UploadForm: React.FC = () => {
               showSearch={false}
               onChange={nextTerm => {
                 if (typeof nextTerm === 'number') {
-                  autoSetTerm(formRef.current, nextTerm);
+                  autoSetTerm(form, nextTerm);
                 }
               }}
             />
@@ -145,7 +144,7 @@ export const UploadForm: React.FC = () => {
                   fieldProps={{
                     onChange(e) {
                       const bvOrLink = e.target.value;
-                      trimBV(formRef.current, bvOrLink);
+                      trimBV(form, bvOrLink);
                     },
                   }}
                   rules={[
@@ -192,7 +191,7 @@ export const UploadForm: React.FC = () => {
 
                       if (result) {
                         const { title, desc, owner, pubdate } = result;
-                        formRef.current?.setFieldsValue({
+                        form.setFieldsValue({
                           title,
                           description: desc === '-' ? undefined : desc,
                           author: owner.name,
@@ -228,6 +227,47 @@ export const UploadForm: React.FC = () => {
               parser: str => numeral(str).value() ?? 0,
               size: 'large',
             }}
+            extra={
+              <ProFormDependency name={['score']}>
+                {partialValues => {
+                  const { score } = partialValues as Pick<FormValues, 'score'>;
+                  if (
+                    latestVideoCardRef.current?.latestMaxAndMinScoreCopilots
+                      ?.maxScoreCopilot &&
+                    latestVideoCardRef.current?.latestMaxAndMinScoreCopilots
+                      .minScoreCopilot
+                  ) {
+                    if (
+                      score >=
+                      2 *
+                        latestVideoCardRef.current.latestMaxAndMinScoreCopilots
+                          .maxScoreCopilot.score
+                    ) {
+                      return (
+                        <Typography.Text type="warning">
+                          录入的分数超过最近作业最高分两倍，请再次确认是否录入正确
+                        </Typography.Text>
+                      );
+                    }
+
+                    if (
+                      score <=
+                      0.5 *
+                        latestVideoCardRef.current.latestMaxAndMinScoreCopilots
+                          .minScoreCopilot.score
+                    ) {
+                      return (
+                        <Typography.Text type="warning">
+                          录入的分数低于最近作业最低分的一半，请再次确认是否录入正确
+                        </Typography.Text>
+                      );
+                    }
+                  }
+
+                  return null;
+                }}
+              </ProFormDependency>
+            }
           />
 
           <ProFormText
