@@ -1,6 +1,6 @@
-import { PageContainer } from '@ant-design/pro-components';
+import { PageContainer, useBreakpoint } from '@ant-design/pro-components';
 import { Button, Checkbox, Image, Tag, Typography } from 'antd';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from '@modern-js/runtime/router';
 import { useModel } from '@modern-js/runtime/model';
 import QunURL from '@/assets/docs/qun.webp';
@@ -10,6 +10,11 @@ import { DarkModeButton } from '@/components/DarkModeButton';
 
 const Index = React.memo(() => {
   const [{ latestTerm: currentTerm }] = useModel(TermsModel);
+  const screen = useBreakpoint();
+  const isLarge = useMemo(
+    () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
+    [screen],
+  );
 
   return (
     <PageContainer
@@ -17,7 +22,7 @@ const Index = React.memo(() => {
       content={
         '红油扳手作业站是一站式作业收录平台，目前由我们民间团队手动收录哔哩哔哩上的作业。'
       }
-      extra={<DarkModeButton />}
+      extra={isLarge ? <DarkModeButton /> : null}
     >
       <Typography.Paragraph>
         Github地址{' '}
