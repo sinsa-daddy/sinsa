@@ -7,7 +7,7 @@ import {
   ProForm,
 } from '@ant-design/pro-components';
 import { useCallback, useMemo } from 'react';
-import { Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import type { CopilotType } from '@sinsa/schema';
 import type { QueryParamsType } from '../schemas/query-params';
 import { useSolutionResultContext } from '../context';
@@ -42,7 +42,7 @@ export const QueryForm: React.FC<QueryFormProps> = ({ term, copilots }) => {
             </Typography.Text>,
           );
         }
-        return display;
+        return <Space wrap>{display}</Space>;
       },
     };
   }, [solutionResult?.allSolutions.solutions.length]);

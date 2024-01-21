@@ -73,8 +73,9 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         layout="mix"
         token={token}
         ErrorBoundary={ErrorBoundary}
-        headerContentRender={() => (
+        headerContentRender={(_, dom) => (
           <Flex justify="flex-end">
+            {dom}
             <DarkModeButton />
           </Flex>
         )}
