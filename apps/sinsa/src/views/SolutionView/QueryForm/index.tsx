@@ -9,6 +9,7 @@ import {
 import { useCallback, useMemo } from 'react';
 import { Space, Typography } from 'antd';
 import type { CopilotType } from '@sinsa/schema';
+import { Search } from '@icon-park/react';
 import type { QueryParamsType } from '../schemas/query-params';
 import { useSolutionResultContext } from '../context';
 import { useInitialValues } from './hooks/use-initial-values';
@@ -28,7 +29,10 @@ export const QueryForm: React.FC<QueryFormProps> = ({ term, copilots }) => {
 
   const submitter = useMemo<SubmitterProps>(() => {
     return {
-      searchConfig: { submitText: '寻找匹配方案' },
+      searchConfig: { submitText: '寻找方案' },
+      submitButtonProps: {
+        icon: <Search theme="outline" />,
+      },
       render(_, dom) {
         const display = [...dom];
         if (typeof solutionResult?.allSolutions.solutions.length === 'number') {
@@ -38,7 +42,7 @@ export const QueryForm: React.FC<QueryFormProps> = ({ term, copilots }) => {
               <Typography.Text strong>
                 {solutionResult.allSolutions.solutions.length}
               </Typography.Text>{' '}
-              个匹配方案
+              个作业匹配方案
             </Typography.Text>,
           );
         }
