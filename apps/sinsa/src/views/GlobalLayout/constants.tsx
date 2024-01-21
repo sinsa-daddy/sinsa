@@ -8,8 +8,10 @@ import {
 
 export const RoutePath = {
   Home: '/',
-  Solutions: (term: string | number = ':term') => `/solutions/${term}`,
-  Copilots: (term: string | number = ':term') => `/copilots/${term}`,
+  Solutions: (term: 'latest' | `${number}` | ':term' | number = ':term') =>
+    `/solutions/${term}`,
+  Copilots: (term: 'latest' | `${number}` | ':term' | number = ':term') =>
+    `/copilots/${term}`,
   Dashboard: '/dashboard',
   Upload: '/upload',
   Questions:
@@ -27,13 +29,11 @@ export const MY_ROUTE = {
       path: RoutePath.Solutions(),
       name: '作业匹配',
       icon: <Search size={16} />,
-      requireLatestTerm: true,
     },
     {
       path: RoutePath.Copilots(),
       name: '作业全览',
       icon: <ViewList size={16} />,
-      requireLatestTerm: true,
     },
     // {
     //   path: RoutePath.Dashboard,
