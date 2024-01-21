@@ -6,6 +6,7 @@ import { useModel } from '@modern-js/runtime/model';
 import QunURL from '@/assets/docs/qun.webp';
 import { TermsModel } from '@/models/terms';
 import { RoutePath } from '@/views/GlobalLayout/constants';
+import { DarkModeButton } from '@/components/DarkModeButton';
 
 const Index = React.memo(() => {
   const [{ latestTerm: currentTerm }] = useModel(TermsModel);
@@ -16,6 +17,7 @@ const Index = React.memo(() => {
       content={
         '红油扳手作业站是一站式作业收录平台，目前由我们民间团队手动收录哔哩哔哩上的作业。'
       }
+      extra={<DarkModeButton />}
     >
       <Typography.Paragraph>
         Github地址{' '}

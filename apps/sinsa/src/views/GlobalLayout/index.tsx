@@ -64,13 +64,12 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         title="红油扳手作业站"
         logo={<IconLogo />}
         location={location}
-        fixedHeader
         fixSiderbar
         route={MY_ROUTE}
         menuItemRender={renderMenuItem}
         onMenuHeaderClick={handleClickLogo}
         siderWidth={200}
-        layout="mix"
+        layout="side"
         token={token}
         ErrorBoundary={ErrorBoundary}
         headerContentRender={(_, dom) => (
