@@ -171,5 +171,17 @@
       "type": "image/png",
       "form_factor": "wide"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "寻找匹配作业方案",
+      "short_name": "作业匹配",
+      "url": "/#/solutions/latest"
+    },
+    {
+      "name": "查看全部收录的作业",
+      "short_name": "作业全览",
+      "url": "/#/copilots/latest"
+    }
   ]
 }
