@@ -1,3 +1,5 @@
+import { notification } from 'antd';
+
 export class ServiceWorkerService {
   static SERVICE_WORKER_URL: string = '/sw.js';
 
@@ -27,6 +29,17 @@ export class ServiceWorkerService {
       );
 
       const wb = new Workbox(ServiceWorkerService.SERVICE_WORKER_URL);
+
+      wb.addEventListener('activated', event => {
+        if (!event.isUpdate) {
+          notification.success({
+            message: `缓存完成`,
+            description: `作业站可以离线本地使用了`,
+            duration: 3,
+            placement: 'bottom',
+          });
+        }
+      });
 
       window.__TERMS_UPDATE_PROMISE__ = new Promise(resolve => {
         wb.addEventListener('message', event => {
