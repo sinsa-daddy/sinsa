@@ -40,24 +40,21 @@ export const CopilotListView: React.FC<CopilotListViewProps> = ({
   return (
     <>
       <div className={styles.Mount} ref={inViewRef} />
-      <List<CopilotType>
-        dataSource={dataSource}
-        pagination={pagination}
-        rowKey={getRowKey}
-        renderItem={item => (
-          <Card
-            className={styles.CopilotCard}
-            bodyStyle={{ paddingBottom: 16 }}
-          >
+      <Card className={styles.CopilotCard}>
+        <List<CopilotType>
+          dataSource={dataSource}
+          pagination={pagination}
+          rowKey={getRowKey}
+          renderItem={item => (
             <CopilotBlock
               className={styles.ControlledCopilotBlock}
               copilot={item}
               currentTerm={currentTerm}
               readOnly
             />
-          </Card>
-        )}
-      />
+          )}
+        />
+      </Card>
     </>
   );
 };

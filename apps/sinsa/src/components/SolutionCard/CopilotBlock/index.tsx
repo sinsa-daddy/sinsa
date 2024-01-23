@@ -75,30 +75,32 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
               </Typography.Text>
               <RelativeTimeText time={copilot.upload_time} />
               <Typography.Text className={styles.Dot} type="secondary" />
-              <Dropdown
-                menu={{
-                  items: [
-                    {
-                      key: 'ignore',
-                      label: (
-                        <span>
-                          <PreviewCloseOne /> 排除此作业
-                        </span>
-                      ),
+              {!readOnly ? (
+                <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        key: 'ignore',
+                        label: (
+                          <span>
+                            <PreviewCloseOne /> 排除此作业
+                          </span>
+                        ),
+                      },
+                    ],
+                    onClick(info) {
+                      if (info.key === 'ignore') {
+                        onIgnore?.({
+                          type: 'copilot',
+                          bv: copilot.bv,
+                        });
+                      }
                     },
-                  ],
-                  onClick(info) {
-                    if (info.key === 'ignore') {
-                      onIgnore?.({
-                        type: 'copilot',
-                        bv: copilot.bv,
-                      });
-                    }
-                  },
-                }}
-              >
-                <Button size="small" icon={<More />} />
-              </Dropdown>
+                  }}
+                >
+                  <Button size="small" icon={<More />} />
+                </Dropdown>
+              ) : null}
             </Flex>
           </Flex>
           <div className={styles.Title}>
