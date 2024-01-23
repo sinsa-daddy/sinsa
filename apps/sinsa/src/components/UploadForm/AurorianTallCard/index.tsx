@@ -34,7 +34,7 @@ export const AurorianTallCard = React.memo<AurorianTallCardProps>(
       <Flex vertical align="center" gap={8}>
         <div className={styles.AdaptiveContainer}>
           <AdaptiveAurorianCard
-            disable
+            readOnly
             name={name}
             isReplaceable={isReplaceable}
           />

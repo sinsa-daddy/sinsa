@@ -1,13 +1,14 @@
-import type { TermType } from '@sinsa/schema';
+import type { CopilotType, TermType } from '@sinsa/schema';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import { Card, Typography } from 'antd';
 import React, { useMemo } from 'react';
 import { isEqual } from 'lodash-es';
 import numeral from 'numeral';
-import { copilotRowKey } from '../CopilotsTable';
 import type { IgnoreMessage } from '../types';
 import { CopilotBlock } from './CopilotBlock';
 import styles from './styles.module.less';
+
+const copilotRowKey = (c: CopilotType) => c.bv;
 
 export interface SolutionCardProps {
   solution: Solution;

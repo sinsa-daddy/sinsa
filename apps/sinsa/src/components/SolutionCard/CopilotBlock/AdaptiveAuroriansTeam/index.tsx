@@ -8,11 +8,13 @@ import { AdaptiveAurorianCard } from '@/components/AdaptiveAurorianCard';
 interface AdaptiveAuroriansTeamProps {
   aurorianSummaries: CopilotType['aurorian_summaries'];
   onIgnore?: (msg: IgnoreMessage) => void;
+  readOnly?: boolean;
 }
 
 export const AdaptiveAuroriansTeam: React.FC<AdaptiveAuroriansTeamProps> = ({
   aurorianSummaries,
   onIgnore,
+  readOnly,
 }) => {
   return (
     <Flex className={styles.AuroriansTeam}>
@@ -25,6 +27,7 @@ export const AdaptiveAuroriansTeam: React.FC<AdaptiveAuroriansTeamProps> = ({
               breakthrough={breakthrough}
               isReplaceable={is_replaceable}
               onIgnore={onIgnore}
+              readOnly={readOnly}
             />
           );
         },

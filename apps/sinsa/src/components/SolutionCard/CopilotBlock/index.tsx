@@ -25,10 +25,11 @@ interface CopilotBlockProps {
   currentTerm: TermType;
   className?: string;
   onIgnore?: (msg: IgnoreMessage) => void;
+  readOnly?: boolean;
 }
 
 export const CopilotBlock = React.memo<CopilotBlockProps>(
-  ({ copilot, currentTerm, className, onIgnore }) => {
+  ({ copilot, currentTerm, className, onIgnore, readOnly }) => {
     const screen = useBreakpoint();
     const isLarge = useMemo(
       () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
@@ -50,6 +51,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
         <AdaptiveAuroriansTeam
           onIgnore={onIgnore}
           aurorianSummaries={copilot.aurorian_summaries}
+          readOnly={readOnly}
         />
         <div className={styles.PaddingContainer}>
           <Flex className={styles.Header}>

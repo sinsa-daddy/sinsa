@@ -130,7 +130,7 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
           return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />;
         }}
       >
-        <List
+        <List<Solution>
           loading={loadingSolutionResult}
           dataSource={solutionResult?.allSolutions.solutions}
           pagination={pagination}

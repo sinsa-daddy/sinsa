@@ -1,11 +1,12 @@
+/* eslint-disable no-nested-ternary */
 import { useRequest } from 'ahooks';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMemo } from 'react';
 import { TermNotFound } from '@/components/TermNotFound';
 import { TermChanger, useTargetTermFromParams } from '@/components/TermChanger';
-import { CopilotsTable } from '@/components/CopilotsTable';
 import { getCopilots } from '@/services/http';
 import { RoutePath } from '@/views/GlobalLayout/constants';
+import { CopilotsView } from '@/views/CopilotsView';
 
 const CopilotsPage: React.FC = () => {
   const { targetTerm: currentTerm } = useTargetTermFromParams();
@@ -27,9 +28,9 @@ const CopilotsPage: React.FC = () => {
     >
       {error ? (
         <TermNotFound />
-      ) : (
-        <CopilotsTable currentTerm={currentTerm} dataSource={copilots} />
-      )}
+      ) : currentTerm ? (
+        <CopilotsView currentTerm={currentTerm} copilots={copilots} />
+      ) : null}
     </PageContainer>
   );
 };

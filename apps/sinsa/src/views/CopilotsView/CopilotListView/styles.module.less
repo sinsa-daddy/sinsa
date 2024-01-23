@@ -1,0 +1,25 @@
+.Mount {
+  margin-top: -16px;
+}
+
+.ControlledCopilotBlock {
+  margin: 0 -24px;
+}
+
+@media (min-width: 1200px) {
+  .ControlledCopilotBlock {
+    flex-flow: row nowrap;
+    align-items: start;
+    margin: 0;
+
+    &:not(:last-child) {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.CopilotCard {
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
