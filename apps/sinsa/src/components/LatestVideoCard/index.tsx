@@ -5,11 +5,11 @@ import React, { useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
 import { first, maxBy, minBy } from 'lodash-es';
+import { useRequest } from 'ahooks';
 import { RelativeTimeText } from '../RelativeTimeText';
 import { trimTitle } from '../utils';
 import { useLatestVideo } from './useLatestVideo';
 import styles from './styles.module.less';
-import denyList from './deny-list.json';
 import type { SimpleLatestCopilotType } from './schemas/SimpleLatestCopilot';
 import { FeishuModel } from '@/models/feishu';
 
@@ -73,6 +73,14 @@ export const LatestVideoCard = React.forwardRef<
     [refresh, latestMaxAndMinScoreCopilots],
   );
 
+  const { data, loading: loadingDenyList } = useRequest(async () => {
+    const list = await import('./deny-list.json');
+
+    return {
+      list,
+    };
+  }, {});
+
   if (!isLogin) {
     return null;
   }
@@ -80,7 +88,7 @@ export const LatestVideoCard = React.forwardRef<
   return (
     <Card
       title="B站视频最新收录情况：最近 20 条按新发布排序搜索结果"
-      loading={loadingLatestCopilots || loadingLatestVideos}
+      loading={loadingLatestCopilots || loadingLatestVideos || loadingDenyList}
       bodyStyle={{ overflow: 'auto', height: 400 }}
       extra={
         <Button
@@ -108,7 +116,7 @@ export const LatestVideoCard = React.forwardRef<
 
             const tooShort = first(video.duration.split(':')) === '0';
 
-            const inDenyList = denyList.includes(video.bvid);
+            const inDenyList = data?.list.includes(video.bvid);
 
             return (
               <Card
