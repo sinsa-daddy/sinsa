@@ -77,7 +77,7 @@ export const LatestVideoCard = React.forwardRef<
     const list = await import('./deny-list.json');
 
     return {
-      list,
+      list: Array.from(list),
     };
   }, {});
 
