@@ -52,7 +52,7 @@ jobs:
           LARK_SINSA_PUPPY_APP_SECRET: ${{ secrets.LARK_SINSA_PUPPY_APP_SECRET }}
         run: pnpm run build
       - name: Generate SW
-        run: cd ./apps/sinsa && pnpm run format-output && mv ./dist/public/** ./dist/ && pnpm run sw
+        run: cd ./apps/sinsa && pnpm run format-output && pnpm run sw
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v2
       #   with:

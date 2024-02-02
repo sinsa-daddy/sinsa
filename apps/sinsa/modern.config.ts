@@ -6,10 +6,9 @@ import { first, groupBy, mapValues } from 'lodash-es';
 import { formatOutputPlugin } from './plugins/foramt-output';
 import { fetchDataSourcePlugin } from './plugins/fetch-data-source-plugin';
 
-const AVATARS_PATH = resolve(
-  dirname(fileURLToPath(import.meta.url)),
-  './src/assets/skins',
-);
+const __DIR_NAME = dirname(fileURLToPath(import.meta.url));
+
+const AVATARS_PATH = resolve(__DIR_NAME, './src/assets/skins');
 const AVATARS_FILENAMES = readdirSync(AVATARS_PATH);
 
 type NameMap = { [key: string]: number };
@@ -114,6 +113,12 @@ export default defineConfig<'rspack'>({
     distPath: {
       html: '',
     },
+    copy: [
+      {
+        from: resolve(__DIR_NAME, 'config', 'public', '**', '*.*'),
+        context: resolve(__DIR_NAME, 'config', 'public'),
+      },
+    ],
   },
   tools: {
     htmlPlugin: {

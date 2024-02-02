@@ -7,6 +7,7 @@ const USELESS_JSON = [
   'nestedRoutes.json',
   'route.json',
   'routes-manifest.json',
+  'public',
 ] as const;
 
 export function formatOutputPlugin(): CliPlugin {
