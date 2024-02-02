@@ -3,7 +3,13 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist"]
+      "outputs": ["dist"],
+      "cache": true
+    },
+    "@sinsa/datasource-generator#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist"],
+      "cache": false
     },
     "lint": {},
     "dev": {
