@@ -26,7 +26,13 @@ jobs:
       - name: Cache turbo build setup
         uses: actions/cache@v3
         with:
-          path: .turbo
+          path: |
+            apps/sinsa/dist
+            packages/datasource-generator/dist
+            packages/schema/dist
+            packages/service-worker/dist
+            packages/solution-calculator/dist
+            .turbo
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
