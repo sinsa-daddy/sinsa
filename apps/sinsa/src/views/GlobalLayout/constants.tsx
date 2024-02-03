@@ -42,7 +42,7 @@ export const MY_ROUTE = {
     // },
     {
       path: RoutePath.Questions,
-      name: '反馈建议',
+      name: '问卷调查',
       icon: <EmotionHappy size={16} />,
       link: true,
     },
