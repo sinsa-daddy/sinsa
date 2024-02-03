@@ -13,7 +13,8 @@
     "upgrade": "modern upgrade",
     "data": "modern fetch",
     "format-output": "modern format-output",
-    "sw": "workbox injectManifest workbox-config.js"
+    "sw": "workbox injectManifest workbox-config.js",
+    "ua": "modern update-notion-aurorians"
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",

@@ -3,17 +3,12 @@ import {
   AurorianAttributeType,
   AurorianClassType,
   AurorianNextSchema,
-  z,
 } from '@sinsa/schema';
 import { toSlug } from '../../slug';
 import { logger } from '../../logger';
 import type { SimpleAurorianType } from '../schema/simple-aurorians';
 import { SimpleAurorianList } from '../schema/simple-aurorians';
-
-const ApiEnvSchema = z.object({
-  CHINA_AURORIAN_LIST_API: z.string(),
-  GLOBAL_AURORIAN_LIST_API: z.string(),
-});
+import { NotionEnvSchema } from '../schema/env';
 
 const ElementMapper: Record<
   SimpleAurorianType['element'],
@@ -35,10 +30,8 @@ const ProfessionMapper: Record<
   2004: AurorianClassType.Supporter,
 };
 
-export async function getAuroriansSource(): Promise<
-  Record<AurorianNextType['aurorian_id'], AurorianNextType>
-> {
-  const env = ApiEnvSchema.parse(process.env);
+export async function getAuroriansSource() {
+  const env = NotionEnvSchema.parse(process.env);
 
   const [baseList, enNameList] = await Promise.all([
     fetch(env.CHINA_AURORIAN_LIST_API, {
@@ -64,14 +57,17 @@ export async function getAuroriansSource(): Promise<
     };
   }, {} as Record<SimpleAurorianType['gameId'], SimpleAurorianType>);
 
+  const avatarURLMap: Record<AurorianNextType['aurorian_id'], string> = {};
+
   for (const base of baseList) {
     const enName = enNameRecord[base.gameId]?.name;
     if (!enName) {
       continue;
     }
+    const id = toSlug(enName);
     resultArray.push(
       AurorianNextSchema.parse({
-        aurorian_id: toSlug(enName),
+        aurorian_id: id,
         name: enName,
         rarity: base.rarity,
         cn_name: base.name,
@@ -80,6 +76,7 @@ export async function getAuroriansSource(): Promise<
         profession: ProfessionMapper[base.profession],
       }),
     );
+    avatarURLMap[id] = base.baseThumbnail;
   }
 
   if (!resultArray.length) {
@@ -88,10 +85,13 @@ export async function getAuroriansSource(): Promise<
     logger.info(`got ${resultArray.length} aurorians`);
   }
 
-  return resultArray.reduce((acc, next) => {
-    return {
-      ...acc,
-      [next.aurorian_id]: next,
-    };
-  }, {} as Record<AurorianNextType['aurorian_id'], AurorianNextType>);
+  return {
+    auroriansMap: resultArray.reduce((acc, next) => {
+      return {
+        ...acc,
+        [next.aurorian_id]: next,
+      };
+    }, {} as Record<AurorianNextType['aurorian_id'], AurorianNextType>),
+    avatarURLMap,
+  };
 }

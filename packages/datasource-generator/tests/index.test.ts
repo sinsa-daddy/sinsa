@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { DataSourceGenerator } from '../src';
 import { toSlug } from '../src/services/slug';
-import { NotionService } from '@/services/notion';
+import { NotionService } from '@/services/notion/class';
 
 const APP_SECRET = process.env.LARK_SINSA_PUPPY_APP_SECRET;
 const LARK_SINSA_PUPPY_APP_ID = 'cli_a5d98466bd7e500e';
@@ -36,11 +36,21 @@ describe.skip('Default cases', () => {
 });
 
 describe('aurorians', () => {
-  if (!process.env.NOTION_SUBMIT_TOKEN) {
-    console.log('请确保环境变量中包含 NOTION_SUBMIT_TOKEN');
+  if (
+    !(
+      process.env.NOTION_SUBMIT_TOKEN && process.env.NOTION_AURORIAN_DATABASE_ID
+    )
+  ) {
+    console.log(
+      '请确保环境变量中包含 NOTION_SUBMIT_TOKEN、NOTION_AURORIAN_DATABASE_ID',
+    );
+    return;
   }
   const notion = new NotionService({
-    notionToken: process.env.NOTION_SUBMIT_TOKEN!,
+    notionToken: process.env.NOTION_SUBMIT_TOKEN,
+    databaseIds: {
+      aurorians: process.env.NOTION_AURORIAN_DATABASE_ID,
+    },
   });
   test('slug', () => {
     expect(toSlug('hello Furry')).toBe('hello-furry');
@@ -50,8 +60,6 @@ describe('aurorians', () => {
     expect(toSlug('hello Furry')).toBe('hello-furry-2');
   });
   test('submit from api', async () => {
-    await notion.submitAurorianDatabase({
-      databaseId: process.env.NOTION_AURORIAN_DATABASE_ID!,
-    });
+    await notion.submitAurorianDatabase();
   });
 });

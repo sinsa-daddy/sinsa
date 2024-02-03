@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { first, groupBy, mapValues } from 'lodash-es';
+import { updateNotionAurorians } from './plugins/update-notion-aurorians';
 import { formatOutputPlugin } from './plugins/foramt-output';
 import { fetchDataSourcePlugin } from './plugins/fetch-data-source-plugin';
 
@@ -84,6 +85,7 @@ export default defineConfig<'rspack'>({
 
     fetchDataSourcePlugin(),
     formatOutputPlugin(),
+    updateNotionAurorians(),
   ],
   html: {
     title: '红油扳手作业站',
