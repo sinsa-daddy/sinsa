@@ -5,11 +5,6 @@
       "dependsOn": ["^build"],
       "outputs": ["dist"]
     },
-    "@sinsa/web": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist"],
-      "cache": false
-    },
     "lint": {},
     "dev": {
       "cache": false,

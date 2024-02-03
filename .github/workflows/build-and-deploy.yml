@@ -32,7 +32,6 @@ jobs:
             packages/schema/dist
             packages/service-worker/dist
             packages/solution-calculator/dist
-            .turbo
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-

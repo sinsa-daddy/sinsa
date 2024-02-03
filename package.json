@@ -14,7 +14,7 @@
     "deploy": "modern deploy",
     "lint": "modern lint",
     "upgrade": "modern upgrade",
-    "build": "turbo run build --cache-dir=.turbo",
+    "build": "turbo run build",
     "dev": "turbo run dev"
   },
   "engines": {
