@@ -11,9 +11,6 @@
     "new": "modern new",
     "upgrade": "modern upgrade"
   },
-  "peerDependencies": {
-    "zod": "^3.22.4"
-  },
   "devDependencies": {
     "@modern-js/eslint-config": "2.42.1",
     "@modern-js/module-tools": "2.42.1",
@@ -24,12 +21,14 @@
     "lint-staged": "~13.1.0",
     "prettier": "~2.8.1",
     "rimraf": "~3.0.2",
-    "typescript": "~5.0.4",
-    "zod": "^3.22.4"
+    "typescript": "~5.0.4"
   },
   "sideEffects": [],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
   }
 }

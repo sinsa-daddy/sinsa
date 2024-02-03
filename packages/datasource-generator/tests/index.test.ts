@@ -1,5 +1,7 @@
 import { join } from 'path';
 import { DataSourceGenerator } from '../src';
+import { toSlug } from '../src/services/slug';
+import { NotionService } from '@/services/notion';
 
 const APP_SECRET = process.env.LARK_SINSA_PUPPY_APP_SECRET;
 const LARK_SINSA_PUPPY_APP_ID = 'cli_a5d98466bd7e500e';
@@ -7,7 +9,7 @@ const LARK_SINSA_PUPPY_APP_ID = 'cli_a5d98466bd7e500e';
 const AURORIAN_APP_TOKEN = 'Aucwbe7LIaB1vis5gSCcSLJAnqh';
 const AURORIAN_TABLE_ID = 'tblZGEdXTgTvAlwR';
 
-describe('Default cases', () => {
+describe.skip('Default cases', () => {
   if (!APP_SECRET) {
     return;
   }
@@ -31,4 +33,25 @@ describe('Default cases', () => {
     const s = 'hello Modern.js';
     expect(s).toBe('hello Modern.js');
   }, 8000);
+});
+
+describe('aurorians', () => {
+  if (!process.env.NOTION_SUBMIT_TOKEN) {
+    console.log('请确保环境变量中包含 NOTION_SUBMIT_TOKEN');
+  }
+  const notion = new NotionService({
+    notionToken: process.env.NOTION_SUBMIT_TOKEN!,
+  });
+  test('slug', () => {
+    expect(toSlug('hello Furry')).toBe('hello-furry');
+    expect(toSlug('hello Furry')).toBe('hello-furry-1');
+    expect(toSlug('hello vice: Furry')).toBe('hello-vice-furry');
+    expect(toSlug('hello & vice: Furry &')).toBe('hello-vice-furry-1');
+    expect(toSlug('hello Furry')).toBe('hello-furry-2');
+  });
+  test('submit from api', async () => {
+    await notion.submitAurorianDatabase({
+      databaseId: process.env.NOTION_AURORIAN_DATABASE_ID!,
+    });
+  });
 });

@@ -183,6 +183,9 @@ importers:
       '@larksuiteoapi/node-sdk':
         specifier: ^1.22.0
         version: 1.22.0
+      '@notionhq/client':
+        specifier: ^2.2.14
+        version: 2.2.14
       '@sinsa/schema':
         specifier: workspace:^
         version: link:../schema
@@ -192,12 +195,12 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      slug:
+        specifier: ^8.2.3
+        version: 8.2.3
       upath:
         specifier: ^2.0.1
         version: 2.0.1
-      zod:
-        specifier: ^3.22.4
-        version: 3.22.4
     devDependencies:
       '@modern-js/eslint-config':
         specifier: 2.42.1
@@ -223,6 +226,9 @@ importers:
       '@types/react':
         specifier: ~18.0.26
         version: 18.0.38
+      '@types/slug':
+        specifier: ^5.0.7
+        version: 5.0.7
       husky:
         specifier: ~8.0.1
         version: 8.0.3
@@ -240,6 +246,10 @@ importers:
         version: 5.0.4
 
   packages/schema:
+    dependencies:
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@modern-js/eslint-config':
         specifier: 2.42.1
@@ -271,9 +281,6 @@ importers:
       typescript:
         specifier: ~5.0.4
         version: 5.0.4
-      zod:
-        specifier: ^3.22.4
-        version: 3.22.4
 
   packages/service-worker:
     dependencies:
@@ -5134,6 +5141,16 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@notionhq/client@2.2.14:
+    resolution: {integrity: sha512-oqUefZtCiJPCX+74A1Os9OVTef3fSnVWe2eVQtU1HJSD+nsfxfhwvDKnzJTh2Tw1ZHKLxpieHB/nzGdY+Uo12A==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@types/node-fetch': 2.6.11
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@pmmmwh/react-refresh-webpack-plugin@0.5.10(react-refresh@0.14.0)(webpack@5.89.0):
     resolution: {integrity: sha512-j0Ya0hCFZPd4x40qLzbhGsh9TMtdb+CJQiso+WxLOPNasohq9cc5SNUcwsZaRH6++Xh91Xkm/xHCkuIiIu0LUA==}
     engines: {node: '>= 10.13'}
@@ -6721,6 +6738,13 @@ packages:
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
     dev: true
 
+  /@types/node-fetch@2.6.11:
+    resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
+    dependencies:
+      '@types/node': 16.11.68
+      form-data: 4.0.0
+    dev: false
+
   /@types/node@12.20.24:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
     dev: true
@@ -6794,6 +6818,10 @@ packages:
 
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
+    dev: true
+
+  /@types/slug@5.0.7:
+    resolution: {integrity: sha512-u5T21+PqfRpHszRWSv5gJYDIkm6lmYUXLjZVYvQyWNO9aC0zs+a11qqtbxbsNRiNLTmw0Xi+5NWK/Qz+JjaB9w==}
     dev: true
 
   /@types/stack-utils@2.0.3:
@@ -16149,6 +16177,11 @@ packages:
       ansi-styles: 6.2.1
       is-fullwidth-code-point: 4.0.0
     dev: true
+
+  /slug@8.2.3:
+    resolution: {integrity: sha512-fXjhAZszNecz855GUNIwW0+sFPi9WV4bMiEKDOCA4wcq1ts1UnUVNy/F78B0Aat7/W3rA+se//33ILKNMrbeYQ==}
+    hasBin: true
+    dev: false
 
   /smartwrap@2.0.2:
     resolution: {integrity: sha512-vCsKNQxb7PnCNd2wY1WClWifAc2lwqsG8OaswpJkVJsvMGcnEntdTCDajZCkk93Ay1U3t/9puJmb525Rg5MZBA==}

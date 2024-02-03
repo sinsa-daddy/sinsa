@@ -4,14 +4,16 @@ import { ensureDir, writeJSON } from 'fs-extra';
 import { join } from 'upath';
 import {
   AurorianSchema,
-  AurorianType,
-  CopilotType,
   RemoteCopilotSchema,
   toCopilot,
   TableSummarySchema,
-  type TableSummaryType,
-  TermType,
   TermSchema,
+} from '@sinsa/schema';
+import type {
+  AurorianType,
+  CopilotType,
+  TermType,
+  TableSummaryType,
 } from '@sinsa/schema';
 import { mergeWith } from 'lodash';
 import type {

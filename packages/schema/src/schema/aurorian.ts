@@ -84,4 +84,16 @@ export const AurorianSchema = z.object({
 /**
  * 光灵类型
  */
-export type AurorianType = z.infer<typeof AurorianSchema>;
+export interface AurorianType extends z.infer<typeof AurorianSchema> {}
+
+export const AurorianNextSchema = z.object({
+  aurorian_id: z.string(),
+  name: z.string(),
+  cn_name: z.string(),
+  primary_element: z.nativeEnum(AurorianAttributeType),
+  secondary_element: z.optional(z.nativeEnum(AurorianAttributeType)),
+  profession: z.nativeEnum(AurorianClassType),
+  rarity: z.number().min(1).max(6),
+});
+
+export interface AurorianNextType extends z.infer<typeof AurorianNextSchema> {}
