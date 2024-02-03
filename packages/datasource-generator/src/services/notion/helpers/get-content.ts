@@ -1,4 +1,7 @@
-import type { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
+import type {
+  RichTextItemResponse,
+  SelectPropertyItemObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints';
 import { first } from 'lodash';
 
 export function getContentFromRichText(val: RichTextItemResponse[]) {
@@ -7,4 +10,10 @@ export function getContentFromRichText(val: RichTextItemResponse[]) {
     return firstItem.text.content;
   }
   return undefined;
+}
+
+export function getContentFromSelect<T extends string = string>(
+  val: SelectPropertyItemObjectResponse['select'],
+) {
+  return val?.name as T | undefined;
 }

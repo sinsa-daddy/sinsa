@@ -10,6 +10,7 @@ import type {
 } from './types';
 import { getContentFromRichText } from './helpers/get-content';
 import { getAuroriansSource } from './apis/get-aurorians-source';
+import { toAurorian } from './helpers/to-aurorian';
 
 export class NotionService {
   private readonly _client: Client;
@@ -23,6 +24,30 @@ export class NotionService {
     this._databaseIds = databaseIds;
   }
 
+  /**
+   * 从 notion 光灵数据库获取数据
+   */
+  async getAuroriansMap() {
+    const auroriansMap: Record<string, AurorianNextType> = {};
+
+    for await (const page of iteratePaginatedAPI(this._client.databases.query, {
+      database_id: this._databaseIds.aurorians,
+      page_size: 150,
+    })) {
+      if (isFullPage(page)) {
+        const aurorian = toAurorian(page);
+        auroriansMap[aurorian.aurorian_id] = aurorian;
+      } else {
+        break;
+      }
+    }
+
+    return auroriansMap;
+  }
+
+  /**
+   * 将远程光灵数据上传到 notion
+   */
   async submitAurorianDatabase({
     downloadAvatar,
   }: SumbmitAuroriansOptions = {}) {
@@ -125,16 +150,14 @@ export class NotionService {
             name: aurorian.primary_element,
           },
         },
-        ...(aurorian.secondary_element
-          ? {
-              secondary_element: {
-                type: 'select',
-                select: {
-                  name: aurorian.secondary_element,
-                },
-              },
-            }
-          : {}),
+        secondary_element: {
+          type: 'select',
+          select: aurorian.secondary_element
+            ? {
+                name: aurorian.secondary_element,
+              }
+            : null,
+        },
         profession: {
           type: 'select',
           select: {

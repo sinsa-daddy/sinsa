@@ -1,4 +1,9 @@
-import { AurorianSchema, CopilotSchema, TermSchema } from '@sinsa/schema';
+import {
+  AurorianNextSchema,
+  AurorianSchema,
+  CopilotSchema,
+  TermSchema,
+} from '@sinsa/schema';
 import type { CopilotType, TermType } from '@sinsa/schema';
 import { isPlainObject, mapValues } from 'lodash-es';
 import axios from 'axios';
@@ -26,12 +31,26 @@ export async function getTerms() {
 
 /**
  * 获取光灵信息
+ * @deprecated
  */
 export async function getAurorians() {
   try {
     const response = await http.get('/api/aurorians.json');
     if (isPlainObject(response.data)) {
       return mapValues(response.data, v => AurorianSchema.parse(v));
+    }
+  } catch (error) {}
+  return {};
+}
+
+/**
+ * 获取光灵信息
+ */
+export async function getAuroriansNext() {
+  try {
+    const response = await http.get('/api/aurorians-next.json');
+    if (isPlainObject(response.data)) {
+      return mapValues(response.data, v => AurorianNextSchema.parse(v));
     }
   } catch (error) {}
   return {};

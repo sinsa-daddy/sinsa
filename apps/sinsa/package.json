@@ -14,7 +14,8 @@
     "data": "modern fetch",
     "format-output": "modern format-output",
     "sw": "workbox injectManifest workbox-config.js",
-    "ua": "modern update-notion-aurorians"
+    "ua": "modern update-notion-aurorians",
+    "fn": "modern fetch-data-next"
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",

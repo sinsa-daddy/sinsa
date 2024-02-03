@@ -59,7 +59,11 @@ describe('aurorians', () => {
     expect(toSlug('hello & vice: Furry &')).toBe('hello-vice-furry-1');
     expect(toSlug('hello Furry')).toBe('hello-furry-2');
   });
-  test('submit from api', async () => {
+  test.skip('submit from api', async () => {
     await notion.submitAurorianDatabase();
+  });
+
+  test('get aurorians', async () => {
+    await notion.getAuroriansMap();
   });
 });
