@@ -1,4 +1,5 @@
 import { join } from 'path';
+import { writeJSON } from 'fs-extra';
 import {
   DataSourceGenerator,
   NotionEnvSchema,
@@ -74,7 +75,7 @@ describe('aurorians', () => {
 });
 
 describe('copilots', () => {
-  test(
+  test.skip(
     'legacy',
     async () => {
       const env = FeishuEnvSchema.and(NotionEnvSchema).parse(process.env);
@@ -104,8 +105,34 @@ describe('copilots', () => {
           legacyCopilotTableId: legacyCopilotTableIds[0],
           auroriansMap,
         });
-        console.log('copilotsMap', copilotsMap);
+
+        await writeJSON('./legacy.json', copilotsMap);
       }
+    },
+    1000 * 60 * 10,
+  );
+
+  test.skip(
+    'submit legacy',
+    async () => {
+      const env = FeishuEnvSchema.parse(process.env);
+
+      const feishu = new FeishuService({
+        appId: env.FEISHU_APP_ID,
+        appSecret: env.FEISHU_APP_SECRET,
+        tableAppIds: {
+          copilots: env.FEISHU_COPILOT_APP_ID,
+        },
+      });
+      console.log('fetshu', feishu);
+      // const data = await import('./legacy.json');
+      // await feishu.batchUploadCopilot({
+      //   uploadTableId: 'xxx',
+      //   dataSource: Object.values(data.default).map(item =>
+      //     CopilotNextSchema.parse(item),
+      //   ),
+      //   creatorUserAccessToken: 'xxx',
+      // });
     },
     1000 * 60 * 10,
   );

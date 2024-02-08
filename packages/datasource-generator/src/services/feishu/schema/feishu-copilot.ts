@@ -19,10 +19,6 @@ export const FeishuCopilotSchema = z.object({
   upload_time: z.date().transform(val => val.valueOf()),
   created_by: CopilotNextUserSchema.transform(user => JSON.stringify(user)),
   created_time: z.date().transform(val => val.valueOf()),
-  last_modified_by: CopilotNextUserSchema.transform(user =>
-    JSON.stringify(user),
-  ),
-  last_modified_time: z.date().transform(val => val.valueOf()),
   aurorian_1_id: z.string(),
   aurorian_1_breakthrough: z.number(),
   aurorian_1_remark: z.optional(
@@ -49,6 +45,9 @@ export const FeishuCopilotSchema = z.object({
     AurorianRequirementRemarkSchema.transform(remark => JSON.stringify(remark)),
   ),
   assets: z.optional(
-    CopilotNextAssetSchema.transform(asset => JSON.stringify(asset)),
+    z.array(CopilotNextAssetSchema).transform(asset => JSON.stringify(asset)),
   ),
 });
+
+export interface FeishuCopilotType
+  extends z.infer<typeof FeishuCopilotSchema> {}

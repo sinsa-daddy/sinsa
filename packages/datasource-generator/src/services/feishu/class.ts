@@ -1,12 +1,13 @@
-import { Client } from '@larksuiteoapi/node-sdk';
+import { Client, withUserAccessToken } from '@larksuiteoapi/node-sdk';
 import type { AurorianNextType, CopilotNextType } from '@sinsa/schema';
-import { memoize } from 'lodash';
+import { chunk, memoize } from 'lodash';
 import {
   FeishuTableMetaSchema,
   type FeishuTableMetaType,
 } from './schema/feishu-table-meta';
 import { FeishuLegacyCopilotItemSchema } from './schema/feishu-legacy-copilot';
 import { toCopilotFromLegacy } from './helpers/to-copilot-from-legacy';
+import { toFeishuCopilot } from './helpers/to-feishu-copilot';
 
 export interface FeishuClientOptions {
   appId: string;
@@ -84,14 +85,14 @@ export class FeishuService {
             feishuLegacyCopilotItem,
             getAurorianNextId,
           );
-          console.log(
-            'checked',
-            copilot.copilot_id,
-            copilot.term_id,
-            copilot.aurorian_requirements.map(a => a.aurorian_id).join(','),
-            copilot.author.name,
-            copilot.score,
-          );
+          // console.log(
+          //   'checked',
+          //   copilot.copilot_id,
+          //   copilot.term_id,
+          //   copilot.aurorian_requirements.map(a => a.aurorian_id).join(','),
+          //   copilot.author.name,
+          //   copilot.score,
+          // );
 
           legacyCopilotsMap[copilot.copilot_id] = copilot;
         }
@@ -153,15 +154,38 @@ export class FeishuService {
   /**
    * 批量上传作业
    */
-  async batchUploadCopilot({ uploadTableId }: { uploadTableId: string }) {
-    await this._client.bitable.appTableRecord.batchCreate({
-      data: {
-        records: [
-          {
-            fields: new Map(),
+  async batchUploadCopilot({
+    uploadTableId,
+    dataSource,
+    creatorUserAccessToken,
+  }: {
+    uploadTableId: string;
+    creatorUserAccessToken: string;
+    dataSource: CopilotNextType[];
+  }) {
+    const chunks = chunk(dataSource, 50);
+    for (const oneChunk of chunks) {
+      await this._client.bitable.appTableRecord.batchCreate(
+        {
+          data: {
+            records: oneChunk.map(record => {
+              return {
+                fields: toFeishuCopilot(record),
+              };
+            }),
           },
-        ],
-      },
-    });
+          path: {
+            app_token: this._tableAppIds.copilots,
+            table_id: uploadTableId,
+          },
+        },
+        withUserAccessToken(creatorUserAccessToken),
+      );
+
+      console.log(
+        `upload`,
+        oneChunk.map(c => c.copilot_id),
+      );
+    }
   }
 }
