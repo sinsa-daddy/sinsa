@@ -9,6 +9,8 @@ import {
 import { FeishuLegacyCopilotItemSchema } from './schema/feishu-legacy-copilot';
 import { toCopilotFromLegacy } from './helpers/to-copilot-from-legacy';
 import { toFeishuCopilot } from './helpers/to-feishu-copilot';
+import { toCopilotFromFeishu } from './helpers/to-copilot-from-feishu';
+import { FeishuCopilotSchema } from './schema/feishu-copilot';
 
 function log(...args: any) {
   return console.log('[feishu]', ...args);
@@ -184,7 +186,7 @@ export class FeishuService {
     uploadTableId: string;
     creatorUserAccessToken: string;
     dataSource: CopilotNextType[];
-    chunkSize: number;
+    chunkSize?: number;
   }) {
     const chunks = chunk(dataSource, chunkSize);
     for (const oneChunk of chunks) {
@@ -213,6 +215,47 @@ export class FeishuService {
           2,
         ),
       );
+    }
+  }
+
+  /**
+   * 获取指定 table 的作业
+   */
+  async getCopilotsMapByTableId(tableId: string) {
+    const copilotsMap: Record<CopilotNextType['copilot_id'], CopilotNextType> =
+      {};
+
+    for await (const row of await this._client.bitable.appTableRecord.listWithIterator(
+      {
+        path: {
+          app_token: this._tableAppIds.copilots,
+          table_id: tableId,
+        },
+        params: {
+          page_size: 500,
+          sort: `["upload_time DESC"]`,
+          automatic_fields: true,
+        },
+      },
+    )) {
+      if (Array.isArray(row?.items)) {
+        const chunks: CopilotNextType[] = [];
+        for (const record of row.items) {
+          const feishuLegacyCopilotItem = FeishuCopilotSchema.parse(record);
+          const copilot = toCopilotFromFeishu(feishuLegacyCopilotItem);
+
+          copilotsMap[copilot.copilot_id] = copilot;
+          chunks.push(copilot);
+        }
+
+        log(
+          `已经读取到作业 ${JSON.stringify(
+            chunks.map(c => `${c.author_name} ${c.copilot_id} ${c.score}`),
+            null,
+            2,
+          )}`,
+        );
+      }
     }
   }
 }

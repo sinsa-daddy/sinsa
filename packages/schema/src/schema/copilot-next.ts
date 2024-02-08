@@ -88,8 +88,6 @@ export const CopilotNextSchema = z.object({
   upload_time: z.coerce.date(),
   created_by: CopilotNextUserSchema,
   created_time: z.coerce.date(),
-  last_modified_by: CopilotNextUserSchema,
-  last_modified_time: z.coerce.date(),
   aurorian_requirements: z.tuple([
     AurorianRequirementSchema,
     AurorianRequirementSchema,

@@ -1,7 +1,16 @@
 import { join } from 'node:path';
 import type { CliPlugin } from '@modern-js/core';
-import { NotionService, NotionEnvSchema } from '@sinsa/datasource-generator';
+import {
+  NotionService,
+  NotionEnvSchema,
+  FeishuService,
+  FeishuEnvSchema,
+} from '@sinsa/datasource-generator';
 import { ensureDir, writeJSON } from 'fs-extra';
+
+function log(...args: any) {
+  return console.log('[fetchDataNext]', ...args);
+}
 
 export function fetchDataNext(): CliPlugin {
   return {
@@ -23,7 +32,7 @@ export function fetchDataNext(): CliPlugin {
 
           program.command('fetch-data-next').action(async () => {
             await ensureDir(OUTPUT_DIR);
-            const env = NotionEnvSchema.parse(process.env);
+            const env = NotionEnvSchema.and(FeishuEnvSchema).parse(process.env);
 
             const notion = new NotionService({
               notionToken: env.NOTION_READ_TOKEN,
@@ -37,6 +46,22 @@ export function fetchDataNext(): CliPlugin {
             await writeJSON(join(OUTPUT_DIR, './aurorians.json'), auroriansMap);
             const keys = Object.keys(auroriansMap);
             console.log(`生成了 ${keys.length} 个光灵数据`);
+
+            const feishu = new FeishuService({
+              appId: env.FEISHU_APP_ID,
+              appSecret: env.FEISHU_APP_SECRET,
+              tableAppIds: {
+                copilots: env.FEISHU_COPILOT_APP_ID,
+              },
+            });
+
+            // 2. 获取作业表
+            const { currentCopilotTable } = await feishu.getCopilotsTableMeta();
+            if (!currentCopilotTable) {
+              log('没有找到当前 HEAD 作业数据表');
+              return;
+            }
+            console.log('123');
           });
         },
       };
