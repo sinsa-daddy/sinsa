@@ -13,7 +13,7 @@
     "test": "modern test"
   },
   "dependencies": {
-    "@larksuiteoapi/node-sdk": "^1.22.0",
+    "@larksuiteoapi/node-sdk": "^1.23.0",
     "@notionhq/client": "^2.2.14",
     "@sinsa/schema": "workspace:^",
     "fs-extra": "^11.1.1",

@@ -8,7 +8,7 @@ import { toSlug } from '../../slug';
 import { logger } from '../../logger';
 import type { SimpleAurorianType } from '../schema/simple-aurorians';
 import { SimpleAurorianList } from '../schema/simple-aurorians';
-import { NotionEnvSchema } from '../schema/env';
+import { NotionSubmitEnvSchema } from '../schema/env';
 
 const ElementMapper: Record<
   SimpleAurorianType['element'],
@@ -31,7 +31,7 @@ const ProfessionMapper: Record<
 };
 
 export async function getAuroriansSource() {
-  const env = NotionEnvSchema.parse(process.env);
+  const env = NotionSubmitEnvSchema.parse(process.env);
 
   const [baseList, enNameList] = await Promise.all([
     fetch(env.CHINA_AURORIAN_LIST_API, {
