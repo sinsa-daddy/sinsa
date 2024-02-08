@@ -1,9 +1,9 @@
 import {
   AurorianRequirementRemarkSchema,
   CopilotNextAssetSchema,
-  CopilotNextAuthorSchema,
   CopilotNextUserSchema,
   CopilotSourceType,
+  UNKNOWN_AUTHOR_ID,
   z,
 } from '@sinsa/schema';
 
@@ -14,7 +14,8 @@ export const FeishuCopilotSchema = z.object({
   term_id: z.string(),
   title: z.string(),
   score: z.number(),
-  author: CopilotNextAuthorSchema.transform(author => JSON.stringify(author)),
+  author_id: z.string().or(z.literal(UNKNOWN_AUTHOR_ID)),
+  author_name: z.string(),
   description: z.optional(z.string()),
   upload_time: z.date().transform(val => val.valueOf()),
   created_by: CopilotNextUserSchema.transform(user => JSON.stringify(user)),

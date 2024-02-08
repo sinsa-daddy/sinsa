@@ -26,7 +26,7 @@ export function fetchDataNext(): CliPlugin {
             const env = NotionEnvSchema.parse(process.env);
 
             const notion = new NotionService({
-              notionToken: env.NOTION_SUBMIT_TOKEN,
+              notionToken: env.NOTION_READ_TOKEN,
               databaseIds: {
                 aurorians: env.NOTION_AURORIAN_DATABASE_ID,
               },

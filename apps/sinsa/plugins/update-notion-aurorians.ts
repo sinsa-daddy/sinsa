@@ -1,6 +1,9 @@
 import { join } from 'node:path';
 import type { CliPlugin } from '@modern-js/core';
-import { NotionService, NotionEnvSchema } from '@sinsa/datasource-generator';
+import {
+  NotionService,
+  NotionSubmitEnvSchema,
+} from '@sinsa/datasource-generator';
 
 export function updateNotionAurorians(): CliPlugin {
   return {
@@ -10,7 +13,7 @@ export function updateNotionAurorians(): CliPlugin {
           const { appDirectory } = api.useAppContext();
 
           program.command('update-notion-aurorians').action(async () => {
-            const env = NotionEnvSchema.parse(process.env);
+            const env = NotionSubmitEnvSchema.parse(process.env);
 
             const notion = new NotionService({
               notionToken: env.NOTION_SUBMIT_TOKEN,
