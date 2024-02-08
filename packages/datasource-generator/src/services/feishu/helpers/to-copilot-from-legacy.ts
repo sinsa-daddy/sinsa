@@ -27,10 +27,8 @@ export function toCopilotFromLegacy(
     term_id: `cn-${getContentFromFeishuSingleTextField(fields.term)}`,
     title: fields.title,
     score: fields.score,
-    author: {
-      author_id: UNKNOWN_AUTHOR_ID,
-      name: fields.author,
-    },
+    author_id: UNKNOWN_AUTHOR_ID,
+    author_name: fields.author,
     description: fields.description,
     upload_time: fields.upload_time,
     created_by: {

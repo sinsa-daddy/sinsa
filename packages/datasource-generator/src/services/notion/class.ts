@@ -32,7 +32,7 @@ export class NotionService {
 
     for await (const page of iteratePaginatedAPI(this._client.databases.query, {
       database_id: this._databaseIds.aurorians,
-      page_size: 150,
+      page_size: 100,
     })) {
       if (isFullPage(page)) {
         const aurorian = toAurorian(page);

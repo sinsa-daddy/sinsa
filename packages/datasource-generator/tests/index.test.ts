@@ -1,5 +1,4 @@
 import { join } from 'path';
-import { writeJSON } from 'fs-extra';
 import {
   DataSourceGenerator,
   NotionEnvSchema,
@@ -88,26 +87,8 @@ describe('copilots', () => {
         },
       });
 
-      const notion = new NotionService({
-        notionToken: env.NOTION_READ_TOKEN,
-        databaseIds: {
-          aurorians: env.NOTION_AURORIAN_DATABASE_ID,
-        },
-      });
-
       const result = await feishu.getCopilotsTableMeta();
-
-      const legacyCopilotTableIds = Object.keys(result.copilotsTablesMap);
-      if (legacyCopilotTableIds.length) {
-        const auroriansMap = await notion.getAuroriansMap();
-        const copilotsMap = await feishu.getLegacyCopilotsMap({
-          legacyCopilotAppId: env.FEISHU_COPILOT_APP_ID,
-          legacyCopilotTableId: legacyCopilotTableIds[0],
-          auroriansMap,
-        });
-
-        await writeJSON('./legacy.json', copilotsMap);
-      }
+      console.log('result', result);
     },
     1000 * 60 * 10,
   );

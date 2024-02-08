@@ -1,3 +1,4 @@
+/* eslint-disable max-depth */
 import { Client, withUserAccessToken } from '@larksuiteoapi/node-sdk';
 import type { AurorianNextType, CopilotNextType } from '@sinsa/schema';
 import { chunk, memoize } from 'lodash';
@@ -9,6 +10,10 @@ import { FeishuLegacyCopilotItemSchema } from './schema/feishu-legacy-copilot';
 import { toCopilotFromLegacy } from './helpers/to-copilot-from-legacy';
 import { toFeishuCopilot } from './helpers/to-feishu-copilot';
 
+function log(...args: any) {
+  return console.log('[feishu]', ...args);
+}
+
 export interface FeishuClientOptions {
   appId: string;
   appSecret: string;
@@ -19,11 +24,11 @@ export interface FeishuClientOptions {
 
 export class FeishuService {
   private static _isCopilotTable(tableMeta: FeishuTableMetaType) {
-    return tableMeta.name.startsWith('荒典');
+    return tableMeta.name.startsWith('HEAD_');
   }
 
   private static _isArchivedCopilotTable(tableMeta: FeishuTableMetaType) {
-    return tableMeta.name.startsWith('[Archived]');
+    return tableMeta.name.startsWith('ARCHIVED_');
   }
 
   private readonly _client: Client;
@@ -71,13 +76,14 @@ export class FeishuService {
           table_id: legacyCopilotTableId,
         },
         params: {
-          page_size: 2,
+          page_size: 500,
           sort: `["upload_time DESC"]`,
           automatic_fields: true,
         },
       },
     )) {
       if (Array.isArray(row?.items)) {
+        const chunks: CopilotNextType[] = [];
         for (const record of row.items) {
           const feishuLegacyCopilotItem =
             FeishuLegacyCopilotItemSchema.parse(record);
@@ -85,17 +91,18 @@ export class FeishuService {
             feishuLegacyCopilotItem,
             getAurorianNextId,
           );
-          // console.log(
-          //   'checked',
-          //   copilot.copilot_id,
-          //   copilot.term_id,
-          //   copilot.aurorian_requirements.map(a => a.aurorian_id).join(','),
-          //   copilot.author.name,
-          //   copilot.score,
-          // );
 
           legacyCopilotsMap[copilot.copilot_id] = copilot;
+          chunks.push(copilot);
         }
+
+        log(
+          `已经读取到遗留的历史作业 ${JSON.stringify(
+            chunks.map(c => `${c.author_name} ${c.copilot_id} ${c.score}`),
+            null,
+            2,
+          )}`,
+        );
       }
     }
 
@@ -107,17 +114,22 @@ export class FeishuService {
    */
   async getCopilotsTableMeta() {
     /**
-     * 可添加的数据表集合
+     * 当前可添加的数据表
      */
-    const copilotsTablesMap: Record<
-      FeishuTableMetaType['table_id'],
-      FeishuTableMetaType
-    > = {};
+    let currentCopilotTable: FeishuTableMetaType | null = null;
 
     /**
      * 已归档的数据表集合
      */
     const archivedCopilotsTablesMap: Record<
+      FeishuTableMetaType['table_id'],
+      FeishuTableMetaType
+    > = {};
+
+    /**
+     * 剩余未知的数据表集合
+     */
+    const unknownTablesMap: Record<
       FeishuTableMetaType['table_id'],
       FeishuTableMetaType
     > = {};
@@ -136,18 +148,27 @@ export class FeishuService {
         for (const rawTableMeta of part.items) {
           const parsedTableMeta = FeishuTableMetaSchema.parse(rawTableMeta);
           if (FeishuService._isCopilotTable(parsedTableMeta)) {
-            copilotsTablesMap[parsedTableMeta.table_id] = parsedTableMeta;
+            if (currentCopilotTable) {
+              throw new Error(
+                `find another HEAD table (${parsedTableMeta.name}), already have HEAD table (${currentCopilotTable.name})`,
+              );
+            } else {
+              currentCopilotTable = parsedTableMeta;
+            }
           } else if (FeishuService._isArchivedCopilotTable(parsedTableMeta)) {
             archivedCopilotsTablesMap[parsedTableMeta.table_id] =
               parsedTableMeta;
+          } else {
+            unknownTablesMap[parsedTableMeta.table_id] = parsedTableMeta;
           }
         }
       }
     }
 
     return {
-      copilotsTablesMap,
+      currentCopilotTable,
       archivedCopilotsTablesMap,
+      unknownTablesMap,
     };
   }
 
@@ -158,12 +179,14 @@ export class FeishuService {
     uploadTableId,
     dataSource,
     creatorUserAccessToken,
+    chunkSize = 50,
   }: {
     uploadTableId: string;
     creatorUserAccessToken: string;
     dataSource: CopilotNextType[];
+    chunkSize: number;
   }) {
-    const chunks = chunk(dataSource, 50);
+    const chunks = chunk(dataSource, chunkSize);
     for (const oneChunk of chunks) {
       await this._client.bitable.appTableRecord.batchCreate(
         {
@@ -182,9 +205,13 @@ export class FeishuService {
         withUserAccessToken(creatorUserAccessToken),
       );
 
-      console.log(
-        `upload`,
-        oneChunk.map(c => c.copilot_id),
+      log(
+        `添加了作业`,
+        JSON.stringify(
+          oneChunk.map(c => `${c.author_name} ${c.copilot_id} ${c.score}`),
+          null,
+          2,
+        ),
       );
     }
   }

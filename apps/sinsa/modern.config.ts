@@ -7,6 +7,7 @@ import { updateNotionAurorians } from './plugins/update-notion-aurorians';
 import { formatOutputPlugin } from './plugins/foramt-output';
 import { fetchDataSourcePlugin } from './plugins/fetch-data-source-plugin';
 import { fetchDataNext } from './plugins/fetch-data-next';
+import { updateFeishuCopilots } from './plugins/update-feishu-copilots';
 
 const __DIR_NAME = dirname(fileURLToPath(import.meta.url));
 
@@ -88,6 +89,7 @@ export default defineConfig<'rspack'>({
     formatOutputPlugin(),
     updateNotionAurorians(),
     fetchDataNext(),
+    updateFeishuCopilots(),
   ],
   html: {
     title: '红油扳手作业站',
