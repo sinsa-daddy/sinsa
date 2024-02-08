@@ -1,7 +1,7 @@
-import {
+import type {
   CopilotAurorianSummaryType,
-  type CopilotType,
-  type RemoteCopilotType,
+  CopilotType,
+  RemoteCopilotType,
 } from '../schema/copilot';
 
 const POSITION_ARRAY = ['1', '2', '3', '4', '5'] as const;

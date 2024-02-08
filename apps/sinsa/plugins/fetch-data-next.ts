@@ -13,7 +13,13 @@ export function fetchDataNext(): CliPlugin {
           /**
            * 输出静态目录
            */
-          const OUTPUT_DIR = join(appDirectory, 'config', 'public', 'api');
+          const OUTPUT_DIR = join(
+            appDirectory,
+            'config',
+            'public',
+            'api',
+            'v2',
+          );
 
           program.command('fetch-data-next').action(async () => {
             await ensureDir(OUTPUT_DIR);
@@ -28,10 +34,7 @@ export function fetchDataNext(): CliPlugin {
 
             // 1. 生成光灵数据
             const auroriansMap = await notion.getAuroriansMap();
-            await writeJSON(
-              join(OUTPUT_DIR, './aurorians-next.json'),
-              auroriansMap,
-            );
+            await writeJSON(join(OUTPUT_DIR, './aurorians.json'), auroriansMap);
             const keys = Object.keys(auroriansMap);
             console.log(`生成了 ${keys.length} 个光灵数据`);
           });
