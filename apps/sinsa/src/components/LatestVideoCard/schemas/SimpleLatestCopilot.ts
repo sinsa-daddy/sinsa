@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '@sinsa/schema';
 
 export const SimpleLatestCopilotSchema = z.object({
   insert_db_time: z.coerce.date(),

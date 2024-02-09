@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '@sinsa/schema';
 
 export const SearchVideoSchema = z.object({
   type: z.literal('video'),
