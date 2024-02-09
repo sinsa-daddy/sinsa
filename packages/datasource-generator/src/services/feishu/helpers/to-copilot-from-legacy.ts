@@ -37,12 +37,6 @@ export function toCopilotFromLegacy(
       name: item.created_by.name,
     },
     created_time: item.created_time,
-    last_modified_by: {
-      user_id: item.last_modified_by.id,
-      provider_type: CopilotUserProviderType.Feishu,
-      name: item.last_modified_by.name,
-    },
-    last_modified_time: item.last_modified_time,
     aurorian_requirements: POSITION_ARRAY.map(position => {
       const enName = getContentFromFeishuSingleTextField(
         fields[`aurorian_${position}`],

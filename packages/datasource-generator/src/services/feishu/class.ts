@@ -241,7 +241,17 @@ export class FeishuService {
       if (Array.isArray(row?.items)) {
         const chunks: CopilotNextType[] = [];
         for (const record of row.items) {
-          const feishuLegacyCopilotItem = FeishuCopilotSchema.parse(record);
+          const item = {
+            ...record.fields,
+            created_by: {
+              ...record.created_by,
+              user_id: record.created_by?.id,
+              provider_type: 'Feishu',
+            },
+            created_time: record.created_time,
+          };
+
+          const feishuLegacyCopilotItem = FeishuCopilotSchema.parse(item);
           const copilot = toCopilotFromFeishu(feishuLegacyCopilotItem);
 
           copilotsMap[copilot.copilot_id] = copilot;
@@ -257,5 +267,7 @@ export class FeishuService {
         );
       }
     }
+
+    return copilotsMap;
   }
 }
