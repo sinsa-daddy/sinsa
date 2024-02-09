@@ -18,11 +18,12 @@ export function formatOutputPlugin(): CliPlugin {
           const { distDirectory } = api.useAppContext();
           program.command('format-output').action(async () => {
             // 1. remove useless .json
-            await Promise.all(
-              USELESS_JSON.map(jsonFilename =>
+            await Promise.all([
+              ...USELESS_JSON.map(jsonFilename =>
                 remove(join(distDirectory, jsonFilename)),
               ),
-            );
+              remove(join(distDirectory, 'api', 'v2', 'copilots', 'archived')),
+            ]);
           });
         },
       };
