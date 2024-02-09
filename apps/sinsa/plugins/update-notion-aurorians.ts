@@ -19,6 +19,7 @@ export function updateNotionAurorians(): CliPlugin {
               notionToken: env.NOTION_SUBMIT_TOKEN,
               databaseIds: {
                 aurorians: env.NOTION_AURORIAN_DATABASE_ID,
+                terms: env.NOTION_TERM_DATABASE_ID,
               },
             });
 

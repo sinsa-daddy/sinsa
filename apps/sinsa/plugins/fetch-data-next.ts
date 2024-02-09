@@ -40,14 +40,21 @@ export function fetchDataNext(): CliPlugin {
               notionToken: env.NOTION_READ_TOKEN,
               databaseIds: {
                 aurorians: env.NOTION_AURORIAN_DATABASE_ID,
+                terms: env.NOTION_TERM_DATABASE_ID,
               },
             });
+
+            // 0. 生成首领数据
+            const termsMap = await notion.getTermsMap();
+            await writeJSON(join(OUTPUT_DIR, 'terms.json'), termsMap);
+            const termsKeys = Object.keys(termsMap);
+            console.log(`获取并生成了 ${termsKeys.length} 个首领数据`);
 
             // 1. 生成光灵数据
             const auroriansMap = await notion.getAuroriansMap();
             await writeJSON(join(OUTPUT_DIR, 'aurorians.json'), auroriansMap);
-            const keys = Object.keys(auroriansMap);
-            console.log(`获取并生成了 ${keys.length} 个光灵数据`);
+            const auroriansKeys = Object.keys(auroriansMap);
+            console.log(`获取并生成了 ${auroriansKeys.length} 个光灵数据`);
 
             const feishu = new FeishuService({
               appId: env.FEISHU_APP_ID,

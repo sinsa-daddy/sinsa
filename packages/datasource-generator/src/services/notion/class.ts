@@ -1,5 +1,5 @@
 import { Client, isFullPage, iteratePaginatedAPI } from '@notionhq/client';
-import type { AurorianNextType } from '@sinsa/schema';
+import type { AurorianNextType, TermNextType } from '@sinsa/schema';
 import { difference } from 'lodash';
 import Downloader from 'nodejs-file-downloader';
 import { logger } from '../logger';
@@ -11,6 +11,7 @@ import type {
 import { getContentFromRichText } from './helpers/get-content';
 import { getAuroriansSource } from './apis/get-aurorians-source';
 import { toAurorian } from './helpers/to-aurorian';
+import { toTerm } from './helpers/to-term';
 
 export class NotionService {
   private readonly _client: Client;
@@ -22,6 +23,28 @@ export class NotionService {
       auth: notionToken,
     });
     this._databaseIds = databaseIds;
+  }
+
+  /**
+   * 从 notion 首领数据库获取数据
+   */
+  async getTermsMap() {
+    const termsMap: Record<TermNextType['term_id'], TermNextType> = {};
+
+    for await (const page of iteratePaginatedAPI(this._client.databases.query, {
+      database_id: this._databaseIds.terms,
+      page_size: 100,
+      sorts: [{ property: 'order', direction: 'descending' }],
+    })) {
+      if (isFullPage(page)) {
+        const term = toTerm(page);
+        termsMap[term.term_id] = term;
+      } else {
+        break;
+      }
+    }
+
+    return termsMap;
   }
 
   /**

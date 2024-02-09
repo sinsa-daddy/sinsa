@@ -56,6 +56,7 @@ describe('aurorians', () => {
       notionToken: env.NOTION_SUBMIT_TOKEN,
       databaseIds: {
         aurorians: env.NOTION_AURORIAN_DATABASE_ID,
+        terms: env.NOTION_TERM_DATABASE_ID,
       },
     });
     await notion.submitAurorianDatabase();
@@ -67,6 +68,7 @@ describe('aurorians', () => {
       notionToken: env.NOTION_SUBMIT_TOKEN,
       databaseIds: {
         aurorians: env.NOTION_AURORIAN_DATABASE_ID,
+        terms: env.NOTION_TERM_DATABASE_ID,
       },
     });
     await notion.getAuroriansMap();

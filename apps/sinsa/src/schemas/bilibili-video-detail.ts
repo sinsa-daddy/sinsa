@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '@sinsa/schema';
 
 export const BilibiliVideoDetailSchema = z.object({
   bvid: z.string().startsWith('BV'),

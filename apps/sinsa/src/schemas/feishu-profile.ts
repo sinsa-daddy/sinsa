@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '@sinsa/schema';
 
 export const FeishuProfileSchema = z.object({
   avatar_url: z.string(),

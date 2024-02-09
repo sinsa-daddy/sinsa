@@ -2,6 +2,7 @@ export interface NotionClientOptions {
   notionToken: string;
   databaseIds: {
     aurorians: string;
+    terms: string;
   };
 }
 
