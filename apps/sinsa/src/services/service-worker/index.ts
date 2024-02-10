@@ -38,6 +38,12 @@ export class ServiceWorkerService {
             duration: 3,
             placement: 'bottom',
           });
+        } else {
+          notification.success({
+            message: `作业站已更新到最新版本`,
+            duration: 2,
+            placement: 'bottom',
+          });
         }
       });
 
