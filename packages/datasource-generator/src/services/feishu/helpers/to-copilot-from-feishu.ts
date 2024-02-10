@@ -1,6 +1,9 @@
 import { CopilotNextSchema } from '@sinsa/schema';
-import type { AurorianRequirementType, CopilotNextType } from '@sinsa/schema';
-import type { FeishuCopilotType } from '../schema/feishu-copilot';
+import type {
+  AurorianRequirementType,
+  CopilotNextType,
+  FeishuCopilotType,
+} from '@sinsa/schema';
 
 export function toCopilotFromFeishu(f: FeishuCopilotType): CopilotNextType {
   const val: Record<keyof CopilotNextType, unknown> = {

@@ -19,11 +19,31 @@ export function toCopilotFromLegacy(
   getAid?: (enName: string) => string,
 ): CopilotNextType {
   const { fields } = item;
+  const termId = `cn-${getContentFromFeishuSingleTextField(fields.term)}`;
+  const bv = new URL(`https://example.com/${fields.bv}'`).pathname.slice(1);
+  const a = POSITION_ARRAY.map(position => {
+    const enName = getContentFromFeishuSingleTextField(
+      fields[`aurorian_${position}`],
+    );
+    const finalEnName = LegacyEnNameMapper[enName] ?? enName;
+    return {
+      aurorian_id: getAid?.(finalEnName) ?? enName,
+      breakthrough: fields[`aurorian_${position}_breakthrough`],
+      remark: fields.replaceable_position?.includes(position)
+        ? {
+            replace: { type: 'any', any: 'All' },
+          }
+        : undefined,
+    };
+  }) as CopilotNextType['aurorian_requirements'];
+
   const val: CopilotNextType = {
-    copilot_id: toSlug(fields.bv.replaceAll(/[?]/g, ' ')),
+    copilot_id: `${termId}_${toSlug(bv)}_${a[0].aurorian_id}_${
+      a[4].aurorian_id
+    }`,
     source_type: CopilotSourceType.Bilibili,
     href: fields.bv,
-    term_id: `cn-${getContentFromFeishuSingleTextField(fields.term)}`,
+    term_id: termId,
     title: fields.title,
     score: fields.score,
     author_id: UNKNOWN_AUTHOR_ID,
@@ -36,21 +56,7 @@ export function toCopilotFromLegacy(
       name: item.created_by.name,
     },
     created_time: item.created_time,
-    aurorian_requirements: POSITION_ARRAY.map(position => {
-      const enName = getContentFromFeishuSingleTextField(
-        fields[`aurorian_${position}`],
-      );
-      const finalEnName = LegacyEnNameMapper[enName] ?? enName;
-      return {
-        aurorian_id: getAid?.(finalEnName) ?? enName,
-        breakthrough: fields[`aurorian_${position}_breakthrough`],
-        remark: fields.replaceable_position?.includes(position)
-          ? {
-              replace: { type: 'any', any: 'All' },
-            }
-          : undefined,
-      };
-    }) as CopilotNextType['aurorian_requirements'],
+    aurorian_requirements: a,
     assets:
       fields.asset_type === 'No33Scripts' && fields.asset_link
         ? [

@@ -56,6 +56,10 @@ export class NotionService {
     for await (const page of iteratePaginatedAPI(this._client.databases.query, {
       database_id: this._databaseIds.aurorians,
       page_size: 100,
+      sorts: [
+        { property: 'rarity', direction: 'descending' },
+        { property: 'name', direction: 'ascending' },
+      ],
     })) {
       if (isFullPage(page)) {
         const aurorian = toAurorian(page);
