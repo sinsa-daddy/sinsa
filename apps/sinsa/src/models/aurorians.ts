@@ -7,7 +7,7 @@ import type {
 import { groupBy, mapValues } from 'lodash-es';
 import { match } from 'pinyin-pro';
 import type React from 'react';
-import { ElementTextMapper } from '@/components/AurorianCard/constants';
+import { ElementTextMapper } from '@/components/AdaptiveAurorianCard/constants';
 
 export interface AuroriansState {
   auroriansMap: Record<AurorianNextType['aurorian_id'], AurorianNextType>;
