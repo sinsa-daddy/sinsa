@@ -3,7 +3,7 @@
 module.exports = {
   globDirectory: 'dist/',
   globPatterns: ['**/*.{json,html,css,js,svg}'],
-  globIgnores: ['**/node_modules/**/*', '**/api/copilots/*.json'],
+  globIgnores: ['**/node_modules/**/*', '**/api/v2/copilots/*.json'],
   swDest: 'dist/sw.js',
   swSrc: require.resolve('@sinsa/service-worker/dist/es'),
 };
