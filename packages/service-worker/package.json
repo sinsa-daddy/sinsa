@@ -10,11 +10,6 @@
     "new": "modern new",
     "upgrade": "modern upgrade"
   },
-  "dependencies": {
-    "workbox-cacheable-response": "^7.0.0",
-    "workbox-expiration": "^7.0.0",
-    "workbox-recipes": "^7.0.0"
-  },
   "devDependencies": {
     "@modern-js/eslint-config": "2.43.0",
     "@modern-js/module-tools": "2.43.0",
@@ -24,7 +19,9 @@
     "prettier": "~2.8.1",
     "rimraf": "~3.0.2",
     "typescript": "^5.3.3",
+    "workbox-cacheable-response": "^7.0.0",
     "workbox-core": "^7.0.0",
+    "workbox-expiration": "^7.0.0",
     "workbox-precaching": "^7.0.0",
     "workbox-routing": "^7.0.0",
     "workbox-strategies": "^7.0.0"
