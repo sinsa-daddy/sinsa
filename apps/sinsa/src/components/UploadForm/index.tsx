@@ -85,15 +85,23 @@ export const UploadForm: React.FC = () => {
             },
           }}
           onFinish={async (values: FormValues) => {
-            console.log('开始提交', values);
+            const submitValues = {
+              ...values,
+              copilot_id: getCopilotId(values),
+            };
+
+            console.log('开始提交', submitValues);
 
             try {
-              const submitCopilot = await CopilotNextSchema.parseAsync(values);
+              const submitCopilot = await CopilotNextSchema.omit({
+                created_by: true,
+                created_time: true,
+              }).parseAsync(submitValues);
               const result = await postCopilotAsync(submitCopilot);
 
               if (result?.record?.record_id) {
                 notification.success({
-                  message: `醒山小狗已经成功帮您添加了一份作业, record_id 为 ${result?.record?.record_id}`,
+                  message: `醒山小狗已经成功帮您添加了 ${result?.record?.fields?.author_name} 的一份作业, record_id 为 ${result?.record?.record_id}`,
                 });
                 form.resetFields();
                 setVideoInfo(undefined);
@@ -110,19 +118,6 @@ export const UploadForm: React.FC = () => {
               });
               console.error('解析失败', error);
             }
-          }}
-          onValuesChange={(_, all) => {
-            console.log('changed', all);
-            setTimeout(() => {
-              const result = CopilotNextSchema.omit({
-                created_by: true,
-                created_time: true,
-              }).safeParse({
-                ...all,
-                copilot_id: getCopilotId(all),
-              });
-              console.log('result', result);
-            });
           }}
         >
           <ProForm.Group>

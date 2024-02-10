@@ -124,7 +124,9 @@ export async function checkVideoExist(params: {
  * @param remoteCopilot 远程作业适配类型
  * @returns 提交结果
  */
-export async function postCopilot(remoteCopilot: FeishuCopilotType) {
+export async function postCopilot(
+  remoteCopilot: Omit<FeishuCopilotType, 'created_time' | 'created_by'>,
+) {
   try {
     const response = await http.post('/api-upload/lark/copilot', remoteCopilot);
     return response.data;
