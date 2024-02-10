@@ -5,8 +5,7 @@ export function useLazyImage(aurorianId?: string) {
   useEffect(() => {
     const loadImage = async () => {
       if (aurorianId && containerRef.current) {
-        const module = await import(`@/assets/avatars/${aurorianId}.webp`);
-        containerRef.current.style.backgroundImage = `url(${module.default})`;
+        containerRef.current.style.backgroundImage = `url(/assets/images/avatars/${aurorianId}.webp)`;
       }
     };
     loadImage();

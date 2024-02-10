@@ -59,9 +59,6 @@ export default defineConfig<'rspack'>({
         context: resolve(__DIR_NAME, 'config', 'public'),
       },
     ],
-    dataUriLimit: {
-      image: 0,
-    },
   },
   tools: {
     htmlPlugin: {

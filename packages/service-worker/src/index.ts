@@ -24,19 +24,20 @@ registerRoute(
   'GET',
 );
 
+const AVATAR_REGEXP = /^\/assets\/images\/avatars\/.+\.webp$/;
+
 registerRoute(
   ({ url, sameOrigin, request }) =>
     sameOrigin &&
-    url.pathname.endsWith('.webp') &&
+    AVATAR_REGEXP.test(url.pathname) &&
     request.destination === 'image',
   new CacheFirst({
-    cacheName: 'WebpImages',
+    cacheName: 'AurorianAvatars',
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 100 + 4 + 4 + 1,
         maxAgeSeconds: 30 * 24 * 60 * 60, // 30
       }),
     ],
