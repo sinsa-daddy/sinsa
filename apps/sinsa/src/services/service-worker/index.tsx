@@ -1,4 +1,4 @@
-import { notification } from 'antd';
+import { Typography, notification } from 'antd';
 
 export class ServiceWorkerService {
   static SERVICE_WORKER_URL: string = '/sw.js';
@@ -39,7 +39,19 @@ export class ServiceWorkerService {
           });
         } else {
           notification.success({
-            message: `缓存已更新, 刷新页面后生效`,
+            message: (
+              <span>
+                缓存已更新, 刷新页面后生效{' '}
+                <Typography.Link
+                  onClick={e => {
+                    e.stopPropagation();
+                    window.location.reload();
+                  }}
+                >
+                  立即刷新
+                </Typography.Link>
+              </span>
+            ),
             duration: 3,
             placement: 'bottom',
           });
