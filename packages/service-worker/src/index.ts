@@ -25,18 +25,18 @@ registerRoute(
 );
 
 registerRoute(
-  ({ url, request }) =>
-    url.host === 'gitee.com' &&
-    request.mode === 'no-cors' &&
-    url.pathname.startsWith('/sinsa-daddy/statics/raw/master/avatars') &&
+  ({ url, sameOrigin, request }) =>
+    sameOrigin &&
+    url.pathname.endsWith('.webp') &&
     request.destination === 'image',
   new CacheFirst({
-    cacheName: 'AurorianAvatars',
+    cacheName: 'WebpImages',
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
+        maxEntries: 100 + 4 + 4 + 1,
         maxAgeSeconds: 30 * 24 * 60 * 60, // 30
       }),
     ],
@@ -46,7 +46,7 @@ registerRoute(
 addPlugins([
   {
     async cacheDidUpdate({ request, cacheName, newResponse }) {
-      if (request.url.includes('api/terms.json')) {
+      if (request.url.includes('api/v2/terms.json')) {
         const windows = await self.clients.matchAll({
           type: 'window',
           includeUncontrolled: true,
