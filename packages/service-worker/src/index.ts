@@ -4,8 +4,10 @@ import {
   cleanupOutdatedCaches,
 } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { NetworkFirst } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 import { clientsClaim, skipWaiting } from 'workbox-core';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { ExpirationPlugin } from 'workbox-expiration';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -22,23 +24,24 @@ registerRoute(
   'GET',
 );
 
-// registerRoute(
-//   ({ url, request }) =>
-//     url.host === 'gitee.com' &&
-//     url.pathname.startsWith('/sinsa-daddy/statics/raw/master/avatars') &&
-//     request.destination === 'image',
-//   new CacheFirst({
-//     cacheName: 'AurorianAvatars',
-//     plugins: [
-//       new CacheableResponsePlugin({
-//         statuses: [0, 200],
-//       }),
-//       new ExpirationPlugin({
-//         maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
-//       }),
-//     ],
-//   }),
-// );
+registerRoute(
+  ({ url, request }) =>
+    url.host === 'gitee.com' &&
+    request.mode === 'no-cors' &&
+    url.pathname.startsWith('/sinsa-daddy/statics/raw/master/avatars') &&
+    request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'AurorianAvatars',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30
+      }),
+    ],
+  }),
+);
 
 addPlugins([
   {

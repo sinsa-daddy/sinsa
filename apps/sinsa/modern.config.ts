@@ -94,6 +94,7 @@ export default defineConfig<'rspack'>({
   html: {
     title: '红油扳手作业站',
     favicon: './src/assets/wrench.svg',
+    crossorigin: 'anonymous',
   },
   performance: {
     chunkSplit: {
