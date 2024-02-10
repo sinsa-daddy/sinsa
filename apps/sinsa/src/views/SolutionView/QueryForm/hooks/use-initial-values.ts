@@ -1,9 +1,10 @@
 import { useLocalStorageState } from 'ahooks';
 import { useMemo } from 'react';
+import type { TermNextType } from '@sinsa/schema';
 import type { QueryParamsType } from '../../schemas/query-params';
 
 interface UseInitialValuesArgs {
-  term: number;
+  termId: TermNextType['term_id'];
 }
 
 const LOCAL_STORAGE_SETTING_KEY_PREFIX = 'SINSA_DADDY_SOLUTIONS_FILTER_KEY_V1';
@@ -13,10 +14,10 @@ const DEFAULT_INITIAL_VALUES: QueryParamsType = {
   exclude: [{}] as any[],
 };
 
-export function useInitialValues({ term }: UseInitialValuesArgs) {
+export function useInitialValues({ termId }: UseInitialValuesArgs) {
   const LOCAL_STORAGE_SETTING_KEY = useMemo(
-    () => `${LOCAL_STORAGE_SETTING_KEY_PREFIX}_${term}` as const,
-    [term],
+    () => `${LOCAL_STORAGE_SETTING_KEY_PREFIX}_${termId}` as const,
+    [termId],
   );
 
   const [loaclInitialValues, setLocalInitialValues] =

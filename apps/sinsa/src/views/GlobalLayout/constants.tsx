@@ -8,10 +8,10 @@ import {
 
 export const RoutePath = {
   Home: '/',
-  Solutions: (term: 'latest' | `${number}` | ':term' | number = ':term') =>
-    `/solutions/${term}`,
-  Copilots: (term: 'latest' | `${number}` | ':term' | number = ':term') =>
-    `/copilots/${term}`,
+  Solutions: (termId: 'latest' | string | ':term' = ':term') =>
+    `/solutions/${termId}`,
+  Copilots: (termId: 'latest' | string | ':term' = ':term') =>
+    `/copilots/${termId}`,
   Dashboard: '/dashboard',
   Upload: '/upload',
   Questions:

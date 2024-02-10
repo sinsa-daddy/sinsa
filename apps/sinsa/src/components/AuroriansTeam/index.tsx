@@ -1,10 +1,10 @@
-import type { CopilotType } from '@sinsa/schema';
+import type { CopilotNextType } from '@sinsa/schema';
 import type React from 'react';
 import { AurorianCard } from '../AurorianCard';
 import styles from './styles.module.less';
 
 interface AuroriansTeamProps {
-  aurorianSummaries: CopilotType['aurorian_summaries'];
+  aurorianSummaries: CopilotNextType['aurorian_requirements'];
 }
 
 export const AuroriansTeam: React.FC<AuroriansTeamProps> = ({
@@ -12,18 +12,16 @@ export const AuroriansTeam: React.FC<AuroriansTeamProps> = ({
 }) => {
   return (
     <div className={styles.AuroriansTeam}>
-      {aurorianSummaries.map(
-        ({ aurorian_name, breakthrough, is_replaceable }) => {
-          return (
-            <AurorianCard
-              key={aurorian_name}
-              name={aurorian_name}
-              breakthrough={breakthrough}
-              isReplaceable={is_replaceable}
-            />
-          );
-        },
-      )}
+      {aurorianSummaries.map(({ aurorian_id, breakthrough, remark }) => {
+        return (
+          <AurorianCard
+            key={aurorian_id}
+            name={aurorian_id}
+            breakthrough={breakthrough}
+            remark={remark}
+          />
+        );
+      })}
     </div>
   );
 };

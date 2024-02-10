@@ -1,9 +1,9 @@
-import type { AurorianType, TermType } from '@sinsa/schema';
+import type { AurorianNextType, TermNextType } from '@sinsa/schema';
 import { getAurorians, getTerms } from '@/services/http';
 
 export interface LayoutLoaderData {
-  terms: TermType[];
-  auroriansMap: Record<AurorianType['aurorian_name'], AurorianType>;
+  terms: TermNextType[];
+  auroriansMap: Record<AurorianNextType['aurorian_id'], AurorianNextType>;
 }
 
 export async function loader(): Promise<LayoutLoaderData> {

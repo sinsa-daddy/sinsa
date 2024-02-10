@@ -42,15 +42,7 @@ const Index = React.memo(() => {
       <div>
         <Checkbox checked={true}>根据收录作业提供最佳队伍匹配方案</Checkbox>
         {currentTerm ? (
-          <Link
-            to={RoutePath.Solutions(currentTerm.term)}
-            // onClick={e => {
-            //   e.stopPropagation();
-            //   gtag('event', 'navigate_to_solutions_page', {
-            //     source_pathname: location.pathname,
-            //   });
-            // }}
-          >
+          <Link to={RoutePath.Solutions(currentTerm.term_id)}>
             <Button type="primary">立即试试</Button>
           </Link>
         ) : null}

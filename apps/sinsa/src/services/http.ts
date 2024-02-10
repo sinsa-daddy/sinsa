@@ -1,10 +1,9 @@
+import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import {
   AurorianNextSchema,
-  AurorianSchema,
-  CopilotSchema,
-  TermSchema,
+  CopilotNextSchema,
+  TermNextSchema,
 } from '@sinsa/schema';
-import type { CopilotType, TermType } from '@sinsa/schema';
 import { isPlainObject, mapValues } from 'lodash-es';
 import axios from 'axios';
 import { FeishuProfileSchema } from '@/schemas/feishu-profile';
@@ -18,12 +17,11 @@ const http = axios.create({});
  */
 export async function getTerms() {
   try {
-    const response = await http.get('/api/terms.json');
-    if (
-      Array.isArray(response.data) &&
-      response.data.every(item => TermSchema.parse(item))
-    ) {
-      return response.data as TermType[];
+    const response = await http.get('/api/v2/terms.json');
+    if (Array.isArray(response.data)) {
+      return response.data.map(item =>
+        TermNextSchema.parse(item),
+      ) as TermNextType[];
     }
   } catch (error) {}
   return [];
@@ -31,24 +29,10 @@ export async function getTerms() {
 
 /**
  * 获取光灵信息
- * @deprecated
  */
 export async function getAurorians() {
   try {
-    const response = await http.get('/api/aurorians.json');
-    if (isPlainObject(response.data)) {
-      return mapValues(response.data, v => AurorianSchema.parse(v));
-    }
-  } catch (error) {}
-  return {};
-}
-
-/**
- * 获取光灵信息
- */
-export async function getAuroriansNext() {
-  try {
-    const response = await http.get('/api/aurorians-next.json');
+    const response = await http.get('/api/v2/aurorians.json');
     if (isPlainObject(response.data)) {
       return mapValues(response.data, v => AurorianNextSchema.parse(v));
     }
@@ -60,13 +44,13 @@ export async function getAuroriansNext() {
  * 获取作业
  */
 export async function getCopilots(
-  term: number | `${number}`,
-): Promise<Record<CopilotType['bv'], CopilotType>> {
-  const response = await http.get(`/api/copilots/${term}.json`, {
+  termId: TermNextType['term_id'],
+): Promise<Record<CopilotNextType['copilot_id'], CopilotNextType>> {
+  const response = await http.get(`/api/v2/copilots/${termId}.json`, {
     headers: { 'Cache-Control': 'no-cache' },
   });
   if (isPlainObject(response.data)) {
-    return mapValues(response.data, v => CopilotSchema.parse(v));
+    return mapValues(response.data, v => CopilotNextSchema.parse(v));
   }
   return {};
 }

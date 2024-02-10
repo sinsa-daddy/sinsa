@@ -1,12 +1,12 @@
-import type { CopilotType, TermType } from '@sinsa/schema';
 import { Alert, Card, Flex, Typography } from 'antd';
+import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import { SolutionResultProvider } from './context';
 import { QueryForm } from './QueryForm';
 import { SolutionListView } from './SolutionListView';
 
 interface SolutionViewProps {
-  copilots: CopilotType[];
-  currentTerm: TermType;
+  copilots: CopilotNextType[];
+  currentTerm: TermNextType;
 }
 
 export const SolutionView: React.FC<SolutionViewProps> = ({
@@ -16,7 +16,7 @@ export const SolutionView: React.FC<SolutionViewProps> = ({
   return (
     <SolutionResultProvider>
       <Flex vertical gap="middle">
-        {currentTerm.term === 26 ? (
+        {currentTerm.order === 26 ? (
           <Alert
             type="error"
             showIcon={false}
@@ -33,7 +33,7 @@ export const SolutionView: React.FC<SolutionViewProps> = ({
           />
         ) : null}
         <Card>
-          <QueryForm copilots={copilots} term={currentTerm.term} />
+          <QueryForm copilots={copilots} termId={currentTerm.term_id} />
         </Card>
         <SolutionListView currentTerm={currentTerm} />
       </Flex>

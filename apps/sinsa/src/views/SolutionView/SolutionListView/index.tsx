@@ -1,20 +1,21 @@
 import { ConfigProvider, Empty, List, Result, notification } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
-import type { TermType } from '@sinsa/schema';
 import { useMemoizedFn } from 'ahooks';
 import { isEmpty } from 'lodash-es';
+import type { TermNextType } from '@sinsa/schema';
 import { useSolutionResultContext } from '../context';
-import type { QueryParamsType } from '../schemas/query-params';
+import type { ExcludeDataType, QueryParamsType } from '../schemas/query-params';
 import SINSA_SORRY_URL from './assets/sorry.png';
 import styles from './styles.module.less';
 import { SolutionCard } from '@/components/SolutionCard';
 import type { IgnoreMessage } from '@/components/types';
 
-const getRowKey = (sc: Solution) => sc.copilots.map(c => c.bv).join('');
+const getRowKey = (sc: Solution) =>
+  sc.copilots.map(c => c.copilot_id).join(',');
 
 export interface SolutionListViewProps {
-  currentTerm: TermType;
+  currentTerm: TermNextType;
 }
 
 export const SolutionListView: React.FC<SolutionListViewProps> = ({
@@ -50,14 +51,14 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
   }, [current]);
 
   const handleIgnore = useMemoizedFn((msg: IgnoreMessage) => {
-    if (msg.type === 'aurorian' && msg.aurorianName) {
+    if (msg.type === 'aurorian' && msg.aurorianId) {
       form.setFieldValue('enableExclude', true);
       const prevExcludeArray = form.getFieldValue(
         'exclude',
       ) as QueryParamsType['exclude'];
       if (Array.isArray(prevExcludeArray)) {
         const target = prevExcludeArray.find(
-          t => t.aurorianName === msg.aurorianName,
+          t => t.aurorianId === msg.aurorianId,
         );
         if (!target) {
           if (prevExcludeArray.length === 1 && isEmpty(prevExcludeArray[0])) {
@@ -67,15 +68,15 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
             form.setFieldValue('exclude', [
               ...prevExcludeArray,
               {
-                aurorianName: msg.aurorianName,
+                aurorianId: msg.aurorianId,
                 excludeBreakthroughOnly: true,
                 excludeBreakthrough: msg.breakthrough,
-              },
+              } as ExcludeDataType,
             ]);
           } else {
             form.setFieldValue('exclude', [
               ...prevExcludeArray,
-              { aurorianName: msg.aurorianName },
+              { aurorianId: msg.aurorianId } as ExcludeDataType,
             ]);
           }
           form.submit();
@@ -88,9 +89,12 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
     } else if (msg.type === 'copilot') {
       const copilotsIgnoreArray = form.getFieldValue('copilotsIgnore');
       if (Array.isArray(copilotsIgnoreArray)) {
-        form.setFieldValue('copilotsIgnore', [...copilotsIgnoreArray, msg.bv]);
+        form.setFieldValue('copilotsIgnore', [
+          ...copilotsIgnoreArray,
+          msg.copilotId,
+        ]);
       } else {
-        form.setFieldValue('copilotsIgnore', [msg.bv]);
+        form.setFieldValue('copilotsIgnore', [msg.copilotId]);
       }
       form.submit();
     }

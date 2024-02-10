@@ -8,8 +8,7 @@ import {
 import { useModel } from '@modern-js/runtime/model';
 import { Button, Select, Tooltip } from 'antd';
 import { Delete } from '@icon-park/react';
-import { RarityMapper } from '../AurorianCard/constants';
-import { AurorianCard } from '../AurorianCard';
+import { AdaptiveAurorianCard } from '../AdaptiveAurorianCard';
 import { AuroriansModel, filterAuroriansOption } from '@/models/aurorians';
 
 interface ExcludeFormListProps {
@@ -48,7 +47,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
           <ProForm.Group>
             <ProForm.Item
               label="排除的光灵"
-              name={'aurorianName'}
+              name={'aurorianId'}
               rules={[{ required: true }]}
             >
               <Select
@@ -61,11 +60,17 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
             </ProForm.Item>
             <ProFormDependency
               key="excludeBreakthroughOnly"
-              name={['aurorianName']}
+              name={['aurorianId']}
             >
-              {({ aurorianName }) => {
-                if (aurorianName) {
-                  return <AurorianCard sameSize name={aurorianName} />;
+              {({ aurorianId }) => {
+                if (aurorianId) {
+                  return (
+                    <AdaptiveAurorianCard
+                      readOnly
+                      mini
+                      aurorianId={aurorianId}
+                    />
+                  );
                 }
                 return null;
               }}
@@ -99,7 +104,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
                       name="excludeBreakthrough"
                       label="排除突破数"
                       fieldProps={{
-                        count: RarityMapper[targetAurorian.rarity],
+                        count: targetAurorian.rarity,
                         allowHalf: false,
                       }}
                       tooltip="大于等于此突破数的光灵会被排除，但不会排除零破的此光灵"

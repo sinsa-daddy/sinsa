@@ -1,10 +1,6 @@
 {
   "folders": [
     {
-      "name": "notion-database",
-      "path": "packages/notion-database/"
-    },
-    {
       "name": "service-worker",
       "path": "packages/service-worker/"
     },

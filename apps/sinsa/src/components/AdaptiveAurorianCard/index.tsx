@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import { useModel } from '@modern-js/runtime/model';
-import type { AurorianType } from '@sinsa/schema';
+import type {
+  AurorianRequirementRemarkType,
+  AurorianNextType,
+} from '@sinsa/schema';
 import clsx from 'clsx';
 import type { MenuProps } from 'antd';
 import { ConfigProvider, Flex, Rate, Tag, Dropdown } from 'antd';
@@ -9,26 +12,27 @@ import { m } from 'framer-motion';
 import type { IgnoreMessage } from '../types';
 import styles from './styles.module.less';
 import { useLazyImage } from './hooks/use-lazy-image';
-import { ClassURLMapper, ElementURLMapper, RarityMapper } from './constants';
+import { ClassURLMapper, ElementURLMapper } from './constants';
 import { AuroriansModel } from '@/models/aurorians';
 import { getNormalizeBreakthroughByRarity } from '@/views/SolutionView/utils/without-exclude';
 
 interface AdaptiveArurorianCardProps {
-  name: string;
+  aurorianId: string;
   breakthrough?: number;
-  isReplaceable?: boolean;
+  remark?: AurorianRequirementRemarkType;
   onIgnore?: (msg: IgnoreMessage) => void;
   readOnly?: boolean;
+  mini?: boolean;
 }
 
 export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
-  ({ name, breakthrough, isReplaceable, onIgnore, readOnly }) => {
+  ({ aurorianId: name, breakthrough, remark, onIgnore, readOnly, mini }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
-      () => auroriansMap[name] as AurorianType | undefined,
+      () => auroriansMap[name] as AurorianNextType | undefined,
       [auroriansMap, name],
     );
-    const { containerRef } = useLazyImage(aurorian?.aurorian_name);
+    const { containerRef } = useLazyImage(aurorian?.aurorian_id);
 
     const screen = useBreakpoint();
     const rateTheme = useMemo(() => {
@@ -56,11 +60,11 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
 
     const items: MenuProps['items'] = [
       {
-        label: `排除${aurorian?.aurorian_cn_name}`,
+        label: `排除${aurorian?.cn_name}`,
         key: 'ignore',
       },
       {
-        label: `仅排除此突破数的${aurorian?.aurorian_cn_name}`,
+        label: `仅排除此突破数的${aurorian?.cn_name}`,
         key: 'ignore-breakthrough',
       },
     ];
@@ -73,15 +77,14 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
         menu={{
           items,
           onClick: ({ key }) => {
-            console.log('key', key);
-            if (!aurorian?.aurorian_name) {
+            if (!aurorian?.aurorian_id) {
               return;
             }
             switch (key) {
               case 'ignore-breakthrough':
                 onIgnore?.({
                   type: 'aurorian',
-                  aurorianName: aurorian.aurorian_name,
+                  aurorianId: aurorian.aurorian_id,
                   breakthrough: getNormalizeBreakthroughByRarity(
                     breakthrough ?? 0,
                     aurorian.rarity,
@@ -91,7 +94,7 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
               case 'ignore':
                 onIgnore?.({
                   type: 'aurorian',
-                  aurorianName: aurorian.aurorian_name,
+                  aurorianId: aurorian.aurorian_id,
                 });
                 break;
               default:
@@ -106,6 +109,7 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
             styles.AdaptiveAurorianCard,
             styles.BackgroundImage,
             readOnly && styles.Disabled,
+            mini ? styles.MiniSize : styles.LargeSize,
           )}
           whileHover={readOnly ? undefined : { opacity: 0.6 }}
           whileTap={readOnly ? undefined : { opacity: 0.2 }}
@@ -113,14 +117,14 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
           {aurorian ? (
             <>
               <Flex vertical className={styles.NameContainer}>
-                <span>{aurorian?.aurorian_cn_name}</span>
+                <span>{aurorian?.cn_name}</span>
                 {typeof breakthrough === 'number' && aurorian?.rarity ? (
                   <ConfigProvider theme={rateTheme}>
                     <Rate
                       className={styles.BreakThrough}
                       disabled
                       value={breakthrough}
-                      count={RarityMapper[aurorian.rarity]}
+                      count={aurorian.rarity}
                     />
                   </ConfigProvider>
                 ) : null}
@@ -128,29 +132,29 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
               <Flex className={styles.MetaContainer}>
                 <img
                   className={styles.MetaClass}
-                  alt={aurorian.class}
-                  src={ClassURLMapper[aurorian.class]}
+                  alt={aurorian.profession}
+                  src={ClassURLMapper[aurorian.profession]}
                 />
-                <Flex align="center">
+                <Flex align="center" vertical={mini}>
                   <img
                     className={styles.MetaFirstAttribute}
-                    alt={aurorian.attribute}
-                    src={ElementURLMapper[aurorian.attribute]}
+                    alt={aurorian.primary_element}
+                    src={ElementURLMapper[aurorian.primary_element]}
                   />
-                  {aurorian.secondary_attribute ? (
+                  {aurorian.secondary_element ? (
                     <img
                       className={styles.MetaSecondAttribute}
-                      alt={aurorian.secondary_attribute}
-                      src={ElementURLMapper[aurorian.secondary_attribute]}
+                      alt={aurorian.secondary_element}
+                      src={ElementURLMapper[aurorian.secondary_element]}
                     />
                   ) : null}
                 </Flex>
               </Flex>
             </>
           ) : null}
-          {isReplaceable ? (
+          {remark?.replace?.type === 'any' && remark?.replace?.any === 'All' ? (
             <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
-              可替
+              任意
             </Tag>
           ) : null}
         </m.div>

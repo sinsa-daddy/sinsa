@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useModel } from '@modern-js/runtime/model';
-import { type AurorianType } from '@sinsa/schema';
+import type {
+  AurorianNextType,
+  AurorianRequirementRemarkType,
+} from '@sinsa/schema';
 import { Badge, ConfigProvider, Rate } from 'antd';
 import { clsx } from 'clsx';
 import styles from './styles.module.less';
@@ -10,15 +13,15 @@ import { AuroriansModel } from '@/models/aurorians';
 interface AurorianCardProps {
   name: string;
   breakthrough?: number;
-  isReplaceable?: boolean;
+  remark?: AurorianRequirementRemarkType;
   sameSize?: boolean;
 }
 
 export const AurorianCard = React.memo<AurorianCardProps>(
-  ({ name, breakthrough, isReplaceable, sameSize }) => {
+  ({ name, breakthrough, remark, sameSize }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
-      () => auroriansMap[name] as AurorianType | undefined,
+      () => auroriansMap[name] as AurorianNextType | undefined,
       [auroriansMap, name],
     );
 
@@ -38,7 +41,7 @@ export const AurorianCard = React.memo<AurorianCardProps>(
             // ignore
           });
       }
-    }, [aurorian?.aurorian_name]);
+    }, [aurorian?.aurorian_id]);
 
     return (
       <Badge.Ribbon

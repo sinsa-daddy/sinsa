@@ -5,7 +5,7 @@ import { TermsModel } from '@/models/terms';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 
 export const TermNotFound: React.FC = () => {
-  const [{ latestTerm: currentTerm }] = useModel(TermsModel);
+  const [{ latestTerm }] = useModel(TermsModel);
 
   return (
     <Result
@@ -13,8 +13,8 @@ export const TermNotFound: React.FC = () => {
       title="暂时没有这期荒典作业"
       subTitle="检查链接是否正确或返回最近荒典作业"
       extra={
-        currentTerm ? (
-          <Link to={RoutePath.Copilots(currentTerm.term)}>
+        latestTerm ? (
+          <Link to={RoutePath.Copilots('latest')}>
             <Button type="primary">返回最近作业</Button>
           </Link>
         ) : (

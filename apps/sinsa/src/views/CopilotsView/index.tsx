@@ -1,10 +1,10 @@
-import type { CopilotType, TermType } from '@sinsa/schema';
 import { Flex } from 'antd';
+import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import { CopilotListView } from './CopilotListView';
 
 interface CopilotsViewProps {
-  copilots: CopilotType[];
-  currentTerm: TermType;
+  copilots: CopilotNextType[];
+  currentTerm: TermNextType;
 }
 
 export const CopilotsView: React.FC<CopilotsViewProps> = ({

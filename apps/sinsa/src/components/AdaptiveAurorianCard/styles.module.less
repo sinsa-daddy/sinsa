@@ -12,6 +12,19 @@
   cursor: pointer;
 }
 
+.MiniSize.MiniSize {
+  width: 80px;
+  height: 80px;
+  background-position: 0;
+  background-size: contain;
+
+  & .MetaContainer {
+    flex-flow: column nowrap;
+    align-self: flex-start;
+    margin-left: 4px;
+  }
+}
+
 .Disabled {
   cursor: initial;
 }
@@ -79,22 +92,24 @@
 }
 
 @media (min-width: 576px) {
-  .MetaClass {
-    width: 24px;
-    height: 24px;
-  }
+  .LargeSize {
+    .MetaClass {
+      width: 24px;
+      height: 24px;
+    }
 
-  .MetaFirstAttribute {
-    width: 24px;
-    height: 24px;
-  }
+    .MetaFirstAttribute {
+      width: 24px;
+      height: 24px;
+    }
 
-  .MetaSecondAttribute {
-    width: 16px;
-    height: 16px;
-  }
+    .MetaSecondAttribute {
+      width: 16px;
+      height: 16px;
+    }
 
-  .NameContainer {
-    font-size: 14px;
+    .NameContainer {
+      font-size: 14px;
+    }
   }
 }

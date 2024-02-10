@@ -8,7 +8,7 @@ import {
 } from '@ant-design/pro-components';
 import { useCallback, useMemo } from 'react';
 import { Space, Typography } from 'antd';
-import type { CopilotType } from '@sinsa/schema';
+import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import { Search } from '@icon-park/react';
 import type { QueryParamsType } from '../schemas/query-params';
 import { useSolutionResultContext } from '../context';
@@ -17,12 +17,12 @@ import { EXTENDED_TEAM_COUNT } from './constants';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
 
 interface QueryFormProps {
-  term: number;
-  copilots: CopilotType[];
+  termId: TermNextType['term_id'];
+  copilots: CopilotNextType[];
 }
 
-export const QueryForm: React.FC<QueryFormProps> = ({ term, copilots }) => {
-  const { initialValues, setLocalInitialValues } = useInitialValues({ term });
+export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
+  const { initialValues, setLocalInitialValues } = useInitialValues({ termId });
 
   const { loadingSolutionResult, solutionResult, form, requestSolution } =
     useSolutionResultContext();
@@ -68,8 +68,8 @@ export const QueryForm: React.FC<QueryFormProps> = ({ term, copilots }) => {
   const ignoreOptions = useMemo(() => {
     return copilots.map(c => {
       return {
-        label: `${c.author} ${Math.floor(c.score / 10000)}W`,
-        value: c.bv,
+        label: `${c.author_name} ${Math.floor(c.score / 10000)}W`,
+        value: c.copilot_id,
       };
     });
   }, [copilots]);

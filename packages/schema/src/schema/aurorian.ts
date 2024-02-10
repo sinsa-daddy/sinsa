@@ -62,30 +62,6 @@ export enum AurorianRarityType {
   Star1 = '1', // ⭐
 }
 
-/**
- * 光灵 Zod Schema
- */
-export const AurorianSchema = z.object({
-  aurorian_name: z.string().describe('光灵英文名，以此作为唯一标识'),
-  aurorian_cn_name: z.string().describe('光灵简体中文名'),
-  attribute: z.nativeEnum(AurorianAttributeType).describe('光灵属性'),
-  secondary_attribute: z
-    .optional(z.nativeEnum(AurorianAttributeType))
-    .describe('光灵副属性'),
-  class: z.nativeEnum(AurorianClassType).describe('光灵职业类型'),
-  rarity: z.nativeEnum(AurorianRarityType).describe('光灵稀有度（星级）'),
-  server: z
-    .enum(['cn', 'global'])
-    .array()
-    .describe('光灵所在服务器（国服、国际服）'),
-  _record_id: z.string().startsWith('rec'),
-});
-
-/**
- * 光灵类型
- */
-export interface AurorianType extends z.infer<typeof AurorianSchema> {}
-
 export const AurorianNextSchema = z.object({
   aurorian_id: z.string(),
   name: z.string(),

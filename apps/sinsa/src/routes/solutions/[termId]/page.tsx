@@ -14,10 +14,13 @@ const SolutionsPage: React.FC = () => {
   const { targetTerm: currentTerm } = useTargetTermFromParams();
   const { data, error, loading } = useRequest(
     () =>
-      currentTerm?.term
-        ? getCopilots(currentTerm.term)
+      currentTerm?.term_id
+        ? getCopilots(currentTerm.term_id)
         : (Promise.resolve({}) as ReturnType<typeof getCopilots>),
-    { ready: Boolean(currentTerm?.term), refreshDeps: [currentTerm?.term] },
+    {
+      ready: Boolean(currentTerm?.term_id),
+      refreshDeps: [currentTerm?.term_id],
+    },
   );
 
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
@@ -44,7 +47,9 @@ const SolutionsPage: React.FC = () => {
         <TermNotFound />
       ) : currentTerm ? (
         <SolutionView copilots={copilots} currentTerm={currentTerm} />
-      ) : null}
+      ) : (
+        <TermNotFound />
+      )}
     </PageContainer>
   );
 };

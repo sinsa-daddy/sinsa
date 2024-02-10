@@ -1,5 +1,6 @@
-import { AssetType } from '@sinsa/schema';
+import type { CopilotNextAssetType } from '@sinsa/schema';
 
-export const AssetTypeTextMapper: Record<AssetType, string> = {
-  [AssetType.No33Scripts]: '三十三号脚本',
-};
+export const AssetTypeTextMapper: Record<CopilotNextAssetType['type'], string> =
+  {
+    script33: '三十三号脚本',
+  };

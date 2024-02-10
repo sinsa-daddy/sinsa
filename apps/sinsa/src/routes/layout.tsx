@@ -1,7 +1,6 @@
 import { Outlet, useLoaderData } from '@modern-js/runtime/router';
 import { useModel } from '@modern-js/runtime/model';
 import { isEmpty } from 'lodash-es';
-import { TermSchema } from '@sinsa/schema';
 import { useEffect } from 'react';
 import type { LayoutLoaderData } from './layout.data';
 import { Providers } from './providers';
@@ -25,7 +24,7 @@ const Layout: React.FC = () => {
 
   useEffect(() => {
     if (terms.terms.length === 0) {
-      termsActions.setTerms(termsFromRemote.map(t => TermSchema.parse(t)));
+      termsActions.setTerms(termsFromRemote);
     }
 
     if (isEmpty(aurorians.auroriansMap)) {

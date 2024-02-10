@@ -35,7 +35,7 @@ export const AurorianTallCard = React.memo<AurorianTallCardProps>(
         <div className={styles.AdaptiveContainer}>
           <AdaptiveAurorianCard
             readOnly
-            name={name}
+            aurorianId={name}
             isReplaceable={isReplaceable}
           />
         </div>

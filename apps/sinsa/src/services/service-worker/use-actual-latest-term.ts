@@ -1,10 +1,9 @@
-import type { TermType } from '@sinsa/schema';
-import { TermSchema } from '@sinsa/schema';
 import { useEffect, useState } from 'react';
-import { isCurrentlyUnderway } from '@/models/terms';
+import { TermNextSchema, type TermNextType } from '@sinsa/schema';
+import { getLatestTerm } from '@/models/terms/helpers/get-latest-term';
 
 export function useActualLatestTerm() {
-  const [actualLatestTerm, setActualLatestTerm] = useState<TermType>();
+  const [actualLatestTerm, setActualLatestTerm] = useState<TermNextType>();
 
   useEffect(() => {
     const run = async () => {
@@ -12,11 +11,11 @@ export function useActualLatestTerm() {
         const payload = await window.__TERMS_UPDATE_PROMISE__;
 
         if (Array.isArray(payload?.terms)) {
-          const actualLatestTerm = payload.terms
-            .map(mayBeTerm => TermSchema.parse(mayBeTerm))
-            .find(term => isCurrentlyUnderway(term));
+          const actualLatestTerm = getLatestTerm(
+            payload.terms.map(mayBeTerm => TermNextSchema.parse(mayBeTerm)),
+          );
 
-          if (typeof actualLatestTerm?.term === 'number') {
+          if (typeof actualLatestTerm?.term_id === 'string') {
             setActualLatestTerm(actualLatestTerm);
           }
         }

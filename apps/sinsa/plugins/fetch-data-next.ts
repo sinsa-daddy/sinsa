@@ -46,7 +46,10 @@ export function fetchDataNext(): CliPlugin {
 
             // 0. 生成首领数据
             const termsMap = await notion.getTermsMap();
-            await writeJSON(join(OUTPUT_DIR, 'terms.json'), termsMap);
+            await writeJSON(
+              join(OUTPUT_DIR, 'terms.json'),
+              Object.values(termsMap),
+            );
             const termsKeys = Object.keys(termsMap);
             console.log(`获取并生成了 ${termsKeys.length} 个首领数据`);
 

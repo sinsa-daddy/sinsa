@@ -1,18 +1,18 @@
-import type { CopilotType, TermType } from '@sinsa/schema';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import { Card, Typography } from 'antd';
 import React, { useMemo } from 'react';
 import { isEqual } from 'lodash-es';
 import numeral from 'numeral';
+import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import type { IgnoreMessage } from '../types';
 import { CopilotBlock } from './CopilotBlock';
 import styles from './styles.module.less';
 
-const copilotRowKey = (c: CopilotType) => c.bv;
+const copilotRowKey = (c: CopilotNextType) => c.copilot_id;
 
 export interface SolutionCardProps {
   solution: Solution;
-  currentTerm: TermType;
+  currentTerm: TermNextType;
   index: number;
   onIgnore?: (msg: IgnoreMessage) => void;
 }
@@ -46,9 +46,9 @@ export const SolutionCard = React.memo<SolutionCardProps>(
   },
   (prev, next) =>
     isEqual(
-      prev.solution.copilots.map(c => c.bv),
-      next.solution.copilots.map(c => c.bv),
+      prev.solution.copilots.map(c => c.copilot_id),
+      next.solution.copilots.map(c => c.copilot_id),
     ) &&
-    prev.currentTerm.term === next.currentTerm.term &&
+    prev.currentTerm.term_id === next.currentTerm.term_id &&
     prev.index === next.index,
 );

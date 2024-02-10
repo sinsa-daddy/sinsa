@@ -1,14 +1,14 @@
-import type { CopilotType, TermType } from '@sinsa/schema';
 import { useMemo, useRef, useState } from 'react';
 import { Card, List } from 'antd';
+import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import styles from './styles.module.less';
 import { CopilotBlock } from '@/components/SolutionCard/CopilotBlock';
 
-const getRowKey = (c: CopilotType) => c.bv;
+const getRowKey = (c: CopilotNextType) => c.copilot_id;
 
 interface CopilotListViewProps {
-  currentTerm: TermType;
-  dataSource: CopilotType[];
+  currentTerm: TermNextType;
+  dataSource: CopilotNextType[];
 }
 
 export const CopilotListView: React.FC<CopilotListViewProps> = ({
@@ -41,7 +41,7 @@ export const CopilotListView: React.FC<CopilotListViewProps> = ({
     <>
       <div className={styles.Mount} ref={inViewRef} />
       <Card className={styles.CopilotCard}>
-        <List<CopilotType>
+        <List<CopilotNextType>
           dataSource={dataSource}
           pagination={pagination}
           rowKey={getRowKey}

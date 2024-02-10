@@ -6,14 +6,15 @@ import { TermsModel } from '@/models/terms';
 import type { RoutePath } from '@/views/GlobalLayout/constants';
 
 export function useTargetTermFromParams() {
-  const params = useParams<{ term: `${number}` | 'latest' }>();
+  const params = useParams<{ termId: string | 'latest' }>();
   const [{ termsMap, latestTerm }] = useModel(TermsModel);
+
   const targetTerm = useMemo(() => {
-    if (!params.term) {
+    if (!params.termId) {
       return undefined;
     }
-    return params.term === 'latest' ? latestTerm : termsMap[params.term];
-  }, [params.term, latestTerm?.term]);
+    return params.termId === 'latest' ? latestTerm : termsMap[params.termId];
+  }, [params.termId, latestTerm?.term_id]);
 
   return {
     targetTerm,
@@ -29,12 +30,12 @@ export const TermChanger: React.FC<{
 
   return (
     <Select
-      value={targetTerm?.term}
+      value={targetTerm?.term_id}
       options={terms.termsOptions}
       placeholder="荒典期数"
-      onChange={(nextTerm: number) => {
+      onChange={nextTerm => {
         navigate(
-          pathFn(nextTerm === terms.latestTerm?.term ? 'latest' : nextTerm),
+          pathFn(nextTerm === terms.latestTerm?.term_id ? 'latest' : nextTerm),
         );
       }}
     />

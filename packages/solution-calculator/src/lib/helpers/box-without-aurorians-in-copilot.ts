@@ -1,19 +1,26 @@
-import type { CopilotType, MyBoxType } from '@sinsa/schema';
+import type { CopilotNextType, AurorianRequirementType } from '@sinsa/schema';
 import type { CalcOptions } from '../../types';
 
 export function boxWithoutAuroriansInCopilot(
-  myBox: MyBoxType['aurorian_summaries'],
-  copilot: CopilotType,
+  myBox: Record<
+    AurorianRequirementType['aurorian_id'],
+    AurorianRequirementType
+  >,
+  copilot: CopilotNextType,
   { disableAlternative: disalbeAlternative }: CalcOptions,
-): MyBoxType['aurorian_summaries'] {
+): Record<AurorianRequirementType['aurorian_id'], AurorianRequirementType> {
   const cloneMyBox = { ...myBox };
-  for (const aurorianInCopilot of copilot.aurorian_summaries) {
+  for (const aurorianRequirement of copilot.aurorian_requirements) {
     // 0. 如果作业中的光灵本身是可替换的，则跳过此光灵判断
-    if (!disalbeAlternative && aurorianInCopilot.is_replaceable) {
+    if (
+      !disalbeAlternative &&
+      aurorianRequirement.remark?.replace?.type === 'any' &&
+      aurorianRequirement.remark.replace.any === 'All'
+    ) {
       continue;
     }
 
-    delete cloneMyBox[aurorianInCopilot.aurorian_name];
+    delete cloneMyBox[aurorianRequirement.aurorian_id];
   }
   return cloneMyBox;
 }

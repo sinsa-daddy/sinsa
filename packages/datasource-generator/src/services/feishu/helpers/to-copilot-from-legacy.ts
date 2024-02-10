@@ -1,5 +1,4 @@
 import {
-  AssetType,
   CopilotNextSchema,
   CopilotSourceType,
   UNKNOWN_AUTHOR_ID,
@@ -53,7 +52,7 @@ export function toCopilotFromLegacy(
       };
     }) as CopilotNextType['aurorian_requirements'],
     assets:
-      fields.asset_type === AssetType.No33Scripts && fields.asset_link
+      fields.asset_type === 'No33Scripts' && fields.asset_link
         ? [
             {
               type: 'script33',

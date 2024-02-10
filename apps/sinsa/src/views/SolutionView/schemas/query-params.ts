@@ -1,9 +1,9 @@
 import { z } from '@sinsa/schema';
 
 export const ExcludeDataSchema = z.object({
-  aurorianName: z.string(),
+  aurorianId: z.string(),
   excludeBreakthroughOnly: z.optional(z.boolean()),
-  excludeBreakthrough: z.optional(z.boolean()),
+  excludeBreakthrough: z.optional(z.number()),
 });
 
 export const QueryParamsSchema = z.object({
@@ -15,5 +15,6 @@ export const QueryParamsSchema = z.object({
   copilotsIgnore: z.optional(z.array(z.string())),
 });
 
-export type QueryParamsType = z.infer<typeof QueryParamsSchema>;
-export type ExcludeDataType = z.infer<typeof ExcludeDataSchema>;
+export interface QueryParamsType extends z.infer<typeof QueryParamsSchema> {}
+
+export interface ExcludeDataType extends z.infer<typeof ExcludeDataSchema> {}

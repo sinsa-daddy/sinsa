@@ -34,6 +34,9 @@ export const AurorianRequirementRemarkSchema = z.object({
   replace: z.optional(AurorianRequirementReplaceSchema).describe('可替换对象'),
 });
 
+export interface AurorianRequirementRemarkType
+  extends z.infer<typeof AurorianRequirementRemarkSchema> {}
+
 export const AurorianRequirementSchema = z.object({
   aurorian_id: z.string(),
   breakthrough: z.number().min(0).max(6).describe('光灵突破数（黄色星星数量）'),
@@ -74,6 +77,8 @@ export const CopilotNextAssetSchema = z.object({
     link: z.string().startsWith('https://'),
   }),
 });
+
+export type CopilotNextAssetType = z.infer<typeof CopilotNextAssetSchema>;
 
 export const CopilotNextSchema = z.object({
   copilot_id: z.string().describe('作业唯一标识'),

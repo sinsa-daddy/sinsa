@@ -1,11 +1,11 @@
-import type { CopilotType } from '@sinsa/schema';
+import type { CopilotNextType } from '@sinsa/schema';
 import type { CalcOptions, SolutionContext, AllSolutions } from '../types';
 import { boxWithoutAuroriansInCopilot } from './helpers/box-without-aurorians-in-copilot';
 import { canUseCopilot } from './helpers/can-use-copilot';
 
 interface StackContext {
   currentCopilotIndex: number;
-  currentScenario: CopilotType[];
+  currentScenario: CopilotNextType[];
   remainingBox: SolutionContext['availableBox'];
   count: number;
 }

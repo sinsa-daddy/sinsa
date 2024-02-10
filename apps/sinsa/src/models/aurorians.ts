@@ -1,9 +1,8 @@
 import { model } from '@modern-js/runtime/model';
 import type {
   AurorianAttributeType,
-  AurorianSummaryType,
-  AurorianType,
-  MyBoxType,
+  AurorianNextType,
+  AurorianRequirementType,
 } from '@sinsa/schema';
 import { groupBy, mapValues } from 'lodash-es';
 import { match } from 'pinyin-pro';
@@ -11,7 +10,7 @@ import type React from 'react';
 import { ElementTextMapper } from '@/components/AurorianCard/constants';
 
 export interface AuroriansState {
-  auroriansMap: Record<AurorianType['aurorian_name'], AurorianType>;
+  auroriansMap: Record<AurorianNextType['aurorian_id'], AurorianNextType>;
 }
 
 export interface AuroriansOption {
@@ -41,31 +40,28 @@ export const AuroriansModel = model<AuroriansState>('aurorians').define({
     auroriansMap: {},
   },
   computed: {
-    WHOLE_BOX: (state): MyBoxType => {
-      return {
-        title: '全图鉴',
-        create_time: new Date(),
-        version: 1,
-        aurorian_summaries: mapValues(
-          state.auroriansMap,
-          ({ aurorian_name }) => {
-            return {
-              aurorian_name,
-              breakthrough: Infinity, // 假设突破无穷大
-            } as AurorianSummaryType;
-          },
-        ),
-      };
+    WHOLE_BOX: (
+      state,
+    ): Record<
+      AurorianRequirementType['aurorian_id'],
+      AurorianRequirementType
+    > => {
+      return mapValues(state.auroriansMap, ({ aurorian_id }) => {
+        return {
+          aurorian_id,
+          breakthrough: Infinity, // 假设突破无穷大
+        } as AurorianRequirementType;
+      });
     },
     auroriansOptions: state => {
-      return Object.entries(groupBy(state.auroriansMap, 'attribute')).map(
+      return Object.entries(groupBy(state.auroriansMap, 'primary_element')).map(
         ([attribute, aurorians]) => {
           return {
             label: ElementTextMapper[attribute as AurorianAttributeType],
             options: aurorians.map(a => {
               return {
-                label: a.aurorian_cn_name,
-                value: a.aurorian_name,
+                label: a.cn_name,
+                value: a.aurorian_id,
               };
             }),
           } as AuroriansOption;

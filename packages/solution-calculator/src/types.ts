@@ -1,12 +1,15 @@
-import type { CopilotType, MyBoxType } from '@sinsa/schema';
+import type { AurorianRequirementType, CopilotNextType } from '@sinsa/schema';
 
 export interface SolutionContext {
-  copilots: CopilotType[];
-  availableBox: MyBoxType['aurorian_summaries'];
+  copilots: CopilotNextType[];
+  availableBox: Record<
+    AurorianRequirementType['aurorian_id'],
+    AurorianRequirementType
+  >;
 }
 
 export interface Solution {
-  copilots: CopilotType[];
+  copilots: CopilotNextType[];
   totalScore: number;
 }
 
@@ -23,10 +26,5 @@ export interface CalcOptions {
   /**
    * 是否忽略掉特定作业
    */
-  copilotsIgnore?: CopilotType['bv'][];
-
-  /**
-   * 是否展示视频已经被删除的作业
-   */
-  showHidden?: boolean;
+  copilotsIgnore?: CopilotNextType['copilot_id'][];
 }

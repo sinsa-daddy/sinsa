@@ -1,8 +1,4 @@
-import type {
-  CopilotType,
-  MyBoxType,
-  AurorianSummaryType,
-} from '@sinsa/schema';
+import type { CopilotNextType, AurorianRequirementType } from '@sinsa/schema';
 import type { CalcOptions } from '../../types';
 
 /**
@@ -12,35 +8,34 @@ import type { CalcOptions } from '../../types';
  * @returns 我的 Box 能否抄这个作业
  */
 export function canUseCopilot(
-  myBox: MyBoxType['aurorian_summaries'],
-  copilot: CopilotType,
-  {
-    disableAlternative: disalbeAlternative,
-    copilotsIgnore,
-    showHidden,
-  }: CalcOptions,
+  myBox: Record<
+    AurorianRequirementType['aurorian_id'],
+    AurorianRequirementType
+  >,
+  copilot: CopilotNextType,
+  { disableAlternative, copilotsIgnore }: CalcOptions,
 ): boolean {
   // 0. 一开始就排除特定作业
   if (
     Array.isArray(copilotsIgnore) &&
     copilotsIgnore.length > 0 &&
-    copilotsIgnore.includes(copilot.bv)
+    copilotsIgnore.includes(copilot.copilot_id)
   ) {
     return false;
   }
 
-  if (!showHidden && copilot.title.includes('[hidden]')) {
-    return false;
-  }
-
-  for (const aurorianInCopilot of copilot.aurorian_summaries) {
+  for (const aurorianRequirement of copilot.aurorian_requirements) {
     // 1. 如果作业中的光灵本身是可替换的，则跳过此光灵判断
-    if (!disalbeAlternative && aurorianInCopilot.is_replaceable) {
+    if (
+      !disableAlternative &&
+      aurorianRequirement.remark?.replace?.type === 'any' &&
+      aurorianRequirement.remark.replace.any === 'All'
+    ) {
       continue;
     }
 
-    const aurorianInMyBox = myBox[aurorianInCopilot.aurorian_name] as
-      | AurorianSummaryType
+    const aurorianInMyBox = myBox[aurorianRequirement.aurorian_id] as
+      | AurorianRequirementType
       | undefined;
 
     // 2. 光灵本身不存在于我的 box
@@ -49,7 +44,7 @@ export function canUseCopilot(
     }
 
     // 3. 如果我的 box 光灵突破低于作业要求突破
-    if (aurorianInMyBox.breakthrough < aurorianInCopilot.breakthrough) {
+    if (aurorianInMyBox.breakthrough < aurorianRequirement.breakthrough) {
       return false;
     }
   }

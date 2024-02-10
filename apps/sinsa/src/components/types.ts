@@ -1,12 +1,12 @@
-import type { AurorianType } from '@sinsa/schema';
+import type { AurorianNextType, CopilotNextType } from '@sinsa/schema';
 
 export type IgnoreMessage =
   | {
       type: 'aurorian';
-      aurorianName: AurorianType['aurorian_name'];
+      aurorianId: AurorianNextType['aurorian_id'];
       breakthrough?: number;
     }
   | {
       type: 'copilot';
-      bv: string;
+      copilotId: CopilotNextType['copilot_id'];
     };

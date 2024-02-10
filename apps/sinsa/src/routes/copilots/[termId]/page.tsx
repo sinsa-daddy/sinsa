@@ -10,12 +10,16 @@ import { CopilotsView } from '@/views/CopilotsView';
 
 const CopilotsPage: React.FC = () => {
   const { targetTerm: currentTerm } = useTargetTermFromParams();
+
   const { data, error, loading } = useRequest(
     () =>
-      currentTerm?.term
-        ? getCopilots(currentTerm.term)
+      currentTerm?.term_id
+        ? getCopilots(currentTerm.term_id)
         : (Promise.resolve({}) as ReturnType<typeof getCopilots>),
-    { ready: Boolean(currentTerm?.term), refreshDeps: [currentTerm?.term] },
+    {
+      ready: Boolean(currentTerm?.term_id),
+      refreshDeps: [currentTerm?.term_id],
+    },
   );
 
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
@@ -30,7 +34,9 @@ const CopilotsPage: React.FC = () => {
         <TermNotFound />
       ) : currentTerm ? (
         <CopilotsView currentTerm={currentTerm} copilots={copilots} />
-      ) : null}
+      ) : (
+        <TermNotFound />
+      )}
     </PageContainer>
   );
 };

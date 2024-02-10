@@ -1,4 +1,3 @@
-import type { CopilotType, TermType } from '@sinsa/schema';
 import { clsx } from 'clsx';
 import {
   Button,
@@ -13,6 +12,7 @@ import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
 import { MessageOne, More, Paperclip, PreviewCloseOne } from '@icon-park/react';
+import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import type { IgnoreMessage } from '../../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
@@ -21,8 +21,8 @@ import { RelativeTimeText } from '@/components/RelativeTimeText';
 import { trimTitle } from '@/components/utils';
 
 interface CopilotBlockProps {
-  copilot: CopilotType;
-  currentTerm: TermType;
+  copilot: CopilotNextType;
+  currentTerm: TermNextType;
   className?: string;
   onIgnore?: (msg: IgnoreMessage) => void;
   readOnly?: boolean;
@@ -36,12 +36,9 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
       [screen],
     );
     const hasAsset = useMemo(() => {
-      return Boolean(copilot.asset_link && copilot.asset_type);
-    }, [copilot.asset_link, copilot.asset_type]);
-    const isHidden = useMemo(
-      () => copilot.title.includes('[hidden]'),
-      [copilot.title],
-    );
+      return Array.isArray(copilot.assets);
+    }, [copilot.assets]);
+
     const displayTitle = useMemo(
       () => trimTitle(copilot.title),
       [copilot.title],
@@ -50,7 +47,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
       <div className={clsx(styles.CopilotBlock, className)}>
         <AdaptiveAuroriansTeam
           onIgnore={onIgnore}
-          aurorianSummaries={copilot.aurorian_summaries}
+          aurorianRequirements={copilot.aurorian_requirements}
           readOnly={readOnly}
         />
         <div className={styles.PaddingContainer}>
@@ -59,7 +56,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
               {numeral(copilot.score).format('0,0')}
             </span>
             <Flex className={styles.Author} align="center">
-              <Typography.Text strong>{copilot.author}</Typography.Text>
+              <Typography.Text strong>{copilot.author_name}</Typography.Text>
               {copilot.description && !isLarge ? (
                 <Typography.Text className={styles.Dot} type="secondary">
                   ·
@@ -92,7 +89,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                       if (info.key === 'ignore') {
                         onIgnore?.({
                           type: 'copilot',
-                          bv: copilot.bv,
+                          copilotId: copilot.copilot_id,
                         });
                       }
                     },
@@ -105,15 +102,14 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
           </Flex>
           <div className={styles.Title}>
             <Typography.Link
-              disabled={isHidden}
-              href={`https://www.bilibili.com/video/${copilot.bv}`}
+              href={`https://www.bilibili.com/video/${copilot.href}`}
               target="_blank"
               title={copilot.title}
               ellipsis={true}
             >
-              {currentTerm?.term &&
-              copilot.rerun_terms?.includes(currentTerm.term) ? (
-                <Tooltip title={`复刻第 ${copilot.term} 期荒典作业`}>
+              {currentTerm?.term_id &&
+              copilot.term_id !== currentTerm.term_id ? (
+                <Tooltip title={`复刻 ${copilot.term_id} 期荒典`}>
                   <Tag color="red">复刻</Tag>
                 </Tooltip>
               ) : null}
@@ -125,28 +121,32 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
               {copilot.description}
             </Typography.Paragraph>
           ) : null}
-          {hasAsset && isLarge ? (
-            <Popconfirm
-              okText="确认"
-              title="此资源仅为临时存档。是否开始下载？"
-              onConfirm={() => {
-                const el = document.createElement('a');
-                el.href = copilot.asset_link!;
-                el.click();
-              }}
-            >
-              <Typography.Link>
-                <Paperclip /> {AssetTypeTextMapper[copilot.asset_type!]}
-                存档
-              </Typography.Link>
-            </Popconfirm>
-          ) : null}
+          {hasAsset && isLarge
+            ? copilot.assets?.map((asset, index) => (
+                <Popconfirm
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${asset.type}${index}`}
+                  okText="确认"
+                  title="此资源仅为临时存档。是否开始下载？"
+                  onConfirm={() => {
+                    const el = document.createElement('a');
+                    el.href = asset.script33.link;
+                    el.click();
+                  }}
+                >
+                  <Typography.Link>
+                    <Paperclip /> {AssetTypeTextMapper[asset.type]}
+                    存档
+                  </Typography.Link>
+                </Popconfirm>
+              ))
+            : null}
         </div>
       </div>
     );
   },
   (prev, next) =>
     prev.className === next.className &&
-    prev.copilot.bv === next.copilot.bv &&
-    prev.currentTerm.term === next.currentTerm.term,
+    prev.copilot.copilot_id === next.copilot.copilot_id &&
+    prev.currentTerm.term_id === next.currentTerm.term_id,
 );

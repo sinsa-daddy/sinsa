@@ -11,4 +11,7 @@ export default defineConfig({
       // ...
     },
   },
+  buildConfig: {
+    buildType: 'bundleless',
+  },
 });
