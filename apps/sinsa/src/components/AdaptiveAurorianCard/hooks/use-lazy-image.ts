@@ -4,11 +4,9 @@ export function useLazyImage(aurorianId?: string) {
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const loadImage = async () => {
-      if (aurorianId) {
-        const href = `https://gitee.com/sinsa-daddy/statics/raw/master/avatars/${aurorianId}.webp`;
-        if (containerRef.current) {
-          containerRef.current.style.backgroundImage = `url(${href})`;
-        }
+      if (aurorianId && containerRef.current) {
+        const module = await import(`@/assets/avatars/${aurorianId}.webp`);
+        containerRef.current.style.backgroundImage = `url(${module.default})`;
       }
     };
     loadImage();
