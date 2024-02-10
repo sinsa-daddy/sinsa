@@ -1,15 +1,19 @@
-import { z } from '@sinsa/schema';
+import { CopilotNextUserSchema, z } from '@sinsa/schema';
 
 export const SimpleLatestCopilotSchema = z.object({
-  insert_db_time: z.coerce.date(),
-  creator: z.object({
-    name: z.string(),
-  }),
-  bv: z.string(),
+  created_time: z.coerce.date(),
+  created_by: z.preprocess(
+    val => (typeof val === 'string' ? JSON.parse(val) : val),
+    CopilotNextUserSchema,
+  ),
+  copilot_id: z.string(),
   score: z.coerce.number(),
+  term_id: z.string(),
+  href: z.string(),
 });
 
-export type SimpleLatestCopilotType = z.infer<typeof SimpleLatestCopilotSchema>;
+export interface SimpleLatestCopilotType
+  extends z.infer<typeof SimpleLatestCopilotSchema> {}
 
 export const SimpleLatestCopilotsResultSchema = z.array(
   SimpleLatestCopilotSchema,

@@ -1,19 +1,18 @@
-import { AurorianRarityType } from '@sinsa/schema';
 import { memoize } from 'lodash-es';
 
-export const getDefaultTooltips = memoize((rarity: AurorianRarityType) => {
+export const getDefaultTooltips = memoize((rarity: number) => {
   switch (rarity) {
-    case AurorianRarityType.Star6:
+    case 6:
       return ['零', '零', '一', '一', '一', '满'].map(txt => `${txt}破`);
-    case AurorianRarityType.Star5:
+    case 5:
       return ['零', '一', '一', '一', '满'].map(txt => `${txt}破`);
-    case AurorianRarityType.Star4:
+    case 4:
       return ['零', '零', '零', '满'].map(txt => `${txt}破`);
-    case AurorianRarityType.Star3:
+    case 3:
       return ['零', '零', '满'].map(txt => `${txt}破`);
-    case AurorianRarityType.Star2:
+    case 2:
       return ['零', '满'].map(txt => `${txt}破`);
-    case AurorianRarityType.Star1:
+    case 1:
       return ['满'].map(txt => `${txt}破`);
     default:
       return [];

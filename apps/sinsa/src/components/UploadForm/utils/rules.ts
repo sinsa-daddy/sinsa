@@ -6,7 +6,7 @@ export const AURORIAN_SUMMARIES_RULES: Rule[] = [
       if (Array.isArray(array) && array.length === 5) {
         // pass
       } else {
-        throw new Error('光灵阵容搭配不正确');
+        throw new Error('光灵数量必须满足 5 个');
       }
     },
   },
@@ -15,6 +15,15 @@ export const AURORIAN_SUMMARIES_RULES: Rule[] = [
 
 export const SCORE_RULES: Rule[] = [
   { required: true },
+  {
+    async validator(_, value) {
+      if (typeof value === 'number' && value.toString().endsWith('0000')) {
+        throw new Error(
+          '不能填写粗略分数, 荒典作业分数必须精确到个位, 请拖动视频进度条到最后查看具体分数',
+        );
+      }
+    },
+  },
   {
     async validator(_, value) {
       if (typeof value === 'number' && Number.isInteger(value) && value > 0) {

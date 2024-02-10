@@ -1,8 +1,6 @@
-import type { CopilotNextType } from '@sinsa/schema';
-import {
-  FeishuCopilotSchema,
-  type FeishuCopilotType,
-} from '../schema/feishu-copilot';
+import type { CopilotNextType } from '../schema/copilot-next';
+import type { FeishuCopilotType } from '../schema/feishu-copilot';
+import { FeishuCopilotSchema } from '../schema/feishu-copilot';
 
 export function toFeishuCopilot(c: CopilotNextType): FeishuCopilotType {
   const val: Record<keyof FeishuCopilotType, unknown> = {

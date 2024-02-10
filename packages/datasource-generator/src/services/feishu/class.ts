@@ -1,6 +1,11 @@
 /* eslint-disable max-depth */
 import { Client, withUserAccessToken } from '@larksuiteoapi/node-sdk';
-import type { AurorianNextType, CopilotNextType } from '@sinsa/schema';
+import {
+  toFeishuCopilot,
+  type AurorianNextType,
+  type CopilotNextType,
+  FeishuCopilotSchema,
+} from '@sinsa/schema';
 import { chunk, memoize } from 'lodash';
 import {
   FeishuTableMetaSchema,
@@ -8,9 +13,7 @@ import {
 } from './schema/feishu-table-meta';
 import { FeishuLegacyCopilotItemSchema } from './schema/feishu-legacy-copilot';
 import { toCopilotFromLegacy } from './helpers/to-copilot-from-legacy';
-import { toFeishuCopilot } from './helpers/to-feishu-copilot';
 import { toCopilotFromFeishu } from './helpers/to-copilot-from-feishu';
-import { FeishuCopilotSchema } from './schema/feishu-copilot';
 
 function log(...args: any) {
   return console.log('[feishu]', ...args);

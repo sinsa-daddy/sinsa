@@ -1,11 +1,11 @@
+import { z } from 'zod';
 import {
-  AurorianRequirementRemarkSchema,
-  CopilotNextAssetSchema,
-  CopilotNextUserSchema,
   CopilotSourceType,
   UNKNOWN_AUTHOR_ID,
-  z,
-} from '@sinsa/schema';
+  CopilotNextUserSchema,
+  AurorianRequirementRemarkSchema,
+  CopilotNextAssetSchema,
+} from './copilot-next';
 
 export const FeishuCopilotSchema = z.object({
   copilot_id: z.string(),

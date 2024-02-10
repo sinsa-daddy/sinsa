@@ -1,7 +1,7 @@
 import { useModel } from '@modern-js/runtime/model';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import type { TermType } from '@sinsa/schema';
+import type { TermNextType } from '@sinsa/schema';
 import { Alert, Button, Typography } from 'antd';
 import { Tips } from '@icon-park/react';
 import styles from './styles.module.less';
@@ -11,18 +11,18 @@ import { useActualLatestTerm } from '@/services/service-worker/use-actual-latest
 export const ServiceWorkerUpdateBanner: React.FC = () => {
   const [terms] = useModel(TermsModel);
   const actualLatestTerm = useActualLatestTerm();
-  const [alertTerm, setAlertTerm] = useState<TermType>();
+  const [alertTerm, setAlertTerm] = useState<TermNextType>();
 
   useEffect(() => {
     if (
-      typeof terms.latestTerm?.term === 'number' &&
-      typeof actualLatestTerm?.term === 'number'
+      typeof terms.latestTerm?.order === 'number' &&
+      typeof actualLatestTerm?.order === 'number'
     ) {
-      if (actualLatestTerm.term > terms.latestTerm.term) {
+      if (actualLatestTerm.order > terms.latestTerm.order) {
         setAlertTerm(actualLatestTerm);
       }
     }
-  }, [terms.latestTerm?.term, actualLatestTerm?.term]);
+  }, [terms.latestTerm?.order, actualLatestTerm?.order]);
 
   if (alertTerm) {
     return (
@@ -31,7 +31,7 @@ export const ServiceWorkerUpdateBanner: React.FC = () => {
         type="error"
         icon={<Tips />}
         banner
-        message={`荒典已经更新至 ${alertTerm.term} 期，刷新页面后可选择`}
+        message={`荒典已经更新至 ${alertTerm.order} 期，刷新页面后可选择`}
         action={
           <Typography.Link
             onClick={e => {

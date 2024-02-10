@@ -9,4 +9,5 @@ export const FeishuProfileSchema = z.object({
   union_id: z.string(),
 });
 
-export type FeishuProfileType = z.infer<typeof FeishuProfileSchema>;
+export interface FeishuProfileType
+  extends z.infer<typeof FeishuProfileSchema> {}

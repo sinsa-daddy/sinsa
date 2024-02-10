@@ -9,6 +9,8 @@ export const BilibiliVideoDetailSchema = z.object({
   desc: z.string(),
   owner: z.object({
     name: z.string(),
+    mid: z.number(),
+    face: z.string(),
   }),
   title: z.string(),
 });

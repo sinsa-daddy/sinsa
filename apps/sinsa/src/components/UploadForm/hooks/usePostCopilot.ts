@@ -1,22 +1,13 @@
 import { useRequest } from 'ahooks';
-import { useModel } from '@modern-js/runtime/model';
-import type { CopilotType } from '@sinsa/schema';
-import { toInputRemoteCopilot } from '../utils/toInputRemoteCopilot';
+import type { CopilotNextType } from '@sinsa/schema';
+import { toFeishuCopilot } from '@sinsa/schema';
 import { postCopilot } from '@/services/http';
-import { AuroriansModel } from '@/models/aurorians';
-import { TermsModel } from '@/models/terms';
 
 export function usePostCopilot() {
-  const [{ auroriansMap }] = useModel(AuroriansModel);
-  const [{ termsMap }] = useModel(TermsModel);
-
   const { loading: loadingPostCopilot, runAsync: postCopilotAsync } =
     useRequest(
-      async (submitCopilot: CopilotType) => {
-        const remoteCopilot = toInputRemoteCopilot(submitCopilot, {
-          termsMap,
-          auroriansMap,
-        });
+      async (submitCopilot: CopilotNextType) => {
+        const remoteCopilot = toFeishuCopilot(submitCopilot);
         const result = await postCopilot(remoteCopilot);
 
         return result;

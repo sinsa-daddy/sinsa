@@ -15,6 +15,7 @@ import { FeishuModel } from '@/models/feishu';
 
 interface LatestVideoCardProps {
   onClickNewCard?: (newBvid: string) => void;
+  currentTermId?: string;
 }
 
 interface LatestVideoCardRef {
@@ -33,7 +34,7 @@ export function useLatestVideoCardRef() {
 export const LatestVideoCard = React.forwardRef<
   LatestVideoCardRef,
   LatestVideoCardProps
->(({ onClickNewCard }, ref) => {
+>(({ onClickNewCard, currentTermId }, ref) => {
   const {
     loadingLatestCopilots,
     loadingLatestVideos,
@@ -53,14 +54,17 @@ export const LatestVideoCard = React.forwardRef<
   }, [isLogin]);
 
   const latestMaxAndMinScoreCopilots = useMemo(() => {
-    const maxScoreCopilot = maxBy(latestCopilots, c => c.score);
-    const minScoreCopilot = minBy(latestCopilots, c => c.score);
+    const currentTermCopilots = latestCopilots?.filter(
+      c => c.term_id === currentTermId,
+    );
+    const maxScoreCopilot = maxBy(currentTermCopilots, c => c.score);
+    const minScoreCopilot = minBy(currentTermCopilots, c => c.score);
 
     return {
       maxScoreCopilot,
       minScoreCopilot,
     };
-  }, [latestCopilots]);
+  }, [latestCopilots, currentTermId]);
 
   useImperativeHandle(
     ref,
@@ -108,7 +112,7 @@ export const LatestVideoCard = React.forwardRef<
           {latestVideos.result.map(video => {
             const displayTitle = trimTitle(video.title);
 
-            const copilotInfo = latestCopilots.find(c => c.bv === video.bvid);
+            const copilotInfo = latestCopilots.find(c => c.href === video.bvid);
 
             const onlyHitAuthor =
               video.hit_columns.length === 1 &&
@@ -129,11 +133,13 @@ export const LatestVideoCard = React.forwardRef<
                     <Flex className={styles.UploadedTagContainer} wrap="wrap">
                       {copilotInfo ? (
                         <Tooltip
-                          title={`${copilotInfo?.creator.name} 于 ${dayjs(
-                            copilotInfo?.insert_db_time,
+                          title={`${copilotInfo?.created_by.name} 于 ${dayjs(
+                            copilotInfo?.created_time,
                           ).format('YYYY-MM-DD HH:mm:ss')} 收录了此作业`}
                         >
-                          <Tag color="green">已收录</Tag>
+                          <Tag color="green">
+                            已收录 by {copilotInfo.created_by.name}
+                          </Tag>
                         </Tooltip>
                       ) : inDenyList ? null : (
                         <Tag color={'#dc5950'}>未收录</Tag>

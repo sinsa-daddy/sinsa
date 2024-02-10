@@ -1,50 +1,50 @@
 import React, { useMemo } from 'react';
 import { useModel } from '@modern-js/runtime/model';
-import { type AurorianType } from '@sinsa/schema';
 import { Flex, Rate, Switch } from 'antd';
-import { RarityMapper } from '../../AurorianCard/constants';
+import type {
+  AurorianNextType,
+  AurorianRequirementRemarkType,
+} from '@sinsa/schema';
+import { produce } from 'immer';
 import styles from './styles.module.less';
 import { getDefaultTooltips } from './utils/getDefaultBreakthrough';
+import { normalizeRemark } from './utils/normalizeRemark';
 import { AuroriansModel } from '@/models/aurorians';
 import { AdaptiveAurorianCard } from '@/components/AdaptiveAurorianCard';
 
 interface AurorianTallCardProps {
-  name: string;
+  id: string;
   breakthrough?: number;
-  isReplaceable?: boolean;
+  remark?: AurorianRequirementRemarkType;
   onBreakthroughChange?: (b: number) => void;
-  onReplaceableChange?: (r: boolean) => void;
+  onRemarkChange?: (r: AurorianRequirementRemarkType | undefined) => void;
 }
 
 export const AurorianTallCard = React.memo<AurorianTallCardProps>(
   ({
-    name,
+    id: name,
     breakthrough,
-    isReplaceable,
+    remark,
     onBreakthroughChange,
-    onReplaceableChange,
+    onRemarkChange,
   }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
-      () => auroriansMap[name] as AurorianType | undefined,
+      () => auroriansMap[name] as AurorianNextType | undefined,
       [auroriansMap, name],
     );
 
     return (
       <Flex vertical align="center" gap={8}>
         <div className={styles.AdaptiveContainer}>
-          <AdaptiveAurorianCard
-            readOnly
-            aurorianId={name}
-            isReplaceable={isReplaceable}
-          />
+          <AdaptiveAurorianCard readOnly aurorianId={name} remark={remark} />
         </div>
 
         {typeof breakthrough === 'number' && aurorian?.rarity ? (
           <Rate
             className={styles.BreakThrough}
             value={breakthrough}
-            count={RarityMapper[aurorian.rarity]}
+            count={aurorian.rarity}
             onChange={onBreakthroughChange}
             tooltips={getDefaultTooltips(aurorian.rarity)}
           />
@@ -52,7 +52,22 @@ export const AurorianTallCard = React.memo<AurorianTallCardProps>(
         <Switch
           checkedChildren="可替换"
           unCheckedChildren="不可替换"
-          onChange={onReplaceableChange}
+          onChange={val => {
+            onRemarkChange?.(
+              normalizeRemark(
+                produce(remark ?? {}, draft => {
+                  if (val) {
+                    draft.replace = {
+                      type: 'any',
+                      any: 'All',
+                    };
+                  } else {
+                    delete draft.replace;
+                  }
+                }),
+              ),
+            );
+          }}
         />
       </Flex>
     );

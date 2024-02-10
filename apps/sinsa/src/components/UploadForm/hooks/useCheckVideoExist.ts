@@ -3,8 +3,8 @@ import { checkVideoExist } from '@/services/http';
 
 export function useCheckVideoExist() {
   const { loading: loadingCheckVideoExist, runAsync: check } = useRequest(
-    async ({ bv, term }: { bv: string; term: string | number }) => {
-      return checkVideoExist({ bv, term });
+    async ({ href, termId }: { href: string; termId: string }) => {
+      return checkVideoExist({ href, termId });
     },
     {
       manual: true,

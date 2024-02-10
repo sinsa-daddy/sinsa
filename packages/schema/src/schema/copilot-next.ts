@@ -14,7 +14,12 @@ export interface AurorianRequirementLevelType
 export const AurorianRequirementReplaceSchema = z
   .object({
     type: z.literal('aurorians'),
-    aurorians: z.array(z.string()),
+    aurorians: z.array(
+      z.object({
+        aurorian_id: z.string(),
+        breakthrough: z.number(),
+      }),
+    ),
   })
   .or(
     z.object({

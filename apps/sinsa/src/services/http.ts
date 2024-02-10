@@ -6,9 +6,9 @@ import {
 } from '@sinsa/schema';
 import { isPlainObject, mapValues } from 'lodash-es';
 import axios from 'axios';
+import type { FeishuCopilotType } from '@sinsa/datasource-generator/dist/types/services/feishu/schema/feishu-copilot';
 import { FeishuProfileSchema } from '@/schemas/feishu-profile';
 import { BilibiliVideoDetailSchema } from '@/schemas/bilibili-video-detail';
-import type { toInputRemoteCopilot } from '@/components/UploadForm/utils/toInputRemoteCopilot';
 
 const http = axios.create({});
 
@@ -102,13 +102,11 @@ export async function getVideoInfo(bv: string) {
 
 /**
  * 判断 B 站视频是否已经收录
- * @param params.bv B 站视频 BV 号
- * @param params.term 检查期数
  * @returns
  */
 export async function checkVideoExist(params: {
-  bv: string;
-  term: string | number;
+  href: string;
+  termId: string;
 }) {
   try {
     const response = await http.get('/api-upload/lark/check', {
@@ -126,9 +124,7 @@ export async function checkVideoExist(params: {
  * @param remoteCopilot 远程作业适配类型
  * @returns 提交结果
  */
-export async function postCopilot(
-  remoteCopilot: ReturnType<typeof toInputRemoteCopilot>,
-) {
+export async function postCopilot(remoteCopilot: FeishuCopilotType) {
   try {
     const response = await http.post('/api-upload/lark/copilot', remoteCopilot);
     return response.data;

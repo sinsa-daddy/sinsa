@@ -1,7 +1,6 @@
 import { Card, Flex } from 'antd';
 import { LarkLoginCard } from './LarkLoginCard';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface UploadViewProps {}
 
 export const UploadView: React.FC<UploadViewProps> = () => {

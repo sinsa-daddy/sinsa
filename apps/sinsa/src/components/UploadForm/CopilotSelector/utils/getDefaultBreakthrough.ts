@@ -1,19 +1,18 @@
-import { AurorianRarityType } from '@sinsa/schema';
 import { memoize } from 'lodash-es';
 
-export const getDefaultBreakthrough = memoize((rarity: AurorianRarityType) => {
+export const getDefaultBreakthrough = memoize((rarity: number) => {
   switch (rarity) {
-    case AurorianRarityType.Star6:
+    case 6:
       return 2;
-    case AurorianRarityType.Star5:
+    case 5:
       return 1;
-    case AurorianRarityType.Star4:
+    case 4:
       return 4;
-    case AurorianRarityType.Star3:
+    case 3:
       return 3;
-    case AurorianRarityType.Star2:
+    case 2:
       return 2;
-    case AurorianRarityType.Star1:
+    case 1:
       return 1;
     default:
       return 0;

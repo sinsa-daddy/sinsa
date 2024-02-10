@@ -4,6 +4,7 @@ import {
   ProFormDateTimePicker,
   ProFormDependency,
   ProFormDigit,
+  ProFormRadio,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
@@ -12,8 +13,8 @@ import { useModel } from '@modern-js/runtime/model';
 import dayjs from 'dayjs';
 import { Button, Card, Typography, notification } from 'antd';
 import { useMemo } from 'react';
-import { CopilotSchema } from '@sinsa/schema';
 import numeral from 'numeral';
+import { CopilotNextSchema, CopilotSourceType } from '@sinsa/schema';
 import { LatestVideoCard, useLatestVideoCardRef } from '../LatestVideoCard';
 import type { FormValues } from './types';
 import { CopilotnSelector } from './CopilotSelector';
@@ -21,14 +22,16 @@ import styles from './styles.module.less';
 import { useVideoInfo } from './hooks/useVideoInfo';
 import { VideoIframe } from './VideoIframe';
 import { AURORIAN_SUMMARIES_RULES, SCORE_RULES } from './utils/rules';
-import { autoSetTerm, trimBV } from './utils/preprocess';
+import { trimBV } from './utils/preprocess';
 import { useCheckVideoExist } from './hooks/useCheckVideoExist';
 import { usePostCopilot } from './hooks/usePostCopilot';
+import { ensureKey } from './utils/ensure';
+import { getCopilotId } from './utils/get-copilot-id';
 import { TermsModel } from '@/models/terms';
 import { FeishuModel } from '@/models/feishu';
 
 export const UploadForm: React.FC = () => {
-  const [{ termsOptions, latestTerm: currentTerm }] = useModel(TermsModel);
+  const [{ termsOptions, latestTerm }] = useModel(TermsModel);
   const [{ isLogin }] = useModel(FeishuModel);
 
   const { videoInfo, loadingVideoInfo, getVideoInfo, setVideoInfo } =
@@ -41,21 +44,24 @@ export const UploadForm: React.FC = () => {
   const [form] = ProForm.useForm<FormValues>();
 
   const initialValues: Partial<FormValues> = useMemo(() => {
-    const result: Partial<FormValues> = {};
-    if (currentTerm?.term) {
-      result.term = currentTerm.term;
+    const result: Partial<FormValues> = {
+      source_type: CopilotSourceType.Bilibili,
+    };
+    if (latestTerm?.term_id) {
+      result.term_id = latestTerm.term_id;
     }
     return result;
-  }, [currentTerm?.term]);
+  }, [latestTerm?.term_id]);
 
   const latestVideoCardRef = useLatestVideoCardRef();
 
   return (
     <>
       <LatestVideoCard
+        currentTermId={form.getFieldValue(ensureKey('term_id'))}
         ref={latestVideoCardRef}
         onClickNewCard={bvid => {
-          form.setFieldValue('bv', bvid);
+          form.setFieldValue(ensureKey('href'), bvid);
         }}
       />
       <Card>
@@ -82,12 +88,12 @@ export const UploadForm: React.FC = () => {
             console.log('开始提交', values);
 
             try {
-              const submitCopilot = await CopilotSchema.parseAsync(values);
+              const submitCopilot = await CopilotNextSchema.parseAsync(values);
               const result = await postCopilotAsync(submitCopilot);
 
               if (result?.record?.record_id) {
                 notification.success({
-                  message: `醒山小狗已经成功帮您添加了一份作业，record_id 为 ${result?.record?.record_id}`,
+                  message: `醒山小狗已经成功帮您添加了一份作业, record_id 为 ${result?.record?.record_id}`,
                 });
                 form.resetFields();
                 setVideoInfo(undefined);
@@ -105,36 +111,55 @@ export const UploadForm: React.FC = () => {
               console.error('解析失败', error);
             }
           }}
+          onValuesChange={(_, all) => {
+            console.log('changed', all);
+            setTimeout(() => {
+              const result = CopilotNextSchema.omit({
+                created_by: true,
+                created_time: true,
+              }).safeParse({
+                ...all,
+                copilot_id: getCopilotId(all),
+              });
+              console.log('result', result);
+            });
+          }}
         >
           <ProForm.Group>
             <ProFormSelect
-              name="term"
+              name={ensureKey('term_id')}
               label="荒典期数"
               options={termsOptions}
               rules={[{ required: true }]}
               width={'sm'}
               showSearch={false}
-              onChange={nextTerm => {
-                if (typeof nextTerm === 'number') {
-                  autoSetTerm(form, nextTerm);
-                }
-              }}
             />
-            <ProFormSelect
-              name="rerun_terms"
-              label="可被复用荒典期数"
-              options={termsOptions}
-              width={'md'}
-              showSearch={false}
-              fieldProps={{ mode: 'multiple' }}
-              tooltip="例如第 14 期荒典作业可被第 24 期荒典复用, 那么上一个选项荒典期数选择 14 期，此选项可被复用荒典期数选择 24 期"
+            <ProFormRadio.Group
+              name={ensureKey('source_type')}
+              label="投稿平台"
+              radioType="button"
+              options={useMemo(
+                () => [
+                  {
+                    label: '哔哩哔哩',
+                    value: CopilotSourceType.Bilibili,
+                  },
+                  {
+                    label: 'Youtube',
+                    value: CopilotSourceType.Youtube,
+                    disabled: true,
+                  },
+                ],
+                [],
+              )}
+              rules={[{ required: true }]}
             />
           </ProForm.Group>
           <ProForm.Group>
-            <ProFormDependency name={['term']}>
-              {({ term }) => (
+            <ProFormDependency name={[ensureKey('term_id')]}>
+              {({ term_id }) => (
                 <ProFormText
-                  name="bv"
+                  name={ensureKey('href')}
                   label="BV号或B站视频链接"
                   placeholder={
                     'BVxxxxxxxxxx 或 https://www.bilibili.com/video/BVxxxxxxxxxx/'
@@ -153,7 +178,10 @@ export const UploadForm: React.FC = () => {
                     {
                       async validator(_, bv) {
                         if (typeof bv === 'string' && bv.startsWith('BV')) {
-                          const result = await check({ bv, term });
+                          const result = await check({
+                            href: bv,
+                            termId: term_id,
+                          });
                           if (result?.noExist || result?.target) {
                             if (result?.target) {
                               const errorMessage = `${
@@ -176,31 +204,32 @@ export const UploadForm: React.FC = () => {
               )}
             </ProFormDependency>
             <ProForm.Item label=" ">
-              <ProFormDependency name={['bv']}>
-                {({ bv }) => (
+              <ProFormDependency name={[ensureKey('href')]}>
+                {({ href }) => (
                   <Button
                     disabled={
                       !isLogin ||
-                      !(typeof bv === 'string' && bv.startsWith('BV'))
+                      !(typeof href === 'string' && href.startsWith('BV'))
                     }
                     type="primary"
                     loading={loadingVideoInfo}
                     onClick={async e => {
                       e.stopPropagation();
-                      const result = await getVideoInfo(bv);
+                      const result = await getVideoInfo(href);
 
                       if (result) {
                         const { title, desc, owner, pubdate } = result;
                         form.setFieldsValue({
                           title,
                           description: desc === '-' ? undefined : desc,
-                          author: owner.name,
+                          author_id: String(owner.mid),
+                          author_name: owner.name,
                           upload_time: pubdate.valueOf(),
                         });
                       }
                     }}
                   >
-                    读取视频信息
+                    读取哔哩哔哩投稿视频信息
                   </Button>
                 )}
               </ProFormDependency>
@@ -210,7 +239,7 @@ export const UploadForm: React.FC = () => {
 
           <ProForm.Item
             label="光灵阵容"
-            name="aurorian_summaries"
+            name={ensureKey('aurorian_requirements')}
             rules={AURORIAN_SUMMARIES_RULES}
           >
             <CopilotnSelector />
@@ -218,7 +247,7 @@ export const UploadForm: React.FC = () => {
 
           <ProFormDigit
             label="结算分数"
-            name="score"
+            name={ensureKey('score')}
             validateTrigger="onBlur"
             rules={SCORE_RULES}
             min={0}
@@ -228,7 +257,7 @@ export const UploadForm: React.FC = () => {
               size: 'large',
             }}
             extra={
-              <ProFormDependency name={['score']}>
+              <ProFormDependency name={[ensureKey('score')]}>
                 {partialValues => {
                   const { score } = partialValues as Pick<FormValues, 'score'>;
                   if (
@@ -272,20 +301,27 @@ export const UploadForm: React.FC = () => {
 
           <ProFormText
             label="视频标题"
-            name="title"
+            name={ensureKey('title')}
             rules={[{ required: true }]}
           />
 
           <ProForm.Group>
             <ProFormDateTimePicker
               label="视频发布时间"
-              name={'upload_time'}
+              name={ensureKey('upload_time')}
               rules={[{ required: true }]}
             />
             <ProFormText
               label="作业作者"
-              name={'author'}
+              name={ensureKey('author_name')}
               rules={[{ required: true }]}
+            />
+            <ProFormText
+              label="作业作者空间 ID"
+              name={ensureKey('author_id')}
+              rules={[{ required: true }]}
+              placeholder={`space.bilibili.com/[这一段数字填进来]`}
+              width={'md'}
             />
             <ProFormTextArea label="视频描述" name="description" width={'xl'} />
           </ProForm.Group>

@@ -10,7 +10,9 @@ export const FeishuModel = model<FeishuState>('feishu').define({
     profile: undefined,
   },
   computed: {
-    isLogin: state => typeof state.profile?.name === 'string',
+    isLogin: state =>
+      typeof state.profile?.name === 'string' &&
+      typeof state.profile?.open_id === 'string',
   },
   actions: {},
 });
