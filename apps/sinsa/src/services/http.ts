@@ -1,4 +1,8 @@
-import type { CopilotNextType, TermNextType } from '@sinsa/schema';
+import type {
+  CopilotNextType,
+  FeishuCopilotType,
+  TermNextType,
+} from '@sinsa/schema';
 import {
   AurorianNextSchema,
   CopilotNextSchema,
@@ -6,7 +10,6 @@ import {
 } from '@sinsa/schema';
 import { isPlainObject, mapValues } from 'lodash-es';
 import axios from 'axios';
-import type { FeishuCopilotType } from '@sinsa/datasource-generator/dist/types/services/feishu/schema/feishu-copilot';
 import { FeishuProfileSchema } from '@/schemas/feishu-profile';
 import { BilibiliVideoDetailSchema } from '@/schemas/bilibili-video-detail';
 

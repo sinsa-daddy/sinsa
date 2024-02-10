@@ -4,8 +4,10 @@ import {
   cleanupOutdatedCaches,
 } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { NetworkFirst } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 import { clientsClaim, skipWaiting } from 'workbox-core';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { ExpirationPlugin } from 'workbox-expiration';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -14,12 +16,30 @@ clientsClaim();
 cleanupOutdatedCaches();
 
 registerRoute(
-  /\/api\/copilots\/\d+\.json/,
+  /\/api\/v2\/copilots\/cn-\d+\.json/,
   new NetworkFirst({
     cacheName: 'Copilots',
     networkTimeoutSeconds: 3,
   }),
   'GET',
+);
+
+registerRoute(
+  ({ url, request }) =>
+    url.host === 'gitee.com' &&
+    url.pathname.startsWith('/sinsa-daddy/statics/raw/master/avatars') &&
+    request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'AurorianAvatars',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+      }),
+    ],
+  }),
 );
 
 addPlugins([

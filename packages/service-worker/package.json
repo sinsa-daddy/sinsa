@@ -11,6 +11,8 @@
     "upgrade": "modern upgrade"
   },
   "dependencies": {
+    "workbox-cacheable-response": "^7.0.0",
+    "workbox-expiration": "^7.0.0",
     "workbox-recipes": "^7.0.0"
   },
   "devDependencies": {
