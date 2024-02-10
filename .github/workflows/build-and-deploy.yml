@@ -23,18 +23,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # - name: Cache turbo build setup
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       apps/sinsa/dist
-      #       packages/datasource-generator/dist
-      #       packages/schema/dist
-      #       packages/service-worker/dist
-      #       packages/solution-calculator/dist
-      #     key: ${{ runner.os }}-turbo-${{ github.sha }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-turbo-
+      - name: Cache turbo build setup
+        uses: actions/cache@v3
+        with:
+          path: |
+            apps/sinsa/dist
+            packages/datasource-generator/dist
+            packages/schema/dist
+            packages/service-worker/dist
+            packages/solution-calculator/dist
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Use pnpm@8
         uses: pnpm/action-setup@v2
         with:
