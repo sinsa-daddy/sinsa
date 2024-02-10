@@ -48,7 +48,12 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build
         env:
-          LARK_SINSA_PUPPY_APP_SECRET: ${{ secrets.LARK_SINSA_PUPPY_APP_SECRET }}
+          NOTION_READ_TOKEN: ${{ secrets.NOTION_READ_TOKEN }}
+          NOTION_AURORIAN_DATABASE_ID: ${{ secrets.NOTION_AURORIAN_DATABASE_ID }}
+          NOTION_TERM_DATABASE_ID: ${{ secrets.NOTION_TERM_DATABASE_ID }}
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_COPILOT_APP_ID: ${{ secrets.FEISHU_COPILOT_APP_ID }}
         run: pnpm run build
       - name: Generate SW
         run: cd ./apps/sinsa && pnpm run format-output && pnpm run sw
