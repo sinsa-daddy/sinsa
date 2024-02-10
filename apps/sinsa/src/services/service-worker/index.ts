@@ -33,15 +33,14 @@ export class ServiceWorkerService {
       wb.addEventListener('activated', event => {
         if (!event.isUpdate) {
           notification.success({
-            message: `缓存完成`,
-            description: `作业站可以离线本地使用了`,
+            message: `缓存完成, 作业站可以离线本地使用了`,
             duration: 3,
             placement: 'bottom',
           });
         } else {
           notification.success({
-            message: `作业站已更新到最新版本`,
-            duration: 2,
+            message: `缓存已更新, 刷新页面后生效`,
+            duration: 3,
             placement: 'bottom',
           });
         }
