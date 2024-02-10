@@ -14,6 +14,7 @@ import type { QueryParamsType } from '../schemas/query-params';
 import { useSolutionResultContext } from '../context';
 import { useInitialValues } from './hooks/use-initial-values';
 import { EXTENDED_TEAM_COUNT } from './constants';
+import { ensureQueryKey } from './utils';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
 
 interface QueryFormProps {
@@ -93,7 +94,7 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
     >
       <ProForm.Group>
         <ProFormRadio.Group
-          name={'k'}
+          name={ensureQueryKey('k')}
           label="队伍数量"
           rules={[{ required: true }]}
           options={EXTENDED_TEAM_COUNT}
@@ -101,17 +102,17 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
           radioType="button"
         />
         <ProFormSwitch
-          name={'disableAlternative'}
+          name={ensureQueryKey('disableAlternative')}
           label="不考虑可替自由位"
           tooltip="开启后，计算的队伍方案中绝对不会出现重复光灵，满足图鉴大佬的强迫症"
         />
         <ProForm.Group>
           <ProFormSwitch
-            name="enableExclude"
+            name={ensureQueryKey('enableExclude')}
             label="额外排除光灵"
             tooltip="排除光灵会忽略可替自由位"
           />
-          <ProFormDependency name={['enableExclude']}>
+          <ProFormDependency name={[ensureQueryKey('enableExclude')]}>
             {({ enableExclude }: Pick<QueryParamsType, 'enableExclude'>) => {
               return enableExclude ? (
                 <ExcludeAurorianFormList name={'exclude'} />
@@ -120,17 +121,17 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
           </ProFormDependency>
         </ProForm.Group>
         <ProFormSwitch
-          name={'enableSaveLocalStorage'}
+          name={ensureQueryKey('enableSaveLocalStorage')}
           label="记住我的设置"
           tooltip="开启后，这一期荒典筛选的设置将会储存在您的浏览器本地，避免繁琐重复筛选"
         />
       </ProForm.Group>
-      <ProFormDependency name={['copilotsIgnore']}>
+      <ProFormDependency name={[ensureQueryKey('copilotsIgnore')]}>
         {({ copilotsIgnore }: Pick<QueryParamsType, 'copilotsIgnore'>) => {
           return copilotsIgnore?.length ? (
             <ProFormSelect
               mode="multiple"
-              name={'copilotsIgnore'}
+              name={ensureQueryKey('copilotsIgnore')}
               label="已额外排除的作业"
               options={ignoreOptions}
             />

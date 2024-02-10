@@ -9,6 +9,7 @@ import { useModel } from '@modern-js/runtime/model';
 import { Button, Select, Tooltip } from 'antd';
 import { Delete } from '@icon-park/react';
 import { AdaptiveAurorianCard } from '../AdaptiveAurorianCard';
+import { ensureExcludeKey } from './utils';
 import { AuroriansModel, filterAuroriansOption } from '@/models/aurorians';
 
 interface ExcludeFormListProps {
@@ -47,7 +48,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
           <ProForm.Group>
             <ProForm.Item
               label="排除的光灵"
-              name={'aurorianId'}
+              name={ensureExcludeKey('aurorianId')}
               rules={[{ required: true }]}
             >
               <Select
@@ -58,10 +59,7 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
                 filterOption={filterAuroriansOption}
               />
             </ProForm.Item>
-            <ProFormDependency
-              key="excludeBreakthroughOnly"
-              name={['aurorianId']}
-            >
+            <ProFormDependency name={[ensureExcludeKey('aurorianId')]}>
               {({ aurorianId }) => {
                 if (aurorianId) {
                   return (
@@ -75,16 +73,13 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
                 return null;
               }}
             </ProFormDependency>
-            <ProFormDependency
-              key="excludeBreakthroughOnly"
-              name={['aurorianName']}
-            >
-              {({ aurorianName }) => {
-                if (aurorianName) {
+            <ProFormDependency name={[ensureExcludeKey('aurorianId')]}>
+              {({ aurorianId }) => {
+                if (aurorianId) {
                   return (
                     <ProFormSwitch
                       label="仅排除突破"
-                      name="excludeBreakthroughOnly"
+                      name={ensureExcludeKey('excludeBreakthroughOnly')}
                     />
                   );
                 }
@@ -93,15 +88,17 @@ export const ExcludeAurorianFormList: React.FC<ExcludeFormListProps> = ({
             </ProFormDependency>
 
             <ProFormDependency
-              key="excludeBreakthrough"
-              name={['aurorianName', 'excludeBreakthroughOnly']}
+              name={[
+                ensureExcludeKey('aurorianId'),
+                ensureExcludeKey('excludeBreakthroughOnly'),
+              ]}
             >
-              {({ aurorianName, excludeBreakthroughOnly }) => {
-                const targetAurorian = auroriansMap[aurorianName];
+              {({ aurorianId, excludeBreakthroughOnly }) => {
+                const targetAurorian = auroriansMap[aurorianId];
                 if (excludeBreakthroughOnly && targetAurorian) {
                   return (
                     <ProFormRate
-                      name="excludeBreakthrough"
+                      name={ensureExcludeKey('excludeBreakthrough')}
                       label="排除突破数"
                       fieldProps={{
                         count: targetAurorian.rarity,
