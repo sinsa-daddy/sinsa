@@ -56,7 +56,7 @@ jobs:
           FEISHU_COPILOT_APP_ID: ${{ secrets.FEISHU_COPILOT_APP_ID }}
         run: pnpm run build
       - name: Generate SW
-        run: cd ./apps/sinsa && pnpm run format-output && pnpm run sw
+        run: cd ./apps/sinsa && pnpm run generate
       # - name: Upload artifact
       #   uses: actions/upload-pages-artifact@v2
       #   with:

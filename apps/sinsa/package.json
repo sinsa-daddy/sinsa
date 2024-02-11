@@ -16,7 +16,8 @@
     "sw": "workbox injectManifest workbox-config.js",
     "ua": "modern update-notion-aurorians",
     "fn": "modern fetch-data-next",
-    "uc": "modern update-feishu-copilots"
+    "uc": "modern update-feishu-copilots",
+    "generate": "modern format-output"
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
