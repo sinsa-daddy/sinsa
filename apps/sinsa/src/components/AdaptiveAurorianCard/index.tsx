@@ -14,7 +14,7 @@ import type { IgnoreMessage } from '../types';
 import styles from './styles.module.less';
 import { useLazyImage } from './hooks/use-lazy-image';
 import { ClassURLMapper, ElementURLMapper } from './constants';
-import ASC3URL from './assets/Asc3.webp';
+import { IconAsc } from './components/asc';
 import { AuroriansModel } from '@/models/aurorians';
 import { getNormalizeBreakthroughByRarity } from '@/views/SolutionView/utils/without-exclude';
 
@@ -132,12 +132,6 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
                 ) : null}
               </Flex>
               <Flex align="center" className={styles.MetaContainer}>
-                {/* {count++ % 2 === 1 ? (
-                  <Flex align="center" gap={2}>
-                    <img className={styles.asc} src={ASC3URL} alt="asc3" />
-                    <span className={styles.num}>80</span>
-                  </Flex>
-                ) : null} */}
                 <img
                   className={styles.MetaClass}
                   alt={aurorian.profession}
@@ -170,11 +164,12 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
               任意输出
             </Tag>
           ) : null}
-          {remark?.replace?.type === 'any' ? null : remark?.level?.asc === 3 &&
+          {remark?.replace?.type === 'any' ? null : aurorian?.rarity &&
+            remark?.level?.asc === 3 &&
             typeof remark?.level?.lv === 'number' ? (
             <Tag className={styles.RemarkContainer} color={'rgba(0,0,0,0.4)'}>
               <Flex align="center" gap={2}>
-                <img className={styles.asc} src={ASC3URL} alt="asc3" />
+                <IconAsc rairty={aurorian.rarity} asc={3} />
                 <span className={styles.num}>{remark?.level?.lv}</span>
               </Flex>
             </Tag>
