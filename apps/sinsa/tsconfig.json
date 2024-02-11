@@ -11,5 +11,5 @@
     "module": "ESNext"
   },
   "include": ["src", "shared", "config", "plugins", "modern.config.ts"],
-  "exclude": ["**/node_modules"]
+  "exclude": ["**/node_modules", "config/public/sw.js"]
 }
