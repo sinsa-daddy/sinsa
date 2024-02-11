@@ -1,10 +1,6 @@
 import { cleanupOutdatedCaches } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import {
-  CacheFirst,
-  NetworkFirst,
-  StaleWhileRevalidate,
-} from 'workbox-strategies';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 import { clientsClaim } from 'workbox-core';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
@@ -43,28 +39,28 @@ registerRoute(
   }),
 );
 
-registerRoute(
-  ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
-  new StaleWhileRevalidate({
-    cacheName: 'StaticHTML',
-  }),
-);
+// registerRoute(
+//   ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
+//   new StaleWhileRevalidate({
+//     cacheName: 'StaticHTML',
+//   }),
+// );
 
-registerRoute(
-  ({ sameOrigin, request }) => sameOrigin && request.destination === 'script',
-  new CacheFirst({
-    cacheName: 'StaticScripts',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-      new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 14 * 24 * 60 * 60,
-      }),
-    ],
-  }),
-);
+// registerRoute(
+//   ({ sameOrigin, request }) => sameOrigin && request.destination === 'script',
+//   new CacheFirst({
+//     cacheName: 'StaticScripts',
+//     plugins: [
+//       new CacheableResponsePlugin({
+//         statuses: [0, 200],
+//       }),
+//       new ExpirationPlugin({
+//         maxEntries: 30,
+//         maxAgeSeconds: 14 * 24 * 60 * 60,
+//       }),
+//     ],
+//   }),
+// );
 
 registerRoute(
   ({ sameOrigin, request }) => sameOrigin && request.destination === 'image',
