@@ -137,9 +137,7 @@ export const LatestVideoCard = React.forwardRef<
                             copilotInfo?.created_time,
                           ).format('YYYY-MM-DD HH:mm:ss')} 收录了此作业`}
                         >
-                          <Tag color="green">
-                            已收录 by {copilotInfo.created_by.name}
-                          </Tag>
+                          <Tag color="green">已收录</Tag>
                         </Tooltip>
                       ) : inDenyList ? null : (
                         <Tag color={'#dc5950'}>未收录</Tag>
