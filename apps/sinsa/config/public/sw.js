@@ -1,7 +1,23 @@
 /* eslint-disable no-undef */
 // sw.js
 
-self.addEventListener('install', () => {
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames
+          .filter(function () {
+            // Return true if you want to remove this cache,
+            // but remember that caches are shared across
+            // the whole origin
+            return true;
+          })
+          .map(function (cacheName) {
+            return caches.delete(cacheName);
+          }),
+      );
+    }),
+  );
   // Skip over the "waiting" lifecycle state, to ensure that our
   // new service worker is activated immediately, even if there's
   // another tab open controlled by our older service worker code.
