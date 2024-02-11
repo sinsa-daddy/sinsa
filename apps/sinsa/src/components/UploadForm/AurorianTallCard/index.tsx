@@ -123,7 +123,7 @@ export const AurorianTallCard: React.FC<AurorianTallCardProps> = ({
       {typeof aurorian?.rarity === 'number' &&
       aurorian.rarity >= 4 &&
       !remark?.replace ? (
-        <Flex align="center" gap={2} wrap={'wrap'} vertical={true}>
+        <Flex align="center" gap={6} wrap={'wrap'} vertical={true}>
           <Switch
             checkedChildren="标注练度"
             unCheckedChildren="不标注练度"
