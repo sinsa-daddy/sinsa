@@ -44,9 +44,40 @@ registerRoute(
 );
 
 registerRoute(
-  ({ sameOrigin, request }) => sameOrigin && request.destination === 'script',
+  ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
   new StaleWhileRevalidate({
+    cacheName: 'StaticHTML',
+  }),
+);
+
+registerRoute(
+  ({ sameOrigin, request }) => sameOrigin && request.destination === 'script',
+  new CacheFirst({
     cacheName: 'StaticScripts',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 14 * 24 * 60 * 60,
+      }),
+    ],
+  }),
+);
+
+registerRoute(
+  ({ sameOrigin, request }) => sameOrigin && request.destination === 'image',
+  new CacheFirst({
+    cacheName: 'StaticImages',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30
+      }),
+    ],
   }),
 );
 
