@@ -156,12 +156,12 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
           ) : null}
           {remark?.replace?.type === 'any' && remark?.replace?.any === 'All' ? (
             <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
-              任意
+              可替
             </Tag>
           ) : null}
           {remark?.replace?.type === 'any' && remark?.replace?.any === 'DPS' ? (
             <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
-              任意输出
+              可替输出
             </Tag>
           ) : null}
           {remark?.replace?.type === 'any' ? null : aurorian?.rarity &&
