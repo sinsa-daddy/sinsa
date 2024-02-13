@@ -47,6 +47,9 @@ importers:
       '@ant-design/pro-components':
         specifier: ^2.6.43
         version: 2.6.43(antd@5.11.3)(rc-field-form@1.40.0)(react-dom@18.2.0)(react@18.2.0)
+      '@ebay/nice-modal-react':
+        specifier: ^1.2.13
+        version: 1.2.13(react-dom@18.2.0)(react@18.2.0)
       '@icon-park/react':
         specifier: ^1.4.2
         version: 1.4.2(react-dom@18.2.0)(react@18.2.0)
@@ -2804,6 +2807,16 @@ packages:
     dependencies:
       react: 18.2.0
       tslib: 2.6.2
+    dev: false
+
+  /@ebay/nice-modal-react@1.2.13(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-jx8xIWe/Up4tpNuM02M+rbnLoxdngTGk3Y8LjJsLGXXcSoKd/+eZStZcAlIO/jwxyz/bhPZnpqPJZWAmhOofuA==}
+    peerDependencies:
+      react: '>16.8.0'
+      react-dom: '>16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@emotion/hash@0.8.0:

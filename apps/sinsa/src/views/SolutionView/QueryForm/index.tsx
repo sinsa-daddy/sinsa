@@ -115,7 +115,7 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
           <ProFormDependency name={[ensureQueryKey('enableExclude')]}>
             {({ enableExclude }: Pick<QueryParamsType, 'enableExclude'>) => {
               return enableExclude ? (
-                <ExcludeAurorianFormList name={'exclude'} />
+                <ExcludeAurorianFormList name={ensureQueryKey('exclude')} />
               ) : null;
             }}
           </ProFormDependency>

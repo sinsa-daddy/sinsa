@@ -22,6 +22,7 @@
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
     "@ant-design/pro-components": "^2.6.43",
+    "@ebay/nice-modal-react": "^1.2.13",
     "@icon-park/react": "^1.4.2",
     "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",
