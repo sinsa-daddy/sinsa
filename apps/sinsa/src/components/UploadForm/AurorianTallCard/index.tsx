@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useMemo } from 'react';
 import { useModel } from '@modern-js/runtime/model';
-import { Flex, Radio, Rate, Slider, Switch } from 'antd';
+import { Flex, InputNumber, Radio, Rate, Slider, Space, Switch } from 'antd';
 import type {
   AurorianNextType,
   AurorianRequirementRemarkType,
@@ -39,9 +39,7 @@ const MARKS = {
   20: '20',
   30: '30',
   40: '40',
-  50: '50',
   60: '60',
-  70: '70',
   80: '80',
 };
 
@@ -158,25 +156,45 @@ export const AurorianTallCard: React.FC<AurorianTallCardProps> = ({
                 value={remark?.level?.asc ?? 0}
                 options={ASC_OPTIONS}
               />
-              <Slider
-                style={{ width: 200 }}
-                value={remark?.level?.lv ?? 0}
-                min={1}
-                max={80}
-                marks={MARKS}
-                onChange={val => {
-                  onRemarkChange?.(
-                    normalizeRemark(
-                      produce(remark ?? {}, draft => {
-                        if (draft.level) {
-                          draft.level.lv = val;
-                        }
-                      }),
-                    ),
-                  );
-                }}
-                step={null}
-              />
+              <Space>
+                <Slider
+                  style={{ width: 180 }}
+                  value={remark?.level?.lv ?? 0}
+                  min={1}
+                  max={80}
+                  marks={MARKS}
+                  onChange={val => {
+                    onRemarkChange?.(
+                      normalizeRemark(
+                        produce(remark ?? {}, draft => {
+                          if (draft.level) {
+                            draft.level.lv = val;
+                          }
+                        }),
+                      ),
+                    );
+                  }}
+                  step={null}
+                />
+                <InputNumber
+                  style={{ width: 60 }}
+                  size="small"
+                  value={remark?.level?.lv ?? 0}
+                  min={1}
+                  max={80}
+                  onChange={val => {
+                    onRemarkChange?.(
+                      normalizeRemark(
+                        produce(remark ?? {}, draft => {
+                          if (draft.level) {
+                            draft.level.lv = val ?? 0;
+                          }
+                        }),
+                      ),
+                    );
+                  }}
+                />
+              </Space>
             </Flex>
           ) : null}
         </Flex>
