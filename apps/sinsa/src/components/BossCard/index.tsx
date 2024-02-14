@@ -40,7 +40,7 @@ export const BossCard = React.memo<BossCardProps>(
                 alt={reversedMatchedElement}
                 src={ElementURLMapper[reversedMatchedElement]}
               />{' '}
-              属性有利
+              属性克制伤害增加 100%
             </li>
             {features.split('\n').map(text => {
               return <li key={text}>{text}</li>;
