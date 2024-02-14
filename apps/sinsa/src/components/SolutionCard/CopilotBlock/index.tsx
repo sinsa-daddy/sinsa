@@ -115,12 +115,21 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                   }
                   onClick={e => {
                     e.stopPropagation();
+                    const params = {
+                      有收录问题的作业所在荒典期数: copilot.term_id,
+                      有收录问题的作业视频链接: `${copilot.author_name} ${copilot.title} https://www.bilibili.com/video/${copilot.href}`,
+                    };
+
+                    const queryString = Object.entries(params)
+                      .map(
+                        ([key, value]) =>
+                          `prefill_${window.encodeURIComponent(
+                            key,
+                          )}=${window.encodeURIComponent(value)}`,
+                      )
+                      .join('&');
                     window.open(
-                      `https://fwf92qm5h53.feishu.cn/share/base/form/shrcnFMYfIOulCFwcl5ELDfGCVf?prefill_${window.encodeURIComponent(
-                        '收录有问题的作业视频链接',
-                      )}=${window.encodeURIComponent(
-                        `${copilot.author_name} ${copilot.title} https://www.bilibili.com/video/${copilot.href}`,
-                      )}`,
+                      `https://fwf92qm5h53.feishu.cn/share/base/form/shrcnFMYfIOulCFwcl5ELDfGCVf?${queryString}`,
                     );
                   }}
                 />
