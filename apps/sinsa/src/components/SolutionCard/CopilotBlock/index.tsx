@@ -130,6 +130,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                       .join('&');
                     window.open(
                       `https://fwf92qm5h53.feishu.cn/share/base/form/shrcnFMYfIOulCFwcl5ELDfGCVf?${queryString}`,
+                      '_blank',
                     );
                   }}
                 />
