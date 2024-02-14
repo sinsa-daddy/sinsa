@@ -1,9 +1,10 @@
 import type { TermNextType } from '@sinsa/schema';
 import { Card, Flex } from 'antd';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { RelativeTimeText } from '../RelativeTimeText';
 import { ElementURLMapper } from '../AdaptiveAurorianCard/constants';
 import styles from './styles.module.less';
+import { REVERSED_MATCH_UP } from '@/services/matchup';
 
 export interface BossCardProps {
   term: TermNextType;
@@ -12,6 +13,10 @@ export interface BossCardProps {
 export const BossCard = React.memo<BossCardProps>(
   ({ term }) => {
     const { boss_name, features, end_time, boss_element } = term;
+
+    const reversedMatchedElement = useMemo(() => {
+      return REVERSED_MATCH_UP[boss_element];
+    }, [boss_element]);
 
     return (
       <Card className={styles.Card}>
@@ -29,6 +34,14 @@ export const BossCard = React.memo<BossCardProps>(
             结束
           </span>
           <ul className={styles.FeaturesContainer}>
+            <li key={'matchup'}>
+              <img
+                className={styles.FeatureElement}
+                alt={reversedMatchedElement}
+                src={ElementURLMapper[reversedMatchedElement]}
+              />{' '}
+              属性有利
+            </li>
             {features.split('\n').map(text => {
               return <li key={text}>{text}</li>;
             })}
