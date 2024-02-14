@@ -4,6 +4,7 @@ import {
   Dropdown,
   Flex,
   Popconfirm,
+  Space,
   Tag,
   Tooltip,
   Typography,
@@ -11,7 +12,13 @@ import {
 import React, { useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
-import { MessageOne, More, Paperclip, PreviewCloseOne } from '@icon-park/react';
+import {
+  MessageOne,
+  More,
+  Paperclip,
+  PreviewCloseOne,
+  Bug,
+} from '@icon-park/react';
 import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import type { IgnoreMessage } from '../../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
@@ -43,6 +50,19 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
       () => trimTitle(copilot.title),
       [copilot.title],
     );
+
+    function handleClickMenu(info: { key: string }) {
+      switch (info.key) {
+        case 'ignore':
+          onIgnore?.({
+            type: 'copilot',
+            copilotId: copilot.copilot_id,
+          });
+          break;
+        default:
+          break;
+      }
+    }
     return (
       <div className={clsx(styles.CopilotBlock, className)}>
         <AdaptiveAuroriansTeam
@@ -55,49 +75,56 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
             <span className={styles.Score}>
               {numeral(copilot.score).format('0,0')}
             </span>
-            <Flex className={styles.Author} align="center">
+            <Flex className={styles.Author} align="center" gap={6}>
               <Typography.Text strong>{copilot.author_name}</Typography.Text>
-              {copilot.description && !isLarge ? (
-                <Typography.Text className={styles.Dot} type="secondary">
-                  ·
-                </Typography.Text>
-              ) : null}
+
               {copilot.description && !isLarge ? (
                 <Tooltip title={copilot.description}>
                   {copilot.description ? <MessageOne size={18} /> : null}
                 </Tooltip>
               ) : null}
-              <Typography.Text className={styles.Dot} type="secondary">
-                ·
-              </Typography.Text>
+
               <RelativeTimeText time={copilot.upload_time} />
-              <Typography.Text className={styles.Dot} type="secondary" />
-              {!readOnly ? (
-                <Dropdown
-                  menu={{
-                    items: [
-                      {
-                        key: 'ignore',
-                        label: (
-                          <span>
-                            <PreviewCloseOne /> 排除此作业
-                          </span>
-                        ),
-                      },
-                    ],
-                    onClick(info) {
-                      if (info.key === 'ignore') {
-                        onIgnore?.({
-                          type: 'copilot',
-                          copilotId: copilot.copilot_id,
-                        });
-                      }
-                    },
+
+              <Space.Compact size="small">
+                {!readOnly ? (
+                  <Dropdown
+                    menu={{
+                      items: [
+                        {
+                          key: 'ignore',
+                          label: (
+                            <span>
+                              <PreviewCloseOne /> 排除此作业
+                            </span>
+                          ),
+                        },
+                      ],
+                      onClick: handleClickMenu,
+                    }}
+                  >
+                    <Button icon={<More />} />
+                  </Dropdown>
+                ) : null}
+
+                <Button
+                  icon={
+                    <Tooltip title="报告收录错误">
+                      <Bug />
+                    </Tooltip>
+                  }
+                  onClick={e => {
+                    e.stopPropagation();
+                    window.open(
+                      `https://fwf92qm5h53.feishu.cn/share/base/form/shrcnFMYfIOulCFwcl5ELDfGCVf?prefill_${window.encodeURIComponent(
+                        '收录有问题的作业视频链接',
+                      )}=${window.encodeURIComponent(
+                        `${copilot.author_name} ${copilot.title} https://www.bilibili.com/video/${copilot.href}`,
+                      )}`,
+                    );
                   }}
-                >
-                  <Button size="small" icon={<More />} />
-                </Dropdown>
-              ) : null}
+                />
+              </Space.Compact>
             </Flex>
           </Flex>
           <div className={styles.Title}>
