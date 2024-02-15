@@ -2,11 +2,14 @@
 import { useRequest } from 'ahooks';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMemo } from 'react';
+import { Space } from 'antd';
 import { TermNotFound } from '@/components/TermNotFound';
 import { TermChanger, useTargetTermFromParams } from '@/components/TermChanger';
 import { getCopilots } from '@/services/http';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { CopilotsView } from '@/views/CopilotsView';
+import { CopilotSorterProvider } from '@/views/CopilotsView/CopilotListView/CopilotSortContext';
+import { CopilotSelect } from '@/views/CopilotsView/CopilotListView/CopilotSortContext/select';
 
 const CopilotsPage: React.FC = () => {
   const { targetTerm: currentTerm } = useTargetTermFromParams();
@@ -25,19 +28,26 @@ const CopilotsPage: React.FC = () => {
   const copilots = useMemo(() => Object.values(data ?? []), [data]);
 
   return (
-    <PageContainer
-      content={<TermChanger pathFn={RoutePath.Copilots} />}
-      title="作业全览"
-      loading={loading}
-    >
-      {error ? (
-        <TermNotFound />
-      ) : currentTerm ? (
-        <CopilotsView currentTerm={currentTerm} copilots={copilots} />
-      ) : (
-        <TermNotFound />
-      )}
-    </PageContainer>
+    <CopilotSorterProvider>
+      <PageContainer
+        content={
+          <Space>
+            <TermChanger pathFn={RoutePath.Copilots} />
+            <CopilotSelect />
+          </Space>
+        }
+        title="作业全览"
+        loading={loading}
+      >
+        {error ? (
+          <TermNotFound />
+        ) : currentTerm ? (
+          <CopilotsView currentTerm={currentTerm} copilots={copilots} />
+        ) : (
+          <TermNotFound />
+        )}
+      </PageContainer>
+    </CopilotSorterProvider>
   );
 };
 
