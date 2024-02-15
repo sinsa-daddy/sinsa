@@ -6,8 +6,8 @@ import { isEmpty } from 'lodash-es';
 import type { TermNextType } from '@sinsa/schema';
 import { useSolutionResultContext } from '../context';
 import type { ExcludeDataType, QueryParamsType } from '../schemas/query-params';
-import SINSA_SORRY_URL from './assets/sorry.png';
 import styles from './styles.module.less';
+import SINSA_SORRY_URL from '@/assets/sinsa/sorry.png';
 import { SolutionCard } from '@/components/SolutionCard';
 import type { IgnoreMessage } from '@/components/types';
 
