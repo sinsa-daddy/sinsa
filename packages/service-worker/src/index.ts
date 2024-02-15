@@ -39,28 +39,28 @@ registerRoute(
   }),
 );
 
-// registerRoute(
-//   ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
-//   new StaleWhileRevalidate({
-//     cacheName: 'StaticHTML',
-//   }),
-// );
+registerRoute(
+  ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
+  new NetworkFirst({
+    cacheName: 'StaticHTML',
+  }),
+);
 
-// registerRoute(
-//   ({ sameOrigin, request }) => sameOrigin && request.destination === 'script',
-//   new CacheFirst({
-//     cacheName: 'StaticScripts',
-//     plugins: [
-//       new CacheableResponsePlugin({
-//         statuses: [0, 200],
-//       }),
-//       new ExpirationPlugin({
-//         maxEntries: 30,
-//         maxAgeSeconds: 14 * 24 * 60 * 60,
-//       }),
-//     ],
-//   }),
-// );
+registerRoute(
+  ({ sameOrigin, request }) => sameOrigin && request.destination === 'script',
+  new CacheFirst({
+    cacheName: 'StaticScripts',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 14 * 24 * 60 * 60,
+      }),
+    ],
+  }),
+);
 
 registerRoute(
   ({ sameOrigin, request }) => sameOrigin && request.destination === 'image',
