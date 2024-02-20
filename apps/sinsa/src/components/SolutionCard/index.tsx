@@ -4,7 +4,6 @@ import React, { useMemo } from 'react';
 import { isEqual } from 'lodash-es';
 import numeral from 'numeral';
 import type { CopilotNextType, TermNextType } from '@sinsa/schema';
-import type { IgnoreMessage } from '../types';
 import { CopilotBlock } from './CopilotBlock';
 import styles from './styles.module.less';
 
@@ -14,11 +13,10 @@ export interface SolutionCardProps {
   solution: Solution;
   currentTerm: TermNextType;
   index: number;
-  onIgnore?: (msg: IgnoreMessage) => void;
 }
 
 export const SolutionCard = React.memo<SolutionCardProps>(
-  ({ solution, currentTerm, index, onIgnore }) => {
+  ({ solution, currentTerm, index }) => {
     const sorted = useMemo(() => {
       return [...solution.copilots].sort((a, b) => b.score - a.score);
     }, [solution]);
@@ -37,7 +35,6 @@ export const SolutionCard = React.memo<SolutionCardProps>(
               key={copilotRowKey(copilot)}
               copilot={copilot}
               currentTerm={currentTerm}
-              onIgnore={onIgnore}
             />
           );
         })}

@@ -28,3 +28,9 @@ export const ClassURLMapper = {
   [AurorianClassType.Detonator]: C3,
   [AurorianClassType.Supporter]: C4,
 };
+
+export enum AdaptiveAurorianCardMenuKey {
+  IgnoreAurorian = 'IgnoreAurorian',
+  IgnoreBreakthrough = 'IgnoreBreakthrough',
+  ReplaceAurorian = 'ReplaceAurorian',
+}

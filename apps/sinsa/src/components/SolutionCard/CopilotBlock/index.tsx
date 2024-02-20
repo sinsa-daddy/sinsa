@@ -20,23 +20,28 @@ import {
   Bug,
 } from '@icon-park/react';
 import type { CopilotNextType, TermNextType } from '@sinsa/schema';
-import type { IgnoreMessage } from '../../types';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { AssetTypeTextMapper } from './constants';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
 import { trimTitle } from '@/components/utils';
+import { useSolutionResultContext } from '@/views/SolutionView/context';
+import { QueryFormAction } from '@/views/SolutionView/hooks/use-trigger-form-action/constants';
 
 interface CopilotBlockProps {
   copilot: CopilotNextType;
   currentTerm: TermNextType;
   className?: string;
-  onIgnore?: (msg: IgnoreMessage) => void;
+
   readOnly?: boolean;
 }
 
+enum MenuKey {
+  IgnoreCopilot = 'IgnoreCopilot',
+}
+
 export const CopilotBlock = React.memo<CopilotBlockProps>(
-  ({ copilot, currentTerm, className, onIgnore, readOnly }) => {
+  ({ copilot, currentTerm, className, readOnly }) => {
     const screen = useBreakpoint();
     const isLarge = useMemo(
       () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
@@ -51,12 +56,14 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
       [copilot.title],
     );
 
+    const { triggerFormAction } = useSolutionResultContext();
+
     function handleClickMenu(info: { key: string }) {
       switch (info.key) {
-        case 'ignore':
-          onIgnore?.({
-            type: 'copilot',
-            copilotId: copilot.copilot_id,
+        case MenuKey.IgnoreCopilot:
+          triggerFormAction({
+            type: QueryFormAction.IgnoreCopilot,
+            copilot,
           });
           break;
         default:
@@ -66,7 +73,6 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
     return (
       <div className={clsx(styles.CopilotBlock, className)}>
         <AdaptiveAuroriansTeam
-          onIgnore={onIgnore}
           aurorianRequirements={copilot.aurorian_requirements}
           readOnly={readOnly}
         />
@@ -92,7 +98,7 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                     menu={{
                       items: [
                         {
-                          key: 'ignore',
+                          key: MenuKey.IgnoreCopilot,
                           label: (
                             <span>
                               <PreviewCloseOne /> 排除此作业

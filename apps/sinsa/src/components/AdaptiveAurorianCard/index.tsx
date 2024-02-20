@@ -10,25 +10,28 @@ import type { MenuProps } from 'antd';
 import { ConfigProvider, Flex, Rate, Tag, Dropdown } from 'antd';
 import { useBreakpoint } from '@ant-design/pro-components';
 import { m } from 'framer-motion';
-import type { IgnoreMessage } from '../types';
 import styles from './styles.module.less';
 import { useLazyImage } from './hooks/use-lazy-image';
-import { ClassURLMapper, ElementURLMapper } from './constants';
+import {
+  AdaptiveAurorianCardMenuKey,
+  ClassURLMapper,
+  ElementURLMapper,
+} from './constants';
 import { IconAsc } from './components/asc';
 import { AuroriansModel } from '@/models/aurorians';
-import { getNormalizeBreakthroughByRarity } from '@/views/SolutionView/utils/without-exclude';
+import { useSolutionResultContext } from '@/views/SolutionView/context';
+import { QueryFormAction } from '@/views/SolutionView/hooks/use-trigger-form-action/constants';
 
 interface AdaptiveArurorianCardProps {
   aurorianId: string;
   breakthrough?: number;
   remark?: AurorianRequirementRemarkType;
-  onIgnore?: (msg: IgnoreMessage) => void;
   readOnly?: boolean;
   mini?: boolean;
 }
 
 export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
-  ({ aurorianId: name, breakthrough, remark, onIgnore, readOnly, mini }) => {
+  ({ aurorianId: name, breakthrough, remark, readOnly, mini }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
       () => auroriansMap[name] as AurorianNextType | undefined,
@@ -60,16 +63,28 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
       };
     }, [screen]);
 
-    const items: MenuProps['items'] = [
-      {
-        label: `排除${aurorian?.cn_name}`,
-        key: 'ignore',
-      },
-      {
-        label: `仅排除此突破数的${aurorian?.cn_name}`,
-        key: 'ignore-breakthrough',
-      },
-    ];
+    const items: MenuProps['items'] = useMemo(
+      () =>
+        [
+          {
+            label: `排除${aurorian?.cn_name}`,
+            key: AdaptiveAurorianCardMenuKey.IgnoreAurorian,
+          },
+          typeof breakthrough === 'number'
+            ? {
+                label: `仅排除此突破数的${aurorian?.cn_name}`,
+                key: AdaptiveAurorianCardMenuKey.IgnoreBreakthrough,
+              }
+            : null,
+          {
+            label: `替换${aurorian?.cn_name}`,
+            key: AdaptiveAurorianCardMenuKey.ReplaceAurorian,
+          },
+        ].filter(_ => _),
+      [aurorian?.cn_name, breakthrough],
+    );
+
+    const { triggerFormAction } = useSolutionResultContext();
 
     return (
       <Dropdown
@@ -82,21 +97,22 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
             if (!aurorian?.aurorian_id) {
               return;
             }
+
             switch (key) {
-              case 'ignore-breakthrough':
-                onIgnore?.({
-                  type: 'aurorian',
-                  aurorianId: aurorian.aurorian_id,
-                  breakthrough: getNormalizeBreakthroughByRarity(
-                    breakthrough ?? 0,
-                    aurorian.rarity,
-                  ),
-                });
+              case AdaptiveAurorianCardMenuKey.IgnoreBreakthrough:
+                if (typeof breakthrough === 'number') {
+                  triggerFormAction({
+                    type: QueryFormAction.IgnoreAurorianBreakthroughOnly,
+                    aurorian,
+                    breakthrough,
+                  });
+                }
+
                 break;
-              case 'ignore':
-                onIgnore?.({
-                  type: 'aurorian',
-                  aurorianId: aurorian.aurorian_id,
+              case AdaptiveAurorianCardMenuKey.IgnoreAurorian:
+                triggerFormAction({
+                  type: QueryFormAction.IgnoreAurorian,
+                  aurorian,
                 });
                 break;
               default:

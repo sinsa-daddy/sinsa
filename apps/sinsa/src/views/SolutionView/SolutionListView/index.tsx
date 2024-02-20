@@ -1,15 +1,11 @@
-import { ConfigProvider, Empty, List, Result, notification } from 'antd';
+import { ConfigProvider, Empty, List, Result } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
-import { useMemoizedFn } from 'ahooks';
-import { isEmpty } from 'lodash-es';
 import type { TermNextType } from '@sinsa/schema';
 import { useSolutionResultContext } from '../context';
-import type { ExcludeDataType, QueryParamsType } from '../schemas/query-params';
 import styles from './styles.module.less';
 import SINSA_SORRY_URL from '@/assets/sinsa/sorry.png';
 import { SolutionCard } from '@/components/SolutionCard';
-import type { IgnoreMessage } from '@/components/types';
 
 const getRowKey = (sc: Solution) =>
   sc.copilots.map(c => c.copilot_id).join(',');
@@ -23,8 +19,7 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
 }) => {
   const inViewRef = useRef<HTMLDivElement>(null);
 
-  const { loadingSolutionResult, solutionResult, form } =
-    useSolutionResultContext();
+  const { loadingSolutionResult, solutionResult } = useSolutionResultContext();
 
   const [current, setCurrent] = useState(1);
 
@@ -49,56 +44,6 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
       showSizeChanger: false,
     };
   }, [current]);
-
-  const handleIgnore = useMemoizedFn((msg: IgnoreMessage) => {
-    if (msg.type === 'aurorian' && msg.aurorianId) {
-      form.setFieldValue('enableExclude', true);
-      const prevExcludeArray = form.getFieldValue(
-        'exclude',
-      ) as QueryParamsType['exclude'];
-      if (Array.isArray(prevExcludeArray)) {
-        const target = prevExcludeArray.find(
-          t => t.aurorianId === msg.aurorianId,
-        );
-        if (!target) {
-          if (prevExcludeArray.length === 1 && isEmpty(prevExcludeArray[0])) {
-            prevExcludeArray.pop();
-          }
-          if (msg.breakthrough) {
-            form.setFieldValue('exclude', [
-              ...prevExcludeArray,
-              {
-                aurorianId: msg.aurorianId,
-                excludeBreakthroughOnly: true,
-                excludeBreakthrough: msg.breakthrough,
-              } as ExcludeDataType,
-            ]);
-          } else {
-            form.setFieldValue('exclude', [
-              ...prevExcludeArray,
-              { aurorianId: msg.aurorianId } as ExcludeDataType,
-            ]);
-          }
-          form.submit();
-        } else {
-          notification.error({
-            message: `这个光灵已经在排除列表中了 ❤`,
-          });
-        }
-      }
-    } else if (msg.type === 'copilot') {
-      const copilotsIgnoreArray = form.getFieldValue('copilotsIgnore');
-      if (Array.isArray(copilotsIgnoreArray)) {
-        form.setFieldValue('copilotsIgnore', [
-          ...copilotsIgnoreArray,
-          msg.copilotId,
-        ]);
-      } else {
-        form.setFieldValue('copilotsIgnore', [msg.copilotId]);
-      }
-      form.submit();
-    }
-  });
 
   return (
     <>
@@ -144,7 +89,6 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
               index={solutionResult?.rankSet.get(item) ?? 0}
               solution={item}
               currentTerm={currentTerm}
-              onIgnore={handleIgnore}
             />
           )}
         />

@@ -1,5 +1,6 @@
 import { Alert, Card, Flex, Typography } from 'antd';
 import type { CopilotNextType, TermNextType } from '@sinsa/schema';
+import { Provider as NiceModalProvider } from '@ebay/nice-modal-react';
 import { SolutionResultProvider } from './context';
 import { QueryForm } from './QueryForm';
 import { SolutionListView } from './SolutionListView';
@@ -33,7 +34,9 @@ export const SolutionView: React.FC<SolutionViewProps> = ({
           />
         ) : null}
         <Card>
-          <QueryForm copilots={copilots} termId={currentTerm.term_id} />
+          <NiceModalProvider>
+            <QueryForm copilots={copilots} termId={currentTerm.term_id} />
+          </NiceModalProvider>
         </Card>
         <SolutionListView currentTerm={currentTerm} />
       </Flex>
