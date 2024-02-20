@@ -1,17 +1,19 @@
 import type React from 'react';
 import { Flex } from 'antd';
-import type { CopilotNextType } from '@sinsa/schema';
+import type { AurorianNextType, CopilotNextType } from '@sinsa/schema';
 import styles from './styles.module.less';
 import { AdaptiveAurorianCard } from '@/components/AdaptiveAurorianCard';
 
 interface AdaptiveAuroriansTeamProps {
   aurorianRequirements: CopilotNextType['aurorian_requirements'];
   readOnly?: boolean;
+  onReplace?: (aurorian: AurorianNextType) => void;
 }
 
 export const AdaptiveAuroriansTeam: React.FC<AdaptiveAuroriansTeamProps> = ({
   aurorianRequirements,
   readOnly,
+  onReplace,
 }) => {
   return (
     <Flex className={styles.AuroriansTeam}>
@@ -23,6 +25,7 @@ export const AdaptiveAuroriansTeam: React.FC<AdaptiveAuroriansTeamProps> = ({
             breakthrough={breakthrough}
             remark={remark}
             readOnly={readOnly}
+            onReplace={onReplace}
           />
         );
       })}

@@ -28,10 +28,11 @@ interface AdaptiveArurorianCardProps {
   remark?: AurorianRequirementRemarkType;
   readOnly?: boolean;
   mini?: boolean;
+  onReplace?: (aurorian: AurorianNextType) => void;
 }
 
 export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
-  ({ aurorianId: name, breakthrough, remark, readOnly, mini }) => {
+  ({ aurorianId: name, breakthrough, remark, readOnly, mini, onReplace }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
       () => auroriansMap[name] as AurorianNextType | undefined,
@@ -114,6 +115,10 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
                   type: QueryFormAction.IgnoreAurorian,
                   aurorian,
                 });
+                break;
+
+              case AdaptiveAurorianCardMenuKey.ReplaceAurorian:
+                onReplace?.(aurorian);
                 break;
               default:
                 break;

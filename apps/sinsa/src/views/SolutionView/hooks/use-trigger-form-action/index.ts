@@ -1,12 +1,18 @@
 import type { ProFormInstance } from '@ant-design/pro-components';
-import { useCallback } from 'react';
-import type { AurorianNextType, CopilotNextType } from '@sinsa/schema';
+import type {
+  AurorianNextType,
+  CopilotNextType,
+  TermNextType,
+} from '@sinsa/schema';
+import { useMemoizedFn } from 'ahooks';
+import { show } from '@ebay/nice-modal-react';
 import type {
   ExcludeDataType,
   QueryParamsType,
 } from '../../schemas/query-params';
 import { ensureQueryKey } from '../../QueryForm/utils';
 import { getNormalizeBreakthroughByRarity } from '../../utils/without-exclude';
+import { DiffModal } from '../../DiffModal';
 import { QueryFormAction } from './constants';
 
 export type TriggerFormActionPayload =
@@ -27,11 +33,12 @@ export type TriggerFormActionPayload =
       type: QueryFormAction.ReplaceAurorian;
       aurorian: AurorianNextType;
       copilot: CopilotNextType;
+      currentTerm: TermNextType;
     };
 
 export function useTriggerFormAction(form: ProFormInstance<QueryParamsType>) {
-  const triggerFormAction = useCallback(
-    (payload: TriggerFormActionPayload) => {
+  const triggerFormAction = useMemoizedFn(
+    async (payload: TriggerFormActionPayload) => {
       switch (payload.type) {
         // 1. 排除单个作业
         case QueryFormAction.IgnoreCopilot: {
@@ -85,12 +92,23 @@ export function useTriggerFormAction(form: ProFormInstance<QueryParamsType>) {
           break;
         }
 
+        // 3. 替换光灵
+        case QueryFormAction.ReplaceAurorian: {
+          console.log('replace', payload);
+          show(DiffModal, {
+            type: 'create',
+            currentTerm: payload.currentTerm,
+            originCopilot: payload.copilot,
+            replaceAurorians: [payload.aurorian],
+          }).catch(error => console.log(error));
+          break;
+        }
+
         default:
           break;
       }
       window.setTimeout(() => form.submit());
     },
-    [form],
   );
 
   return {

@@ -9,7 +9,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import numeral from 'numeral';
 import { useBreakpoint } from '@ant-design/pro-components';
 import {
@@ -19,7 +19,11 @@ import {
   PreviewCloseOne,
   Bug,
 } from '@icon-park/react';
-import type { CopilotNextType, TermNextType } from '@sinsa/schema';
+import type {
+  AurorianNextType,
+  CopilotNextType,
+  TermNextType,
+} from '@sinsa/schema';
 import { AdaptiveAuroriansTeam } from './AdaptiveAuroriansTeam';
 import styles from './styles.module.less';
 import { AssetTypeTextMapper } from './constants';
@@ -58,23 +62,39 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
 
     const { triggerFormAction } = useSolutionResultContext();
 
-    function handleClickMenu(info: { key: string }) {
-      switch (info.key) {
-        case MenuKey.IgnoreCopilot:
-          triggerFormAction({
-            type: QueryFormAction.IgnoreCopilot,
-            copilot,
-          });
-          break;
-        default:
-          break;
-      }
-    }
+    const handleClickMenu = useCallback(
+      (info: { key: string }) => {
+        switch (info.key) {
+          case MenuKey.IgnoreCopilot:
+            triggerFormAction({
+              type: QueryFormAction.IgnoreCopilot,
+              copilot,
+            });
+            break;
+          default:
+            break;
+        }
+      },
+      [copilot.copilot_id],
+    );
+
+    const handleReplace = useCallback(
+      (_aurorian: AurorianNextType) => {
+        triggerFormAction({
+          type: QueryFormAction.ReplaceAurorian,
+          aurorian: _aurorian,
+          copilot,
+          currentTerm,
+        });
+      },
+      [copilot.copilot_id, currentTerm.term_id],
+    );
     return (
       <div className={clsx(styles.CopilotBlock, className)}>
         <AdaptiveAuroriansTeam
           aurorianRequirements={copilot.aurorian_requirements}
           readOnly={readOnly}
+          onReplace={handleReplace}
         />
         <div className={styles.PaddingContainer}>
           <Flex className={styles.Header}>
