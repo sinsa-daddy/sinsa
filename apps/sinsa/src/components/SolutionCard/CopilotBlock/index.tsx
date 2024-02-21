@@ -44,13 +44,19 @@ enum MenuKey {
   IgnoreCopilot = 'IgnoreCopilot',
 }
 
+function useLarge() {
+  const screen = useBreakpoint();
+  const isLarge = useMemo(
+    () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
+    [screen],
+  );
+
+  return isLarge;
+}
+
 export const CopilotBlock = React.memo<CopilotBlockProps>(
   ({ copilot, currentTerm, className, readOnly }) => {
-    const screen = useBreakpoint();
-    const isLarge = useMemo(
-      () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
-      [screen],
-    );
+    const isLarge = useLarge();
     const hasAsset = useMemo(() => {
       return Array.isArray(copilot.assets);
     }, [copilot.assets]);
