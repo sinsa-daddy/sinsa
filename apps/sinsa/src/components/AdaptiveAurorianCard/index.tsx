@@ -77,10 +77,10 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
                 key: AdaptiveAurorianCardMenuKey.IgnoreBreakthrough,
               }
             : null,
-          {
-            label: `替换${aurorian?.cn_name}`,
-            key: AdaptiveAurorianCardMenuKey.ReplaceAurorian,
-          },
+          // {
+          //   label: `替换${aurorian?.cn_name}`,
+          //   key: AdaptiveAurorianCardMenuKey.ReplaceAurorian,
+          // },
         ].filter(_ => _),
       [aurorian?.cn_name, breakthrough],
     );
