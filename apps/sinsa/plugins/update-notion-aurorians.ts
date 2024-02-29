@@ -28,6 +28,8 @@ export function updateNotionAurorians(): CliPlugin {
               appDirectory,
               'config',
               'public',
+              'assets',
+              'images',
               'avatars',
             );
 
