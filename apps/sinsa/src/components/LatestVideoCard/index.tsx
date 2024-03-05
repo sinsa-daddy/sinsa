@@ -112,7 +112,9 @@ export const LatestVideoCard = React.forwardRef<
           {latestVideos.result.map(video => {
             const displayTitle = trimTitle(video.title);
 
-            const copilotInfo = latestCopilots.find(c => c.href === video.bvid);
+            const copilotInfo = latestCopilots.find(c =>
+              c.href.startsWith(video.bvid),
+            );
 
             const onlyHitAuthor =
               video.hit_columns.length === 1 &&
