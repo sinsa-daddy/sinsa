@@ -27,7 +27,7 @@ export const ALERT_MAP = new Map<TermNextType['term_id'], AlertProps>([
     'cn-35',
     {
       message:
-        '为了避免下周全勤启迪可能乱轴，但据说不影响荒典，保险起见有时间的可以先抄了',
+        '为了避免下周全勤启迪可能乱轴，保险起见有时间的可以先抄了。（但据说不影响荒典）',
     },
   ],
 ]);
