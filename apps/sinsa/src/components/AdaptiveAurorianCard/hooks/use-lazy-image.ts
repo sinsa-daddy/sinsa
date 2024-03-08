@@ -8,6 +8,7 @@ const FileNameTypeMap: Record<string, LazyImageOptions | undefined> = {
   bethel: { type: 'awaken' },
   luke: { type: 'awaken' },
   zarya: { type: 'skin-1' },
+  fleur: { type: 'awaken' },
 };
 
 export function useLazyImage(aurorianId: string | undefined) {
