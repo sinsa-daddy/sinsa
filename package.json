@@ -28,7 +28,8 @@
   "eslintIgnore": [
     "node_modules/",
     "dist/",
-    ".rpt2_cache/"
+    ".rpt2_cache/",
+    "**/*/functions/**/*.js"
   ],
   "workspaces": {
     "packages": [

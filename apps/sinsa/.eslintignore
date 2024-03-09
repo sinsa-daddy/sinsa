@@ -1,1 +1,2 @@
 config/public/sw.js
+functions/**/*.js

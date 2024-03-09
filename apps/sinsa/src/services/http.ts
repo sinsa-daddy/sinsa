@@ -33,7 +33,7 @@ httpWithToken.interceptors.request.use(
     return config;
   },
   error => {
-    Promise.reject(error);
+    return Promise.reject(error);
   },
 );
 // Response interceptor for API calls

@@ -11,7 +11,9 @@ const __DIR_NAME = dirname(fileURLToPath(import.meta.url));
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
-  source: {},
+  source: {
+    exclude: [/api-worker/],
+  },
   runtime: {
     router: {
       supportHtml5History: false,
@@ -58,6 +60,10 @@ export default defineConfig<'rspack'>({
         from: resolve(__DIR_NAME, 'config', 'public', '**', '*.*'),
         context: resolve(__DIR_NAME, 'config', 'public'),
       },
+      // {
+      //   from: require.resolve('@sinsa/api-worker/dist/es/index.js'),
+      //   to: resolve(__DIR_NAME, 'functions', 'api-worker', '[[catchAll]].js'),
+      // },
     ],
   },
   tools: {
@@ -73,10 +79,7 @@ export default defineConfig<'rspack'>({
           },
         },
         '/api-worker': {
-          target: 'http://127.0.0.1:8787',
-          pathRewrite: {
-            '^/api-worker': '',
-          },
+          target: 'http://127.0.0.1:12576',
         },
       },
     },
