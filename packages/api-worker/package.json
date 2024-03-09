@@ -4,7 +4,6 @@
   "types": "./dist/types/index.d.ts",
   "module": "./dist/es/index.js",
   "scripts": {
-    "prepare": "modern build",
     "dev": "modern dev",
     "build": "modern build",
     "build:watch": "modern build -w",

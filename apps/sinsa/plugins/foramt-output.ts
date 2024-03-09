@@ -1,6 +1,6 @@
 import { join } from 'path';
 import type { CliPlugin } from '@modern-js/core';
-import { remove } from 'fs-extra';
+import { remove, copy } from 'fs-extra';
 
 const USELESS_JSON = [
   'modern.config.json',
@@ -23,6 +23,23 @@ export function formatOutputPlugin(): CliPlugin {
                 remove(join(distDirectory, jsonFilename)),
               ),
               remove(join(distDirectory, 'api', 'v2', 'copilots', 'archived')),
+            ]);
+
+            // 2. add functions
+            await Promise.all([
+              copy(
+                require.resolve('@sinsa/api-worker/dist/es/index.js'),
+                join(
+                  distDirectory,
+                  'functions',
+                  'api-worker',
+                  '[[catchAll]].js',
+                ),
+              ),
+              copy(
+                require.resolve('@sinsa/service-worker/dist/es/index.js'),
+                join(distDirectory, 'sw.js'),
+              ),
             ]);
           });
         },
