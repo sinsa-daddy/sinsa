@@ -1,3 +1,4 @@
 .env
 config/public/api/**/*.json
 !config/public/api/**/*/archived/**/*.json
+.wrangler

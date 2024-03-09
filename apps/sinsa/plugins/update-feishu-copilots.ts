@@ -48,6 +48,7 @@ export function updateFeishuCopilots(): CliPlugin {
               notionToken: env.NOTION_READ_TOKEN,
               databaseIds: {
                 aurorians: env.NOTION_AURORIAN_DATABASE_ID,
+                terms: env.NOTION_TERM_DATABASE_ID,
               },
             });
 

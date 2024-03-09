@@ -17,7 +17,8 @@
     "ua": "modern update-notion-aurorians",
     "fn": "modern fetch-data-next",
     "uc": "modern update-feishu-copilots",
-    "generate": "modern format-output"
+    "generate": "modern format-output",
+    "pages:dev": "wrangler pages dev --compatibility-date=2024-03-04 --port 12576 -- pnpm dev"
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
@@ -49,6 +50,7 @@
     "@modern-js/core": "2.42.1",
     "@modern-js/eslint-config": "2.42.1",
     "@modern-js/tsconfig": "2.42.1",
+    "@sinsa/api-worker": "workspace:^",
     "@sinsa/datasource-generator": "workspace:^",
     "@sinsa/service-worker": "workspace:^0.1.0",
     "@types/fs-extra": "^11.0.4",
@@ -66,6 +68,7 @@
     "rimraf": "~3.0.2",
     "typescript": "^5.3.3",
     "workbox-build": "^7.0.0",
-    "workbox-cli": "^7.0.0"
+    "workbox-cli": "^7.0.0",
+    "wrangler": "^3.32.0"
   }
 }
