@@ -3,10 +3,15 @@ import { Avatar, Button, Card, Space, Typography } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequest } from 'ahooks';
 import { useModel } from '@modern-js/runtime/model';
-import { LARK_SCOPE, UPLOAD_APP_ID } from './constants';
+import {
+  LARK_SCOPE,
+  LOCAL_STORAGE_ACCESS_TOKEN,
+  UPLOAD_APP_ID,
+} from './constants';
 import { RoutePath } from '@/views/GlobalLayout/constants';
-import { getFeishuProfile, saveAuthCallback } from '@/services/http';
+import { getFeishuAccessToken, getFeishuProfile } from '@/services/http';
 import { FeishuModel } from '@/models/feishu';
+import { FeishuAccessTokenSchema } from '@/schemas/feishu-access-token';
 
 export const LarkLoginCard: React.FC = () => {
   const REDIRECT_URI = useMemo(() => {
@@ -28,23 +33,47 @@ export const LarkLoginCard: React.FC = () => {
     }
   }, [location.search]);
 
-  const [, { setProfile }] = useModel(FeishuModel);
+  const [{ profile }, { setProfile }] = useModel(FeishuModel);
 
-  const { data, loading } = useRequest(
+  const { data: maybeAccessToken, loading: loadingAccessToken } = useRequest(
     async () => {
-      if (larkpreLoginCode) {
-        await saveAuthCallback({ code: larkpreLoginCode });
-        setLarkpreLoginCode(undefined);
-        return undefined;
+      try {
+        const content = window.localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
+        const tokenInfo = FeishuAccessTokenSchema.parse(
+          content ? JSON.parse(content) : null,
+        );
+        return tokenInfo;
+      } catch {
+        // ignore
       }
 
-      return getFeishuProfile();
+      if (larkpreLoginCode) {
+        const accessTokenInfo = await getFeishuAccessToken({
+          code: larkpreLoginCode,
+        });
+
+        setLarkpreLoginCode(undefined);
+        return accessTokenInfo;
+      }
+      return undefined;
     },
     {
       refreshDeps: [larkpreLoginCode],
-      onSuccess(_p) {
-        setProfile(_p);
-      },
+      // onSuccess(_p) {
+      //   setProfile(_p);
+      // },
+    },
+  );
+
+  const { loading: loadingProfile } = useRequest(
+    async () => {
+      if (maybeAccessToken?.access_token) {
+        const profile = await getFeishuProfile();
+        setProfile(profile);
+      }
+    },
+    {
+      refreshDeps: [maybeAccessToken?.access_token],
     },
   );
 
@@ -57,11 +86,11 @@ export const LarkLoginCard: React.FC = () => {
     return url.href;
   }, []);
   return (
-    <Card loading={loading}>
-      {data ? (
+    <Card loading={loadingAccessToken || loadingProfile}>
+      {profile ? (
         <Card.Meta
-          avatar={<Avatar src={data.avatar_url} />}
-          title={data.name}
+          avatar={<Avatar src={profile.avatar_url} />}
+          title={profile.name}
           description="欢迎回来~ 您已授权，可以开始工作啦"
         />
       ) : (

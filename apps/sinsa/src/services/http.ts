@@ -8,12 +8,66 @@ import {
   CopilotNextSchema,
   TermNextSchema,
 } from '@sinsa/schema';
-import { isPlainObject, mapValues } from 'lodash-es';
+import { isPlainObject, mapValues, once } from 'lodash-es';
 import axios from 'axios';
 import { FeishuProfileSchema } from '@/schemas/feishu-profile';
 import { BilibiliVideoDetailSchema } from '@/schemas/bilibili-video-detail';
+import type { FeishuAccessTokenType } from '@/schemas/feishu-access-token';
+import { FeishuAccessTokenSchema } from '@/schemas/feishu-access-token';
+import { LOCAL_STORAGE_ACCESS_TOKEN } from '@/views/UploadView/LarkLoginCard/constants';
 
 const http = axios.create({});
+
+const httpWithToken = axios.create({});
+
+httpWithToken.interceptors.request.use(
+  async config => {
+    const content = window.localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
+    const tokenInfo = FeishuAccessTokenSchema.parse(
+      content ? JSON.parse(content) : null,
+    );
+    config.headers = {
+      Authorization: `${tokenInfo.token_type} ${tokenInfo.access_token}`,
+      'Content-Type': 'application/json',
+    } as any;
+    return config;
+  },
+  error => {
+    Promise.reject(error);
+  },
+);
+// Response interceptor for API calls
+httpWithToken.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async function (error) {
+    const originalRequest = error.config;
+    const content = window.localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
+    const tokenInfo = FeishuAccessTokenSchema.parse(
+      content ? JSON.parse(content) : null,
+    );
+    const now = Date.now();
+    if (now > tokenInfo.startTime + tokenInfo.refresh_expires_in * 1000) {
+      return Promise.reject(error);
+    }
+
+    if (now > tokenInfo.startTime + tokenInfo.expires_in * 1000) {
+      if (error.response.status !== 200 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        const newTokenInfo = await refreshFeishuToken({
+          refresh_token: tokenInfo.refresh_token,
+        });
+        if (newTokenInfo) {
+          originalRequest.headers.Authorization = `${newTokenInfo.token_type} ${newTokenInfo.access_token}`;
+          return httpWithToken(originalRequest);
+        }
+      }
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 /**
  * 获取荒典首领信息
@@ -61,27 +115,63 @@ export async function getCopilots(
 /**
  * 授权回调
  */
-export async function saveAuthCallback(params: { code: string }) {
+export async function getFeishuAccessToken(body: {
+  code: string;
+}): Promise<FeishuAccessTokenType | undefined> {
+  const now = Date.now();
   try {
-    const response = await http.get('/api-upload/lark/auth-callback', {
-      params,
-    });
-    console.log('callback', response);
+    const response = await http.post('/api-worker/feishu/access-token', body);
+    if (response.data?.code === 0) {
+      const result = FeishuAccessTokenSchema.parse({
+        ...response.data.data,
+        startTime: now,
+      });
+      window.localStorage.setItem(
+        LOCAL_STORAGE_ACCESS_TOKEN,
+        JSON.stringify(result),
+      );
+      return result;
+    }
   } catch (error) {}
+  return undefined;
+}
+
+/**
+ * 授权回调
+ */
+export async function refreshFeishuToken(body: {
+  refresh_token: string;
+}): Promise<FeishuAccessTokenType | undefined> {
+  const now = Date.now();
+  try {
+    const response = await http.post('/api-worker/feishu/refresh-token', body);
+    if (response.data?.code === 0) {
+      const result = FeishuAccessTokenSchema.parse({
+        ...response.data?.data,
+        startTime: now,
+      });
+      window.localStorage.setItem(
+        LOCAL_STORAGE_ACCESS_TOKEN,
+        JSON.stringify(result),
+      );
+      return result;
+    }
+  } catch (error) {}
+  return undefined;
 }
 
 /**
  * 获取当前登录的飞书用户状态信息
  */
-export async function getFeishuProfile() {
+export const getFeishuProfile = once(async function getFeishuProfile() {
   try {
-    const response = await http.get('/api-upload/lark/profile', {});
-    if (response.data) {
-      return FeishuProfileSchema.parse(response.data);
+    const response = await httpWithToken.get('/api-worker/feishu/profile');
+    if (response.data?.code === 0) {
+      return FeishuProfileSchema.parse(response.data?.data);
     }
   } catch (error) {}
   return undefined;
-}
+});
 
 /**
  * 获取 B 站视频信息
@@ -156,10 +246,15 @@ export async function getLatestVideo() {
  */
 export async function getLatestCopilots(params: { pageSize: number }) {
   try {
-    const response = await http.get('/api-upload/lark/latestCopilots', {
-      params,
-    });
-    return response.data;
+    const response = await httpWithToken.get(
+      '/api-worker/feishu/latest-copilots',
+      {
+        params,
+      },
+    );
+    if (response.data?.code === 0 && Array.isArray(response.data?.data)) {
+      return response.data?.data;
+    }
   } catch (error) {}
   return undefined;
 }
