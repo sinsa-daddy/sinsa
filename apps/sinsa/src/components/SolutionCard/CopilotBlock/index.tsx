@@ -103,21 +103,11 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
           onReplace={handleReplace}
         />
         <div className={styles.PaddingContainer}>
-          <Flex className={styles.Header}>
+          <Flex className={styles.Header} wrap="nowrap" align="center">
             <span className={styles.Score}>
               {numeral(copilot.score).format('0,0')}
             </span>
-            <Flex className={styles.Author} align="center" gap={6}>
-              <Typography.Text strong>{copilot.author_name}</Typography.Text>
-
-              {copilot.description && !isLarge ? (
-                <Tooltip title={copilot.description}>
-                  {copilot.description ? <MessageOne size={18} /> : null}
-                </Tooltip>
-              ) : null}
-
-              <RelativeTimeText time={copilot.upload_time} />
-
+            <Flex className={styles.Author} align="center" gap={4}>
               <Space.Compact size="small">
                 {!readOnly ? (
                   <Dropdown
@@ -167,6 +157,22 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
                   }}
                 />
               </Space.Compact>
+              <RelativeTimeText time={copilot.upload_time} />
+
+              {copilot.description && !isLarge ? (
+                <Tooltip title={copilot.description}>
+                  {copilot.description ? <MessageOne size={18} /> : null}
+                </Tooltip>
+              ) : null}
+
+              <span
+                className={clsx(
+                  styles.AuthorName,
+                  !isLarge && styles.AuthorSmall,
+                )}
+              >
+                {copilot.author_name}
+              </span>
             </Flex>
           </Flex>
           <div className={styles.Title}>

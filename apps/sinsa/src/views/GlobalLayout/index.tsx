@@ -43,7 +43,7 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
   }, []);
 
   const token = useMemo(() => {
-    return { pageContainer: { paddingInlinePageContainerContent: 16 } };
+    return { pageContainer: { paddingInlinePageContainerContent: 12 } };
   }, []);
 
   return (

@@ -10,7 +10,9 @@
 }
 
 .Author {
-  flex-shrink: 1;
+  width: 0;
+  flex-grow: 1;
+  flex-flow: row-reverse nowrap;
 }
 
 .Dot {
@@ -21,13 +23,27 @@
 .PaddingContainer {
   width: 100%;
   > * {
-    padding: 0 16px;
+    padding: 0 12px;
     width: 100%;
 
     &:first-child {
       padding-top: 8px;
     }
   }
+}
+
+.AuthorName {
+  font-weight: 600;
+  text-align: right;
+}
+
+.AuthorSmall {
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
+  margin-left: 6px;
 }
 
 // use large
@@ -54,8 +70,10 @@
 
 .Score.Score.Score {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   transition: color 100ms;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
