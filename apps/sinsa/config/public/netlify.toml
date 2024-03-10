@@ -1,4 +1,4 @@
 [[redirects]]
-  from = "/api-upload/*"
-  to = "http://8.134.125.149/api-upload/:splat"
+  from = "/api-worker/*"
+  to = "https://sinsa-daddy.com/api-worker/:splat"
   status = 200
