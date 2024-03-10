@@ -1,10 +1,11 @@
 import { useRequest } from 'ahooks';
+import type { getCopilotId } from '../utils/get-copilot-id';
 import { checkVideoExist } from '@/services/http';
 
 export function useCheckVideoExist() {
   const { loading: loadingCheckVideoExist, runAsync: check } = useRequest(
-    async ({ href, termId }: { href: string; termId: string }) => {
-      return checkVideoExist({ href, termId });
+    async (args: Parameters<typeof getCopilotId>[0]) => {
+      return checkVideoExist(args);
     },
     {
       manual: true,

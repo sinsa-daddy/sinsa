@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import {
   FooterToolbar,
   ProForm,
@@ -11,7 +10,6 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components';
 import { useModel } from '@modern-js/runtime/model';
-import dayjs from 'dayjs';
 import { Button, Card, Typography, notification } from 'antd';
 import { useMemo } from 'react';
 import numeral from 'numeral';
@@ -104,7 +102,18 @@ export const UploadForm: React.FC = () => {
                 copilot_id: getCopilotId(values),
               };
 
-              console.log('开始提交', submitValues);
+              const checkResult = await check(values);
+
+              if (checkResult?.total) {
+                notification.error({
+                  message: '撞车了',
+                  placement: 'bottom',
+                  duration: 3,
+                });
+                return;
+              }
+
+              console.log('开始提交', checkResult, submitValues);
 
               try {
                 const submitCopilot = await CopilotNextSchema.omit({
@@ -152,53 +161,26 @@ export const UploadForm: React.FC = () => {
               />
             </ProForm.Group>
             <ProForm.Group>
-              <ProFormDependency name={[ensureKey('term_id')]}>
-                {({ term_id }) => (
-                  <ProFormText
-                    name={ensureKey('href')}
-                    label="BV号或B站视频链接"
-                    placeholder={
-                      'BVxxxxxxxxxx 或 https://www.bilibili.com/video/BVxxxxxxxxxx/'
-                    }
-                    validateTrigger="onBlur"
-                    width={'lg'}
-                    fieldProps={{
-                      onChange(e) {
-                        const bvOrLink = e.target.value;
-                        trimBV(form, bvOrLink);
-                      },
-                    }}
-                    rules={[
-                      { required: true },
-                      { pattern: /^BV.+$/, message: 'BV号格式不正确' },
-                      {
-                        async validator(_, bv) {
-                          if (typeof bv === 'string' && bv.startsWith('BV')) {
-                            const result = await check({
-                              href: bv,
-                              termId: term_id,
-                            });
-                            if (result?.noExist || result?.target) {
-                              if (result?.target) {
-                                const errorMessage = `${
-                                  result?.target?.fields?.creator?.name
-                                } 已经在 ${dayjs(
-                                  result?.target?.fields?.insert_db_time,
-                                ).format('YYYY-MM-DD HH:mm:ss')} 添加了此作业`;
-                                notification.error({
-                                  message: `${errorMessage}. 撞车了~ 请更换作业收录`,
-                                });
-                                throw new Error(errorMessage);
-                              }
-                            }
-                          }
-                        },
-                      },
-                    ]}
-                    extra="小提示：点击上方未收录的视频卡片，能快速填入 BV 号"
-                  />
-                )}
-              </ProFormDependency>
+              <ProFormText
+                name={ensureKey('href')}
+                label="BV号或B站视频链接"
+                placeholder={
+                  'BVxxxxxxxxxx 或 https://www.bilibili.com/video/BVxxxxxxxxxx/'
+                }
+                validateTrigger="onBlur"
+                width={'lg'}
+                fieldProps={{
+                  onChange(e) {
+                    const bvOrLink = e.target.value;
+                    trimBV(form, bvOrLink);
+                  },
+                }}
+                rules={[
+                  { required: true },
+                  { pattern: /^BV.+$/, message: 'BV号格式不正确' },
+                ]}
+                extra="小提示：点击上方未收录的视频卡片，能快速填入 BV 号"
+              />
               <ProForm.Item label=" ">
                 <ProFormDependency name={[ensureKey('href')]}>
                   {({ href }) => (
@@ -212,6 +194,7 @@ export const UploadForm: React.FC = () => {
                       onClick={async e => {
                         e.stopPropagation();
                         const result = await getVideoInfo(href);
+                        console.log('result', result);
 
                         if (result) {
                           const { title, desc, owner, pubdate } = result;
