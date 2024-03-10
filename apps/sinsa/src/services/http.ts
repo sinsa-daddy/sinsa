@@ -15,6 +15,7 @@ import { BilibiliVideoDetailSchema } from '@/schemas/bilibili-video-detail';
 import type { FeishuAccessTokenType } from '@/schemas/feishu-access-token';
 import { FeishuAccessTokenSchema } from '@/schemas/feishu-access-token';
 import { LOCAL_STORAGE_ACCESS_TOKEN } from '@/views/UploadView/LarkLoginCard/constants';
+import type { getCopilotId } from '@/components/UploadForm/utils/get-copilot-id';
 
 const http = axios.create({});
 
@@ -180,11 +181,14 @@ export const getFeishuProfile = once(async function getFeishuProfile() {
  */
 export async function getVideoInfo(bv: string) {
   try {
-    const response = await http.get(`/api-upload/btv/video/${bv}`);
-    if (response.data) {
+    const response = await httpWithToken.get(
+      `/api-worker/bilibili/video/${bv}`,
+    );
+    console.log('raw', response);
+    if (response.data?.code === 0) {
       return BilibiliVideoDetailSchema.parse({
-        ...response.data,
-        pubdate: response.data.pubdate * 1000,
+        ...response.data?.data,
+        pubdate: (response.data?.data?.pubdate ?? 0) * 1000,
       });
     }
   } catch (error) {
@@ -197,16 +201,19 @@ export async function getVideoInfo(bv: string) {
  * 判断 B 站视频是否已经收录
  * @returns
  */
-export async function checkVideoExist(params: {
-  href: string;
-  termId: string;
-}) {
+export async function checkVideoExist({
+  aurorian_requirements,
+  ...args
+}: Parameters<typeof getCopilotId>[0]) {
   try {
-    const response = await http.get('/api-upload/lark/check', {
-      params,
-    });
-    if (response.data) {
-      return response.data;
+    const response = await httpWithToken.get(
+      `/api-worker/feishu/copilot/detail`,
+      {
+        params: args,
+      },
+    );
+    if (response.data?.code === 0) {
+      return response.data?.data;
     }
   } catch (error) {}
   return undefined;

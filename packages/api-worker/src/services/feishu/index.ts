@@ -177,4 +177,59 @@ feishu.get(
   },
 );
 
+feishu.get(
+  '/copilot/detail',
+  zValidator('header', AuthorizationHeaderSchema),
+  zValidator(
+    'query',
+    z.object({
+      term_id: z.string(),
+      href: z.string(),
+    }),
+  ),
+  async ctx => {
+    const query = ctx.req.valid('query');
+    const header = ctx.req.valid('header');
+    const env = ctx.env as Env;
+
+    const response = await fetch(
+      `https://open.feishu.cn/open-apis/bitable/v1/apps/${env.FEISHU_COPILOT_APP_ID}/tables/${env.FEISHU_COPILOT_HEAD_TABLE_ID}/records/search?page_size=100`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: header.authorization,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          filter: {
+            conditions: [
+              {
+                field_name: 'term_id',
+                operator: 'is',
+                value: [query.term_id],
+              },
+              {
+                field_name: 'href',
+                operator: 'is',
+                value: [query.href],
+              },
+            ],
+            conjunction: 'and',
+          },
+          sort: [
+            {
+              desc: true,
+              field_name: 'upload_time',
+            },
+          ],
+        }),
+      },
+    );
+    return response;
+
+    // const responseJson = await response.json<FeishuResponse>();
+    // return ctx.json(responseJson, responseJson.code !== 0 ? 500 : 200);
+  },
+);
+
 export default feishu;
