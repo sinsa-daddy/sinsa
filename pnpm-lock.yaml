@@ -198,12 +198,18 @@ importers:
       '@modern-js/module-tools':
         specifier: 2.48.0
         version: 2.48.0(eslint@8.55.0)(typescript@5.3.3)
+      '@types/blueimp-md5':
+        specifier: ^2.18.2
+        version: 2.18.2
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
       '@types/node':
         specifier: ~16.11.7
         version: 16.11.68
+      blueimp-md5:
+        specifier: ^2.19.0
+        version: 2.19.0
       hono:
         specifier: ^4.0.10
         version: 4.0.10
@@ -7184,6 +7190,10 @@ packages:
       '@babel/types': 7.23.5
     dev: true
 
+  /@types/blueimp-md5@2.18.2:
+    resolution: {integrity: sha512-dJ9yRry9Olt5GAWlgCtE5dK9d/Dfhn/V7hna86eEO2Pn76+E8Y0S0n61iEUEGhWXXgtKtHxtZLVNwL8X+vLHzg==}
+    dev: true
+
   /@types/cookie@0.4.1:
     resolution: {integrity: sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==}
 
@@ -8432,6 +8442,10 @@ packages:
 
   /blake3-wasm@2.1.5:
     resolution: {integrity: sha512-F1+K8EbfOZE49dtoPtmxUQrpXaBIl3ICvasLh+nJta0xkz+9kF/7uet9fLnwKqhDrmj6g+6K3Tw9yQPUg2ka5g==}
+    dev: true
+
+  /blueimp-md5@2.19.0:
+    resolution: {integrity: sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==}
     dev: true
 
   /bn.js@4.12.0:

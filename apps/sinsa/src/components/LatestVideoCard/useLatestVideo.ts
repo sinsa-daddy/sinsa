@@ -14,6 +14,7 @@ export function useLatestVideo() {
     async () => {
       try {
         const data = await getLatestVideo();
+
         return SearchVideoResultSchema.parse(data);
       } catch (error) {
         console.log('parse error', error);
