@@ -1,4 +1,4 @@
-export interface FeishuResponse {
+export interface FeishuResponse<D = unknown> {
   code?: number;
-  data?: unknown;
+  data?: D;
 }

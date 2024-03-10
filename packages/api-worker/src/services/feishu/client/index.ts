@@ -9,6 +9,7 @@ const AppAccessTokenResultSchema = z.object({
   msg: z.string(),
   app_access_token: z.string(),
   expire: z.number(),
+  start: z.number(),
 });
 
 export class Client {
@@ -16,23 +17,24 @@ export class Client {
 
   private _appSecret: string;
 
-  private _lastRequestAppAccessTokenExpiredTime: number | undefined;
-
-  private _appAccessToken: string | undefined;
-
   constructor(options: { appId: string; appSecret: string }) {
     this._appId = options.appId;
     this._appSecret = options.appSecret;
   }
 
-  async getAndSaveAppAccessToken() {
+  async getAndSaveAppAccessToken(ctx: Context) {
     const now = Date.now();
+    const env = ctx.env as Env;
+    const parsed = AppAccessTokenResultSchema.safeParse(
+      await env.FEISHU_APP_TOKEN_CACHE.get(`appid-${env.FEISHU_UPLOAD_APP_ID}`),
+    );
+
     if (
-      this._appAccessToken &&
-      typeof this._lastRequestAppAccessTokenExpiredTime === 'number' &&
-      now > this._lastRequestAppAccessTokenExpiredTime
+      parsed.success &&
+      parsed.data.app_access_token &&
+      now < parsed.data.expire * 1000 + parsed.data.start
     ) {
-      return this._appAccessToken;
+      return parsed.data.app_access_token;
     }
 
     const response = await fetch(
@@ -48,15 +50,23 @@ export class Client {
         }),
       },
     );
+    try {
+      const result = AppAccessTokenResultSchema.parse({
+        ...((await response.json()) ?? {}),
+        start: now,
+      });
 
-    const parsed = AppAccessTokenResultSchema.safeParse(await response.json());
-    if (parsed.success && parsed.data.code === 0) {
-      this._appAccessToken = parsed.data.app_access_token;
-      this._lastRequestAppAccessTokenExpiredTime =
-        now + parsed.data.expire * 1000;
-      return parsed.data.app_access_token;
-    } else {
-      throw new HTTPException(500, { res: response });
+      await env.FEISHU_APP_TOKEN_CACHE.put(
+        `appid-${env.FEISHU_UPLOAD_APP_ID}`,
+        JSON.stringify(result),
+        { expirationTtl: result.expire },
+      );
+
+      return result.app_access_token;
+    } catch (error) {
+      throw new HTTPException(500, {
+        message: error instanceof Error ? error.message : 'failed to parse.',
+      });
     }
   }
 }

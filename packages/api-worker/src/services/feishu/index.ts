@@ -2,8 +2,10 @@ import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { get, mapValues, pick } from 'lodash-es';
 import { z } from 'zod';
+import { AuthorizationHeaderSchema } from '../_schema/AuthorizationHeader';
 import { getOrCreateClient } from './client';
 import { FeishuResponse } from './types';
+import { getProfile } from './helpers/get-profile';
 
 const feishu = new Hono();
 
@@ -33,7 +35,7 @@ feishu.post(
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${await client.getAndSaveAppAccessToken()}`,
+          Authorization: `Bearer ${await client.getAndSaveAppAccessToken(ctx)}`,
         },
       },
     );
@@ -69,7 +71,7 @@ feishu.post(
         }),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${await client.getAndSaveAppAccessToken()}`,
+          Authorization: `Bearer ${await client.getAndSaveAppAccessToken(ctx)}`,
         },
       },
     );
@@ -78,10 +80,6 @@ feishu.post(
     return ctx.json(responseJson, responseJson.code !== 0 ? 500 : 200);
   },
 );
-
-const AuthorizationHeaderSchema = z.object({
-  authorization: z.string().startsWith('Bearer u-'),
-});
 
 /**
  * 获取登录用户信息
@@ -92,16 +90,8 @@ feishu.get(
   zValidator('header', AuthorizationHeaderSchema),
   async ctx => {
     const header = ctx.req.valid('header');
-    const response = await fetch(
-      'https://open.feishu.cn/open-apis/authen/v1/user_info',
-      {
-        headers: {
-          Authorization: header.authorization,
-        },
-      },
-    );
 
-    const responseJson = await response.json<FeishuResponse>();
+    const responseJson = await getProfile(header.authorization);
     return ctx.json(responseJson, responseJson.code !== 0 ? 500 : 200);
   },
 );

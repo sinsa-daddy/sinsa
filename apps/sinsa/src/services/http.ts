@@ -233,8 +233,15 @@ export async function postCopilot(
  */
 export async function getLatestVideo() {
   try {
-    const response = await http.get('/api-upload/btv/latest');
-    return response.data;
+    const response = await httpWithToken.get(
+      '/api-worker/bilibili/latest-videos',
+    );
+    if (
+      response.data?.code === 0 &&
+      Array.isArray(response.data?.data?.result)
+    ) {
+      return response.data?.data;
+    }
   } catch (error) {}
   return undefined;
 }
