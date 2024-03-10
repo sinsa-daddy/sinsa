@@ -6,6 +6,7 @@ import { AuthorizationHeaderSchema } from '../_schema/AuthorizationHeader';
 import { getOrCreateClient } from './client';
 import { FeishuResponse } from './types';
 import { getProfile } from './helpers/get-profile';
+import { createCopilot } from './helpers/create-copilot';
 
 const feishu = new Hono();
 
@@ -225,10 +226,28 @@ feishu.get(
         }),
       },
     );
-    return response;
 
-    // const responseJson = await response.json<FeishuResponse>();
-    // return ctx.json(responseJson, responseJson.code !== 0 ? 500 : 200);
+    const responseJson = await response.json<FeishuResponse>();
+    return ctx.json(responseJson, responseJson.code !== 0 ? 500 : 200);
+  },
+);
+
+feishu.post(
+  '/copilot',
+  zValidator('header', AuthorizationHeaderSchema),
+
+  async ctx => {
+    const header = ctx.req.valid('header');
+    const env = ctx.env as Env;
+    const body = await ctx.req.json();
+
+    const responseJson = await createCopilot({
+      body,
+      authorization: header.authorization,
+      env,
+    });
+
+    return ctx.json(responseJson, responseJson.code !== 0 ? 500 : 200);
   },
 );
 
