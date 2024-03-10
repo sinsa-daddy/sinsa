@@ -228,8 +228,13 @@ export async function postCopilot(
   remoteCopilot: Omit<FeishuCopilotType, 'created_time' | 'created_by'>,
 ) {
   try {
-    const response = await http.post('/api-upload/lark/copilot', remoteCopilot);
-    return response.data;
+    const response = await httpWithToken.post(
+      '/api-worker/feishu/copilot',
+      remoteCopilot,
+    );
+    if (response?.data?.code === 0) {
+      return response?.data?.data;
+    }
   } catch (error) {}
   return undefined;
 }
