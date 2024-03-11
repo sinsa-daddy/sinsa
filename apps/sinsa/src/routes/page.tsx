@@ -2,16 +2,13 @@ import { PageContainer, useBreakpoint } from '@ant-design/pro-components';
 import { Button, Checkbox, Image, Tag, Typography } from 'antd';
 import React, { useMemo } from 'react';
 import { Link } from '@modern-js/runtime/router';
-import { useModel } from '@modern-js/runtime/model';
 import QunURL from '@/assets/docs/qun.webp';
-import { TermsModel } from '@/models/terms';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { DarkModeButton } from '@/components/DarkModeButton';
 
 const IS_MAIN = window.location.hostname === 'sinsa-daddy.com';
 
 const Index = React.memo(() => {
-  const [{ latestTerm: currentTerm }] = useModel(TermsModel);
   const screen = useBreakpoint();
   const isLarge = useMemo(
     () => screen === 'lg' || screen === 'xl' || screen === 'xxl',
@@ -43,23 +40,15 @@ const Index = React.memo(() => {
       <Typography.Title level={4}>我们提供以下能力</Typography.Title>
       <div>
         <Checkbox checked={true}>根据收录作业提供最佳队伍匹配方案</Checkbox>
-        {currentTerm ? (
-          <Link to={RoutePath.Solutions('latest')}>
-            <Button type="primary">立即试试</Button>
-          </Link>
-        ) : null}
+        <Link to={RoutePath.Solutions('latest')}>
+          <Button type="primary">立即试试</Button>
+        </Link>
       </div>
       <div>
-        <Checkbox checked={false}>当期荒典词条信息</Checkbox>
-      </div>
-      <div>
-        <Checkbox checked={false}>
-          提供自己的 Box，根据自己的 Box 计算最佳队伍搭配方案。Box
-          会在用户本地存储
-        </Checkbox>
-      </div>
-      <div>
-        <Checkbox checked={false}>提供 Chrome 插件，改善作业收录体验</Checkbox>
+        <Checkbox checked={true}>当期荒典词条信息</Checkbox>
+        <Link to={RoutePath.Copilots('latest')}>
+          <Button type="primary">立即看看</Button>
+        </Link>
       </div>
       <Typography.Title level={4}>站点</Typography.Title>
       <Typography.Paragraph>
