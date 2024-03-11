@@ -81,7 +81,7 @@ const Index = React.memo(() => {
           <Button type="primary">去收录</Button>
         </Link>
       ) : (
-        <Link to={`https://sinsa-daddy.com/#/upload`} target="_blank">
+        <Link to={`https://sinsa-daddy.com/#/upload`} target="_self">
           <Button type="primary">去 sinsa-daddy.com 收录</Button>
         </Link>
       )}
