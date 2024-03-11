@@ -14,7 +14,7 @@ export default defineConfig<'rspack'>({
   source: {},
   runtime: {
     router: {
-      supportHtml5History: false,
+      supportHtml5History: true,
     },
     state: true,
   },
