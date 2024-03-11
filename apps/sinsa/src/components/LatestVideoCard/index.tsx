@@ -11,6 +11,7 @@ import { trimTitle } from '../utils';
 import { useLatestVideo } from './useLatestVideo';
 import styles from './styles.module.less';
 import type { SimpleLatestCopilotType } from './schemas/SimpleLatestCopilot';
+import type { SearchVideoType } from './schemas/SearchVideo';
 import { FeishuModel } from '@/models/feishu';
 
 interface LatestVideoCardProps {
@@ -24,6 +25,7 @@ interface LatestVideoCardRef {
     maxScoreCopilot: SimpleLatestCopilotType | undefined;
     minScoreCopilot: SimpleLatestCopilotType | undefined;
   };
+  latestVideo: SearchVideoType | undefined;
 }
 
 export function useLatestVideoCardRef() {
@@ -72,9 +74,10 @@ export const LatestVideoCard = React.forwardRef<
       return {
         refresh,
         latestMaxAndMinScoreCopilots,
+        latestVideo: latestVideos?.result?.[0],
       };
     },
-    [refresh, latestMaxAndMinScoreCopilots],
+    [refresh, latestMaxAndMinScoreCopilots, latestVideos?.result?.[0]?.bvid],
   );
 
   const { data, loading: loadingDenyList } = useRequest(async () => {

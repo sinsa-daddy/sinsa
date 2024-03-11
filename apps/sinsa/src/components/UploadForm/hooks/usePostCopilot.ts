@@ -8,9 +8,10 @@ export function usePostCopilot() {
     useRequest(
       async (
         submitCopilot: Omit<CopilotNextType, 'created_time' | 'created_by'>,
+        { triggerAction }: { triggerAction?: boolean },
       ) => {
         const remoteCopilot = toFeishuCopilotWithoutCreatedInfo(submitCopilot);
-        const result = await postCopilot(remoteCopilot);
+        const result = await postCopilot(remoteCopilot, { triggerAction });
 
         return result;
       },

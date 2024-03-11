@@ -8,5 +8,6 @@ interface Env {
   FEISHU_COPILOT_APP_ID: string;
   BILI_DAILY_CACHE: KVNamespace;
   FEISHU_APP_TOKEN_CACHE: KVNamespace;
+  GITHUB_TOKEN: string;
   [key: string]: unknown;
 }

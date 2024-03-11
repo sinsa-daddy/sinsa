@@ -115,12 +115,21 @@ export const UploadForm: React.FC = () => {
 
               console.log('开始提交', checkResult, submitValues);
 
+              const isLatestVideo =
+                typeof latestVideoCardRef.current?.latestVideo?.bvid ===
+                  'string' &&
+                values.href.startsWith(
+                  latestVideoCardRef.current?.latestVideo?.bvid,
+                );
+
               try {
                 const submitCopilot = await CopilotNextSchema.omit({
                   created_by: true,
                   created_time: true,
                 }).parseAsync(submitValues);
-                const result = await postCopilotAsync(submitCopilot);
+                const result = await postCopilotAsync(submitCopilot, {
+                  triggerAction: isLatestVideo || undefined,
+                });
 
                 if (result?.record?.record_id) {
                   notification.success({

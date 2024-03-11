@@ -226,11 +226,15 @@ export async function checkVideoExist({
  */
 export async function postCopilot(
   remoteCopilot: Omit<FeishuCopilotType, 'created_time' | 'created_by'>,
+  { triggerAction }: { triggerAction?: boolean },
 ) {
   try {
     const response = await httpWithToken.post(
       '/api-worker/feishu/copilot',
       remoteCopilot,
+      {
+        params: { triggerAction },
+      },
     );
     if (response?.data?.code === 0) {
       return response?.data?.data;
