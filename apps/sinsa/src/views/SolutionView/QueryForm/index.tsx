@@ -138,12 +138,12 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
           ) : null;
         }}
       </ProFormDependency>
-      <ProFormDependency name={[ensureQueryKey('copilotsDiff')]}>
+      {/* <ProFormDependency name={[ensureQueryKey('copilotsDiff')]}>
         {({ copilotsDiff }: Pick<QueryParamsType, 'copilotsDiff'>) => {
           console.log('copilotsDiff', copilotsDiff);
           return null;
         }}
-      </ProFormDependency>
+      </ProFormDependency> */}
     </ProForm>
   );
 };
