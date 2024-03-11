@@ -8,6 +8,8 @@ import { TermsModel } from '@/models/terms';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { DarkModeButton } from '@/components/DarkModeButton';
 
+const IS_MAIN = window.location.hostname === 'sinsa-daddy.com';
+
 const Index = React.memo(() => {
   const [{ latestTerm: currentTerm }] = useModel(TermsModel);
   const screen = useBreakpoint();
@@ -59,36 +61,13 @@ const Index = React.memo(() => {
       <div>
         <Checkbox checked={false}>提供 Chrome 插件，改善作业收录体验</Checkbox>
       </div>
-      <Typography.Title level={4}>镜像站点</Typography.Title>
-      <Typography.Paragraph>
-        本站点部署在 Github Pages
-        上，国内访问可能较慢。我们之后会提供国内镜像站点
-      </Typography.Paragraph>
+      <Typography.Title level={4}>站点</Typography.Title>
       <Typography.Paragraph>
         首发站点{' '}
-        <Typography.Link href="https://sinsa-daddy.github.io/" target="_self">
+        <Typography.Link href="https://sinsa-daddy.com" target="_self">
           https://sinsa-daddy.github.io/
-        </Typography.Link>
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        国内镜像站点{' '}
-        <Typography.Link href="https://sinsa-daddy.gitee.io/" target="_self">
-          https://sinsa-daddy.gitee.io/
         </Typography.Link>{' '}
         <Tag color="blue">推荐</Tag>
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        国外镜像站点{' '}
-        <Typography.Link href="https://sinsa-daddy.pages.dev/" target="_self">
-          https://sinsa-daddy.pages.dev/
-        </Typography.Link>{' '}
-        <Tag color="blue">推荐</Tag>
-      </Typography.Paragraph>
-      <Typography.Paragraph>
-        国外镜像站点{' '}
-        <Typography.Link href="https://sinsa-daddy.netlify.app/" target="_self">
-          https://sinsa-daddy.netlify.app/
-        </Typography.Link>{' '}
       </Typography.Paragraph>
       <Typography.Title level={4}>作业收录</Typography.Title>
       <Typography.Paragraph>
@@ -97,9 +76,15 @@ const Index = React.memo(() => {
           有飞书账号且加入我们红油扳手飞书群
         </Typography.Text>
       </Typography.Paragraph>
-      <Link to={`https://sinsa-daddy.com/#/upload`} target="_blank">
-        <Button type="primary">去收录</Button>
-      </Link>
+      {IS_MAIN ? (
+        <Link to={`/upload`}>
+          <Button type="primary">去收录</Button>
+        </Link>
+      ) : (
+        <Link to={`https://sinsa-daddy.com/#/upload`} target="_blank">
+          <Button type="primary">去 sinsa-daddy.com 收录</Button>
+        </Link>
+      )}
     </PageContainer>
   );
 });
