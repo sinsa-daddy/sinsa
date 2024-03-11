@@ -65,7 +65,7 @@ const Index = React.memo(() => {
       <Typography.Paragraph>
         首发站点{' '}
         <Typography.Link href="https://sinsa-daddy.com" target="_self">
-          https://sinsa-daddy.github.io/
+          https://sinsa-daddy.com
         </Typography.Link>{' '}
         <Tag color="blue">推荐</Tag>
       </Typography.Paragraph>
