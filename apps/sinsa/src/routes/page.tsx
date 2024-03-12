@@ -60,6 +60,12 @@ const Index = React.memo(() => {
         </Typography.Link>{' '}
         <Tag color="blue">推荐</Tag>
       </Typography.Paragraph>
+      <Typography.Paragraph>
+        备用站点{' '}
+        <Typography.Link href="https://sinsa-daddy.gitee.io" target="_blank">
+          https://sinsa-daddy.gitee.io
+        </Typography.Link>{' '}
+      </Typography.Paragraph>
       <Typography.Title level={4}>作业收录</Typography.Title>
       <Typography.Paragraph>
         如果您是我们的作业收录同学，可以从这里跳转到对应收录页面，需要您
