@@ -6,7 +6,9 @@ import QunURL from '@/assets/docs/qun.webp';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { DarkModeButton } from '@/components/DarkModeButton';
 
-const IS_MAIN = window.location.hostname === 'sinsa-daddy.com';
+const IS_MAIN =
+  window.location.hostname === 'sinsa-daddy.com' ||
+  window.location.hostname === 'localhost';
 
 const Index = React.memo(() => {
   const screen = useBreakpoint();

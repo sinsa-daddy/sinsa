@@ -3,6 +3,7 @@ import { zValidator } from '@hono/zod-validator';
 import { get, mapValues, pick } from 'lodash-es';
 import { z } from 'zod';
 import { AuthorizationHeaderSchema } from '../_schema/AuthorizationHeader';
+import { USER_AGENT } from '../bilibili/constants';
 import { getOrCreateClient } from './client';
 import { FeishuResponse } from './types';
 import { getProfile } from './helpers/get-profile';
@@ -254,6 +255,8 @@ feishu.post(
       env,
     });
 
+    let triggerActionResponse: unknown | undefined;
+
     if (query.triggerAction) {
       const githubResponse = await fetch(
         `https://api.github.com/repos/sinsa-daddy/sinsa/dispatches`,
@@ -263,10 +266,13 @@ feishu.post(
             Accept: 'application/vnd.github+json',
             'Content-Type': 'application/json',
             Authorization: `token ${env.GITHUB_TOKEN}`,
+            'User-Agent': USER_AGENT,
           },
           body: JSON.stringify({ event_type: 'regenerate' }),
         },
       );
+
+      triggerActionResponse = await githubResponse.text();
 
       if (githubResponse.ok) {
         console.log('trigger success~');
@@ -276,7 +282,10 @@ feishu.post(
     return ctx.json(
       {
         ...responseJson,
-        triggerAction: query.triggerAction,
+        data: {
+          ...(responseJson?.data ?? undefined),
+          triggerActionResponse,
+        },
       },
       responseJson.code !== 0 ? 500 : 200,
     );
