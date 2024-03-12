@@ -9,15 +9,10 @@ import { AuroriansModel } from '@/models/aurorians';
 import { GlobalLayout } from '@/views/GlobalLayout';
 import { ServiceWorkerUpdateBanner } from '@/components/ServiceWorkerUpdateBanner';
 import { XFeatureBanner } from '@/components/XFeatureBanner';
-import { redirectToUploadPageWhenGettingCode } from '@/services/feishu-oauth';
 
 const Layout: React.FC = () => {
   const { terms: termsFromRemote, auroriansMap: auroriansMapFromRemote } =
     useLoaderData() as LayoutLoaderData;
-
-  useEffect(() => {
-    redirectToUploadPageWhenGettingCode();
-  }, []);
 
   const [terms, termsActions] = useModel(TermsModel);
   const [aurorians, auroriansActions] = useModel(AuroriansModel);
