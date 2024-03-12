@@ -15,7 +15,7 @@ import { FeishuAccessTokenSchema } from '@/schemas/feishu-access-token';
 
 export const LarkLoginCard: React.FC = () => {
   const REDIRECT_URI = useMemo(() => {
-    return `${window.location.origin}/#${RoutePath.Upload}/`;
+    return `${window.location.origin}${RoutePath.Upload}/`;
   }, []);
 
   const [larkpreLoginCode, setLarkpreLoginCode] = useState<string>();
