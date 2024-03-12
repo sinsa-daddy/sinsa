@@ -255,7 +255,7 @@ feishu.post(
       env,
     });
 
-    let triggerActionResponse: unknown | undefined;
+    let githubResponseOk = false;
 
     if (query.triggerAction) {
       const githubResponse = await fetch(
@@ -272,10 +272,8 @@ feishu.post(
         },
       );
 
-      triggerActionResponse = await githubResponse.text();
-
       if (githubResponse.ok) {
-        console.log('trigger success~');
+        githubResponseOk = true;
       }
     }
 
@@ -284,7 +282,7 @@ feishu.post(
         ...responseJson,
         data: {
           ...(responseJson?.data ?? undefined),
-          triggerActionResponse,
+          githubResponseOk,
         },
       },
       responseJson.code !== 0 ? 500 : 200,
