@@ -6,6 +6,7 @@ import numeral from 'numeral';
 import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import { CopilotBlock } from './CopilotBlock';
 import styles from './styles.module.less';
+import { getSolutionTitle } from './helpers';
 
 const copilotRowKey = (c: CopilotNextType) => c.copilot_id;
 
@@ -20,12 +21,13 @@ export const SolutionCard = React.memo<SolutionCardProps>(
     const sorted = useMemo(() => {
       return [...solution.copilots].sort((a, b) => b.score - a.score);
     }, [solution]);
+
     return (
       <Card className={styles.SolutionCard} bodyStyle={{ paddingBottom: 16 }}>
         <div className={styles.TotalScore}>
-          <Typography.Text strong>{`#${index + 1} 匹配方案 ${numeral(
-            solution.totalScore,
-          ).format('0,0')}`}</Typography.Text>
+          <Typography.Text strong>{`#${index + 1} ${getSolutionTitle(
+            solution.copilots.length,
+          )} ${numeral(solution.totalScore).format('0,0')}`}</Typography.Text>
         </div>
 
         {sorted.map(copilot => {
