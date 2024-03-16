@@ -1,14 +1,17 @@
-import { ConfigProvider, Empty, List, Result } from 'antd';
+import { ConfigProvider, Empty, List, Result, Typography } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import type { TermNextType } from '@sinsa/schema';
 import { useSolutionResultContext } from '../context';
 import styles from './styles.module.less';
 import SINSA_SORRY_URL from '@/assets/sinsa/sorry.png';
+import SINSA_GO_URL from '@/assets/sinsa/get_started.png';
 import { SolutionCard } from '@/components/SolutionCard';
 
 const getRowKey = (sc: Solution) =>
   sc.copilots.map(c => c.copilot_id).join(',');
+
+const EmptyImageStyle: React.CSSProperties = { opacity: 0.5 };
 
 export interface SolutionListViewProps {
   currentTerm: TermNextType;
@@ -71,8 +74,13 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
               />
             ) : (
               <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="准备好寻找作业了！"
+                image={<img src={SINSA_GO_URL} alt="醒山daddy: 信心" />}
+                imageStyle={EmptyImageStyle}
+                description={
+                  <Typography.Text type="secondary">
+                    准备好寻找作业匹配了！
+                  </Typography.Text>
+                }
               />
             );
           }
