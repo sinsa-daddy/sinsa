@@ -28,8 +28,7 @@ export function canUseCopilot(
     // 1. 如果作业中的光灵本身是可替换的，则跳过此光灵判断
     if (
       !disableAlternative &&
-      aurorianRequirement.remark?.replace?.type === 'any' &&
-      aurorianRequirement.remark.replace.any === 'All'
+      aurorianRequirement.remark?.replace?.type === 'any'
     ) {
       continue;
     }
