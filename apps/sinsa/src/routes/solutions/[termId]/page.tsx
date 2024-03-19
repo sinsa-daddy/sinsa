@@ -43,7 +43,7 @@ const SolutionsPage: React.FC = () => {
       title="作业匹配"
       loading={loading}
     >
-      {error ? (
+      {error || !copilots?.length ? (
         <TermNotFound />
       ) : currentTerm ? (
         <SolutionView copilots={copilots} currentTerm={currentTerm} />

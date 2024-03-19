@@ -42,7 +42,7 @@ const CopilotsPage: React.FC = () => {
       >
         <Flex vertical gap="middle">
           {currentTerm ? <BossCard term={currentTerm} /> : null}
-          {error ? (
+          {error || !copilots?.length ? (
             <TermNotFound />
           ) : currentTerm ? (
             <CopilotsView currentTerm={currentTerm} copilots={copilots} />
