@@ -18,7 +18,7 @@ import { useInitialValues } from './hooks/use-initial-values';
 import { EXTENDED_TEAM_COUNT } from './constants';
 import { ensureQueryKey } from './utils';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
-import { RumArmsMyEvent, RumArmsMyType } from '@/plugins/arms';
+import { RumArmsMyType } from '@/plugins/arms';
 
 interface QueryFormProps {
   termId: TermNextType['term_id'];
@@ -86,8 +86,8 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
 
       ArmsRum.sendEvent({
         event_type: RumEventType.ACTION,
-        type: RumArmsMyType.Query,
-        name: RumArmsMyEvent.QuerySolution,
+        type: RumArmsMyType.QuerySolution,
+        name: '查询寻找方案',
         k: params.k,
         term_id: termId,
         snapshots: JSON.stringify(params),

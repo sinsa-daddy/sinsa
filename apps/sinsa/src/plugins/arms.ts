@@ -36,9 +36,5 @@ export function initArmsRum() {
 }
 
 export enum RumArmsMyType {
-  Query = 'query',
-}
-
-export enum RumArmsMyEvent {
   QuerySolution = 'query_solution',
 }
