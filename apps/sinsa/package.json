@@ -30,7 +30,6 @@
     "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",
     "@sinsa/solution-calculator": "workspace:^",
-    "aegis-web-sdk": "^1.39.1",
     "ahooks": "^3.7.8",
     "antd": "^5.11.3",
     "axios": "^1.6.4",

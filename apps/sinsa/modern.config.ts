@@ -1,5 +1,6 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { updateNotionAurorians } from './plugins/update-notion-aurorians';
 import { formatOutputPlugin } from './plugins/foramt-output';
@@ -9,9 +10,23 @@ import { updateFeishuCopilots } from './plugins/update-feishu-copilots';
 
 const __DIR_NAME = dirname(fileURLToPath(import.meta.url));
 
+const __COMMIT_HASH__ = execSync('git rev-parse --short HEAD')
+  .toString()
+  .trim();
+const __COMMIT_TIME__ = execSync(
+  'git log -1 --date=format:"%Y-%m-%d %T%z" --format="%ad"',
+)
+  .toString()
+  .trim();
+
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
-  source: {},
+  source: {
+    define: {
+      __COMMIT_HASH__: JSON.stringify(__COMMIT_HASH__),
+      __COMMIT_TIME__: JSON.stringify(__COMMIT_TIME__),
+    },
+  },
   runtime: {
     router: {
       supportHtml5History: true,
@@ -29,6 +44,7 @@ export default defineConfig<'rspack'>({
     fetchDataNext(),
     updateFeishuCopilots(),
   ],
+
   html: {
     title: '红油扳手作业站',
     favicon: './src/assets/wrench.svg',

@@ -1,8 +1,6 @@
 /// <reference types='@modern-js/app-tools/types' />
 /// <reference types='@modern-js/runtime/types' />
 /// <reference types='@modern-js/runtime/types/router' />
-declare module 'aegis-web-sdk/lib/aegis.f.min' {
-  import Aegis from 'aegis-web-sdk';
 
-  export default Aegis;
-}
+declare const __COMMIT_HASH__: string;
+declare const __COMMIT_TIME__: string;
