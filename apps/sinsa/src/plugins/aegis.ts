@@ -14,3 +14,11 @@ export const aegis = new Aegis({
       ? 'production'
       : 'local',
 });
+
+export enum AegisCustomEvent {
+  QuerySolution = 'query_solution',
+}
+
+export enum AegisCustomTimeEvent {
+  QuerySolutionTime = 'query_solution_time',
+}

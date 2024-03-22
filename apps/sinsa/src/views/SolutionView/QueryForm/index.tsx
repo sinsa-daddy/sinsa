@@ -16,6 +16,7 @@ import { useInitialValues } from './hooks/use-initial-values';
 import { EXTENDED_TEAM_COUNT } from './constants';
 import { ensureQueryKey } from './utils';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
+import { AegisCustomEvent, AegisCustomTimeEvent, aegis } from '@/plugins/aegis';
 
 interface QueryFormProps {
   termId: TermNextType['term_id'];
@@ -77,7 +78,13 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
 
   const handleOnFinish = useCallback(
     async (params: QueryParamsType) => {
+      aegis.reportEvent({
+        name: AegisCustomEvent.QuerySolution,
+        ext1: JSON.stringify(params),
+      });
+      aegis.time(AegisCustomTimeEvent.QuerySolutionTime);
       await requestSolution(copilots, params);
+      aegis.timeEnd(AegisCustomTimeEvent.QuerySolutionTime);
     },
     [copilots],
   );
