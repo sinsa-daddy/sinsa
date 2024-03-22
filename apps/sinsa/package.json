@@ -23,12 +23,12 @@
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
     "@ant-design/pro-components": "^2.6.43",
-    "@arms/rum-browser": "^0.0.21",
     "@ebay/nice-modal-react": "^1.2.13",
     "@icon-park/react": "^1.4.2",
     "@modern-js/runtime": "2.42.1",
     "@sinsa/schema": "workspace:^",
     "@sinsa/solution-calculator": "workspace:^",
+    "aegis-web-sdk": "^1.39.1",
     "ahooks": "^3.7.8",
     "antd": "^5.11.3",
     "axios": "^1.6.4",
