@@ -87,7 +87,7 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
       ArmsRum.sendEvent({
         event_type: RumEventType.ACTION,
         type: RumArmsMyType.QuerySolution,
-        name: '查询寻找方案',
+        name: '回溯搜索配队方案',
         k: params.k,
         term_id: termId,
         snapshots: JSON.stringify(params),
