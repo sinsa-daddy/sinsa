@@ -89,6 +89,7 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
         type: RumArmsMyType.Query,
         name: RumArmsMyEvent.QuerySolution,
         k: params.k,
+        term_id: termId,
         snapshots: JSON.stringify(params),
         duration: Date.now() - start,
       });
