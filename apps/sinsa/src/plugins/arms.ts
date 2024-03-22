@@ -7,7 +7,7 @@ export function initArmsRum() {
     pid: 'efvpghf1ny@b201b32018ef0b3',
     endpoint: 'https://efvpghf1ny-default-cn.rum.aliyuncs.com',
     beforeReport(bundle) {
-      if (bundle.app.env === 'local') {
+      if (bundle.app.env !== 'prod') {
         return null;
       }
       return bundle;
