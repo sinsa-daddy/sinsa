@@ -11,6 +11,7 @@ import {
 } from 'antd';
 import React from 'react';
 import { Link } from '@modern-js/runtime/router';
+import styles from './page.styles.module.less';
 import QunURL from '@/assets/docs/qun.webp';
 // import { DarkModeButton } from '@/components/DarkModeButton';
 import { HeroSection } from '@/components/Hero';
@@ -59,16 +60,12 @@ const Index = React.memo(() => {
   return (
     <>
       <HeroSection />
-      <Flex vertical wrap="nowrap" gap={12}>
-        <Card size="small">
-          <Descriptions
-            size="small"
-            column={{ xs: 1, sm: 2, md: 3, lg: 3 }}
-            items={items}
-          />
+      <Flex className={styles.MainBody} vertical wrap="nowrap" gap={12}>
+        <Card>
+          <Descriptions size="small" column={1} items={items} />
         </Card>
 
-        <Card size="small">
+        <Card>
           <Typography.Paragraph>
             如果您是我们的作业收录同学，可以从这里跳转到对应收录页面，需要您
             <Typography.Text strong>
@@ -87,7 +84,7 @@ const Index = React.memo(() => {
             )}
           </div>
         </Card>
-        <Card size="small">
+        <Card>
           <Typography.Paragraph>
             网站依然正在完善并且变得更好，我们也仍然十分缺少收录作业数据工。如果您也想参与作业收录工作，可以加入我们
             QQ 群，我们会提供收录权限。

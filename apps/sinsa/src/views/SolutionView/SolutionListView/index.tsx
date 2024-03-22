@@ -90,7 +90,9 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
         <List<Solution>
           loading={loadingSolutionResult}
           dataSource={solutionResult?.allSolutions.solutions}
-          pagination={pagination}
+          pagination={
+            solutionResult?.allSolutions.solutions.length ? pagination : false
+          }
           rowKey={getRowKey}
           renderItem={item => (
             <SolutionCard

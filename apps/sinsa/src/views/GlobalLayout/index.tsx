@@ -43,6 +43,8 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
     navigate('/');
   }, []);
 
+  const isHome = location.pathname === RoutePath.Home;
+
   const token = useMemo(() => {
     return { pageContainer: { paddingInlinePageContainerContent: 12 } };
   }, []);
@@ -69,7 +71,7 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         menuItemRender={renderMenuItem}
         onMenuHeaderClick={handleClickLogo}
         siderWidth={200}
-        layout={'side'}
+        layout={isHome ? 'top' : 'side'}
         token={token}
         ErrorBoundary={ErrorBoundary}
         headerContentRender={(_, dom) => (
