@@ -25,6 +25,6 @@ export function initArmsRum() {
       action: true,
     },
     // 链路追踪配置开关，默认关闭
-    tracing: true,
+    tracing: false,
   });
 }
