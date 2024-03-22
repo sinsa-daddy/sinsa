@@ -47,6 +47,9 @@ importers:
       '@ant-design/pro-components':
         specifier: ^2.6.43
         version: 2.6.43(antd@5.11.3)(rc-field-form@1.40.0)(react-dom@18.2.0)(react@18.2.0)
+      '@arms/rum-browser':
+        specifier: ^0.0.21
+        version: 0.0.21
       '@ebay/nice-modal-react':
         specifier: ^1.2.13
         version: 1.2.13(react-dom@18.2.0)(react@18.2.0)
@@ -1028,6 +1031,19 @@ packages:
       jsonpointer: 5.0.1
       leven: 3.1.0
     dev: true
+
+  /@arms/rum-browser@0.0.21:
+    resolution: {integrity: sha512-BnAulNjt6gHY8Jo7uUkKcNyGOoBSCtX5TtTbDpP9YZKw4VuTDIt/gKOQTqD+iZexdNb0KP2Js9qMCnFmvXQ9Mg==}
+    dependencies:
+      '@arms/rum-core': 0.0.20
+      web-vitals: 3.5.2
+    dev: false
+
+  /@arms/rum-core@0.0.20:
+    resolution: {integrity: sha512-3bDMkALnDrTYK5h47CvzmZpST2Yz/+v3EFZmAvBoETIT9K4CTtgPPjcAQtk+IE+bhizZWzueXiblj+B/wal4Hg==}
+    dependencies:
+      events: 3.3.0
+    dev: false
 
   /@ast-grep/napi-darwin-arm64@0.12.0:
     resolution: {integrity: sha512-yF1AZKCaiv5Yoq+c/EgUBVRJVJ9LOPW6k9Spaa+Vua2WVt0gRsUGf29TWVixp3ChUbtZGqp3pmz+Ypblow5JBg==}
@@ -18264,6 +18280,10 @@ packages:
   /web-streams-polyfill@3.2.1:
     resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
     engines: {node: '>= 8'}
+
+  /web-vitals@3.5.2:
+    resolution: {integrity: sha512-c0rhqNcHXRkY/ogGDJQxZ9Im9D19hDihbzSQJrsioex+KnFgmMzBiy57Z1EjkhX/+OjyBpclDCzz2ITtjokFmg==}
+    dev: false
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}

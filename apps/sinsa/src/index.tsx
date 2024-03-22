@@ -10,4 +10,7 @@ export default async function bootstrap(
   innerBootStrap();
 
   serviceWorker.register();
+  import('./plugins/arms').then(({ initArmsRum }) => {
+    initArmsRum();
+  });
 }
