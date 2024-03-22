@@ -10,12 +10,15 @@ import { useCallback, useMemo } from 'react';
 import { Space, Typography } from 'antd';
 import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import { Search } from '@icon-park/react';
+import ArmsRum from '@arms/rum-browser';
+import { RumEventType } from '@arms/rum-core';
 import type { QueryParamsType } from '../schemas/query-params';
 import { useSolutionResultContext } from '../context';
 import { useInitialValues } from './hooks/use-initial-values';
 import { EXTENDED_TEAM_COUNT } from './constants';
 import { ensureQueryKey } from './utils';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
+import { RumArmsMyEvent, RumArmsMyType } from '@/plugins/arms';
 
 interface QueryFormProps {
   termId: TermNextType['term_id'];
@@ -77,15 +80,18 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
 
   const handleOnFinish = useCallback(
     async (params: QueryParamsType) => {
-      // aegis.reportEvent({
-      //   name: AegisCustomEvent.QuerySolution,
-      //   ext1: termId,
-      //   ext2: params.k.toString(),
-      //   ext3: JSON.stringify(params),
-      // });
-      // aegis.time(AegisCustomTimeEvent.QuerySolutionTime);
+      const start = Date.now();
+
       await requestSolution(copilots, params);
-      // aegis.timeEnd(AegisCustomTimeEvent.QuerySolutionTime);
+
+      ArmsRum.sendEvent({
+        event_type: RumEventType.ACTION,
+        type: RumArmsMyType.Query,
+        name: RumArmsMyEvent.QuerySolution,
+        k: params.k,
+        snapshots: JSON.stringify(params),
+        duration: Date.now() - start,
+      });
     },
     [copilots],
   );

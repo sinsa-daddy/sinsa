@@ -50,6 +50,9 @@ importers:
       '@arms/rum-browser':
         specifier: ^0.0.21
         version: 0.0.21
+      '@arms/rum-core':
+        specifier: ^0.0.20
+        version: 0.0.20
       '@ebay/nice-modal-react':
         specifier: ^1.2.13
         version: 1.2.13(react-dom@18.2.0)(react@18.2.0)
