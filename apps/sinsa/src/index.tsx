@@ -8,8 +8,9 @@ export default async function bootstrap(
   innerBootStrap: () => void,
 ) {
   innerBootStrap();
-
   serviceWorker.register();
+
+  // APM
   import('./plugins/arms').then(({ initArmsRum }) => {
     initArmsRum();
   });
