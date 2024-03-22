@@ -1,6 +1,5 @@
 import {
   // Analysis,
-  EmotionHappy,
   Home,
   Search,
   ViewList,
@@ -40,11 +39,11 @@ export const MY_ROUTE = {
     //   name: '数据全览',
     //   icon: <Analysis size={16} />,
     // },
-    {
-      path: RoutePath.Questions,
-      name: '问卷调查',
-      icon: <EmotionHappy size={16} />,
-      link: true,
-    },
+    // {
+    //   path: RoutePath.Questions,
+    //   name: '问卷调查',
+    //   icon: <EmotionHappy size={16} />,
+    //   link: true,
+    // },
   ],
 };
