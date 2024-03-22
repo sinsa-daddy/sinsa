@@ -12,7 +12,6 @@ import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import { Search } from '@icon-park/react';
 import ArmsRum from '@arms/rum-browser';
 import { RumEventType } from '@arms/rum-core';
-import { mapKeys } from 'lodash-es';
 import type { QueryParamsType } from '../schemas/query-params';
 import { useSolutionResultContext } from '../context';
 import { useInitialValues } from './hooks/use-initial-values';
@@ -84,13 +83,8 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
       ArmsRum.sendEvent({
         event_type: RumEventType.CUSTOM,
         type: RumArmsMyType.QuerySolution,
-        
-        'custom.term_id': termId,
-        ...mapKeys(params, (_, key) => {
-          return `custom.${key}`;
-        }),
-        'custom.name': '回溯搜索配队方案',
-        'name': '回溯搜索配队方案',
+        name: '回溯搜索配队方案',
+        group: JSON.stringify(params),
       });
 
       await requestSolution(copilots, params);
