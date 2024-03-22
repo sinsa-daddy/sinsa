@@ -12,6 +12,7 @@ export function initArmsRum() {
       }
       return bundle;
     },
+    version: `${__COMMIT_HASH__}${__COMMIT_TIME__}`,
     // 设置环境信息，参考值：'prod' | 'gray' | 'pre' | 'daily' | 'local'
     env:
       url.hostname === 'sinsa-daddy.com' ||
