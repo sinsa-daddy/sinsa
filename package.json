@@ -15,7 +15,8 @@
     "lint": "modern lint",
     "upgrade": "modern upgrade",
     "build": "turbo run build",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "start": "turbo run start"
   },
   "engines": {
     "node": ">=16.18.1"

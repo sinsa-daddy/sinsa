@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "name": "sinsa-next",
+      "path": "apps/sinsa-next/"
+    },
+    {
       "name": "api-worker",
       "path": "packages/api-worker/"
     },

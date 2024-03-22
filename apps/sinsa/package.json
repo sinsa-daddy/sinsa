@@ -6,7 +6,6 @@
     "dev": "modern dev",
     "build": "modern fetch-data-next && modern build",
     "build-only": "modern build",
-    "start": "modern start",
     "serve": "modern serve",
     "new": "modern new",
     "lint": "modern lint",
