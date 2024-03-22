@@ -11,8 +11,8 @@
     "upgrade": "modern upgrade"
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "2.43.0",
-    "@modern-js/module-tools": "2.43.0",
+    "@modern-js/eslint-config": "2.48.3",
+    "@modern-js/module-tools": "2.48.3",
     "@sinsa/schema": "workspace:^",
     "@types/node": "~16.11.7",
     "husky": "~8.0.1",

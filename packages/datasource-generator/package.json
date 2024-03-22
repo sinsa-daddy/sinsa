@@ -23,9 +23,9 @@
     "upath": "^2.0.1"
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "2.42.1",
-    "@modern-js/module-tools": "2.42.1",
-    "@modern-js/plugin-testing": "2.42.1",
+    "@modern-js/eslint-config": "2.48.3",
+    "@modern-js/module-tools": "2.48.3",
+    "@modern-js/plugin-testing": "2.48.3",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "~29.2.4",
     "@types/lodash": "^4.14.202",

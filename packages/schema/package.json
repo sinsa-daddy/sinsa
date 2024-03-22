@@ -12,8 +12,8 @@
     "upgrade": "modern upgrade"
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "2.42.1",
-    "@modern-js/module-tools": "2.42.1",
+    "@modern-js/eslint-config": "2.48.3",
+    "@modern-js/module-tools": "2.48.3",
     "@types/jest": "~29.2.4",
     "@types/node": "~16.11.7",
     "@types/react": "~18.0.26",

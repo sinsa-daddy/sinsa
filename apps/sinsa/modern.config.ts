@@ -4,7 +4,6 @@ import { execSync } from 'node:child_process';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { updateNotionAurorians } from './plugins/update-notion-aurorians';
 import { formatOutputPlugin } from './plugins/foramt-output';
-import { fetchDataSourcePlugin } from './plugins/fetch-data-source-plugin';
 import { fetchDataNext } from './plugins/fetch-data-next';
 import { updateFeishuCopilots } from './plugins/update-feishu-copilots';
 
@@ -37,8 +36,6 @@ export default defineConfig<'rspack'>({
     appTools({
       bundler: 'experimental-rspack',
     }),
-
-    fetchDataSourcePlugin(),
     formatOutputPlugin(),
     updateNotionAurorians(),
     fetchDataNext(),

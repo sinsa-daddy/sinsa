@@ -38,15 +38,15 @@
     ]
   },
   "devDependencies": {
-    "@modern-js-app/eslint-config": "2.42.1",
-    "@modern-js/builder-rspack-provider": "2.42.1",
-    "@modern-js/eslint-config": "2.42.1",
-    "@modern-js/monorepo-tools": "2.42.1",
-    "@modern-js/tsconfig": "2.42.1",
+    "@modern-js-app/eslint-config": "2.48.3",
+    "@modern-js/builder-rspack-provider": "2.46.1",
+    "@modern-js/eslint-config": "2.48.3",
+    "@modern-js/monorepo-tools": "2.48.3",
+    "@modern-js/tsconfig": "2.48.3",
     "husky": "^8.0.0",
     "lint-staged": "~13.1.0",
     "prettier": "^2.6.2",
-    "turbo": "^1.10.16",
+    "turbo": "1.13.0",
     "typescript": "^5.3.3"
   },
   "publishConfig": {
