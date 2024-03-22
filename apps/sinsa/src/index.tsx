@@ -11,7 +11,9 @@ export default async function bootstrap(
   serviceWorker.register();
 
   // APM
-  import('./plugins/arms').then(({ initArmsRum }) => {
-    initArmsRum();
-  });
+  import(/* webpackChunkName: "lib-arms" */ './plugins/arms').then(
+    ({ initArmsRum }) => {
+      initArmsRum();
+    },
+  );
 }
