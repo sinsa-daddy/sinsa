@@ -7,7 +7,7 @@ export const aegis = new Aegis({
   reportApiSpeed: true, // 接口测速
   reportAssetSpeed: true, // 静态资源测速
   hostUrl: 'https://rumt-zh.com', // 上报域名，中国大陆 rumt-zh.com
-  spa: false, // spa 应用页面跳转的时候开启 pv 计算
+  spa: true, // spa 应用页面跳转的时候开启 pv 计算
   env:
     url.hostname === 'sinsa-daddy.com' ||
     url.hostname === 'sinsa-daddy.gitee.io'
