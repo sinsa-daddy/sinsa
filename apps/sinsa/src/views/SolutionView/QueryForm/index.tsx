@@ -80,8 +80,9 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
     async (params: QueryParamsType) => {
       aegis.reportEvent({
         name: AegisCustomEvent.QuerySolution,
-        ext1: params.k.toString(),
-        ext2: JSON.stringify(params),
+        ext1: termId,
+        ext2: params.k.toString(),
+        ext3: JSON.stringify(params),
       });
       aegis.time(AegisCustomTimeEvent.QuerySolutionTime);
       await requestSolution(copilots, params);
