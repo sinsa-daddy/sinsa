@@ -45,10 +45,10 @@ export default defineConfig<'rspack'>({
       dayjs: 'dayjs',
       react: 'React',
       'react-dom': 'ReactDOM',
-      '@waline/client': 'Waline',
       'pinyin-pro': 'pinyinPro',
       axios: 'axios',
       '@ant-design/charts': 'Charts',
+      'aegis-web-sdk/lib/aegis.f.min': 'Aegis',
     },
     distPath: {
       html: '',
