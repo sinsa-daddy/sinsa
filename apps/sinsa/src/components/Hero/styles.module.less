@@ -1,0 +1,43 @@
+.Hero {
+  text-align: center;
+  padding: 66px 32px;
+
+  @media (max-width: 768px) {
+    & {
+      padding: 46px 32px;
+    }
+  }
+}
+
+.Name {
+  margin: 0 auto 16px auto;
+  font-size: 48px;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 36px;
+    }
+  }
+
+  .Accent {
+    background: linear-gradient(315deg, #dc5950 25%, #647eff);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.Description {
+  font-size: 18px;
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 16px;
+    }
+  }
+}
+
+.GoCopilotButtonText {
+  margin-right: 4px;
+}

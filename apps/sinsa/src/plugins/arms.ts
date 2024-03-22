@@ -6,6 +6,12 @@ export function initArmsRum() {
   ArmsRum.init({
     pid: 'efvpghf1ny@b201b32018ef0b3',
     endpoint: 'https://efvpghf1ny-default-cn.rum.aliyuncs.com',
+    beforeReport(bundle) {
+      if (bundle.app.env === 'local') {
+        return null;
+      }
+      return bundle;
+    },
     // 设置环境信息，参考值：'prod' | 'gray' | 'pre' | 'daily' | 'local'
     env:
       url.hostname === 'sinsa-daddy.com' ||
