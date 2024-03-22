@@ -84,11 +84,13 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
       ArmsRum.sendEvent({
         event_type: RumEventType.CUSTOM,
         type: RumArmsMyType.QuerySolution,
-        'custom.name': '回溯搜索配队方案',
+        
         'custom.term_id': termId,
         ...mapKeys(params, (_, key) => {
           return `custom.${key}`;
         }),
+        'custom.name': '回溯搜索配队方案',
+        'name': '回溯搜索配队方案',
       });
 
       await requestSolution(copilots, params);
