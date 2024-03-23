@@ -24,14 +24,15 @@ export const CoolCanvas = React.memo(() => {
     convas.width = w * pr;
     convas.height = h * pr;
     ctx.scale(pr, pr);
-    ctx.globalAlpha = 0.3;
+    ctx.globalAlpha = 0.2;
     const verticals: { x: number; y: number; v_x: number; v_y: number }[] = [];
     const verticals_side: any[] = [];
     const fillStyles: string[] = [];
     let firstTime = !0;
 
     function i() {
-      if ((ctx.clearRect(0, 0, w, h), firstTime)) {
+      ctx.clearRect(0, 0, w, h);
+      if (firstTime) {
         for (
           q = [
             { x: 0, y: 0.5 * h + bandwidth, v_x: 0, v_y: 0 },
