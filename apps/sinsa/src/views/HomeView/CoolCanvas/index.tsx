@@ -108,11 +108,19 @@ export const CoolCanvas = React.memo(() => {
       const e = t + (2 * random() - 1.1) * bandwidth;
       return e > h || 0 > e ? y(t) : e;
     }
-    document.addEventListener('touchmove', function (t) {
+
+    function toEvent(t: { preventDefault: () => void }) {
       t.preventDefault();
-    });
+    }
+
+    document.addEventListener('touchmove', toEvent);
 
     window.requestAnimationFrame(i);
+
+    // eslint-disable-next-line consistent-return
+    return (): void => {
+      document.removeEventListener('touchmove', toEvent);
+    };
   }, []);
   return <canvas className={styles.Cool} ref={canvasRef} />;
 });
