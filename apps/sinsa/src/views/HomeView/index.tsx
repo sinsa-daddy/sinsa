@@ -1,61 +1,12 @@
-import type { DescriptionsProps } from 'antd';
-import {
-  Button,
-  Card,
-  Flex,
-  Image,
-  Tag,
-  Typography,
-  Descriptions,
-  Space,
-} from 'antd';
+import { Button, Card, Flex, Image, Typography } from 'antd';
 import React from 'react';
 import { Link } from '@modern-js/runtime/router';
 import styles from './page.styles.module.less';
 import { HeroSection } from './Hero';
 import { CoolCanvas } from './CoolCanvas';
+import { DomainCard } from './Domain';
 import QunURL from '@/assets/docs/qun.webp';
-// import { DarkModeButton } from '@/components/DarkModeButton';
-
-const IS_MAIN =
-  window.location.hostname === 'sinsa-daddy.com' ||
-  window.location.hostname === 'localhost';
-
-const items: DescriptionsProps['items'] = [
-  {
-    label: '首发站点',
-    key: '1st',
-    children: (
-      <Space>
-        <Typography.Link href="https://sinsa-daddy.com" target="_self">
-          https://sinsa-daddy.com
-        </Typography.Link>
-        <Tag color="blue">推荐</Tag>
-      </Space>
-    ),
-  },
-  {
-    label: '备用站点',
-    key: '2nd',
-    children: (
-      <Typography.Link href="https://sinsa-daddy.gitee.io" target="_blank">
-        https://sinsa-daddy.gitee.io
-      </Typography.Link>
-    ),
-  },
-  {
-    label: 'Github',
-    key: 'github',
-    children: (
-      <Typography.Link
-        href="https://github.com/sinsa-daddy/sinsa"
-        target="_blank"
-      >
-        https://github.com/sinsa-daddy/sinsa
-      </Typography.Link>
-    ),
-  },
-];
+import { DOMAIN } from '@/services/domain';
 
 export const HomeView = React.memo(() => {
   return (
@@ -63,19 +14,22 @@ export const HomeView = React.memo(() => {
       <CoolCanvas />
       <HeroSection />
       <Flex className={styles.MainBody} vertical wrap="nowrap" gap={12}>
-        <Card>
-          <Descriptions size="small" column={1} items={items} />
-        </Card>
+        <DomainCard />
 
         <Card>
-          <Typography.Paragraph>
-            如果您是我们的作业收录同学，可以从这里跳转到对应收录页面，需要您
-            <Typography.Text strong>
-              有飞书账号且加入我们红油扳手飞书群
-            </Typography.Text>
-          </Typography.Paragraph>
+          <Card.Meta
+            title="作业收录"
+            description={
+              <Typography.Paragraph>
+                如果您是我们的作业收录同学，可以从这里跳转到对应收录页面，需要您
+                <Typography.Text strong>
+                  有飞书账号且加入我们红油扳手飞书群
+                </Typography.Text>
+              </Typography.Paragraph>
+            }
+          />
           <div>
-            {IS_MAIN ? (
+            {DOMAIN === 'main' ? (
               <Link to={`/upload`}>
                 <Button type="primary">去收录</Button>
               </Link>
@@ -87,10 +41,16 @@ export const HomeView = React.memo(() => {
           </div>
         </Card>
         <Card>
-          <Typography.Paragraph>
-            网站依然正在完善并且变得更好，我们也仍然十分缺少收录作业数据工。如果您也想参与作业收录工作，可以加入我们
-            QQ 群，我们会提供收录权限。
-          </Typography.Paragraph>
+          <Card.Meta
+            title="联系我们"
+            description={
+              <Typography.Paragraph>
+                网站依然正在完善并且变得更好，我们也仍然十分缺少收录作业数据工。如果您也想参与作业收录工作，可以加入我们
+                QQ 群，我们会提供收录权限。
+              </Typography.Paragraph>
+            }
+          />
+
           <Image width={100} src={QunURL} alt="qun" />
         </Card>
         <div></div>
