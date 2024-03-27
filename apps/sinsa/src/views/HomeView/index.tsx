@@ -54,8 +54,10 @@ export const HomeView = React.memo(() => {
             title="联系我们"
             description={
               <Typography.Paragraph>
-                网站依然正在完善并且变得更好，我们也仍然十分缺少收录作业数据工。如果您也想参与作业收录工作，可以加入我们
-                QQ 群，我们会提供收录权限。
+                网站依然正在完善并且变得更好。如果您荒典最高排名进入过
+                <Typography.Text strong>前100名</Typography.Text>
+                ，亦或者如果您也想参与作业收录工作，可以加入我们 QQ
+                群，我们会提供收录权限。
               </Typography.Paragraph>
             }
           />
