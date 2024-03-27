@@ -24,7 +24,7 @@ export const AurorianRequirementReplaceSchema = z
   .or(
     z.object({
       type: z.literal('any'),
-      any: z.enum(['All', 'DPS', 'TP']),
+      any: z.enum(['All', 'DPS', 'TP', 'Heal']),
     }),
   );
 

@@ -190,6 +190,12 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
               可替位移
             </Tag>
           ) : null}
+          {remark?.replace?.type === 'any' &&
+          remark?.replace?.any === 'Heal' ? (
+            <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
+              可替治疗
+            </Tag>
+          ) : null}
           {remark?.replace?.type === 'any' ? null : aurorian?.rarity &&
             remark?.level?.asc === 3 &&
             typeof remark?.level?.lv === 'number' ? (
