@@ -4,7 +4,7 @@ import { DOMAIN, DomainText } from '@/services/domain';
 
 export const DomainCard = React.memo(() => {
   return (
-    <Card>
+    <Card style={{ width: '100%' }}>
       <Card.Meta
         title="站点信息"
         description={
