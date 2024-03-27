@@ -16,6 +16,7 @@ export function initArmsRum() {
     // 设置环境信息，参考值：'prod' | 'gray' | 'pre' | 'daily' | 'local'
     env:
       url.hostname === 'sinsa-daddy.com' ||
+      url.hostname === 'sinsa.dad' ||
       url.hostname === 'sinsa-daddy.gitee.io'
         ? 'prod'
         : 'local',

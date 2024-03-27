@@ -2,7 +2,8 @@ export type DomainType = 'main' | 'backup' | 'localhost';
 
 export const DOMAIN: DomainType =
   // eslint-disable-next-line no-nested-ternary
-  window.location.hostname === 'sinsa-daddy.com'
+  window.location.hostname === 'sinsa-daddy.com' ||
+  window.location.hostname === 'sinsa.dad'
     ? 'main'
     : window.location.hostname === 'sinsa-daddy.gitee.io'
     ? 'backup'

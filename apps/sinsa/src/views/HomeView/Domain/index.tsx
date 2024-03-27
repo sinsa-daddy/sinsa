@@ -29,11 +29,7 @@ export const DomainCard = React.memo(() => {
             ) : (
               <div>
                 <Typography.Text type="secondary">切换至</Typography.Text>
-                <Typography.Link
-                  href="https://sinsa-daddy.com"
-                  target="_self"
-                  strong
-                >
+                <Typography.Link href="https://sinsa.dad" target="_self" strong>
                   {DomainText.main}
                 </Typography.Link>
               </div>

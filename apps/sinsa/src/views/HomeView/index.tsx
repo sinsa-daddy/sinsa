@@ -80,8 +80,8 @@ export const HomeView = React.memo(() => {
                 <Button type="primary">去收录</Button>
               </Link>
             ) : (
-              <Link to={`https://sinsa-daddy.com/upload`} target="_self">
-                <Button type="primary">去 sinsa-daddy.com 收录</Button>
+              <Link to={`https://sinsa.dad/upload`} target="_self">
+                <Button type="primary">去 sinsa.dad 收录</Button>
               </Link>
             )}
           </div>
