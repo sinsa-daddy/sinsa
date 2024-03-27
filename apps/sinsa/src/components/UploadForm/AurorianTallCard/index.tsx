@@ -24,6 +24,7 @@ interface AurorianTallCardProps {
 const REPLCE_OPTIONS = [
   { label: '可替', value: 'All' },
   { label: '可替输出', value: 'DPS' },
+  { label: '可替位移', value: 'TP' },
 ];
 
 const ASC_OPTIONS = [
