@@ -8,7 +8,7 @@ export const DomainCard = React.memo(() => {
       <Card.Meta
         title="站点信息"
         description={
-          <Space>
+          <Space wrap>
             <div>
               <Typography.Text>当前访问的是</Typography.Text>
               <Typography.Text strong>{DomainText[DOMAIN]}</Typography.Text>
