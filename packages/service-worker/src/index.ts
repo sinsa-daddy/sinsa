@@ -1,6 +1,10 @@
 import { cleanupOutdatedCaches } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst, NetworkFirst } from 'workbox-strategies';
+import {
+  CacheFirst,
+  NetworkFirst,
+  StaleWhileRevalidate,
+} from 'workbox-strategies';
 import { clientsClaim } from 'workbox-core';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
@@ -41,7 +45,7 @@ registerRoute(
 
 registerRoute(
   ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
-  new NetworkFirst({
+  new StaleWhileRevalidate({
     cacheName: 'StaticHTML',
   }),
 );
@@ -55,7 +59,7 @@ registerRoute(
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxEntries: 60,
+        maxEntries: 128,
         maxAgeSeconds: 14 * 24 * 60 * 60,
       }),
     ],
@@ -71,7 +75,7 @@ registerRoute(
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
       }),
     ],
   }),
