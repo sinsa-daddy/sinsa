@@ -10,7 +10,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 import { ReducedLazyMotion } from '@/plugins/framer-motion';
 import { DarkModeButton } from '@/components/DarkModeButton';
-import ThemeProvider from '@/theme/geek/ThemeProvider';
+// import ThemeProvider from '@/theme/geek/ThemeProvider';
 
 const NOOP = <div />;
 
@@ -75,7 +75,7 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
   );
 
   return (
-    <ThemeProvider disabled={location.pathname !== RoutePath.GachaAnalyse}>
+    <>
       <ProLayout
         title="红油扳手作业站"
         logo={<IconLogo />}
@@ -100,6 +100,6 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         <ReducedLazyMotion>{children}</ReducedLazyMotion>
       </ProLayout>
       <FloatButton.BackTop />
-    </ThemeProvider>
+    </>
   );
 };
