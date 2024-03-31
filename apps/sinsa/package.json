@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
-    "@ant-design/pro-components": "^2.6.43",
+    "@ant-design/cssinjs": "^1.18.5",
+    "@ant-design/pro-components": "^2.7.0",
     "@arms/rum-browser": "^0.0.21",
     "@arms/rum-core": "^0.0.20",
     "@ebay/nice-modal-react": "^1.2.13",
@@ -29,7 +30,7 @@
     "@sinsa/schema": "workspace:^",
     "@sinsa/solution-calculator": "workspace:^",
     "ahooks": "^3.7.8",
-    "antd": "^5.11.3",
+    "antd": "^5.15.4",
     "axios": "^1.6.4",
     "clsx": "^2.0.0",
     "constate": "^3.3.2",

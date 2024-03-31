@@ -14,7 +14,7 @@ export interface AuroriansState {
 }
 
 export interface AuroriansOption {
-  label: React.ReactNode;
+  label?: React.ReactNode;
   options?: { label: string; value: string; options?: unknown[] }[];
 }
 

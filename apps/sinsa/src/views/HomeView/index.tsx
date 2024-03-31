@@ -19,7 +19,7 @@ export const HomeView = React.memo(() => {
       <CoolCanvas />
       <HeroSection />
       <Flex className={styles.MainBody} wrap="wrap" gap={12}>
-        <Card
+        {/* <Card
           style={{ width: screen.xs ? '100%' : VIDEO_WIDTH }}
           cover={
             <img
@@ -42,6 +42,36 @@ export const HomeView = React.memo(() => {
           />
           <Link
             to={'https://www.bilibili.com/video/BV17u4m1P7sq/'}
+            target="_blank"
+          >
+            <Button type="primary" ghost icon={<Play />}>
+              观看视频
+            </Button>
+          </Link>
+        </Card> */}
+        <Card
+          style={{ width: screen.xs ? '100%' : VIDEO_WIDTH }}
+          cover={
+            <img
+              style={{ objectFit: 'cover', background: 'gray' }}
+              referrerPolicy="no-referrer"
+              crossOrigin="anonymous"
+              width={VIDEO_WIDTH}
+              height={VIDEO_WIDTH / (320 / 200)}
+              src={`//i0.hdslb.com/bfs/archive/531a8948c93746990cda3802061344b32c3c3bc7.jpg`}
+            />
+          }
+        >
+          <Card.Meta
+            title="“因为我们是超美学”"
+            description={
+              <Typography.Paragraph>
+                讲述了一件虽然充了很多钱，但由于没有满破查莉娅，最终还是无法抄作业的事情
+              </Typography.Paragraph>
+            }
+          />
+          <Link
+            to={'https://www.bilibili.com/video/BV1Sm411k7Qs/'}
             target="_blank"
           >
             <Button type="primary" ghost icon={<Play />}>

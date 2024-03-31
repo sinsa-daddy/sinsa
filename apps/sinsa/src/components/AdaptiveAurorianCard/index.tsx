@@ -29,10 +29,19 @@ interface AdaptiveArurorianCardProps {
   readOnly?: boolean;
   mini?: boolean;
   onReplace?: (aurorian: AurorianNextType) => void;
+  hideMeta?: boolean;
 }
 
 export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
-  ({ aurorianId: name, breakthrough, remark, readOnly, mini, onReplace }) => {
+  ({
+    aurorianId: name,
+    breakthrough,
+    remark,
+    readOnly,
+    mini,
+    onReplace,
+    hideMeta,
+  }) => {
     const [{ auroriansMap }] = useModel(AuroriansModel);
     const aurorian = useMemo(
       () => auroriansMap[name] as AurorianNextType | undefined,
@@ -152,27 +161,29 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
                   </ConfigProvider>
                 ) : null}
               </Flex>
-              <Flex align="center" className={styles.MetaContainer}>
-                <img
-                  className={styles.MetaClass}
-                  alt={aurorian.profession}
-                  src={ClassURLMapper[aurorian.profession]}
-                />
-                <Flex align="center" vertical={mini}>
+              {hideMeta ? null : (
+                <Flex align="center" className={styles.MetaContainer}>
                   <img
-                    className={styles.MetaFirstAttribute}
-                    alt={aurorian.primary_element}
-                    src={ElementURLMapper[aurorian.primary_element]}
+                    className={styles.MetaClass}
+                    alt={aurorian.profession}
+                    src={ClassURLMapper[aurorian.profession]}
                   />
-                  {aurorian.secondary_element ? (
+                  <Flex align="center" vertical={mini}>
                     <img
-                      className={styles.MetaSecondAttribute}
-                      alt={aurorian.secondary_element}
-                      src={ElementURLMapper[aurorian.secondary_element]}
+                      className={styles.MetaFirstAttribute}
+                      alt={aurorian.primary_element}
+                      src={ElementURLMapper[aurorian.primary_element]}
                     />
-                  ) : null}
+                    {aurorian.secondary_element ? (
+                      <img
+                        className={styles.MetaSecondAttribute}
+                        alt={aurorian.secondary_element}
+                        src={ElementURLMapper[aurorian.secondary_element]}
+                      />
+                    ) : null}
+                  </Flex>
                 </Flex>
-              </Flex>
+              )}
             </>
           ) : null}
           {remark?.replace?.type === 'any' && remark?.replace?.any === 'All' ? (
