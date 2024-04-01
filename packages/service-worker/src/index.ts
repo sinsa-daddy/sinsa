@@ -1,10 +1,6 @@
 import { cleanupOutdatedCaches } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import {
-  CacheFirst,
-  NetworkFirst,
-  StaleWhileRevalidate,
-} from 'workbox-strategies';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 import { clientsClaim } from 'workbox-core';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
@@ -45,8 +41,9 @@ registerRoute(
 
 registerRoute(
   ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
-  new StaleWhileRevalidate({
+  new NetworkFirst({
     cacheName: 'StaticHTML',
+    networkTimeoutSeconds: 500,
   }),
 );
 
@@ -119,32 +116,3 @@ self.addEventListener('activate', () => {
       });
     });
 });
-
-// addPlugins([
-//   {
-//     async cacheDidUpdate({ request, cacheName, newResponse }) {
-//       if (request.url.includes('api/v2/terms.json')) {
-//         const windows = await self.clients.matchAll({
-//           type: 'window',
-//           includeUncontrolled: true,
-//         });
-
-//         const responseData = await newResponse.clone().json();
-//         const payloadData = Array.isArray(responseData) ? responseData : [];
-
-//         for (const win of windows) {
-//           win.postMessage({
-//             type: 'TERMS_UPDATE',
-//             payload: { cacheName, updatedURL: request.url, terms: payloadData },
-//           });
-//         }
-//       }
-//     },
-//   },
-// ]);
-// /**
-//  * The precacheAndRoute() method efficiently caches and responds to
-//  * requests for URLs in the manifest.
-//  * See https://goo.gl/S9QRab
-//  */
-// precacheAndRoute(self.__WB_MANIFEST, {});

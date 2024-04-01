@@ -6,9 +6,10 @@ import { useEffect, useMemo } from 'react';
 import { DarkModel } from '@/models/dark';
 import { DARK_MODE_KEY } from '@/services/dark-mode';
 import { IconParkProvider } from '@/plugins/icon-park';
+import { GLOBAL_THEME } from '@/globalTheme';
 
 const ANTD_PREFIX_CLASSNAME = 'sinsa' as const;
-const COLOR_PRIMARY = 'rgb(220, 89, 80)';
+const COLOR_PRIMARY = GLOBAL_THEME.primaryColor;
 
 function useAntDesignTheme() {
   const [{ mode }] = useModel(DarkModel);

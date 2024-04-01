@@ -21,6 +21,7 @@ import { IconAsc } from './components/asc';
 import { AuroriansModel } from '@/models/aurorians';
 import { useSolutionResultContext } from '@/views/SolutionView/context';
 import { QueryFormAction } from '@/views/SolutionView/hooks/use-trigger-form-action/constants';
+import { GLOBAL_THEME } from '@/globalTheme';
 
 interface AdaptiveArurorianCardProps {
   aurorianId: string;
@@ -187,23 +188,35 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
             </>
           ) : null}
           {remark?.replace?.type === 'any' && remark?.replace?.any === 'All' ? (
-            <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
+            <Tag
+              className={styles.ReplaceableTag}
+              color={GLOBAL_THEME.primaryColor}
+            >
               可替
             </Tag>
           ) : null}
           {remark?.replace?.type === 'any' && remark?.replace?.any === 'DPS' ? (
-            <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
+            <Tag
+              className={styles.ReplaceableTag}
+              color={GLOBAL_THEME.primaryColor}
+            >
               可替输出
             </Tag>
           ) : null}
           {remark?.replace?.type === 'any' && remark?.replace?.any === 'TP' ? (
-            <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
+            <Tag
+              className={styles.ReplaceableTag}
+              color={GLOBAL_THEME.primaryColor}
+            >
               可替位移
             </Tag>
           ) : null}
           {remark?.replace?.type === 'any' &&
           remark?.replace?.any === 'Heal' ? (
-            <Tag className={styles.ReplaceableTag} color={'#dc5950'}>
+            <Tag
+              className={styles.ReplaceableTag}
+              color={GLOBAL_THEME.primaryColor}
+            >
               可替治疗
             </Tag>
           ) : null}

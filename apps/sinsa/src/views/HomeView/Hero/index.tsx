@@ -4,12 +4,16 @@ import { RightSmall } from '@icon-park/react';
 import { Link } from '@modern-js/runtime/router';
 import styles from './styles.module.less';
 import { RoutePath } from '@/views/GlobalLayout/constants';
+import { IS_FOOL } from '@/globalTheme';
 
 export const HeroSection = React.memo(() => {
   return (
     <section className={styles.Hero}>
       <Typography.Title className={styles.Name}>
-        <span className={styles.Accent}>红油扳手</span>作业站
+        <span className={styles.Accent}>
+          {IS_FOOL ? '白蛙王子' : '红油扳手'}
+        </span>
+        作业站
       </Typography.Title>
       <Typography.Paragraph type="secondary" className={styles.Description}>
         白夜极光一站式荒典作业收录 & 配队平台

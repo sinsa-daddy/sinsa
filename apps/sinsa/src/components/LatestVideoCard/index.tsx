@@ -13,6 +13,7 @@ import styles from './styles.module.less';
 import type { SimpleLatestCopilotType } from './schemas/SimpleLatestCopilot';
 import type { SearchVideoType } from './schemas/SearchVideo';
 import { FeishuModel } from '@/models/feishu';
+import { GLOBAL_THEME } from '@/globalTheme';
 
 interface LatestVideoCardProps {
   onClickNewCard?: (newBvid: string) => void;
@@ -145,7 +146,7 @@ export const LatestVideoCard = React.forwardRef<
                           <Tag color="green">已收录</Tag>
                         </Tooltip>
                       ) : inDenyList ? null : (
-                        <Tag color={'#dc5950'}>未收录</Tag>
+                        <Tag color={GLOBAL_THEME.primaryColor}>未收录</Tag>
                       )}
                       {onlyHitAuthor || tooShort ? (
                         <Tag color="orange-inverse">疑似非荒典作业</Tag>

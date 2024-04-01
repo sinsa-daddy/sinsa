@@ -6,7 +6,9 @@ import { useSolutionResultContext } from '../context';
 import styles from './styles.module.less';
 import SINSA_SORRY_URL from '@/assets/sinsa/sorry.png';
 import SINSA_GO_URL from '@/assets/sinsa/get_started.png';
+import FROG_GO_URL from '@/assets/sinsa/baiwa.jpg';
 import { SolutionCard } from '@/components/SolutionCard';
+import { IS_FOOL } from '@/globalTheme';
 
 const getRowKey = (sc: Solution) =>
   sc.copilots.map(c => c.copilot_id).join(',');
@@ -59,7 +61,7 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
                 icon={
                   <img
                     width={100}
-                    src={SINSA_SORRY_URL}
+                    src={IS_FOOL ? FROG_GO_URL : SINSA_SORRY_URL}
                     alt="醒山daddy: 很抱歉"
                   />
                 }
@@ -74,7 +76,12 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
               />
             ) : (
               <Empty
-                image={<img src={SINSA_GO_URL} alt="醒山daddy: 信心" />}
+                image={
+                  <img
+                    src={IS_FOOL ? FROG_GO_URL : SINSA_GO_URL}
+                    alt="醒山daddy: 信心"
+                  />
+                }
                 imageStyle={EmptyImageStyle}
                 description={
                   <Typography.Text type="secondary">
