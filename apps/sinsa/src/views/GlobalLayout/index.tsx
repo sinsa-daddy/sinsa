@@ -8,10 +8,10 @@ import { MY_ROUTE, RoutePath } from './constants';
 import styles from './styels.module.less';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
+import IconFrogLogoURL from '@/assets/sinsa/baiwa_logo.png';
 import { ReducedLazyMotion } from '@/plugins/framer-motion';
 import { DarkModeButton } from '@/components/DarkModeButton';
 import { IS_FOOL } from '@/globalTheme';
-import { Frog } from '@icon-park/react';
 // import ThemeProvider from '@/theme/geek/ThemeProvider';
 
 const NOOP = <div />;
@@ -80,7 +80,7 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
     <>
       <ProLayout
         title={IS_FOOL ? '白蛙王子作业站' : '红油扳手作业站'}
-        logo={IS_FOOL ? <Frog /> : <IconLogo />}
+        logo={IS_FOOL ? <img src={IconFrogLogoURL} /> : <IconLogo />}
         location={location}
         fixSiderbar
         route={MY_ROUTE}

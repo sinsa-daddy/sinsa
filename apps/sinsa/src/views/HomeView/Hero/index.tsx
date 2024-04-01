@@ -10,7 +10,7 @@ export const HeroSection = React.memo(() => {
   return (
     <section className={styles.Hero}>
       <Typography.Title className={styles.Name}>
-        <span className={styles.Accent}>
+        <span className={IS_FOOL ? styles.AccentFool : styles.Accent}>
           {IS_FOOL ? '白蛙王子' : '红油扳手'}
         </span>
         作业站
