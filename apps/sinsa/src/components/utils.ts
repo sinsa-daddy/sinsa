@@ -4,5 +4,5 @@ export function trimTitle(title: string): string {
     .replace('【白夜极光】', '')
     .replace('白夜极光', '')
     .replace('荒典', '')
-    .replace('[hidden]', '');
+    .replace('【荒典】', '');
 }
