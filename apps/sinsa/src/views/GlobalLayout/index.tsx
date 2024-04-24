@@ -4,6 +4,7 @@ import { cloneElement, useCallback, useMemo } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-components';
 import { Flex, FloatButton } from 'antd';
 import clsx from 'clsx';
+import { Provider as NiceModalProvider } from '@ebay/nice-modal-react';
 import { MY_ROUTE, RoutePath } from './constants';
 import styles from './styels.module.less';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -99,7 +100,9 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         headerRender={headerRender as any}
         footerRender={renderFooter}
       >
-        <ReducedLazyMotion>{children}</ReducedLazyMotion>
+        <ReducedLazyMotion>
+          <NiceModalProvider>{children}</NiceModalProvider>
+        </ReducedLazyMotion>
       </ProLayout>
       <FloatButton.BackTop />
     </>
