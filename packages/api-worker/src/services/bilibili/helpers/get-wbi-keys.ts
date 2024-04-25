@@ -1,12 +1,10 @@
-import { USER_AGENT } from '../constants';
-
 export async function getWBIKeys() {
   try {
     const navResponse = await fetch(
       'https://api.bilibili.com/x/web-interface/nav',
       {
         headers: {
-          'user-agent': USER_AGENT,
+          'user-agent': `${Math.random()}`,
           referer: 'https://www.bilibili.com',
           'Accept-Encoding': 'gzip, deflate, br',
           'Accept-Language':
