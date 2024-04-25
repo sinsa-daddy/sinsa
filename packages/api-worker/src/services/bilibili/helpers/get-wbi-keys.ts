@@ -13,8 +13,12 @@ export async function getWBIKeys() {
 
     const json = await navResponse.json<any>();
 
+    console.log('json from /x/web-interface/nav', json);
+
     const imgURL = json?.data?.wbi_img?.img_url as string | undefined;
     const subURL = json?.data?.wbi_img?.sub_url as string | undefined;
+
+    console.log('urls', imgURL, subURL);
 
     if (imgURL && subURL) {
       const imgKey: string = imgURL.slice(

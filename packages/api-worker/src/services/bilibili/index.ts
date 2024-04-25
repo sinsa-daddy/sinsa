@@ -106,7 +106,9 @@ bilibili.get('/video/:bvid', async ctx => {
 bilibili.get('/latest-videos', async ctx => {
   // const openId = ctx.get('open_id');
   const homeCookie = await getHomeCookie();
+  console.log('homeCookie', homeCookie);
   const keys = await getWBIKeys();
+  console.log('getWBIKeys', keys);
 
   if (Array.isArray(homeCookie) && homeCookie.length && keys) {
     const queryString = encodeWbi(
