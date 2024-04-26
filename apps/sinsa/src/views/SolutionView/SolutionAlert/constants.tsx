@@ -23,6 +23,13 @@ export const ALERT_MAP = new Map<TermNextType['term_id'], AlertProps>([
       ),
     },
   ],
+  [
+    'cn-42',
+    {
+      message:
+        '光灵安西娅目前装备技能存在 Bug 使得她配合森龙露科亚伤害爆炸。后续官方可能会修复。本期安西娅队伍分数仅供参考，没抄的同学赶紧抄作业',
+    },
+  ],
   // [
   //   'cn-36',
   //   {
