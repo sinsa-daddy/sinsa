@@ -6,7 +6,6 @@ import styles from './page.styles.module.less';
 import { HeroSection } from './Hero';
 import { CoolCanvas } from './CoolCanvas';
 import { DomainCard } from './Domain';
-import QunURL from '@/assets/docs/qun.webp';
 import { DOMAIN } from '@/services/domain';
 
 const VIDEO_WIDTH = 390 - 12 * 2;
@@ -92,7 +91,11 @@ export const HomeView = React.memo(() => {
             }
           />
 
-          <Image width={100} src={QunURL} alt="qun" />
+          <Image
+            width={100}
+            src={`https://s2.loli.net/2024/03/26/JyYRDFPGTHq479o.webp`}
+            alt="qun"
+          />
         </Card>
         <Card style={{ width: '100%' }}>
           <Card.Meta

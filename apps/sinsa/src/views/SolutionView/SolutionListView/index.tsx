@@ -4,9 +4,6 @@ import type { Solution } from '@sinsa/solution-calculator/dist/types/types';
 import type { TermNextType } from '@sinsa/schema';
 import { useSolutionResultContext } from '../context';
 import styles from './styles.module.less';
-import SINSA_SORRY_URL from '@/assets/sinsa/sorry.png';
-import SINSA_GO_URL from '@/assets/sinsa/get_started.png';
-import FROG_GO_URL from '@/assets/sinsa/baiwa.jpg';
 import { SolutionCard } from '@/components/SolutionCard';
 import { IS_FOOL } from '@/globalTheme';
 
@@ -61,7 +58,11 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
                 icon={
                   <img
                     width={100}
-                    src={IS_FOOL ? FROG_GO_URL : SINSA_SORRY_URL}
+                    src={
+                      IS_FOOL
+                        ? `https://s2.loli.net/2024/04/27/syG7QYUrkiPlXbm.png`
+                        : `https://s2.loli.net/2024/04/27/BAlKp9ERMiDo8cN.png`
+                    }
                     alt="醒山daddy: 很抱歉"
                   />
                 }
@@ -78,7 +79,11 @@ export const SolutionListView: React.FC<SolutionListViewProps> = ({
               <Empty
                 image={
                   <img
-                    src={IS_FOOL ? FROG_GO_URL : SINSA_GO_URL}
+                    src={
+                      IS_FOOL
+                        ? `https://s2.loli.net/2024/04/27/syG7QYUrkiPlXbm.png`
+                        : `https://s2.loli.net/2024/04/27/nJBRArYMHoT9vEw.png`
+                    }
                     alt="醒山daddy: 信心"
                   />
                 }

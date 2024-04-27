@@ -44,7 +44,7 @@ export default defineConfig<'rspack'>({
 
   html: {
     title: '红油扳手作业站',
-    favicon: './src/assets/wrench.svg',
+    favicon: 'https://s2.loli.net/2024/04/27/ugxX2Yr4qPBsNkD.png',
     crossorigin: 'anonymous',
   },
   performance: {

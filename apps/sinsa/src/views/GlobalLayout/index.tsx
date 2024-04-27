@@ -9,7 +9,6 @@ import { MY_ROUTE, RoutePath } from './constants';
 import styles from './styels.module.less';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
-import IconFrogLogoURL from '@/assets/sinsa/baiwa_logo.png';
 import { ReducedLazyMotion } from '@/plugins/framer-motion';
 import { DarkModeButton } from '@/components/DarkModeButton';
 import { IS_FOOL } from '@/globalTheme';
@@ -81,7 +80,16 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
     <>
       <ProLayout
         title={IS_FOOL ? '白蛙王子作业站' : '红油扳手作业站'}
-        logo={IS_FOOL ? <img src={IconFrogLogoURL} /> : <IconLogo />}
+        logo={
+          IS_FOOL ? (
+            <img
+              src={`https://s2.loli.net/2024/04/27/syG7QYUrkiPlXbm.png`}
+              alt="baiwa_logo"
+            />
+          ) : (
+            <IconLogo />
+          )
+        }
         location={location}
         fixSiderbar
         route={MY_ROUTE}

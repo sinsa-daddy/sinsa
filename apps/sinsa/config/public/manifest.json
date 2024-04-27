@@ -4,137 +4,54 @@
   "theme_color": "#dc5950",
   "icons": [
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/16.png",
-      "sizes": "16x16"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/20.png",
-      "sizes": "20x20"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/29.png",
-      "sizes": "29x29"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/32.png",
-      "sizes": "32x32"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/40.png",
-      "sizes": "40x40"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/50.png",
-      "sizes": "50x50"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/57.png",
-      "sizes": "57x57"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/58.png",
-      "sizes": "58x58"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/60.png",
-      "sizes": "60x60"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/64.png",
-      "sizes": "64x64"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/72.png",
+      "src": "https://s2.loli.net/2024/04/27/QHuyCdSUmMV31Nz.png",
       "sizes": "72x72"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/76.png",
-      "sizes": "76x76"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/80.png",
-      "sizes": "80x80"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/87.png",
-      "sizes": "87x87"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/100.png",
-      "sizes": "100x100"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/114.png",
-      "sizes": "114x114"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/120.png",
-      "sizes": "120x120"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/128.png",
+      "src": "https://s2.loli.net/2024/04/27/jaQosfM9iRq6g2B.png",
       "sizes": "128x128"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/144.png",
+      "src": "https://s2.loli.net/2024/04/27/wtDlp9oQBT8YJuG.png",
       "sizes": "144x144"
     },
+
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/152.png",
-      "sizes": "152x152"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/167.png",
-      "sizes": "167x167"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/180.png",
-      "sizes": "180x180"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/192.png",
+      "src": "https://s2.loli.net/2024/04/27/hz1CI82pvriPNlf.png",
       "sizes": "192x192"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/256.png",
-      "sizes": "256x256"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/ios/512.png",
+      "src": "https://s2.loli.net/2024/04/27/iqgQdYM7AfDuTrz.png",
       "sizes": "512x512"
     },
+
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/maskable/maskable_icon_x48.png",
-      "sizes": "48x48",
-      "purpose": "maskable"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/maskable/maskable_icon_x72.png",
+      "src": "https://s2.loli.net/2024/04/27/mO1fwek3lbBMzag.png",
       "sizes": "72x72",
       "purpose": "maskable"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/maskable/maskable_icon_x96.png",
+      "src": "https://s2.loli.net/2024/04/27/jFIdJH7mYyzhAN5.png",
       "sizes": "96x96",
       "purpose": "maskable"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/maskable/maskable_icon_x128.png",
+      "src": "https://s2.loli.net/2024/04/27/AcRBVjzuTSXHtCa.png",
       "sizes": "128x128",
       "purpose": "maskable"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/maskable/maskable_icon_x192.png",
+      "src": "https://s2.loli.net/2024/04/27/NdJCLADbZXxFH8a.png",
       "sizes": "192x192",
       "purpose": "maskable"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/maskable/maskable_icon_x384.png",
+      "src": "https://s2.loli.net/2024/04/27/BpPEA81uNRy7dKi.png",
       "sizes": "384x384",
       "purpose": "maskable"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/icons/maskable/maskable_icon_x512.png",
+      "src": "https://s2.loli.net/2024/04/27/pYmgIOkdVeXrLGn.png",
       "sizes": "512x512",
       "purpose": "maskable"
     }
@@ -148,26 +65,20 @@
   "dir": "ltr",
   "screenshots": [
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/screenshots/1.png",
-      "sizes": "2760x1690",
+      "src": "https://s2.loli.net/2024/04/27/nhvim49GByOJgau.jpg",
+      "sizes": "3840x2160",
+      "type": "image/jpg",
+      "form_factor": "wide"
+    },
+    {
+      "src": "https://s2.loli.net/2024/04/27/G7DxLReWSilchVO.jpg",
+      "sizes": "3840x2160",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/screenshots/2.png",
-      "sizes": "2760x1690",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/screenshots/3.png",
-      "sizes": "2760x1690",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "https://gitee.com/sinsa-daddy/statics/raw/master/pwa/screenshots/4.png",
-      "sizes": "2760x1690",
+      "src": "https://s2.loli.net/2024/04/27/GdhJWjyrO4Binbp.jpg",
+      "sizes": "3840x2160",
       "type": "image/png",
       "form_factor": "wide"
     }
@@ -176,12 +87,12 @@
     {
       "name": "寻找匹配作业方案",
       "short_name": "作业匹配",
-      "url": "/#/solutions/latest"
+      "url": "/solutions/latest"
     },
     {
       "name": "查看全部收录的作业",
       "short_name": "作业全览",
-      "url": "/#/copilots/latest"
+      "url": "/copilots/latest"
     }
   ]
 }
