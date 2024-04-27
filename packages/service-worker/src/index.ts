@@ -43,7 +43,7 @@ registerRoute(
   ({ sameOrigin, request }) => sameOrigin && request.destination === 'document',
   new NetworkFirst({
     cacheName: 'StaticHTML',
-    networkTimeoutSeconds: 500,
+    networkTimeoutSeconds: 4,
   }),
 );
 
