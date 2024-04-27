@@ -28,7 +28,7 @@ export default defineConfig<'rspack'>({
   },
   runtime: {
     router: {
-      supportHtml5History: process.env.NODE_ENV === 'production',
+      supportHtml5History: false,
     },
     state: true,
   },
