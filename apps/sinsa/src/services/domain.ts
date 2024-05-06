@@ -11,7 +11,7 @@ export const DOMAIN: DomainType =
     : 'localhost';
 
 export const DomainText: Record<DomainType, string> = {
-  backup: '腾讯云备用临时站点（之后可能下线）',
+  backup: '腾讯云备用临时站点（中国大陆地区自动跳转, 之后可能下线）',
   localhost: '开发站点',
   main: '首发站点',
 };
