@@ -10,7 +10,7 @@ export const DomainCard = React.memo(() => {
         description={
           <Space wrap>
             <div>
-              <Typography.Text>当前访问的是</Typography.Text>
+              <Typography.Text>您当前访问的是</Typography.Text>
               <Typography.Text strong>{DomainText[DOMAIN]}</Typography.Text>
             </div>
             {DOMAIN === 'main' ? (
@@ -19,7 +19,7 @@ export const DomainCard = React.memo(() => {
                   访问卡顿？切换至
                 </Typography.Text>
                 <Typography.Link
-                  href="https://sinsa-daddy.gitee.io"
+                  href="https://sinsa-daddy-webify-4dvq4ad5366bb-1255364977.tcloudbaseapp.com"
                   target="_self"
                   strong
                 >
