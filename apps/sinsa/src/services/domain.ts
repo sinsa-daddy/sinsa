@@ -6,7 +6,7 @@ export const DOMAIN: DomainType =
   window.location.hostname === 'sinsa.dad'
     ? 'main'
     : window.location.hostname ===
-      'sinsa-daddy-webify-4dvq4ad5366bb-1255364977.tcloudbaseapp.com'
+      'sinsa.top'
     ? 'backup'
     : 'localhost';
 

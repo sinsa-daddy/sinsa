@@ -15,8 +15,7 @@ export function initArmsRum() {
     version: `${__COMMIT_HASH__}${__COMMIT_TIME__}`,
     // 设置环境信息，参考值：'prod' | 'gray' | 'pre' | 'daily' | 'local'
     env:
-      url.hostname ===
-        'sinsa-daddy-webify-4dvq4ad5366bb-1255364977.tcloudbaseapp.com' ||
+      url.hostname === 'sinsa.top' ||
       url.hostname === 'sinsa-daddy.com' ||
       url.hostname === 'sinsa.dad' ||
       url.hostname === 'sinsa-daddy.gitee.io'

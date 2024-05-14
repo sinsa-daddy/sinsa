@@ -13,10 +13,9 @@ export const HeroSection = React.memo(() => {
         <span className={IS_FOOL ? styles.AccentFool : styles.Accent}>
           {IS_FOOL ? '白蛙王子' : '红油扳手'}
         </span>
-        作业站
       </Typography.Title>
       <Typography.Paragraph type="secondary" className={styles.Description}>
-        白夜极光一站式荒典作业收录 & 配队平台
+        个人一站式白夜极光荒典作业收录
       </Typography.Paragraph>
       <Space>
         <Link to={RoutePath.Solutions('latest')}>

@@ -18,11 +18,7 @@ export const DomainCard = React.memo(() => {
                 <Typography.Text type="secondary">
                   访问卡顿？切换至
                 </Typography.Text>
-                <Typography.Link
-                  href="https://sinsa-daddy-webify-4dvq4ad5366bb-1255364977.tcloudbaseapp.com"
-                  target="_self"
-                  strong
-                >
+                <Typography.Link href="https://sinsa.top" target="_self" strong>
                   {DomainText.backup}
                 </Typography.Link>
               </div>

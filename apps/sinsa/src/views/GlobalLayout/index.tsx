@@ -56,10 +56,15 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
   const renderFooter = useCallback(() => {
     return (
       <footer className={styles.Footer}>
-        <div className={styles.BuildVersion}>
-          {__COMMIT_HASH__}
-          {__COMMIT_TIME__}
-        </div>
+        <Flex vertical gap={4}>
+          <Link to={`https://beian.miit.gov.cn/`} target="_blank">
+            粤ICP备2024248618号
+          </Link>
+          <div className={styles.BuildVersion}>
+            {__COMMIT_HASH__}
+            {__COMMIT_TIME__}
+          </div>
+        </Flex>
       </footer>
     );
   }, []);
