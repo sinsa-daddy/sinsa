@@ -1,4 +1,5 @@
 import ArmsRum from '@arms/rum-browser';
+import { DOMAIN_VALUES } from '@/config/domain';
 
 const url = new URL(window.location.href);
 
@@ -14,13 +15,7 @@ export function initArmsRum() {
     },
     version: `${__COMMIT_HASH__}${__COMMIT_TIME__}`,
     // 设置环境信息，参考值：'prod' | 'gray' | 'pre' | 'daily' | 'local'
-    env:
-      url.hostname === 'sinsa.top' ||
-      url.hostname === 'sinsa-daddy.com' ||
-      url.hostname === 'sinsa.dad' ||
-      url.hostname === 'sinsa-daddy.gitee.io'
-        ? 'prod'
-        : 'local',
+    env: DOMAIN_VALUES.includes(url.hostname) ? 'prod' : 'local',
     // 设置路由模式， 参考值：'history' | 'hash'
     spaMode: 'history',
     collectors: {

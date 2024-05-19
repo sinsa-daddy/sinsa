@@ -1,17 +1,18 @@
 import { Button, Card, Grid, Flex, Image, Typography } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from '@modern-js/runtime/router';
 import { Play } from '@icon-park/react';
 import styles from './page.styles.module.less';
 import { HeroSection } from './Hero';
 import { CoolCanvas } from './CoolCanvas';
 import { DomainCard } from './Domain';
-import { DOMAIN } from '@/services/domain';
+import { DOMAIN_ORIGIN, getCurrentDomainKey } from '@/config/domain';
 
 const VIDEO_WIDTH = 390 - 12 * 2;
 
 export const HomeView = React.memo(() => {
   const screen = Grid.useBreakpoint();
+  const [domainKey] = useState(() => getCurrentDomainKey());
 
   return (
     <>
@@ -110,13 +111,16 @@ export const HomeView = React.memo(() => {
             }
           />
           <div>
-            {DOMAIN === 'main' ? (
+            {domainKey === 'i18n' ? (
               <Link to={`/upload`}>
                 <Button type="primary">去收录</Button>
               </Link>
             ) : (
-              <Link to={`https://sinsa.dad/#/upload`} target="_self">
-                <Button type="primary">去 sinsa.dad 收录</Button>
+              <Link
+                to={`https://${DOMAIN_ORIGIN.i18n}/#/upload`}
+                target="_self"
+              >
+                <Button type="primary">去 {DOMAIN_ORIGIN.i18n} 收录</Button>
               </Link>
             )}
           </div>
