@@ -16,7 +16,7 @@
     "fn": "modern fetch-data-next",
     "uc": "modern update-feishu-copilots",
     "generate": "modern format-output",
-    "pages:dev": "wrangler pages dev --compatibility-date=2024-03-04 --kv=BILI_DAILY_CACHE --kv=FEISHU_APP_TOKEN_CACHE --port 12576 -- pnpm dev"
+    "pages:dev": "wrangler pages dev --compatibility-date=2024-03-04 --kv=FEISHU_APP_TOKEN_CACHE --port=12576 -- pnpm dev"
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",

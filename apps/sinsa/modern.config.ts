@@ -90,4 +90,7 @@ export default defineConfig<'rspack'>({
       },
     },
   },
+  dev: {
+    port: 8080,
+  },
 });
