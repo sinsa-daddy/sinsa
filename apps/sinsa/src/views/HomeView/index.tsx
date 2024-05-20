@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Flex, Image, Typography } from 'antd';
+import { Button, Card, Flex, Image, Typography } from 'antd';
 import React, { useState } from 'react';
 import { Link } from '@modern-js/runtime/router';
 import { Play } from '@icon-park/react';
@@ -11,7 +11,7 @@ import { DOMAIN_ORIGIN, getCurrentDomainKey } from '@/config/domain';
 const VIDEO_WIDTH = 390 - 12 * 2;
 
 export const HomeView = React.memo(() => {
-  const screen = Grid.useBreakpoint();
+  // const screen = Grid.useBreakpoint();
   const [domainKey] = useState(() => getCurrentDomainKey());
 
   return (
@@ -50,7 +50,8 @@ export const HomeView = React.memo(() => {
           </Link>
         </Card> */}
         <Card
-          style={{ width: screen.xs ? '100%' : VIDEO_WIDTH }}
+          // style={{ width: screen.xs ? '100%' : VIDEO_WIDTH }}
+          style={{ width: '100%' }}
           cover={
             <img
               style={{ objectFit: 'cover', background: 'gray' }}
@@ -79,7 +80,7 @@ export const HomeView = React.memo(() => {
             </Button>
           </Link>
         </Card>
-        <Card style={{ flexBasis: 0, flexGrow: 1 }}>
+        <Card style={{ flexBasis: 0, flexGrow: 1, display: 'none' }}>
           <Card.Meta
             title="联系我们"
             description={
@@ -98,7 +99,7 @@ export const HomeView = React.memo(() => {
             alt="qun"
           />
         </Card>
-        <Card style={{ width: '100%' }}>
+        <Card style={{ width: '100%', display: 'none' }}>
           <Card.Meta
             title="作业收录"
             description={

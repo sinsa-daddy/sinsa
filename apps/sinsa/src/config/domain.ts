@@ -10,7 +10,7 @@ export const DOMAIN_ORIGIN: Record<DomainKey, string> = {
 
 export const DOMAIN_TEXT: Record<DomainKey, string> = {
   cn: '国内站点',
-  i18n: '国际站点',
+  i18n: '国际备用站点',
   local: '本地开发站点',
   backup: '备用站点',
   unknown: '未知站点',
