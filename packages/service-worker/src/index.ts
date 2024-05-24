@@ -33,7 +33,24 @@ registerRoute(
         statuses: [0, 200],
       }),
       new ExpirationPlugin({
-        maxAgeSeconds: 30 * 24 * 60 * 60, // 30
+        // maxAgeSeconds: 30 * 24 * 60 * 60, // 30
+        maxEntries: 200,
+      }),
+    ],
+  }),
+);
+
+registerRoute(
+  ({ request }) => request.url.startsWith(`https://unpkg.com`),
+  new CacheFirst({
+    cacheName: 'UnpkgCDNDeps',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        // maxAgeSeconds: 30 * 24 * 60 * 60, // 30
+        maxEntries: 200,
       }),
     ],
   }),
