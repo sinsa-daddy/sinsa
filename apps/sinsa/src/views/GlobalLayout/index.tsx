@@ -56,13 +56,29 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
   const renderFooter = useCallback(() => {
     return (
       <footer className={styles.Footer}>
-        <Link
-          className={styles.BeiAn}
-          to={`https://beian.miit.gov.cn/`}
-          target="_blank"
-        >
-          粤ICP备2024248618号
-        </Link>
+        <Flex gap={16} justify="center">
+          <Link
+            className={styles.BeiAn}
+            to={`https://beian.miit.gov.cn/`}
+            target="_blank"
+          >
+            粤ICP备2024248618号
+          </Link>
+          <Link
+            to="https://beian.mps.gov.cn/#/query/webSearch?code=44030002003554"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <img
+              width={16}
+              height={16}
+              style={{ verticalAlign: '-0.2em' }}
+              src="https://beian.mps.gov.cn/web/assets/logo01.6189a29f.png"
+              alt="公安备案"
+            />{' '}
+            粤公网安备44030002003554
+          </Link>
+        </Flex>
         <div className={styles.BuildVersion}>
           {__COMMIT_HASH__}
           {__COMMIT_TIME__}
