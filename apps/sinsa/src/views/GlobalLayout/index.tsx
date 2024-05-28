@@ -135,7 +135,21 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         okText: '立即访问',
         cancelText: '以后再说',
         onOk() {
+          window.browserClient.sendEvent?.({
+            name: 'react_to_new_site_modal',
+            categories: {
+              choice: 'ok',
+            },
+          });
           window.location.host = DOMAIN_ORIGIN.cn;
+        },
+        onCancel() {
+          window.browserClient.sendEvent?.({
+            name: 'react_to_new_site_modal',
+            categories: {
+              choice: 'cancel',
+            },
+          });
         },
       });
     }
