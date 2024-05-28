@@ -1,5 +1,6 @@
 import { SPALoadPlugin } from '@apmplus/integrations';
 import type { BrowserClient } from '@apmplus/web';
+import { getCurrentDomainKey } from '@/config/domain';
 
 declare global {
   interface Window {
@@ -28,5 +29,7 @@ export function applyApmPlus() {
     integrations: [SPALoadPlugin()],
   });
 
-  window.browserClient.start();
+  if (getCurrentDomainKey() !== 'local') {
+    window.browserClient.start();
+  }
 }
