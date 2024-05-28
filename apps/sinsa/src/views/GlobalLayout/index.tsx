@@ -132,7 +132,7 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
             <p>感谢大家的支持</p>
           </div>
         ),
-        okText: '立即访问',
+        okText: `访问 ${DOMAIN_ORIGIN.cn}`,
         cancelText: '以后再说',
         onOk() {
           window.browserClient.sendEvent?.({
