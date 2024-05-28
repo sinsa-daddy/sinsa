@@ -61,6 +61,7 @@ export default defineConfig<'rspack'>({
       'pinyin-pro': 'pinyinPro',
       axios: 'axios',
       '@ant-design/charts': 'Charts',
+      '@apmplus/web': 'browserClient',
     },
     distPath: {
       html: '',

@@ -181,6 +181,24 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
               target="_blank"
               title={copilot.title}
               ellipsis={true}
+              onClick={e => {
+                e.stopPropagation();
+                window.browserClient.sendEvent?.({
+                  name: 'go_to_copilot',
+                  metrics: {
+                    score: copilot.score,
+                  },
+                  categories: {
+                    copilot_source: copilot.source_type,
+                    author: copilot.author_id,
+                    author_name: copilot.author_name,
+                    term_id: copilot.term_id,
+                    href: copilot.href,
+                    copilot_id: copilot.copilot_id,
+                    title: copilot.title,
+                  },
+                });
+              }}
             >
               {currentTerm?.term_id &&
               copilot.term_id !== currentTerm.term_id ? (

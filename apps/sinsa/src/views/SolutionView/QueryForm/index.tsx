@@ -10,15 +10,12 @@ import { useCallback, useMemo } from 'react';
 import { Space, Typography } from 'antd';
 import type { CopilotNextType, TermNextType } from '@sinsa/schema';
 import { Search } from '@icon-park/react';
-import ArmsRum from '@arms/rum-browser';
-import { RumEventType } from '@arms/rum-core';
 import type { QueryParamsType } from '../schemas/query-params';
 import { useSolutionResultContext } from '../context';
 import { useInitialValues } from './hooks/use-initial-values';
 import { EXTENDED_TEAM_COUNT } from './constants';
 import { ensureQueryKey } from './utils';
 import { ExcludeAurorianFormList } from '@/components/ExcludeAurorianFormList';
-import { RumArmsMyType } from '@/plugins/arms';
 
 interface QueryFormProps {
   termId: TermNextType['term_id'];
@@ -80,12 +77,49 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
 
   const handleOnFinish = useCallback(
     async (params: QueryParamsType) => {
-      ArmsRum.sendEvent({
-        event_type: RumEventType.CUSTOM,
-        type: RumArmsMyType.QuerySolution,
-        name: '回溯搜索配队方案',
-        group: JSON.stringify(params),
+      window.browserClient.sendEvent?.({
+        name: 'query_solutions',
+        metrics: {
+          k: params.k,
+        },
+        categories: {
+          disable_alternative: String(Boolean(params.disableAlternative)),
+          enable_save_local_storage: String(
+            Boolean(params.enableSaveLocalStorage),
+          ),
+          term_id: termId,
+        },
       });
+
+      if (params.enableExclude) {
+        params.exclude?.forEach(exc => {
+          window.browserClient.sendEvent?.({
+            name: 'exclude_aurorian_when_query_solutions',
+            metrics: {
+              exclude_breakthrough: exc.excludeBreakthrough ?? -1,
+            },
+            categories: {
+              aurorian_id: exc.aurorianId,
+              exclude_breakthrough_only: String(
+                Boolean(exc.excludeBreakthroughOnly),
+              ),
+              term_id: termId,
+            },
+          });
+        });
+      }
+
+      if (params.copilotsIgnore?.length) {
+        params.copilotsIgnore.forEach(ign => {
+          window.browserClient.sendEvent?.({
+            name: 'ignore_copilot_when_query_solutions',
+            categories: {
+              copilot_id: ign,
+              term_id: termId,
+            },
+          });
+        });
+      }
 
       await requestSolution(copilots, params);
     },
