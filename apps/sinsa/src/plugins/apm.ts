@@ -1,4 +1,4 @@
-import { SPALoadPlugin } from '@apmplus/integrations';
+import { SPALoadPlugin, actionPlugin } from '@apmplus/integrations';
 import type { BrowserClient } from '@apmplus/web';
 import { getCurrentDomainKey } from '@/config/domain';
 
@@ -26,7 +26,7 @@ export function applyApmPlus() {
         rootSelector: '#root',
       },
     },
-    integrations: [SPALoadPlugin()],
+    integrations: [SPALoadPlugin(), actionPlugin()],
   });
 
   if (getCurrentDomainKey() !== 'local') {
