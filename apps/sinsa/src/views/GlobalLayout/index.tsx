@@ -80,8 +80,7 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
           </Link>
         </Flex>
         <div className={styles.BuildVersion}>
-          {__COMMIT_HASH__}
-          {__COMMIT_TIME__}
+          {__COMMIT_TIME__}_{__COMMIT_HASH__}
         </div>
       </footer>
     );

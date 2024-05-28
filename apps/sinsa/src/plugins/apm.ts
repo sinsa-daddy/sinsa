@@ -15,7 +15,7 @@ export function applyApmPlus() {
 
     // 其他配置
     env: window.location.host,
-    release: `${__COMMIT_HASH__}${__COMMIT_TIME__}`,
+    release: `${__COMMIT_TIME__}_${__COMMIT_HASH__}`,
 
     plugins: {
       pageview: {
