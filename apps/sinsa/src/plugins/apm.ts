@@ -9,7 +9,7 @@ declare global {
 }
 
 export function applyApmPlus() {
-  window.browserClient.init({
+  window.browserClient.init?.({
     aid: 609949,
     token: 'ea57d64cf1ef44ed9423215eadb7f5a2',
 
@@ -30,6 +30,6 @@ export function applyApmPlus() {
   });
 
   if (getCurrentDomainKey() !== 'local') {
-    window.browserClient.start();
+    window.browserClient.start?.();
   }
 }
