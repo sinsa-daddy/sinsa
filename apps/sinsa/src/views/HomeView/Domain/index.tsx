@@ -1,5 +1,5 @@
-import { Card, Space, Typography, Modal } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Card, Space, Typography } from 'antd';
+import React, { useState } from 'react';
 import {
   DOMAIN_ORIGIN,
   DOMAIN_TEXT,
@@ -9,48 +9,8 @@ import {
 export const DomainCard = React.memo(() => {
   const [domainKey] = useState(() => getCurrentDomainKey());
 
-  const [modal, contextHolder] = Modal.useModal();
-
-  useEffect(() => {
-    if (domainKey === 'unknown') {
-      modal.confirm({
-        title: '域名变更说明',
-        content: (
-          <div>
-            <p>
-              本站决定将国内访问地址更换到新域名:{' '}
-              <Typography.Text strong copyable>
-                sinsa.top
-              </Typography.Text>
-            </p>
-            <p>
-              之后红油扳手作业站将会统一有两个域名: <br />
-              <Typography.Text strong>
-                {DOMAIN_ORIGIN.cn} (国内访问)
-              </Typography.Text>{' '}
-              和{' '}
-              <Typography.Text strong>
-                {DOMAIN_ORIGIN.i18n} (国外访问)
-              </Typography.Text>
-            </p>
-            <p>
-              如果您已经将本站添加到屏幕, 请在重新添加一次,
-              并且可以把旧站点收藏夹或者书签删除
-            </p>
-            <p>感谢大家的支持</p>
-          </div>
-        ),
-        okText: '立即访问',
-        cancelText: '以后再说',
-        onOk() {
-          window.location.host = DOMAIN_ORIGIN.cn;
-        },
-      });
-    }
-  }, [domainKey]);
   return (
     <Card style={{ width: '100%' }}>
-      {contextHolder}
       <Card.Meta
         title="站点信息"
         description={

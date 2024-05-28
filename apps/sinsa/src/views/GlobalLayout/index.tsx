@@ -1,8 +1,8 @@
 import { ProLayout } from '@ant-design/pro-components';
 import { Link, useLocation, useNavigate } from '@modern-js/runtime/router';
-import { cloneElement, useCallback, useMemo } from 'react';
+import { cloneElement, useCallback, useEffect, useMemo, useState } from 'react';
 import type { MenuDataItem } from '@ant-design/pro-components';
-import { Flex, FloatButton } from 'antd';
+import { Flex, FloatButton, Modal, Typography } from 'antd';
 import clsx from 'clsx';
 import { Provider as NiceModalProvider } from '@ebay/nice-modal-react';
 import { MY_ROUTE, RoutePath } from './constants';
@@ -12,6 +12,7 @@ import { ReactComponent as IconLogo } from '@/assets/wrench.svg';
 import { ReducedLazyMotion } from '@/plugins/framer-motion';
 import { DarkModeButton } from '@/components/DarkModeButton';
 import { IS_FOOL } from '@/globalTheme';
+import { getCurrentDomainKey, DOMAIN_ORIGIN } from '@/config/domain';
 // import ThemeProvider from '@/theme/geek/ThemeProvider';
 
 const NOOP = <div />;
@@ -98,6 +99,48 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
     [isHome],
   );
 
+  const [domainKey] = useState(() => getCurrentDomainKey());
+
+  const [modal, contextHolder] = Modal.useModal();
+
+  useEffect(() => {
+    if (domainKey === 'unknown') {
+      modal.confirm({
+        title: '域名变更说明',
+        content: (
+          <div>
+            <p>
+              本站决定将国内访问地址更换到新域名:{' '}
+              <Typography.Text strong copyable>
+                sinsa.top
+              </Typography.Text>
+            </p>
+            <p>
+              之后红油扳手作业站将会统一有两个域名: <br />
+              <Typography.Text strong>
+                {DOMAIN_ORIGIN.cn} (国内访问)
+              </Typography.Text>{' '}
+              和{' '}
+              <Typography.Text strong>
+                {DOMAIN_ORIGIN.i18n} (国外访问)
+              </Typography.Text>
+            </p>
+            <p>
+              如果您已经将本站添加到屏幕, 请在重新添加一次,
+              并且可以把旧站点收藏夹或者书签删除
+            </p>
+            <p>感谢大家的支持</p>
+          </div>
+        ),
+        okText: '立即访问',
+        cancelText: '以后再说',
+        onOk() {
+          window.location.host = DOMAIN_ORIGIN.cn;
+        },
+      });
+    }
+  }, [domainKey]);
+
   return (
     <>
       <ProLayout
@@ -131,7 +174,10 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
         footerRender={renderFooter}
       >
         <ReducedLazyMotion>
-          <NiceModalProvider>{children}</NiceModalProvider>
+          <NiceModalProvider>
+            {children}
+            {contextHolder}
+          </NiceModalProvider>
         </ReducedLazyMotion>
       </ProLayout>
       <FloatButton.BackTop />
