@@ -57,7 +57,12 @@ export const GlobalLayout: React.FC<React.PropsWithChildren> = ({
   const renderFooter = useCallback(() => {
     return (
       <footer className={styles.Footer}>
-        <Flex gap={16} justify="center">
+        <Flex
+          style={{ marginLeft: '16px', marginRight: '16px' }}
+          gap={'0 16px'}
+          justify="center"
+          wrap="wrap"
+        >
           <Link
             className={styles.BeiAn}
             to={`https://beian.miit.gov.cn/`}
