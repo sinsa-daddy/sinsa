@@ -98,7 +98,7 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
                   }`,
               )
               .join(',') ?? ''
-          : '',
+          : '-',
       });
 
       await requestSolution(copilots, params);
