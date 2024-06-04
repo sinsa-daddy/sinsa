@@ -77,49 +77,29 @@ export const QueryForm: React.FC<QueryFormProps> = ({ termId, copilots }) => {
 
   const handleOnFinish = useCallback(
     async (params: QueryParamsType) => {
-      window.browserClient.sendEvent?.({
-        name: 'query_solutions',
-        metrics: {
+      window.browserClient.sendLog?.({
+        extra: {
           k: params.k,
-        },
-        categories: {
           disable_alternative: String(Boolean(params.disableAlternative)),
           enable_save_local_storage: String(
             Boolean(params.enableSaveLocalStorage),
           ),
           term_id: termId,
+          name: 'query_solutions_log',
         },
+        content: params.enableExclude
+          ? params.exclude
+              ?.map(
+                exc =>
+                  `${exc.aurorianId}${
+                    exc.excludeBreakthroughOnly
+                      ? `_${exc.excludeBreakthrough ?? '0'}`
+                      : ''
+                  }`,
+              )
+              .join(',') ?? ''
+          : '',
       });
-
-      if (params.enableExclude) {
-        params.exclude?.forEach(exc => {
-          window.browserClient.sendEvent?.({
-            name: 'exclude_aurorian_when_query_solutions',
-            metrics: {
-              exclude_breakthrough: exc.excludeBreakthrough ?? -1,
-            },
-            categories: {
-              aurorian_id: exc.aurorianId,
-              exclude_breakthrough_only: String(
-                Boolean(exc.excludeBreakthroughOnly),
-              ),
-              term_id: termId,
-            },
-          });
-        });
-      }
-
-      if (params.copilotsIgnore?.length) {
-        params.copilotsIgnore.forEach(ign => {
-          window.browserClient.sendEvent?.({
-            name: 'ignore_copilot_when_query_solutions',
-            categories: {
-              copilot_id: ign,
-              term_id: termId,
-            },
-          });
-        });
-      }
 
       await requestSolution(copilots, params);
     },
