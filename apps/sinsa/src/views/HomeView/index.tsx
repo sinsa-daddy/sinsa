@@ -41,7 +41,8 @@ export const HomeView = React.memo(() => {
             description={
               <>
                 <Typography.Paragraph>
-                  为了及时向我们反馈，我们的<strong>官方哔哩哔哩账号</strong>是
+                  为了及时向我们反馈（比如催促更新作业），我们的
+                  <strong>官方哔哩哔哩账号</strong>是
                   <br />
                   <Link
                     to={`https://space.bilibili.com/3546672269363687/dynamic`}
@@ -60,7 +61,7 @@ export const HomeView = React.memo(() => {
           />
 
           <Image
-            width={100}
+            width={80}
             src={`https://s2.loli.net/2024/03/26/JyYRDFPGTHq479o.webp`}
             alt="qun"
           />
