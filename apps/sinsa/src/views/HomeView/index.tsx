@@ -39,12 +39,23 @@ export const HomeView = React.memo(() => {
           <Card.Meta
             title="联系我们"
             description={
-              <Typography.Paragraph>
-                网站依然正在完善并且变得更好。如果您荒典最高排名进入过
-                <Typography.Text strong>前100名</Typography.Text>
-                ，亦或者如果您也想参与作业收录工作，可以加入我们 QQ
-                群，我们会提供收录权限。
-              </Typography.Paragraph>
+              <>
+                <Typography.Paragraph>
+                  为了及时向我们反馈，我们的<strong>官方哔哩哔哩账号</strong>是
+                  <br />
+                  <Link
+                    to={`https://space.bilibili.com/3546672269363687/dynamic`}
+                    target="_blank"
+                  >
+                    <strong>@红油扳手作业站</strong>
+                  </Link>
+                </Typography.Paragraph>
+                <Typography.Paragraph>
+                  网站依然正在完善并且变得更好。如果您荒典最高排名进入过
+                  ，亦或者如果您也想参与作业收录工作，可以加入我们 QQ
+                  群，我们会提供收录权限。
+                </Typography.Paragraph>
+              </>
             }
           />
 

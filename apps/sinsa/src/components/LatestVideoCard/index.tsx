@@ -93,7 +93,7 @@ export const LatestVideoCard = React.forwardRef<
     return null;
   }
 
-  return (
+  return location.hostname === 'localhost' ? (
     <Card
       title="B站视频最新收录情况：最近 20 条按新发布排序搜索结果"
       loading={loadingLatestCopilots || loadingLatestVideos || loadingDenyList}
@@ -194,5 +194,5 @@ export const LatestVideoCard = React.forwardRef<
         </Flex>
       ) : null}
     </Card>
-  );
+  ) : null;
 });
