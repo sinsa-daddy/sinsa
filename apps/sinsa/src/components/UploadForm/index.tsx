@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   FooterToolbar,
   ProForm,
@@ -6,6 +7,7 @@ import {
   ProFormDigit,
   ProFormRadio,
   ProFormSelect,
+  ProFormSwitch,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
@@ -115,12 +117,12 @@ export const UploadForm: React.FC = () => {
 
               console.log('开始提交', checkResult, submitValues);
 
-              const isLatestVideo =
-                typeof latestVideoCardRef.current?.latestVideo?.bvid ===
-                  'string' &&
-                values.href.startsWith(
-                  latestVideoCardRef.current?.latestVideo?.bvid,
-                );
+              // const isLatestVideo =
+              //   typeof latestVideoCardRef.current?.latestVideo?.bvid ===
+              //     'string' &&
+              //   values.href.startsWith(
+              //     latestVideoCardRef.current?.latestVideo?.bvid,
+              //   );
 
               try {
                 const submitCopilot = await CopilotNextSchema.omit({
@@ -128,7 +130,7 @@ export const UploadForm: React.FC = () => {
                   created_time: true,
                 }).parseAsync(submitValues);
                 const result = await postCopilotAsync(submitCopilot, {
-                  triggerAction: isLatestVideo || undefined,
+                  triggerAction: values?.triggerUpdate ?? false,
                 });
 
                 if (result?.record?.record_id) {
@@ -320,6 +322,11 @@ export const UploadForm: React.FC = () => {
                 width={'xl'}
               />
             </ProForm.Group>
+            <ProFormSwitch
+              label="是否触发网站更新"
+              extra="一般用于收录到了最新视频时开启"
+              name={ensureKey('triggerUpdate')}
+            />
           </ProForm>
         </Card>
       ) : null}
