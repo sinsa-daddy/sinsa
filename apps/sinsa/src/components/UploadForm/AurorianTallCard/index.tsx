@@ -34,6 +34,13 @@ const ASC_OPTIONS = [
   { label: '未觉醒', value: 0 },
 ];
 
+const RFN_OPTIONS = [
+  { label: '精炼三', value: 3 },
+  { label: '精炼二', value: 2 },
+  { label: '精炼一', value: 1 },
+  { label: '未精炼', value: 0 },
+];
+
 const MARKS = {
   1: '1',
   10: '10',
@@ -120,9 +127,7 @@ export const AurorianTallCard: React.FC<AurorianTallCardProps> = ({
           />
         ) : null}
       </Flex>
-      {typeof aurorian?.rarity === 'number' &&
-      aurorian.rarity >= 4 &&
-      !remark?.replace ? (
+      {typeof aurorian?.rarity === 'number' && aurorian.rarity >= 4 ? (
         <Flex align="center" gap={6} wrap={'wrap'} vertical={true}>
           <Switch
             checkedChildren="标注练度"
@@ -170,6 +175,9 @@ export const AurorianTallCard: React.FC<AurorianTallCardProps> = ({
                         produce(remark ?? {}, draft => {
                           if (draft.level) {
                             draft.level.lv = val;
+                            if (val < 80) {
+                              draft.level.rfn = 0;
+                            }
                           }
                         }),
                       ),
@@ -196,6 +204,25 @@ export const AurorianTallCard: React.FC<AurorianTallCardProps> = ({
                   }}
                 />
               </Space>
+              {remark?.level?.lv === 80 ? (
+                <Radio.Group
+                  size="small"
+                  optionType="button"
+                  value={remark?.level?.rfn ?? 0}
+                  options={RFN_OPTIONS}
+                  onChange={val => {
+                    onRemarkChange?.(
+                      normalizeRemark(
+                        produce(remark ?? {}, draft => {
+                          if (draft.level) {
+                            draft.level.rfn = val.target.value;
+                          }
+                        }),
+                      ),
+                    );
+                  }}
+                />
+              ) : null}
             </Flex>
           ) : null}
         </Flex>

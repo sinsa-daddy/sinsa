@@ -16,6 +16,7 @@ import {
   AdaptiveAurorianCardMenuKey,
   ClassURLMapper,
   ElementURLMapper,
+  RefineTextMapper,
 } from './constants';
 import { IconAsc } from './components/asc';
 import { AuroriansModel } from '@/models/aurorians';
@@ -96,6 +97,12 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
     );
 
     const { triggerFormAction } = useSolutionResultContext();
+
+    // 是否包含装备精炼
+    const hasRefinement =
+      remark?.level?.lv === 80 &&
+      typeof remark?.level?.rfn === 'number' &&
+      remark?.level?.rfn > 0;
 
     return (
       <Dropdown
@@ -226,7 +233,19 @@ export const AdaptiveAurorianCard = React.memo<AdaptiveArurorianCardProps>(
             <Tag className={styles.RemarkContainer} color={'rgba(0,0,0,0.4)'}>
               <Flex align="center" gap={2}>
                 <IconAsc rairty={aurorian.rarity} asc={3} />
-                <span className={styles.num}>{remark?.level?.lv}</span>
+                <span
+                  className={clsx(
+                    styles.num,
+                    hasRefinement && styles.refineText,
+                  )}
+                >
+                  {remark?.level?.lv}
+                </span>
+                {hasRefinement ? (
+                  <span className={styles.refine}>
+                    {RefineTextMapper[remark?.level?.rfn as 1 | 2 | 3]}
+                  </span>
+                ) : null}
               </Flex>
             </Tag>
           ) : null}

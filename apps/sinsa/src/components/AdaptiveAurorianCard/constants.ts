@@ -34,3 +34,9 @@ export enum AdaptiveAurorianCardMenuKey {
   IgnoreBreakthrough = 'IgnoreBreakthrough',
   ReplaceAurorian = 'ReplaceAurorian',
 }
+
+export const RefineTextMapper = {
+  '1': 'Ⅰ',
+  '2': 'Ⅱ',
+  '3': 'Ⅲ',
+};
