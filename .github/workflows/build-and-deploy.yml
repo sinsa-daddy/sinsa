@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-turbo-
       - name: Use pnpm@8
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
           version: 8
       - name: Use Node.js v18
