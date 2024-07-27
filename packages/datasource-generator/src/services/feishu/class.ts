@@ -153,6 +153,7 @@ export class FeishuService {
         for (const rawTableMeta of part.items) {
           const parsedTableMeta = FeishuTableMetaSchema.parse(rawTableMeta);
           if (FeishuService._isCopilotTable(parsedTableMeta)) {
+            console.log('[FeishuService] 发现作业合集', parsedTableMeta);
             if (currentCopilotTable) {
               throw new Error(
                 `find another HEAD table (${parsedTableMeta.name}), already have HEAD table (${currentCopilotTable.name})`,
@@ -161,9 +162,11 @@ export class FeishuService {
               currentCopilotTable = parsedTableMeta;
             }
           } else if (FeishuService._isArchivedCopilotTable(parsedTableMeta)) {
+            console.log('[FeishuService] 发现归档合集', parsedTableMeta);
             archivedCopilotsTablesMap[parsedTableMeta.table_id] =
               parsedTableMeta;
           } else {
+            console.log('[FeishuService] 发现未知合集', parsedTableMeta);
             unknownTablesMap[parsedTableMeta.table_id] = parsedTableMeta;
           }
         }
