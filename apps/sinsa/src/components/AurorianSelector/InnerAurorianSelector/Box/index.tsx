@@ -10,7 +10,7 @@ import {
   toArray,
 } from 'lodash-es';
 import { useCallback, useMemo } from 'react';
-import type { AurorianNextType } from '@sinsa/schema';
+import type { AurorianNextType, AurorianRequirementType } from '@sinsa/schema';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { produce } from 'immer';
 import type { InnerAurorianSelectorFilterValue } from '../Filter/types';
@@ -35,6 +35,7 @@ interface AurorianSelectorBoxProps {
   activeArurorianId: string | null;
   setActiveArurorianId: React.Dispatch<React.SetStateAction<string | null>>;
   multi?: boolean;
+  requireMap: Record<string, AurorianRequirementType | undefined>;
 }
 
 interface CellContext {
@@ -50,6 +51,7 @@ interface CellContext {
   getNextLabel: () => ArrayElement<
     typeof MULTI_LABELS | typeof SINGLE_LABELS
   > | null;
+  requireMap: Record<string, AurorianRequirementType | undefined>;
 }
 
 const Cell: React.FC<GridChildComponentProps<CellContext>> = ({
@@ -64,6 +66,7 @@ const Cell: React.FC<GridChildComponentProps<CellContext>> = ({
       ctx.selected,
       value => value === targetData.aurorian_id,
     );
+    const targetRequire = ctx.requireMap[targetData.aurorian_id];
     return (
       <div style={style} className={styles.CellContainer}>
         <div
@@ -93,7 +96,12 @@ const Cell: React.FC<GridChildComponentProps<CellContext>> = ({
             }
           }}
         >
-          <AdaptiveAurorianCard readOnly aurorianId={targetData.aurorian_id} />
+          <AdaptiveAurorianCard
+            readOnly
+            aurorianId={targetData.aurorian_id}
+            remark={targetRequire?.remark}
+            breakthrough={targetRequire?.breakthrough}
+          />
           {typeof targetLabel === 'string' ? (
             <div className={styles.SelectedSingle}>{targetLabel}</div>
           ) : null}
@@ -112,6 +120,7 @@ export const AurorianSelectorBox: React.FC<AurorianSelectorBoxProps> = ({
   activeArurorianId,
   setActiveArurorianId,
   multi,
+  requireMap,
 }) => {
   const [{ auroriansMap }] = useModel(AuroriansModel);
 
@@ -169,8 +178,9 @@ export const AurorianSelectorBox: React.FC<AurorianSelectorBoxProps> = ({
       getNextLabel,
       activeArurorianId,
       setActiveArurorianId,
+      requireMap,
     };
-  }, [dataSource, selected, getNextLabel, activeArurorianId]);
+  }, [dataSource, selected, getNextLabel, activeArurorianId, requireMap]);
 
   return (
     <div className={styles.BoxContainer}>
