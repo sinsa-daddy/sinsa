@@ -16,7 +16,7 @@ export const AurorianSelector = create<AurorianSelectorProps>(({ multi }) => {
         modal.resolve('hello');
         modal.hide();
       }}
-      width={'1000px'}
+      width={'1080px'}
     >
       <InnerAurorianSelector multi={multi} />
     </Modal>

@@ -10,6 +10,7 @@ import { produce } from 'immer';
 import styles from './styles.module.less';
 import { getDefaultTooltips } from './utils/getDefaultBreakthrough';
 import { normalizeRemark } from './utils/normalizeRemark';
+import { ASC_OPTIONS, LEVEL_MARKS, RFN_OPTIONS } from './constants';
 import { AuroriansModel } from '@/models/aurorians';
 import { AdaptiveAurorianCard } from '@/components/AdaptiveAurorianCard';
 
@@ -26,31 +27,6 @@ const REPLCE_OPTIONS = [
   { label: '可替输出', value: 'DPS' },
   { label: '可替位移', value: 'TP' },
 ];
-
-const ASC_OPTIONS = [
-  { label: '觉醒三', value: 3 },
-  { label: '觉醒二', value: 2 },
-  { label: '觉醒一', value: 1 },
-  { label: '未觉醒', value: 0 },
-];
-
-const RFN_OPTIONS = [
-  { label: '精炼三', value: 3 },
-  { label: '精炼二', value: 2 },
-  { label: '精炼一', value: 1 },
-  { label: '未精炼', value: 0 },
-];
-
-const MARKS = {
-  1: '1',
-  10: '10',
-  20: '20',
-  30: '30',
-  40: '40',
-  50: '50',
-  60: '60',
-  80: '80',
-};
 
 export const AurorianTallCard: React.FC<AurorianTallCardProps> = ({
   id: name,
@@ -169,7 +145,7 @@ export const AurorianTallCard: React.FC<AurorianTallCardProps> = ({
                   value={remark?.level?.lv ?? 0}
                   min={1}
                   max={80}
-                  marks={MARKS}
+                  marks={LEVEL_MARKS}
                   onChange={val => {
                     onRemarkChange?.(
                       normalizeRemark(

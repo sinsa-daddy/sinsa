@@ -1,6 +1,6 @@
 import { Flex, Grid } from 'antd';
 import { useState } from 'react';
-import type { AurorianNextType } from '@sinsa/schema';
+import type { AurorianNextType, AurorianRequirementType } from '@sinsa/schema';
 import { InnerAurorianSelectorFilter } from './Filter';
 import type { InnerAurorianSelectorFilterValue } from './Filter/types';
 import { AurorianSelectorBox } from './Box';
@@ -24,6 +24,9 @@ export const InnerAurorianSelector: React.FC<InnerAurorianSelectorProps> = ({
   const [selected, setSelected] = useState<
     Record<number, AurorianNextType['aurorian_id'] | undefined>
   >(() => ({}));
+  const [requireMap, setRequireMap] = useState<
+    Record<AurorianNextType['aurorian_id'], AurorianRequirementType | undefined>
+  >(() => ({}));
   const [activeArurorianId, setActiveArurorianId] = useState<
     AurorianNextType['aurorian_id'] | null
   >(null);
@@ -33,6 +36,7 @@ export const InnerAurorianSelector: React.FC<InnerAurorianSelectorProps> = ({
     selected,
     activeArurorianId,
     multi ? 'multi' : undefined,
+    requireMap,
   );
 
   return !screen.md ? (
@@ -49,7 +53,11 @@ export const InnerAurorianSelector: React.FC<InnerAurorianSelectorProps> = ({
         setActiveArurorianId={setActiveArurorianId}
         multi={multi}
       />
-      <AurorianSelectorDetail />
+      <AurorianSelectorDetail
+        activeArurorianId={activeArurorianId}
+        value={requireMap}
+        onChange={setRequireMap}
+      />
     </Flex>
   ) : (
     <Flex wrap="nowrap" gap={8}>
@@ -68,8 +76,12 @@ export const InnerAurorianSelector: React.FC<InnerAurorianSelectorProps> = ({
           multi={multi}
         />
       </Flex>
-      <div style={{ width: '320px' }}>
-        <AurorianSelectorDetail />
+      <div style={{ width: '400px' }}>
+        <AurorianSelectorDetail
+          activeArurorianId={activeArurorianId}
+          value={requireMap}
+          onChange={setRequireMap}
+        />
       </div>
     </Flex>
   );
