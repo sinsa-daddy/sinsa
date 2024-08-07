@@ -18,6 +18,7 @@ import {
   Paperclip,
   PreviewCloseOne,
   Bug,
+  Caution,
 } from '@icon-park/react';
 import type {
   AurorianNextType,
@@ -31,6 +32,7 @@ import { RelativeTimeText } from '@/components/RelativeTimeText';
 import { trimTitle } from '@/components/utils';
 import { useSolutionResultContext } from '@/views/SolutionView/context';
 import { QueryFormAction } from '@/views/SolutionView/hooks/use-trigger-form-action/constants';
+import { realRandomService } from '@/services/real-random';
 
 interface CopilotBlockProps {
   copilot: CopilotNextType;
@@ -95,6 +97,11 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
       },
       [copilot.copilot_id, currentTerm.term_id],
     );
+
+    const realRandomResult = useMemo(() => {
+      return realRandomService.isRealRandom(copilot);
+    }, [copilot.copilot_id]);
+
     return (
       <div className={clsx(styles.CopilotBlock, className)}>
         <AdaptiveAuroriansTeam
@@ -209,6 +216,28 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
               {displayTitle}
             </Typography.Link>
           </div>
+          {realRandomResult.isRealRandomResult ? (
+            <>
+              <Typography.Text type="secondary">
+                <Caution /> 此作业无法抄：
+                <Tooltip
+                  title={realRandomResult.stack.map(i => i.reason).join('、')}
+                >
+                  <span className={styles.ReasonText}>查看原因</span>
+                </Tooltip>{' '}
+                <Typography.Link
+                  onClick={e => {
+                    e.stopPropagation();
+                    handleClickMenu({
+                      key: MenuKey.IgnoreCopilot,
+                    });
+                  }}
+                >
+                  排除此作业
+                </Typography.Link>
+              </Typography.Text>
+            </>
+          ) : null}
           {copilot.description && isLarge ? (
             <Typography.Paragraph type="secondary">
               {copilot.description}

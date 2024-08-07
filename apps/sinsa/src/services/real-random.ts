@@ -1,6 +1,11 @@
 import type { CopilotNextType } from '@sinsa/schema';
+import { REAL_RANDOM_RULES } from './real-random-rules';
+import type { RealRandomMessage } from './real-random-rules';
 
-export interface IsRealRandomResultType {}
+export interface IsRealRandomResultType {
+  stack: RealRandomMessage[];
+  isRealRandomResult: boolean;
+}
 
 export class RealRandomService {
   private static instance: RealRandomService | null = null;
@@ -23,7 +28,18 @@ export class RealRandomService {
     if (cacheResult) {
       return cacheResult;
     }
-    return {};
+    const result: RealRandomMessage[] = [];
+    for (const fn of REAL_RANDOM_RULES) {
+      const r = fn(copilot);
+      if (r) {
+        result.push(r);
+      }
+    }
+
+    return {
+      stack: result,
+      isRealRandomResult: result.some(r => r.level === 'error'),
+    };
   }
 }
 
