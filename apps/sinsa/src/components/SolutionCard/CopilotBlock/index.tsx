@@ -186,6 +186,9 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
             <Typography.Link
               href={`https://www.bilibili.com/video/${copilot.href}`}
               target="_blank"
+              className={clsx(
+                realRandomResult.isRealRandomResult && styles.NotWritableTitle,
+              )}
               title={copilot.title}
               ellipsis={true}
               onClick={e => {
@@ -218,8 +221,8 @@ export const CopilotBlock = React.memo<CopilotBlockProps>(
           </div>
           {realRandomResult.isRealRandomResult ? (
             <>
-              <Typography.Text type="secondary">
-                <Caution /> 此作业无法抄：
+              <Typography.Text type="secondary" strong>
+                <Caution /> 此作业抄不了：
                 <Tooltip
                   title={realRandomResult.stack.map(i => i.reason).join('、')}
                 >
