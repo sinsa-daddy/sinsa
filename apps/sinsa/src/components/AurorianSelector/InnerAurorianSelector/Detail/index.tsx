@@ -39,6 +39,13 @@ export const AurorianSelectorDetail: React.FC<AurorianSelectorDetailProps> = ({
     [auroriansMap, activeArurorianId],
   );
 
+  const targetRequire =
+    (activeArurorianId && value[activeArurorianId]) ||
+    ({
+      aurorian_id: activeArurorianId,
+      breakthrough: aurorian ? getDefaultBreakthrough(aurorian.rarity) : 0,
+    } as AurorianRequirementType);
+
   useEffect(() => {
     if (activeArurorianId && aurorian?.rarity) {
       const target = value[activeArurorianId];
@@ -61,6 +68,13 @@ export const AurorianSelectorDetail: React.FC<AurorianSelectorDetailProps> = ({
             },
           },
         });
+      } else {
+        onChange({
+          ...value,
+          [activeArurorianId]: {
+            ...targetRequire,
+          },
+        });
       }
     }
   }, [activeArurorianId, value, aurorian?.rarity]);
@@ -74,11 +88,6 @@ export const AurorianSelectorDetail: React.FC<AurorianSelectorDetailProps> = ({
       />
     );
   }
-
-  const targetRequire = value[activeArurorianId] ?? {
-    aurorian_id: activeArurorianId,
-    breakthrough: aurorian ? getDefaultBreakthrough(aurorian.rarity) : 0,
-  };
 
   return aurorian ? (
     <div className={styles.Container}>

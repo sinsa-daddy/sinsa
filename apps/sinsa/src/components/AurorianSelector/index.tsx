@@ -1,5 +1,5 @@
-import { antdModalV5, create, useModal } from '@ebay/nice-modal-react';
-import { Flex, Grid, Modal } from 'antd';
+import { antdDrawerV5, create, useModal } from '@ebay/nice-modal-react';
+import { Flex, Grid, Drawer, Space, Button } from 'antd';
 import type { AurorianNextType, AurorianRequirementType } from '@sinsa/schema';
 import { useState } from 'react';
 import { AurorianSelectorBox } from './InnerAurorianSelector/Box';
@@ -72,19 +72,39 @@ export const AurorianSelector = create<AurorianSelectorProps>(
       AurorianNextType['aurorian_id'] | null
     >(null);
 
+    const isLarge = screen.md;
+
     return (
-      <Modal
-        {...antdModalV5(modal)}
+      <Drawer
+        {...antdDrawerV5(modal)}
+        bodyStyle={{ padding: 0 }}
+        placement="bottom"
         title={multi ? '快速编队' : '选择光灵'}
-        onOk={e => {
-          e.stopPropagation();
-          const resolveValue = getResolve(selected, requireMap);
-          modal.resolve(resolveValue);
-          modal.hide();
-        }}
-        width={'1080px'}
+        // onOk={e => {
+        //   e.stopPropagation();
+        //   const resolveValue = getResolve(selected, requireMap);
+        //   modal.resolve(resolveValue);
+        //   modal.hide();
+        // }}
+        height={isLarge ? 'calc(50vh + 120px)' : '95vh'}
+        extra={
+          <Space>
+            <Button
+              type="primary"
+              onClick={e => {
+                e.stopPropagation();
+                const resolveValue = getResolve(selected, requireMap);
+                modal.resolve(resolveValue);
+                modal.hide();
+              }}
+            >
+              完成
+            </Button>
+          </Space>
+        }
+        // width={'1080px'}
       >
-        {!screen.md ? (
+        {!isLarge ? (
           <Flex vertical gap={8}>
             <InnerAurorianSelectorFilter
               value={filterValue}
@@ -132,7 +152,7 @@ export const AurorianSelector = create<AurorianSelectorProps>(
             </div>
           </Flex>
         )}
-      </Modal>
+      </Drawer>
     );
   },
 );
