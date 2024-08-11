@@ -1,11 +1,14 @@
 import { antdDrawerV5, create, useModal } from '@ebay/nice-modal-react';
-import { Flex, Grid, Drawer, Space, Button } from 'antd';
+import { Flex, Grid, Drawer, Space, Button, Select } from 'antd';
 import type { AurorianNextType, AurorianRequirementType } from '@sinsa/schema';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useModel } from '@modern-js/runtime/model';
+import { last } from 'lodash-es';
 import { AurorianSelectorBox } from './InnerAurorianSelector/Box';
 import { AurorianSelectorDetail } from './InnerAurorianSelector/Detail';
 import { InnerAurorianSelectorFilter } from './InnerAurorianSelector/Filter';
 import type { InnerAurorianSelectorFilterValue } from './InnerAurorianSelector/Filter/types';
+import { AuroriansModel, filterAuroriansOption } from '@/models/aurorians';
 
 interface AurorianSelectorProps {
   // 是否是快速编队
@@ -74,6 +77,38 @@ export const AurorianSelector = create<AurorianSelectorProps>(
 
     const isLarge = screen.md;
 
+    const resolvedValue = useMemo(() => {
+      return getResolve(selected, requireMap);
+    }, [selected, requireMap]);
+    const [{ auroriansOptions }] = useModel(AuroriansModel);
+
+    const inputContent = (
+      <Select
+        mode="multiple"
+        options={auroriansOptions}
+        placeholder="支持按拼音搜索, 比如 ad 可以搜到 安顿"
+        showSearch
+        allowClear={false}
+        value={resolvedValue?.map(item => item.aurorian_id)}
+        filterOption={filterAuroriansOption}
+        onChange={newVal => {
+          setSelected(
+            newVal.slice(0, 5).reduce((acc, next, index) => {
+              return {
+                ...acc,
+                [index + 1]: next,
+              };
+            }, {}),
+          );
+
+          const lastEle = last(newVal);
+          if (lastEle) {
+            setActiveArurorianId(lastEle);
+          }
+        }}
+      />
+    );
+
     return (
       <Drawer
         {...antdDrawerV5(modal)}
@@ -93,8 +128,7 @@ export const AurorianSelector = create<AurorianSelectorProps>(
               type="primary"
               onClick={e => {
                 e.stopPropagation();
-                const resolveValue = getResolve(selected, requireMap);
-                modal.resolve(resolveValue);
+                modal.resolve(resolvedValue);
                 modal.hide();
               }}
             >
@@ -106,6 +140,7 @@ export const AurorianSelector = create<AurorianSelectorProps>(
       >
         {!isLarge ? (
           <Flex vertical gap={8}>
+            {inputContent}
             <InnerAurorianSelectorFilter
               value={filterValue}
               onChange={setFilterValue}
@@ -128,6 +163,7 @@ export const AurorianSelector = create<AurorianSelectorProps>(
         ) : (
           <Flex wrap="nowrap" gap={8}>
             <Flex vertical gap={8} style={{ flexBasis: 0, flexGrow: 1 }}>
+              {inputContent}
               <InnerAurorianSelectorFilter
                 value={filterValue}
                 onChange={setFilterValue}
