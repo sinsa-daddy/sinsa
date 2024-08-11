@@ -5,7 +5,7 @@ export const getDefaultBreakthrough = memoize((rarity: number) => {
     case 6:
       return 2;
     case 5:
-      return 1;
+      return 5;
     case 4:
       return 4;
     case 3:
