@@ -14,7 +14,7 @@ registerRoute(
   /\/api\/v2\/copilots\/cn-\d+\.json/,
   new NetworkFirst({
     cacheName: 'Copilots',
-    networkTimeoutSeconds: 3,
+    networkTimeoutSeconds: 4,
   }),
   'GET',
 );
