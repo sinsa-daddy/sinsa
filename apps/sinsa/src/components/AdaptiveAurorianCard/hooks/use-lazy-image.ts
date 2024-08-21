@@ -14,6 +14,8 @@ const FileNameTypeMap: Record<string, LazyImageOptions | undefined> = {
   ryza: { ext: '.png', suffix: '-v1' },
   patricia: { ext: '.png', suffix: '-v1' },
   klaudia: { ext: '.png', suffix: '-v1' },
+  maya: { ext: '.png', suffix: '-v1' },
+  sadie: { ext: '.png', suffix: '-v1' },
 };
 
 export function useLazyImage(aurorianId: string | undefined) {
