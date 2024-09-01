@@ -51,4 +51,19 @@ export const ALERT_MAP = new Map<TermNextType['term_id'], AlertProps>([
         '部份作业是荒典克制 bug 前投稿的，可能会有分数虚低的情况，可多关注高配低分作业',
     },
   ],
+  [
+    'cn-60',
+    {
+      message:
+        '本期复刻第 46 期荒典轴，请关注新增包含莱因哈特的作业。46 期作业已在本期同步',
+      action: (
+        <Typography.Link
+          href={`https://t.bilibili.com/972085604650057730`}
+          target="_blank"
+        >
+          查看象拔蛇皮蚌动态
+        </Typography.Link>
+      ),
+    },
+  ],
 ]);

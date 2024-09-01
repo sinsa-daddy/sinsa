@@ -5,12 +5,12 @@ import { useMemo } from 'react';
 import { Flex, Space } from 'antd';
 import { TermNotFound } from '@/components/TermNotFound';
 import { TermChanger, useTargetTermFromParams } from '@/components/TermChanger';
-import { getCopilots } from '@/services/http';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { CopilotsView } from '@/views/CopilotsView';
 import { CopilotSorterProvider } from '@/views/CopilotsView/CopilotListView/CopilotSortContext';
 import { CopilotSelect } from '@/views/CopilotsView/CopilotListView/CopilotSortContext/select';
 import { BossCard } from '@/components/BossCard';
+import { getRerunsCopilots } from '@/services/get-reruns';
 
 const CopilotsPage: React.FC = () => {
   const { targetTerm: currentTerm } = useTargetTermFromParams();
@@ -18,8 +18,8 @@ const CopilotsPage: React.FC = () => {
   const { data, error, loading } = useRequest(
     () =>
       currentTerm?.term_id
-        ? getCopilots(currentTerm.term_id)
-        : (Promise.resolve({}) as ReturnType<typeof getCopilots>),
+        ? getRerunsCopilots(currentTerm)
+        : (Promise.resolve({}) as ReturnType<typeof getRerunsCopilots>),
     {
       ready: Boolean(currentTerm?.term_id),
       refreshDeps: [currentTerm?.term_id],

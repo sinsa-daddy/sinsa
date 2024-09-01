@@ -5,18 +5,18 @@ import { useRequest } from 'ahooks';
 import { Space, Typography } from 'antd';
 import { TermNotFound } from '@/components/TermNotFound';
 import { TermChanger, useTargetTermFromParams } from '@/components/TermChanger';
-import { getCopilots } from '@/services/http';
 import { RoutePath } from '@/views/GlobalLayout/constants';
 import { RelativeTimeText } from '@/components/RelativeTimeText';
 import { SolutionView } from '@/views/SolutionView';
+import { getRerunsCopilots } from '@/services/get-reruns';
 
 const SolutionsPage: React.FC = () => {
   const { targetTerm: currentTerm } = useTargetTermFromParams();
   const { data, error, loading } = useRequest(
     () =>
       currentTerm?.term_id
-        ? getCopilots(currentTerm.term_id)
-        : (Promise.resolve({}) as ReturnType<typeof getCopilots>),
+        ? getRerunsCopilots(currentTerm)
+        : (Promise.resolve({}) as ReturnType<typeof getRerunsCopilots>),
     {
       ready: Boolean(currentTerm?.term_id),
       refreshDeps: [currentTerm?.term_id],
