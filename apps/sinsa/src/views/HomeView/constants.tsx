@@ -1,7 +1,17 @@
-import { Play } from '@icon-park/react';
+import { ArrowRight, Play } from '@icon-park/react';
 import type { HomeCarouselDataType } from '@/components/HomeCarousel/types';
 
 export const HOME_DISPLAY_DATA: HomeCarouselDataType[] = [
+  {
+    key: 'final',
+    title: '白夜极光国服停运公告',
+    description: '再见了，空之末裔。再见了，导航员。',
+    backgroundURL:
+      '//img.crawler.qq.com/cfwebcap/0/0811aaf924fbeef77a34713f028c9ca9/0/?width=1920&height=1080',
+    link: 'https://www.bilibili.com/opus/1003568934644875286',
+    label: '查看公告',
+    labelIcon: <ArrowRight />,
+  },
   {
     key: 'guide',
     title: '教学视频',
