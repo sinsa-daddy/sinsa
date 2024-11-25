@@ -7,7 +7,7 @@ export const HOME_DISPLAY_DATA: HomeCarouselDataType[] = [
     title: '白夜极光国服停运公告',
     description: '再见了，空之末裔。再见了，导航员。',
     backgroundURL:
-      '//img.crawler.qq.com/cfwebcap/0/0811aaf924fbeef77a34713f028c9ca9/0/?width=1920&height=1080',
+      '//i0.hdslb.com/bfs/article/c42419f5dd23f7f3079a04d713f7eae61436758643.jpg',
     link: 'https://www.bilibili.com/opus/1003568934644875286',
     label: '查看公告',
     labelIcon: <ArrowRight />,
