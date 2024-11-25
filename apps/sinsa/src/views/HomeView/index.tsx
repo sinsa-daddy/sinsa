@@ -37,7 +37,7 @@ export const HomeView = React.memo(() => {
 
         <Card style={{ flexBasis: 0, flexGrow: 1 }}>
           <Card.Meta
-            title="联系我们"
+            title="养老聊天"
             description={
               <>
                 <Typography.Paragraph>
@@ -48,7 +48,7 @@ export const HomeView = React.memo(() => {
           />
 
           <Image
-            width={80}
+            width={150}
             src={`https://s2.loli.net/2024/03/26/JyYRDFPGTHq479o.webp`}
             alt="qun"
           />

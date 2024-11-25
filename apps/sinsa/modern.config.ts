@@ -53,16 +53,7 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
-    externals: {
-      antd: 'antd',
-      dayjs: 'dayjs',
-      react: 'React',
-      'react-dom': 'ReactDOM',
-      'pinyin-pro': 'pinyinPro',
-      axios: 'axios',
-      '@ant-design/charts': 'Charts',
-      '@apmplus/web': 'browserClient',
-    },
+    externals: {},
     distPath: {
       html: '',
     },
